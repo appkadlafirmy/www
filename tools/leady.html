@@ -1,0 +1,1018 @@
+<title>Skrzynka leadów</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Layout: sticky header + segmented tabs; one working column (max 1180px) of panels; dialogs slide in as a right-hand sheet. */
+  :root {
+    --bg: #F2F5F4;
+    --surface: #FFFFFF;
+    --surface-2: #E8EEEC;
+    --fg: #15201C;
+    --muted: #586661;
+    --line: #D3DCD8;
+    --accent: #0B6E5F;
+    --accent-fg: #FFFFFF;
+    --accent-soft: #D4ECE6;
+    --reply: #A76A12;
+    --reply-soft: #F6E8CF;
+    --info: #2F55A4;
+    --info-soft: #E0E8F7;
+    --danger: #B42318;
+    --danger-soft: #FBE2DE;
+    --shadow: 0 18px 40px -22px rgba(12, 40, 34, .45);
+    --font-display: "Schibsted Grotesk", ui-sans-serif, system-ui, sans-serif;
+    --font-body: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --r: 10px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0E1412; --surface: #151D1A; --surface-2: #1C2622; --fg: #E4EBE8; --muted: #92A19B; --line: #29352F;
+      --accent: #43C2AA; --accent-fg: #062019; --accent-soft: #15372F;
+      --reply: #E6AA4D; --reply-soft: #3A2B12; --info: #8FAAF0; --info-soft: #1B2640;
+      --danger: #F08A7E; --danger-soft: #3E1B18; --shadow: 0 18px 40px -22px rgba(0,0,0,.7);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0E1412; --surface: #151D1A; --surface-2: #1C2622; --fg: #E4EBE8; --muted: #92A19B; --line: #29352F;
+    --accent: #43C2AA; --accent-fg: #062019; --accent-soft: #15372F;
+    --reply: #E6AA4D; --reply-soft: #3A2B12; --info: #8FAAF0; --info-soft: #1B2640;
+    --danger: #F08A7E; --danger-soft: #3E1B18; --shadow: 0 18px 40px -22px rgba(0,0,0,.7);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--fg); font: 15px/1.5 var(--font-body); }
+  h1, h2, h3 { font-family: var(--font-display); margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  button, input, textarea, select { font: inherit; color: inherit; }
+  a { color: var(--accent); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .muted { color: var(--muted); }
+  .small { font-size: 13px; }
+
+  .top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+  .wrap { max-width: 1180px; margin: 0 auto; padding-inline: 16px; }
+  .top-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding-block: 14px 10px; }
+  .brand { display: flex; align-items: center; gap: 10px; margin-right: auto; }
+  .brand-mark { width: 30px; height: 30px; border-radius: 8px; background: var(--accent); display: grid; place-items: center; }
+  .brand-mark svg { width: 18px; height: 18px; }
+  .brand h1 { font-size: 20px; font-weight: 800; }
+  .conn { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 3px 9px; border-radius: 99px; background: var(--surface-2); color: var(--muted); white-space: nowrap; }
+  .chip i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+  .chip.ok i { background: var(--accent); }
+  .chip.bad i { background: var(--danger); }
+  .tabs { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 10px; }
+  .tab { border: 0; background: none; padding: 7px 14px; border-radius: 8px; cursor: pointer; color: var(--muted); font-weight: 500; white-space: nowrap; }
+  .tab:hover { background: var(--surface-2); color: var(--fg); }
+  .tab[aria-selected="true"] { background: var(--fg); color: var(--bg); }
+  .tab .badge { margin-left: 6px; font-size: 11px; background: var(--reply); color: var(--surface); border-radius: 99px; padding: 0 6px; }
+
+  main.wrap { padding-block: 22px 60px; display: grid; gap: 18px; }
+  section[role="tabpanel"] { display: grid; gap: 18px; min-width: 0; }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; min-width: 0; }
+  .panel-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; margin-bottom: 14px; }
+  .panel-head h2 { font-size: 17px; margin-right: auto; }
+
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+  .kpi { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; display: grid; gap: 2px; }
+  .kpi .label { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .kpi .value { font: 700 30px/1.15 var(--font-display); font-variant-numeric: tabular-nums; }
+  .kpi .sub { font-size: 12px; color: var(--muted); }
+  .kpi.hl { border-color: var(--reply); background: var(--reply-soft); }
+  .meter { height: 5px; background: var(--surface-2); border-radius: 9px; overflow: hidden; margin-top: 6px; }
+  .meter span { display: block; height: 100%; background: var(--accent); }
+
+  .grid-2 { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 18px; }
+  @media (max-width: 860px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .chart svg { width: 100%; height: auto; display: block; }
+  .legend { display: flex; gap: 16px; font-size: 13px; color: var(--muted); }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+
+  .funnel { display: flex; height: 12px; border-radius: 99px; overflow: hidden; background: var(--surface-2); }
+  .funnel span { height: 100%; }
+  .funnel-legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px 14px; margin-top: 12px; font-size: 13px; }
+  .funnel-legend div { display: flex; justify-content: space-between; gap: 8px; }
+
+  .replies { display: grid; gap: 10px; }
+  .reply-item { border-left: 3px solid var(--reply); padding: 4px 0 4px 12px; display: grid; gap: 2px; min-width: 0; }
+  .reply-item p { margin: 0; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--line); background: var(--surface); padding: 7px 13px; border-radius: 8px; cursor: pointer; font-weight: 500; white-space: nowrap; }
+  .btn:hover { border-color: var(--muted); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+  .btn.primary:hover { filter: brightness(1.07); }
+  .btn.danger { color: var(--danger); }
+  .btn.ghost { border-color: transparent; background: none; }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .btn.sm { padding: 4px 9px; font-size: 13px; }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+  .toolbar .grow { flex: 1 1 200px; min-width: 0; }
+  input[type="text"], input[type="email"], input[type="number"], input[type="search"], input[type="url"], textarea, select {
+    width: 100%; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px;
+  }
+  textarea { resize: vertical; line-height: 1.5; }
+  label.f { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
+  label.f > span { font-weight: 500; }
+  .row-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .check { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; }
+  .check input { margin-top: 4px; }
+
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 500; background: var(--surface-2); white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: 0; }
+  tbody tr:hover { background: var(--bg); }
+  td.email { font-family: var(--font-mono); font-size: 13px; overflow-wrap: anywhere; }
+  td .co { font-weight: 600; }
+  .pill { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 99px; white-space: nowrap; font-weight: 500; }
+  .st-new { background: var(--surface-2); color: var(--muted); }
+  .st-sent { background: var(--info-soft); color: var(--info); }
+  .st-replied { background: var(--reply-soft); color: var(--reply); }
+  .st-bounced, .st-error, .st-check { background: var(--danger-soft); color: var(--danger); }
+  .st-not_interested, .st-unsubscribed { background: var(--surface-2); color: var(--muted); text-decoration: line-through; }
+
+  .selbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; background: var(--fg); color: var(--bg); border-radius: 8px; padding: 8px 12px; margin-bottom: 12px; }
+  .selbar .btn { background: transparent; color: var(--bg); border-color: color-mix(in srgb, var(--bg) 35%, transparent); }
+  .selbar .btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+
+  .empty { text-align: center; padding: 34px 16px; color: var(--muted); display: grid; gap: 10px; justify-items: center; }
+  .empty strong { color: var(--fg); font-family: var(--font-display); font-size: 17px; }
+
+  .note { font-size: 13px; padding: 10px 12px; border-radius: 8px; background: var(--surface-2); color: var(--muted); }
+  .note.warn { background: var(--reply-soft); color: var(--reply); }
+  .note.err { background: var(--danger-soft); color: var(--danger); }
+  .note.ok { background: var(--accent-soft); color: var(--accent); }
+
+  .editor { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+  @media (max-width: 860px) { .editor { grid-template-columns: 1fr; } }
+  .stack { display: grid; gap: 12px; align-content: start; min-width: 0; }
+  .tokens { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tokens button { font: 12px var(--font-mono); border: 1px dashed var(--line); background: var(--bg); padding: 2px 7px; border-radius: 6px; cursor: pointer; }
+  .mail { border: 1px solid var(--line); border-radius: 8px; background: var(--bg); overflow: hidden; }
+  .mail-h { padding: 10px 14px; border-bottom: 1px solid var(--line); display: grid; gap: 2px; font-size: 13px; }
+  .mail-h b { font-size: 15px; }
+  .mail-b { padding: 14px; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14px; }
+
+  .req-list { display: grid; gap: 8px; }
+  .req { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+  .req .what { flex: 1 1 220px; min-width: 0; }
+
+  .sheet-back { position: fixed; inset: 0; background: rgba(8, 16, 13, .45); z-index: 20; }
+  .sheet { position: fixed; top: 0; right: 0; bottom: 0; width: min(560px, 100%); background: var(--surface); z-index: 21; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .sheet-h { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+  .sheet-h h2 { font-size: 18px; margin-right: auto; }
+  .sheet-b { padding: 18px; overflow-y: auto; display: grid; gap: 14px; align-content: start; flex: 1; }
+  .sheet-f { padding: 12px 18px; border-top: 1px solid var(--line); display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+  .log { font: 13px/1.6 var(--font-mono); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; max-height: 300px; overflow-y: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .progress { height: 8px; border-radius: 9px; background: var(--surface-2); overflow: hidden; }
+  .progress span { display: block; height: 100%; background: var(--accent); transition: width .3s; }
+  .toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--fg); color: var(--bg); padding: 9px 16px; border-radius: 8px; z-index: 30; font-size: 14px; max-width: calc(100% - 32px); }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="top-row">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-fg)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9 6 9-6"/><rect x="3" y="5" width="18" height="14" rx="2"/></svg>
+        </div>
+        <h1>Skrzynka leadów</h1>
+      </div>
+      <div class="conn" aria-live="polite">
+        <span class="chip" id="chip-db"><i></i>Baza: łączenie…</span>
+        <span class="chip" id="chip-gmail"><i></i>Gmail: łączenie…</span>
+        <span class="chip" id="chip-ai"><i></i>AI: łączenie…</span>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Sekcje">
+      <button class="tab" role="tab" id="tab-pulpit" data-tab="pulpit" aria-selected="true">Pulpit</button>
+      <button class="tab" role="tab" id="tab-leady" data-tab="leady" aria-selected="false">Leady <span class="num muted" id="lead-count"></span></button>
+      <button class="tab" role="tab" id="tab-wiadomosc" data-tab="wiadomosc" aria-selected="false">Wiadomość</button>
+      <button class="tab" role="tab" id="tab-szukaj" data-tab="szukaj" aria-selected="false">Szukaj leadów<span class="badge" id="req-badge" hidden></span></button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- PULPIT -->
+  <section role="tabpanel" id="panel-pulpit" aria-labelledby="tab-pulpit">
+    <div class="kpis" id="kpis"></div>
+    <div class="grid-2">
+      <div class="panel chart">
+        <div class="panel-head">
+          <h2>Ostatnie 14 dni</h2>
+          <div class="legend"><span><i style="background:var(--accent)"></i>Wysłane</span><span><i style="background:var(--reply)"></i>Odpowiedzi</span></div>
+        </div>
+        <div id="chart"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Lejek</h2>
+          <span class="small muted" id="funnel-total"></span>
+        </div>
+        <div class="funnel" id="funnel"></div>
+        <div class="funnel-legend" id="funnel-legend"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head">
+        <h2>Odpowiedzi</h2>
+        <span class="small muted" id="last-check"></span>
+        <button class="btn" id="btn-check">Sprawdź odpowiedzi</button>
+      </div>
+      <div id="check-note"></div>
+      <div class="replies" id="replies"></div>
+    </div>
+  </section>
+
+  <!-- LEADY -->
+  <section role="tabpanel" id="panel-leady" aria-labelledby="tab-leady" hidden>
+    <div class="panel">
+      <div class="toolbar">
+        <input type="search" id="q" class="grow" placeholder="Szukaj po firmie, e-mailu, mieście…" aria-label="Szukaj leadów">
+        <select id="status-filter" aria-label="Filtr statusu" style="width:auto">
+          <option value="all">Wszystkie statusy</option>
+          <option value="new">Nowe</option>
+          <option value="sent">Wysłane, bez odpowiedzi</option>
+          <option value="followup">Gotowe do follow-upu</option>
+          <option value="replied">Z odpowiedzią</option>
+          <option value="bounced">Odbite / błędy</option>
+          <option value="closed">Niezainteresowani / wypisani</option>
+        </select>
+        <button class="btn" id="btn-import">Importuj CSV</button>
+        <button class="btn primary" id="btn-add">Dodaj lead</button>
+      </div>
+      <div class="selbar" id="selbar" hidden>
+        <span><b class="num" id="sel-count">0</b> zaznaczonych</span>
+        <button class="btn sm primary" id="btn-send-sel">Wyślij pierwszą wiadomość</button>
+        <button class="btn sm" id="btn-follow-sel">Wyślij follow-up</button>
+        <button class="btn sm" id="btn-mark-ni">Oznacz: niezainteresowany</button>
+        <button class="btn sm" id="btn-del-sel">Usuń</button>
+        <button class="btn sm ghost" id="btn-clear-sel" style="margin-left:auto">Odznacz</button>
+      </div>
+      <div id="leads-table"></div>
+    </div>
+  </section>
+
+  <!-- WIADOMOSC -->
+  <section role="tabpanel" id="panel-wiadomosc" aria-labelledby="tab-wiadomosc" hidden>
+    <div class="editor">
+      <div class="panel stack">
+        <div class="panel-head" style="margin:0"><h2>Pierwsza wiadomość</h2></div>
+        <label class="f"><span>Temat</span><input type="text" id="t-subject"></label>
+        <label class="f"><span>Treść</span><textarea id="t-body" rows="10"></textarea></label>
+        <div class="tokens" id="tokens" aria-label="Wstaw pole"></div>
+        <label class="f"><span>Podpis</span><textarea id="t-sig" rows="3"></textarea></label>
+        <label class="check"><input type="checkbox" id="t-optout"> <span>Dopisz na końcu informację, jak zrezygnować z kolejnych wiadomości</span></label>
+        <div class="panel-head" style="margin:6px 0 0"><h2>Follow-up</h2></div>
+        <label class="f"><span>Treść przypomnienia (idzie w tym samym wątku, temat „Re: …”)</span><textarea id="t-fbody" rows="5"></textarea></label>
+        <div class="row-2">
+          <label class="f"><span>Follow-up po ilu dniach</span><input type="number" id="t-fdays" min="1" max="30"></label>
+          <label class="f"><span>Limit wysyłek dziennie</span><input type="number" id="t-limit" min="1" max="400"></label>
+          <label class="f"><span>Odstęp między mailami (s)</span><input type="number" id="t-delay" min="5" max="600"></label>
+        </div>
+        <label class="check"><input type="checkbox" id="t-ai"> <span>Personalizuj każdą wiadomość z pomocą Claude (na podstawie danych leada; zużywa Twój limit Claude)</span></label>
+        <div class="note">Gmail pozwala wysłać ok. 500 wiadomości dziennie, ale konto, które nagle wysyła dużo maili do obcych osób, szybko trafia do spamu. Zacznij od 20–30 dziennie.</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <button class="btn primary" id="btn-save-tpl">Zapisz</button>
+          <span class="small muted" id="tpl-status"></span>
+        </div>
+      </div>
+      <div class="panel stack">
+        <div class="panel-head" style="margin:0">
+          <h2>Podgląd</h2>
+          <select id="preview-lead" aria-label="Lead do podglądu" style="width:auto;max-width:220px"></select>
+        </div>
+        <div id="tpl-warn"></div>
+        <div class="mail">
+          <div class="mail-h"><span class="muted" id="pv-to"></span><b id="pv-subject"></b></div>
+          <div class="mail-b" id="pv-body"></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn" id="btn-ai-preview">Podgląd z personalizacją AI</button>
+        </div>
+        <div id="ai-preview-note"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SZUKAJ -->
+  <section role="tabpanel" id="panel-szukaj" aria-labelledby="tab-szukaj" hidden>
+    <div class="grid-2">
+      <div class="panel stack">
+        <div class="panel-head" style="margin:0"><h2>Nowe zlecenie wyszukiwania</h2></div>
+        <div class="row-2">
+          <label class="f"><span>Branża / typ firmy</span><input type="text" id="r-branza" placeholder="np. salony fryzjerskie"></label>
+          <label class="f"><span>Miasto / region</span><input type="text" id="r-region" placeholder="np. Kraków"></label>
+        </div>
+        <div class="row-2">
+          <label class="f"><span>Ile leadów</span><input type="number" id="r-count" min="1" max="100" value="20"></label>
+          <label class="f"><span>Dodatkowe kryteria</span><input type="text" id="r-extra" placeholder="np. bez strony www, tylko z Instagramem"></label>
+        </div>
+        <div><button class="btn primary" id="btn-add-req">Dodaj zlecenie</button></div>
+      </div>
+      <div class="panel stack">
+        <div class="panel-head" style="margin:0"><h2>Jak to działa</h2></div>
+        <p class="small" style="margin:0">Zlecenie trafia do kolejki. Napisz do Claude w czacie <b>„znajdź leady”</b>. Claude przeszuka internet, znajdzie firmy z publicznym, firmowym adresem e-mail i doda je do zakładki Leady ze statusem <span class="pill st-new">Nowy</span> i linkiem do źródła.</p>
+        <p class="small muted" style="margin:0">Nic nie jest wysyłane automatycznie. Przed wysyłką przejrzyj listę i usuń firmy, które nie pasują.</p>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2>Kolejka zleceń</h2></div>
+      <div class="req-list" id="req-list"></div>
+    </div>
+  </section>
+</main>
+
+<div class="sheet-back" id="sheet-back" hidden></div>
+<aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" hidden>
+  <div class="sheet-h"><h2 id="sheet-title"></h2><button class="btn ghost" id="sheet-x" aria-label="Zamknij">✕</button></div>
+  <div class="sheet-b" id="sheet-b"></div>
+  <div class="sheet-f" id="sheet-f"></div>
+</aside>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(() => {
+  "use strict";
+  const GMAIL = "Gmail";
+  const $ = (s, r = document) => r.querySelector(s);
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const pad = (n) => String(n).padStart(2, "0");
+  const dayKey = (d) => { d = new Date(d); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); };
+  const fmtDate = (iso) => { if (!iso) return ""; const d = new Date(iso); return pad(d.getDate()) + "." + pad(d.getMonth() + 1) + " " + pad(d.getHours()) + ":" + pad(d.getMinutes()); };
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  const nowIso = () => new Date().toISOString();
+  const isEmail = (s) => /^[^\s@<>(),;:]+@[^\s@<>(),;:]+\.[a-z]{2,}$/i.test(String(s || "").trim());
+  const leadId = (email) => String(email).trim().toLowerCase().replace(/[^a-z0-9_\-.~:@+]/g, "_").slice(0, 190);
+
+  const DEFAULTS = {
+    subject: "Pytanie do {{firma}}",
+    body: "Dzień dobry {{imie}},\n\npiszę w sprawie {{firma}}. [Jedno zdanie: czym się zajmujesz i co oferujesz].\n\n[Konkretna korzyść dla firmy z branży {{branza}}, np. więcej rezerwacji, mniej telefonów].\n\nCzy mogę przesłać krótką propozycję albo zadzwonić na 10 minut w tym tygodniu?",
+    signature: "Pozdrawiam\n[Imię i nazwisko]\n[telefon]",
+    optOut: true,
+    followBody: "Dzień dobry {{imie}},\n\nuprzejmie przypominam się w sprawie mojej poprzedniej wiadomości. Czy temat jest dla Państwa interesujący? Wystarczy krótka odpowiedź „tak” lub „nie”.",
+    followDays: 4,
+    dailyLimit: 30,
+    delaySec: 30,
+    ai: false,
+    senderEmail: "",
+    lastCheckAt: null,
+  };
+  const OPT_OUT = "Jeśli nie chcą Państwo otrzymywać ode mnie wiadomości, wystarczy odpisać „NIE”. Nie napiszę ponownie.";
+  const STATUS = {
+    new: "Nowy", sent: "Wysłany", replied: "Odpowiedź", bounced: "Odbity", error: "Błąd",
+    check: "Do sprawdzenia", not_interested: "Niezainteresowany", unsubscribed: "Wypisany",
+  };
+  const BLOCKED = new Set(["bounced", "not_interested", "unsubscribed", "replied"]);
+  const FIELDS = [["imie", "imię"], ["firma", "firma"], ["miasto", "miasto"], ["branza", "branża"], ["www", "strona"]];
+
+  const S = {
+    leads: [], requests: [], settings: { ...DEFAULTS }, settingsLoaded: false, formFilled: false,
+    selected: new Set(), q: "", status: "all", busy: false, stop: false,
+  };
+  let db = null, mcp = null, sample = null;
+
+  // ---------- helpers ----------
+  function toast(msg) {
+    const t = $("#toast"); t.textContent = msg; t.hidden = false;
+    clearTimeout(toast._t); toast._t = setTimeout(() => (t.hidden = true), 3200);
+  }
+  function chip(id, cls, text) { const c = $(id); c.className = "chip " + cls; c.innerHTML = "<i></i>" + esc(text); }
+  function mcpMsg(e) {
+    const code = e && e.code;
+    switch (code) {
+      case "needs_reauth": return "Połączenie z Gmailem wygasło. Połącz go ponownie w claude.ai → Ustawienia → Łączniki.";
+      case "server_not_connected": return "Gmail nie jest podłączony. Dodaj go w claude.ai → Ustawienia → Łączniki.";
+      case "selection_required": return "Masz podłączone więcej niż jedno konto Gmail. Wybierz w oknie claude.ai, którego ma używać ta strona.";
+      case "not_in_manifest": case "not_granted": case "consent_required": return "Ta strona nie ma zgody na użycie Gmaila. Odśwież stronę i zezwól na dostęp.";
+      case "blocked_by_policy": case "approval_required": return "Twoja organizacja blokuje tę akcję w Gmailu.";
+      case "tool_error": return "Gmail odrzucił żądanie: " + (e.message || "bez szczegółów");
+      case "server_unavailable": case "upstream_error": case "cancelled":
+        return "Gmail nie odpowiedział na czas. Nie wiadomo, czy mail wyszedł. Sprawdź folder Wysłane w Gmailu, zanim spróbujesz ponownie.";
+      case "capability_disabled": case "capability_removed": return "Ten widok nie obsługuje łączników. Otwórz stronę w claude.ai.";
+      default: return "Błąd Gmaila (" + (code || "nieznany") + "): " + ((e && e.message) || "");
+    }
+  }
+  function aiMsg(e) {
+    switch (e && e.code) {
+      case "not_granted": case "sampling_disabled": case "not_declared": return "Personalizacja AI jest wyłączona dla tej strony.";
+      case "rate_limited": return "Za dużo zapytań do Claude naraz. Spróbuj za chwilę.";
+      case "invalid_json": return "Claude zwrócił odpowiedź w złym formacie.";
+      case "refused": return "Claude odmówił przerobienia tej wiadomości.";
+      default: return "Personalizacja AI nie powiodła się (" + ((e && e.code) || "błąd") + ").";
+    }
+  }
+
+  function fill(tpl, lead) {
+    let out = String(tpl || "").replace(/\{\{\s*([a-z]+)\s*(?:\|([^}]*))?\}\}/gi, (_, k, fb) => {
+      const v = (lead && lead[k.toLowerCase()]) || "";
+      return String(v).trim() || (fb || "");
+    });
+    return out.replace(/[ \t]*\(\s*\)/g, "").replace(/[ \t]+([,.!?])/g, "$1").replace(/[ \t]{2,}/g, " ");
+  }
+  function compose(lead, kind, override) {
+    const st = S.settings;
+    let subject, body;
+    if (kind === "followup") {
+      subject = "Re: " + (lead.subject || fill(st.subject, lead));
+      body = fill(st.followBody, lead);
+    } else {
+      subject = override ? override.subject : fill(st.subject, lead);
+      body = override ? override.body : fill(st.body, lead);
+    }
+    const parts = [body.trim()];
+    if (st.signature && st.signature.trim()) parts.push(st.signature.trim());
+    if (st.optOut) parts.push("—\n" + OPT_OUT);
+    return { subject: subject.trim(), body: parts.join("\n\n") };
+  }
+  function templateProblems() {
+    const st = S.settings, p = [];
+    if (!String(st.subject || "").trim()) p.push("Temat jest pusty.");
+    if (!String(st.body || "").trim()) p.push("Treść jest pusta.");
+    const all = [st.subject, st.body, st.signature, st.followBody].join("\n");
+    const br = all.match(/\[[^\]\n]{2,80}\]/g);
+    if (br) p.push("Szablon ma niewypełnione pola: " + [...new Set(br)].slice(0, 4).join(", ") + ". Zastąp je swoim tekstem przed wysyłką.");
+    return p;
+  }
+  const sends = (l) => (Array.isArray(l.sends) ? l.sends : []);
+  const lastSend = (l) => { const s = sends(l); return s.length ? s[s.length - 1].at : null; };
+  function followReady(l) {
+    if (l.status !== "sent" || l.repliedAt || !l.threadId) return false;
+    const s = sends(l); if (!s.length || s.length >= 3) return false;
+    return Date.now() - new Date(lastSend(l)).getTime() >= (Number(S.settings.followDays) || 4) * 864e5;
+  }
+  function sentToday() {
+    const t = dayKey(new Date()); let n = 0;
+    for (const l of S.leads) for (const s of sends(l)) if (dayKey(s.at) === t) n++;
+    return n;
+  }
+
+  // ---------- tabs ----------
+  function showTab(name) {
+    document.querySelectorAll(".tab").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.tab === name)));
+    document.querySelectorAll('section[role="tabpanel"]').forEach((p) => (p.hidden = p.id !== "panel-" + name));
+    try { localStorage.setItem("leady.tab", name); } catch (_) {}
+  }
+  document.querySelectorAll(".tab").forEach((b) => b.addEventListener("click", () => showTab(b.dataset.tab)));
+  try { const t = localStorage.getItem("leady.tab"); if (t && $("#panel-" + t)) showTab(t); } catch (_) {}
+  if (/^#(pulpit|leady|wiadomosc|szukaj)$/.test(location.hash)) showTab(location.hash.slice(1));
+
+  // ---------- dashboard ----------
+  function computeStats() {
+    const today = dayKey(new Date()); const per = {};
+    let emails = 0, contacted = 0, replies = 0, bounced = 0, todayN = 0;
+    const counts = { new: 0, sent: 0, replied: 0, bounced: 0, closed: 0 };
+    for (const l of S.leads) {
+      const s = sends(l);
+      if (s.length) contacted++;
+      for (const x of s) { emails++; const k = dayKey(x.at); (per[k] ||= { s: 0, r: 0 }).s++; if (k === today) todayN++; }
+      if (l.repliedAt) { replies++; const k = dayKey(l.repliedAt); (per[k] ||= { s: 0, r: 0 }).r++; }
+      if (l.status === "bounced") bounced++;
+      if (l.repliedAt || l.status === "replied") counts.replied++;
+      else if (l.status === "bounced" || l.status === "error" || l.status === "check") counts.bounced++;
+      else if (l.status === "not_interested" || l.status === "unsubscribed") counts.closed++;
+      else if (s.length) counts.sent++;
+      else counts.new++;
+    }
+    const delivered = Math.max(0, contacted - bounced);
+    return { emails, contacted, replies, bounced, todayN, per, counts, rate: delivered ? replies / delivered : 0 };
+  }
+  function niceStep(max) { if (max <= 5) return 1; if (max <= 10) return 2; if (max <= 25) return 5; if (max <= 50) return 10; return Math.ceil(max / 50) * 10; }
+  function chartSVG(per) {
+    const days = []; const d0 = new Date(); d0.setHours(12, 0, 0, 0);
+    for (let i = 13; i >= 0; i--) { const d = new Date(d0.getTime() - i * 864e5); const k = dayKey(d); days.push({ k, label: pad(d.getDate()) + "." + pad(d.getMonth() + 1), s: per[k]?.s || 0, r: per[k]?.r || 0 }); }
+    const W = 720, H = 230, pl = 34, pr = 6, pt = 12, pb = 30, iw = W - pl - pr, ih = H - pt - pb;
+    const max = Math.max(4, ...days.map((d) => Math.max(d.s, d.r)));
+    const step = niceStep(max), top = Math.ceil(max / step) * step;
+    const y = (v) => pt + ih - (v / top) * ih;
+    let g = "";
+    for (let v = 0; v <= top; v += step) {
+      g += `<line x1="${pl}" x2="${W - pr}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/>`;
+      g += `<text x="${pl - 6}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="var(--muted)" font-family="var(--font-mono)">${v}</text>`;
+    }
+    const gw = iw / days.length, bw = Math.min(16, (gw - 8) / 2);
+    days.forEach((d, i) => {
+      const cx = pl + i * gw + gw / 2;
+      if (d.s) g += `<rect x="${cx - bw - 1}" y="${y(d.s)}" width="${bw}" height="${pt + ih - y(d.s)}" rx="2" fill="var(--accent)"><title>${d.label}: wysłane ${d.s}</title></rect>`;
+      if (d.r) g += `<rect x="${cx + 1}" y="${y(d.r)}" width="${bw}" height="${pt + ih - y(d.r)}" rx="2" fill="var(--reply)"><title>${d.label}: odpowiedzi ${d.r}</title></rect>`;
+      if (i % 2 === 1 || i === 13) g += `<text x="${cx}" y="${H - 10}" text-anchor="middle" font-size="11" fill="${i === 13 ? "var(--fg)" : "var(--muted)"}" font-family="var(--font-mono)">${i === 13 ? "dziś" : d.label}</text>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Wysłane maile i odpowiedzi z ostatnich 14 dni">${g}</svg>`;
+  }
+  function renderDashboard() {
+    const st = computeStats(); const lim = Number(S.settings.dailyLimit) || 30;
+    const k = (label, value, sub, cls = "", extra = "") => `<div class="kpi ${cls}"><span class="label">${label}</span><span class="value">${value}</span><span class="sub">${sub}</span>${extra}</div>`;
+    $("#kpis").innerHTML =
+      k("Leady", S.leads.length, `${st.counts.new} czeka na pierwszy mail`) +
+      k("Wysłane maile", st.emails, `do ${st.contacted} firm`) +
+      k("Dziś", `${st.todayN}<span class="muted" style="font-size:16px"> / ${lim}</span>`, "dzienny limit", "", `<div class="meter"><span style="width:${Math.min(100, (st.todayN / lim) * 100)}%"></span></div>`) +
+      k("Odpowiedzi", st.replies, st.replies ? "zobacz niżej" : "jeszcze brak", st.replies ? "hl" : "") +
+      k("Skuteczność", (st.rate * 100).toFixed(st.rate && st.rate < .1 ? 1 : 0) + "%", "odpowiedzi / dostarczone") +
+      k("Odbite", st.bounced, "zły lub nieistniejący adres");
+    $("#chart").innerHTML = chartSVG(st.per) + (st.emails ? "" : `<p class="small muted" style="margin:8px 0 0">Wykres zapełni się po pierwszej wysyłce.</p>`);
+    const c = st.counts, total = S.leads.length || 1;
+    const seg = [["new", "Nowe", "var(--line)"], ["sent", "Wysłane", "var(--info)"], ["replied", "Odpowiedzi", "var(--reply)"], ["bounced", "Odbite / błędy", "var(--danger)"], ["closed", "Zamknięte", "var(--muted)"]];
+    $("#funnel").innerHTML = seg.map(([key, , col]) => c[key] ? `<span style="width:${(c[key] / total) * 100}%;background:${col}" title="${c[key]}"></span>` : "").join("");
+    $("#funnel-legend").innerHTML = seg.map(([key, label, col]) => `<div><span><i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${col};margin-right:6px"></i>${label}</span><b class="num">${c[key]}</b></div>`).join("");
+    $("#funnel-total").textContent = S.leads.length + " leadów";
+    const reps = S.leads.filter((l) => l.repliedAt).sort((a, b) => String(b.repliedAt).localeCompare(String(a.repliedAt))).slice(0, 8);
+    $("#replies").innerHTML = reps.length ? reps.map((l) => `
+      <div class="reply-item">
+        <div><b>${esc(l.firma || l.email)}</b> <span class="small muted">· ${esc(fmtDate(l.repliedAt))}</span>
+          ${l.threadId ? ` · <a class="small" href="${esc(threadUrl(l))}" target="_blank" rel="noopener">Otwórz w Gmailu</a>` : ""}</div>
+        <p>${esc(l.replySnippet || "(brak podglądu)")}</p>
+      </div>`).join("")
+      : `<div class="empty"><strong>Brak odpowiedzi</strong><span class="small">Kliknij „Sprawdź odpowiedzi” po kilku godzinach od wysyłki.</span></div>`;
+    $("#last-check").textContent = S.settings.lastCheckAt ? "Sprawdzono " + fmtDate(S.settings.lastCheckAt) : "";
+    const pend = S.requests.filter((r) => r.status !== "done").length;
+    $("#req-badge").hidden = !pend; $("#req-badge").textContent = pend;
+    $("#lead-count").textContent = S.leads.length ? "(" + S.leads.length + ")" : "";
+  }
+  const threadUrl = (l) => l.threadUrl || ("https://mail.google.com/mail/#all/" + encodeURIComponent(l.threadId));
+
+  // ---------- leads table ----------
+  function filteredLeads() {
+    const q = S.q.trim().toLowerCase();
+    return S.leads.filter((l) => {
+      if (q && ![l.email, l.firma, l.imie, l.miasto, l.branza, l.www].some((v) => String(v || "").toLowerCase().includes(q))) return false;
+      switch (S.status) {
+        case "new": return !sends(l).length && !BLOCKED.has(l.status);
+        case "sent": return l.status === "sent" && !l.repliedAt;
+        case "followup": return followReady(l);
+        case "replied": return !!l.repliedAt || l.status === "replied";
+        case "bounced": return ["bounced", "error", "check"].includes(l.status);
+        case "closed": return ["not_interested", "unsubscribed"].includes(l.status);
+        default: return true;
+      }
+    }).sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
+  }
+  function renderLeads() {
+    const rows = filteredLeads();
+    for (const id of [...S.selected]) if (!S.leads.some((l) => l.id === id)) S.selected.delete(id);
+    const box = $("#leads-table");
+    if (!S.leads.length) {
+      box.innerHTML = `<div class="empty"><strong>Lista leadów jest pusta</strong><span class="small">Dodaj firmę ręcznie, wklej listę z arkusza albo zleć wyszukiwanie w zakładce „Szukaj leadów”.</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><button class="btn" data-act="import">Importuj CSV</button><button class="btn primary" data-act="add">Dodaj lead</button></div></div>`;
+    } else if (!rows.length) {
+      box.innerHTML = `<div class="empty"><strong>Nic nie pasuje do filtra</strong></div>`;
+    } else {
+      const all = rows.every((l) => S.selected.has(l.id));
+      box.innerHTML = `<div class="table-wrap"><table>
+        <thead><tr><th style="width:32px"><input type="checkbox" id="sel-all" ${all ? "checked" : ""} aria-label="Zaznacz wszystkie widoczne"></th>
+        <th>Firma</th><th>E-mail</th><th>Miasto · branża</th><th>Status</th><th>Ostatni mail</th><th></th></tr></thead>
+        <tbody>${rows.map((l) => {
+          const st = l.repliedAt && !["not_interested", "unsubscribed"].includes(l.status) ? "replied" : (l.status || "new");
+          const n = sends(l).length;
+          return `<tr data-id="${esc(l.id)}">
+            <td><input type="checkbox" class="sel" ${S.selected.has(l.id) ? "checked" : ""} aria-label="Zaznacz ${esc(l.firma || l.email)}"></td>
+            <td><div class="co">${esc(l.firma || "—")}</div>${l.imie ? `<div class="small muted">${esc(l.imie)}</div>` : ""}
+              ${l.www ? `<a class="small" href="${esc(/^https?:/i.test(l.www) ? l.www : "https://" + l.www)}" target="_blank" rel="noopener">${esc(String(l.www).replace(/^https?:\/\//, "").slice(0, 40))}</a>` : ""}</td>
+            <td class="email">${esc(l.email)}</td>
+            <td>${esc([l.miasto, l.branza].filter(Boolean).join(" · ") || "—")}</td>
+            <td><span class="pill st-${esc(st)}">${esc(STATUS[st] || st)}</span>${followReady(l) ? `<div class="small" style="color:var(--reply)">pora na follow-up</div>` : ""}${l.lastError ? `<div class="small" style="color:var(--danger)">${esc(l.lastError).slice(0, 90)}</div>` : ""}</td>
+            <td class="num small">${lastSend(l) ? esc(fmtDate(lastSend(l))) + (n > 1 ? ` <span class="muted">(${n}×)</span>` : "") : "—"}</td>
+            <td style="white-space:nowrap">${l.threadId ? `<a class="btn sm ghost" href="${esc(threadUrl(l))}" target="_blank" rel="noopener">Gmail</a>` : ""}<button class="btn sm ghost" data-act="edit">Edytuj</button></td>
+          </tr>`;
+        }).join("")}</tbody></table></div>
+        <p class="small muted" style="margin:8px 0 0">${rows.length} z ${S.leads.length}</p>`;
+    }
+    $("#selbar").hidden = !S.selected.size;
+    $("#sel-count").textContent = S.selected.size;
+  }
+  $("#leads-table").addEventListener("click", (e) => {
+    const act = e.target.closest("[data-act]")?.dataset.act;
+    if (act === "add") return openLeadForm();
+    if (act === "import") return openImport();
+    const tr = e.target.closest("tr[data-id]");
+    if (act === "edit" && tr) return openLeadForm(S.leads.find((l) => l.id === tr.dataset.id));
+  });
+  $("#leads-table").addEventListener("change", (e) => {
+    if (e.target.id === "sel-all") { for (const l of filteredLeads()) e.target.checked ? S.selected.add(l.id) : S.selected.delete(l.id); renderLeads(); return; }
+    if (e.target.classList.contains("sel")) { const id = e.target.closest("tr").dataset.id; e.target.checked ? S.selected.add(id) : S.selected.delete(id); $("#selbar").hidden = !S.selected.size; $("#sel-count").textContent = S.selected.size; }
+  });
+  $("#q").addEventListener("input", (e) => { S.q = e.target.value; renderLeads(); });
+  $("#status-filter").addEventListener("change", (e) => { S.status = e.target.value; renderLeads(); });
+  $("#btn-add").onclick = () => openLeadForm();
+  $("#btn-import").onclick = () => openImport();
+  $("#btn-clear-sel").onclick = () => { S.selected.clear(); renderLeads(); };
+  $("#btn-send-sel").onclick = () => openSend("first");
+  $("#btn-follow-sel").onclick = () => openSend("followup");
+  $("#btn-mark-ni").onclick = async () => {
+    if (!db) return;
+    for (const id of [...S.selected]) { try { await db.doc("leads/" + id).update({ status: "not_interested" }); } catch (e) { toast("Nie udało się zapisać zmiany."); break; } }
+    S.selected.clear(); toast("Oznaczono jako niezainteresowanych."); renderLeads();
+  };
+  $("#btn-del-sel").onclick = () => {
+    const ids = [...S.selected];
+    openSheet("Usunąć " + ids.length + " leadów?", `<p style="margin:0">Leady znikną z listy i ze statystyk. Wysłane maile zostaną w Twoim Gmailu.</p>`,
+      [["Anuluj", closeSheet], ["Usuń", async () => {
+        for (const id of ids) { try { await db.doc("leads/" + id).delete(); } catch (_) {} }
+        S.selected.clear(); closeSheet(); toast("Usunięto."); renderLeads();
+      }, "primary"]]);
+  };
+
+  // ---------- sheet ----------
+  let lastFocus = null;
+  function openSheet(title, bodyHtml, buttons) {
+    lastFocus = document.activeElement;
+    $("#sheet-title").textContent = title; $("#sheet-b").innerHTML = bodyHtml;
+    const f = $("#sheet-f"); f.innerHTML = "";
+    for (const [label, fn, cls, id] of buttons || []) { const b = document.createElement("button"); b.className = "btn " + (cls || ""); b.textContent = label; if (id) b.id = id; b.onclick = fn; f.appendChild(b); }
+    $("#sheet").hidden = false; $("#sheet-back").hidden = false;
+    setTimeout(() => ($("#sheet-b").querySelector("input,textarea,select") || $("#sheet-x")).focus(), 30);
+  }
+  function closeSheet() {
+    if (S.busy) { S.stop = true; return; }
+    $("#sheet").hidden = true; $("#sheet-back").hidden = true; lastFocus?.focus?.();
+  }
+  $("#sheet-x").onclick = closeSheet; $("#sheet-back").onclick = closeSheet;
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#sheet").hidden) closeSheet(); });
+
+  // ---------- add / edit lead ----------
+  function openLeadForm(lead) {
+    const L = lead || {};
+    const opt = Object.entries(STATUS).map(([k, v]) => `<option value="${k}" ${(L.status || "new") === k ? "selected" : ""}>${v}</option>`).join("");
+    openSheet(lead ? "Edytuj lead" : "Nowy lead", `
+      <label class="f"><span>E-mail *</span><input type="email" id="lf-email" value="${esc(L.email)}" ${lead ? "readonly" : ""}></label>
+      <div class="row-2">
+        <label class="f"><span>Firma</span><input type="text" id="lf-firma" value="${esc(L.firma)}"></label>
+        <label class="f"><span>Imię osoby kontaktowej</span><input type="text" id="lf-imie" value="${esc(L.imie)}"></label>
+      </div>
+      <div class="row-2">
+        <label class="f"><span>Miasto</span><input type="text" id="lf-miasto" value="${esc(L.miasto)}"></label>
+        <label class="f"><span>Branża</span><input type="text" id="lf-branza" value="${esc(L.branza)}"></label>
+      </div>
+      <label class="f"><span>Strona www</span><input type="text" id="lf-www" value="${esc(L.www)}"></label>
+      <label class="f"><span>Notatka (widzi ją też personalizacja AI)</span><textarea id="lf-notes" rows="3">${esc(L.notes)}</textarea></label>
+      ${lead ? `<label class="f"><span>Status</span><select id="lf-status">${opt}</select></label>` : ""}
+      ${L.source ? `<p class="small muted" style="margin:0">Źródło: <a href="${esc(L.source)}" target="_blank" rel="noopener">${esc(L.source.slice(0, 70))}</a></p>` : ""}
+      <div id="lf-err"></div>`,
+      [...(lead ? [["Usuń", async () => { await db.doc("leads/" + lead.id).delete().catch(() => {}); closeSheet(); toast("Usunięto lead."); }, "danger"]] : []),
+       ["Anuluj", closeSheet], [lead ? "Zapisz" : "Dodaj", async () => {
+        const email = $("#lf-email").value.trim();
+        if (!isEmail(email)) { $("#lf-err").innerHTML = `<div class="note err">Wpisz poprawny adres e-mail.</div>`; return; }
+        const id = lead ? lead.id : leadId(email);
+        if (!lead && S.leads.some((l) => l.id === id)) { $("#lf-err").innerHTML = `<div class="note err">Ten adres jest już na liście.</div>`; return; }
+        const data = { email, firma: $("#lf-firma").value.trim(), imie: $("#lf-imie").value.trim(), miasto: $("#lf-miasto").value.trim(), branza: $("#lf-branza").value.trim(), www: $("#lf-www").value.trim(), notes: $("#lf-notes").value.trim() };
+        if (!db) { $("#lf-err").innerHTML = `<div class="note err">Baza jest niedostępna. Odśwież stronę.</div>`; return; }
+        try {
+          if (lead) { if ($("#lf-status")) data.status = $("#lf-status").value; await db.doc("leads/" + id).update(data); }
+          else await db.doc("leads/" + id).set({ ...data, status: "new", source: "ręcznie", createdAt: nowIso(), sends: [] });
+          closeSheet(); toast(lead ? "Zapisano." : "Dodano lead.");
+        } catch (e) { $("#lf-err").innerHTML = `<div class="note err">${e.code === "quota_exceeded" ? "Baza jest pełna (limit 5000 dokumentów). Usuń stare leady." : "Nie udało się zapisać (" + esc(e.code) + ")."}</div>`; }
+      }, "primary"]]);
+  }
+
+  // ---------- CSV import ----------
+  const HEAD = { email: ["email", "e-mail", "mail", "adres"], firma: ["firma", "company", "nazwa", "name firmy", "firma nazwa"], imie: ["imie", "imię", "osoba", "name", "first name", "kontakt"], miasto: ["miasto", "city", "lokalizacja"], branza: ["branza", "branża", "industry", "kategoria"], www: ["www", "strona", "website", "url", "strona www"], notes: ["notatka", "notes", "uwagi", "opis"] };
+  function splitLine(line, d) {
+    const out = []; let cur = "", q = false;
+    for (let i = 0; i < line.length; i++) {
+      const c = line[i];
+      if (q) { if (c === '"' && line[i + 1] === '"') { cur += '"'; i++; } else if (c === '"') q = false; else cur += c; }
+      else if (c === '"') q = true; else if (c === d) { out.push(cur); cur = ""; } else cur += c;
+    }
+    out.push(cur); return out.map((s) => s.trim());
+  }
+  function parseCSV(text) {
+    const lines = text.split(/\r?\n/).filter((l) => l.trim());
+    if (!lines.length) return [];
+    const first = lines[0];
+    const d = (first.match(/\t/g) || []).length ? "\t" : (first.match(/;/g) || []).length >= (first.match(/,/g) || []).length ? ";" : ",";
+    let cols = splitLine(first, d).map((h) => h.toLowerCase()); let start = 1;
+    let map = {};
+    cols.forEach((h, i) => { for (const [k, alts] of Object.entries(HEAD)) if (alts.includes(h) && map[k] == null) map[k] = i; });
+    if (map.email == null) {
+      start = 0; const row = splitLine(first, d); const ei = row.findIndex(isEmail);
+      map = { email: ei >= 0 ? ei : 0 }; const rest = [0, 1, 2, 3, 4].filter((i) => i !== map.email);
+      ["firma", "imie", "miasto", "branza"].forEach((k, j) => (map[k] = rest[j]));
+    }
+    const out = [];
+    for (const line of lines.slice(start)) {
+      const r = splitLine(line, d); const o = {};
+      for (const [k, i] of Object.entries(map)) if (i != null && r[i] != null) o[k] = r[i];
+      if (o.email) { const m = String(o.email).match(/[^\s<>(),;:]+@[^\s<>(),;:]+\.[a-z]{2,}/i); o.email = m ? m[0] : o.email; }
+      out.push(o);
+    }
+    return out;
+  }
+  function openImport() {
+    openSheet("Importuj leady", `
+      <p class="small" style="margin:0">Wklej wiersze z arkusza (Excel, Google Sheets) albo pliku CSV. Pierwszy wiersz może zawierać nagłówki: <span class="num">email, firma, imie, miasto, branza, www, notatka</span>. Bez nagłówków kolejność kolumn to: e-mail, firma, imię, miasto, branża.</p>
+      <label class="f"><span>Dane</span><textarea id="imp-text" rows="10" placeholder="email;firma;imie;miasto&#10;kontakt@przyklad.pl;Przykład sp. z o.o.;Anna;Poznań"></textarea></label>
+      <label class="f"><span>albo wybierz plik .csv</span><input type="file" id="imp-file" accept=".csv,.txt,text/csv,text/plain"></label>
+      <div id="imp-sum"></div>`,
+      [["Anuluj", closeSheet], ["Importuj", doImport, "primary", "imp-go"]]);
+    const upd = () => {
+      const rows = parseCSV($("#imp-text").value); const ok = rows.filter((r) => isEmail(r.email));
+      const dup = ok.filter((r) => S.leads.some((l) => l.id === leadId(r.email))).length;
+      $("#imp-sum").innerHTML = rows.length ? `<div class="note">${ok.length} poprawnych adresów${dup ? `, w tym ${dup} już na liście (zostaną pominięte)` : ""}${rows.length - ok.length ? `, ${rows.length - ok.length} wierszy bez poprawnego e-maila` : ""}.</div>` : "";
+    };
+    $("#imp-text").addEventListener("input", upd);
+    $("#imp-file").addEventListener("change", async (e) => { const f = e.target.files[0]; if (f) { $("#imp-text").value = await f.text(); upd(); } });
+  }
+  async function doImport() {
+    if (!db) return toast("Baza jest niedostępna.");
+    const rows = parseCSV($("#imp-text").value).filter((r) => isEmail(r.email)).slice(0, 1000);
+    const seen = new Set(S.leads.map((l) => l.id)); let added = 0, err = null;
+    $("#imp-go").disabled = true;
+    for (const r of rows) {
+      const id = leadId(r.email); if (seen.has(id)) continue; seen.add(id);
+      try {
+        await db.doc("leads/" + id).set({ email: r.email.trim(), firma: r.firma || "", imie: r.imie || "", miasto: r.miasto || "", branza: r.branza || "", www: r.www || "", notes: r.notes || "", status: "new", source: "import", createdAt: nowIso(), sends: [] });
+        added++; $("#imp-sum").innerHTML = `<div class="note">Dodano ${added}…</div>`;
+      } catch (e) { err = e; break; }
+    }
+    $("#imp-go").disabled = false;
+    if (err) $("#imp-sum").innerHTML = `<div class="note err">Dodano ${added}, potem błąd: ${err.code === "quota_exceeded" ? "baza jest pełna" : esc(err.code)}.</div>`;
+    else { closeSheet(); toast("Zaimportowano " + added + " leadów."); }
+  }
+
+  // ---------- sending ----------
+  function eligible(kind) {
+    const chosen = S.leads.filter((l) => S.selected.has(l.id));
+    const ok = [], skip = [];
+    for (const l of chosen) {
+      if (!isEmail(l.email)) skip.push([l, "zły adres"]);
+      else if (BLOCKED.has(l.status) || l.repliedAt) skip.push([l, l.repliedAt ? "już odpowiedział" : STATUS[l.status].toLowerCase()]);
+      else if (kind === "first" && sends(l).length) skip.push([l, "już wysłano"]);
+      else if (kind === "first" && l.status === "check") skip.push([l, "do sprawdzenia"]);
+      else if (kind === "followup" && !l.threadId) skip.push([l, "brak pierwszego maila"]);
+      else if (kind === "followup" && sends(l).length >= 3) skip.push([l, "już 2 follow-upy"]);
+      else ok.push(l);
+    }
+    return { ok, skip };
+  }
+  function openSend(kind) {
+    const probs = templateProblems();
+    const { ok, skip } = eligible(kind);
+    const left = Math.max(0, (Number(S.settings.dailyLimit) || 30) - sentToday());
+    const n = Math.min(ok.length, left);
+    const pv = ok[0] ? compose(ok[0], kind) : null;
+    const delay = Math.max(5, Number(S.settings.delaySec) || 30);
+    const blockers = [];
+    if (!mcp) blockers.push("Gmail jest niedostępny w tym widoku.");
+    if (!db) blockers.push("Baza jest niedostępna.");
+    if (kind === "first") blockers.push(...probs);
+    if (!ok.length) blockers.push("Żaden z zaznaczonych leadów nie nadaje się do tej wysyłki.");
+    else if (!left) blockers.push("Dzienny limit jest wyczerpany. Wróć jutro albo podnieś limit w zakładce Wiadomość.");
+    const mins = Math.ceil(((n - 1) * delay) / 60);
+    openSheet(kind === "followup" ? "Wyślij follow-up" : "Wyślij pierwszą wiadomość", `
+      ${blockers.map((b) => `<div class="note err">${esc(b)}</div>`).join("")}
+      <div class="note ${n ? "ok" : ""}">Wyślę <b>${n}</b> ${n === 1 ? "maila" : "maili"} z Twojego konta Gmail${S.settings.senderEmail ? " (" + esc(S.settings.senderEmail) + ")" : ""}, co ${delay} s${n > 1 ? ` (ok. ${mins} min)` : ""}.
+        ${ok.length > n ? `<br>${ok.length - n} poczeka na jutro (limit dzienny: zostało ${left}).` : ""}
+        ${S.settings.ai && kind === "first" ? "<br>Każdy mail zostanie spersonalizowany przez Claude." : ""}</div>
+      ${skip.length ? `<details><summary class="small">Pominięte: ${skip.length}</summary><ul class="small muted">${skip.slice(0, 50).map(([l, why]) => `<li>${esc(l.email)}: ${esc(why)}</li>`).join("")}</ul></details>` : ""}
+      ${pv ? `<div class="small muted">Podgląd dla ${esc(ok[0].firma || ok[0].email)}${S.settings.ai && kind === "first" ? " (bez personalizacji AI)" : ""}:</div>
+        <div class="mail"><div class="mail-h"><span class="muted">Do: ${esc(ok[0].email)}</span><b>${esc(pv.subject)}</b></div><div class="mail-b">${esc(pv.body)}</div></div>` : ""}
+      <div id="send-run" hidden><div class="progress"><span id="send-prog" style="width:0"></span></div><div class="log" id="send-log" aria-live="polite"></div></div>`,
+      [["Anuluj", closeSheet, "", "send-cancel"], [n ? `Wyślij ${n}` : "Wyślij", () => runSend(kind, ok.slice(0, n)), "primary", "send-go"]]);
+    if (blockers.length || !n) $("#send-go").disabled = true;
+  }
+  async function personalize(lead) {
+    const st = S.settings;
+    const info = { firma: lead.firma, imie: lead.imie, miasto: lead.miasto, branza: lead.branza, www: lead.www, notatka: lead.notes };
+    const prompt = `Przygotuj spersonalizowaną wersję maila biznesowego po polsku dla jednej firmy.
+Zasady:
+- Zachowaj sens, ofertę i wezwanie do działania z szablonu. Nie dodawaj nowych obietnic, cen ani faktów.
+- Wykorzystaj tylko dane firmy podane poniżej. Nie zmyślaj niczego o firmie.
+- Ton uprzejmy, konkretny, bez przesady. Maksymalnie 130 słów treści. Forma grzecznościowa „Państwo”.
+- Nie dodawaj podpisu ani stopki (zostaną dodane osobno).
+Dane firmy (JSON): ${JSON.stringify(info)}
+Szablon tematu: ${fill(st.subject, lead)}
+Szablon treści:
+${fill(st.body, lead)}
+
+Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
+    const r = await sample.json(prompt, { modelTier: "quick", cache: false });
+    if (!r || typeof r.subject !== "string" || typeof r.body !== "string" || !r.body.trim()) throw { code: "invalid_json" };
+    return { subject: r.subject.slice(0, 200), body: r.body };
+  }
+  async function runSend(kind, list) {
+    if (S.busy) return;
+    S.busy = true; S.stop = false;
+    $("#send-run").hidden = false; $("#send-go").disabled = true;
+    const cancel = $("#send-cancel"); cancel.textContent = "Zatrzymaj";
+    const log = (t) => { const el = $("#send-log"); el.textContent += t + "\n"; el.scrollTop = el.scrollHeight; };
+    const delay = Math.max(5, Number(S.settings.delaySec) || 30);
+    let ok = 0, fail = 0;
+    for (let i = 0; i < list.length; i++) {
+      if (S.stop) { log("Zatrzymano."); break; }
+      const lead = S.leads.find((l) => l.id === list[i].id) || list[i];
+      if (BLOCKED.has(lead.status) || lead.repliedAt || (kind === "first" && sends(lead).length)) { log("• " + lead.email + ": pominięty (status się zmienił)"); continue; }
+      if (sentToday() >= (Number(S.settings.dailyLimit) || 30)) { log("Osiągnięto dzienny limit."); break; }
+      let override = null;
+      if (kind === "first" && S.settings.ai && sample) {
+        log("• " + lead.email + ": personalizuję…");
+        try { override = await personalize(lead); } catch (e) { log("  AI: " + aiMsg(e) + " Wysyłam wersję z szablonu."); }
+      }
+      const msg = compose(lead, kind, override);
+      const input = { to: [lead.email.trim()], subject: msg.subject, body: msg.body };
+      if (kind === "followup") input.replyThreadId = lead.threadId;
+      try {
+        const res = await mcp.callTool(GMAIL, "send_message", input);
+        const p = res && res.payload && typeof res.payload === "object" ? res.payload : {};
+        const m = p.message && typeof p.message === "object" ? p.message : p;
+        const at = nowIso();
+        const upd = { status: "sent", lastError: "", sends: [...sends(lead), { at, kind, id: m.id || "" }] };
+        if (kind === "first") { upd.threadId = m.threadId || m.id || ""; upd.subject = msg.subject; upd.firstSentAt = at; }
+        await db.doc("leads/" + lead.id).update(upd).catch(() => log("  (nie zapisano statusu w bazie)"));
+        ok++; log("✓ " + lead.email + ": wysłano");
+      } catch (e) {
+        fail++;
+        log("✗ " + lead.email + ": " + mcpMsg(e));
+        if (e && e.code === "tool_error") {
+          await db.doc("leads/" + lead.id).update({ status: sends(lead).length ? lead.status : "error", lastError: String(e.message || "Gmail odrzucił wiadomość").slice(0, 200) }).catch(() => {});
+          continue;
+        }
+        if (e && ["server_unavailable", "upstream_error", "cancelled"].includes(e.code)) {
+          await db.doc("leads/" + lead.id).update({ status: "check", lastError: "Niepewny wynik wysyłki. Sprawdź folder Wysłane." }).catch(() => {});
+        }
+        log("Wysyłka przerwana."); break;
+      }
+      $("#send-prog").style.width = ((i + 1) / list.length) * 100 + "%";
+      if (i < list.length - 1 && !S.stop) {
+        for (let s = delay; s > 0 && !S.stop; s--) { cancel.textContent = `Zatrzymaj (następny za ${s} s)`; await sleep(1000); }
+        cancel.textContent = "Zatrzymaj";
+      }
+    }
+    S.busy = false; S.selected.clear(); renderLeads();
+    log(`Koniec: wysłano ${ok}, błędów ${fail}.`);
+    cancel.textContent = "Zamknij";
+    toast(`Wysłano ${ok} ${ok === 1 ? "mail" : "maili"}.`);
+  }
+
+  // ---------- reply check ----------
+  $("#btn-check").onclick = async () => {
+    const btn = $("#btn-check"), note = $("#check-note");
+    if (!mcp) { note.innerHTML = `<div class="note err">Gmail jest niedostępny w tym widoku.</div>`; return; }
+    const targets = S.leads.filter((l) => l.threadId && !l.repliedAt && !["bounced", "not_interested", "unsubscribed"].includes(l.status))
+      .sort((a, b) => String(lastSend(b)).localeCompare(String(lastSend(a)))).slice(0, 80);
+    if (!targets.length) { note.innerHTML = `<div class="note">Nie ma wysłanych maili, na które czekasz na odpowiedź.</div>`; return; }
+    btn.disabled = true; let found = 0, bounces = 0, done = 0;
+    const self = String(S.settings.senderEmail || "").toLowerCase();
+    for (const l of targets) {
+      note.innerHTML = `<div class="note">Sprawdzam ${++done} z ${targets.length}…</div>`;
+      try {
+        const res = await mcp.callTool(GMAIL, "get_thread", { threadId: l.threadId, messageFormat: "MINIMAL" }, { cache: false });
+        const p = (res && res.payload) || {}; const msgs = Array.isArray(p.messages) ? p.messages : [];
+        const others = msgs.filter((m) => !(m.labelIds || []).includes("SENT") && !(self && String(m.sender || "").toLowerCase().includes(self)));
+        const upd = {}; if (p.viewUrl) upd.threadUrl = p.viewUrl;
+        const bounce = others.find((m) => /mailer-daemon|postmaster/i.test(String(m.sender || "")));
+        const human = others.filter((m) => m !== bounce && !/mailer-daemon|postmaster/i.test(String(m.sender || "")));
+        if (human.length) {
+          const m = human[0];
+          Object.assign(upd, { repliedAt: m.date || nowIso(), replySnippet: String(m.snippet || m.subject || "").slice(0, 400), replyFrom: m.sender || "", status: "replied" });
+          found++;
+        } else if (bounce) { Object.assign(upd, { status: "bounced", lastError: "Adres odrzucił wiadomość" }); bounces++; }
+        if (Object.keys(upd).length) await db.doc("leads/" + l.id).update(upd).catch(() => {});
+      } catch (e) {
+        if (e && e.code === "tool_error") continue;
+        note.innerHTML = `<div class="note err">${esc(mcpMsg(e))}</div>`; btn.disabled = false; return;
+      }
+    }
+    try { await saveSettings({ lastCheckAt: nowIso() }); } catch (_) {}
+    btn.disabled = false;
+    note.innerHTML = `<div class="note ${found ? "ok" : ""}">Sprawdzono ${targets.length} wątków: ${found} nowych odpowiedzi${bounces ? `, ${bounces} odbitych` : ""}.</div>`;
+  };
+
+  // ---------- template editor ----------
+  const tplIds = { subject: "#t-subject", body: "#t-body", signature: "#t-sig", followBody: "#t-fbody", followDays: "#t-fdays", dailyLimit: "#t-limit", delaySec: "#t-delay" };
+  $("#tokens").innerHTML = FIELDS.map(([k, label]) => `<button type="button" data-k="${k}" title="Wstaw ${label}">{{${k}}}</button>`).join("");
+  let lastText = $("#t-body");
+  ["#t-subject", "#t-body", "#t-fbody", "#t-sig"].forEach((s) => $(s).addEventListener("focus", (e) => (lastText = e.target)));
+  $("#tokens").addEventListener("click", (e) => {
+    const k = e.target.dataset.k; if (!k) return;
+    const el = lastText, tok = "{{" + k + "}}", a = el.selectionStart ?? el.value.length, b = el.selectionEnd ?? a;
+    el.value = el.value.slice(0, a) + tok + el.value.slice(b); el.focus(); el.selectionStart = el.selectionEnd = a + tok.length; onTplInput();
+  });
+  function readForm() {
+    const o = {};
+    for (const [k, s] of Object.entries(tplIds)) o[k] = ["followDays", "dailyLimit", "delaySec"].includes(k) ? Number($(s).value) || DEFAULTS[k] : $(s).value;
+    o.optOut = $("#t-optout").checked; o.ai = $("#t-ai").checked;
+    o.dailyLimit = Math.min(400, Math.max(1, o.dailyLimit)); o.delaySec = Math.min(600, Math.max(5, o.delaySec)); o.followDays = Math.min(30, Math.max(1, o.followDays));
+    return o;
+  }
+  function fillForm() {
+    for (const [k, s] of Object.entries(tplIds)) $(s).value = S.settings[k] ?? "";
+    $("#t-optout").checked = !!S.settings.optOut; $("#t-ai").checked = !!S.settings.ai;
+    S.formFilled = true; renderPreview();
+  }
+  let dirty = false;
+  function onTplInput() { dirty = true; $("#tpl-status").textContent = "Niezapisane zmiany"; renderPreview(); }
+  document.querySelectorAll("#panel-wiadomosc input, #panel-wiadomosc textarea").forEach((el) => el.addEventListener("input", onTplInput));
+  async function saveSettings(patch) {
+    S.settings = { ...S.settings, ...patch };
+    if (!db) throw { code: "unavailable" };
+    const { ...doc } = S.settings; await db.doc("settings/main").set(doc);
+  }
+  $("#btn-save-tpl").onclick = async () => {
+    try { await saveSettings(readForm()); dirty = false; $("#tpl-status").textContent = "Zapisano " + fmtDate(nowIso()); toast("Zapisano szablon."); }
+    catch (e) { $("#tpl-status").textContent = "Nie udało się zapisać (" + (e.code || "błąd") + ")."; }
+  };
+  function previewLead() {
+    const id = $("#preview-lead").value; return S.leads.find((l) => l.id === id) || S.leads[0] || { firma: "Przykładowa Firma", imie: "Anna", miasto: "Poznań", branza: "gastronomia", email: "kontakt@przyklad.pl" };
+  }
+  function renderPreviewOptions() {
+    const sel = $("#preview-lead"), cur = sel.value;
+    sel.innerHTML = S.leads.length ? S.leads.slice(0, 200).map((l) => `<option value="${esc(l.id)}">${esc(l.firma || l.email)}</option>`).join("") : `<option value="">Przykładowa firma</option>`;
+    if ([...sel.options].some((o) => o.value === cur)) sel.value = cur;
+  }
+  $("#preview-lead").addEventListener("change", () => { $("#ai-preview-note").innerHTML = ""; renderPreview(); });
+  function renderPreview(override) {
+    const saved = S.settings; S.settings = { ...saved, ...(S.formFilled ? readForm() : {}) };
+    const l = previewLead(); const m = compose(l, "first", override);
+    const probs = templateProblems(); S.settings = saved;
+    $("#pv-to").textContent = "Do: " + (l.email || ""); $("#pv-subject").textContent = m.subject; $("#pv-body").textContent = m.body;
+    $("#tpl-warn").innerHTML = probs.map((p) => `<div class="note warn">${esc(p)}</div>`).join("");
+  }
+  $("#btn-ai-preview").onclick = async () => {
+    const n = $("#ai-preview-note");
+    if (!sample) { n.innerHTML = `<div class="note err">Personalizacja AI jest niedostępna w tym widoku.</div>`; return; }
+    const saved = S.settings; S.settings = { ...saved, ...readForm() };
+    const b = $("#btn-ai-preview"); b.disabled = true; n.innerHTML = `<div class="note">Claude pisze wersję dla tej firmy…</div>`;
+    try { const o = await personalize(previewLead()); renderPreview(o); n.innerHTML = `<div class="note ok">Tak może wyglądać wersja spersonalizowana. Każdy lead dostanie własną.</div>`; }
+    catch (e) { n.innerHTML = `<div class="note err">${esc(aiMsg(e))}</div>`; }
+    finally { S.settings = saved; b.disabled = false; }
+  };
+
+  // ---------- requests ----------
+  function renderRequests() {
+    const box = $("#req-list");
+    const list = [...S.requests].sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
+    box.innerHTML = list.length ? list.map((r) => `
+      <div class="req" data-id="${esc(r.id)}">
+        <div class="what"><b>${esc(r.branza || "dowolna branża")}</b> · ${esc(r.region || "cała Polska")} · <span class="num">${esc(r.count || "?")}</span> leadów
+          ${r.extra ? `<div class="small muted">${esc(r.extra)}</div>` : ""}${r.note ? `<div class="small">${esc(r.note)}</div>` : ""}</div>
+        <span class="pill ${r.status === "done" ? "st-sent" : "st-replied"}">${r.status === "done" ? "Zrobione" + (r.found != null ? " · " + esc(r.found) : "") : "Czeka na Claude"}</span>
+        <span class="small muted num">${esc(fmtDate(r.createdAt))}</span>
+        <button class="btn sm ghost" data-del>Usuń</button>
+      </div>`).join("")
+      : `<div class="empty"><strong>Brak zleceń</strong><span class="small">Opisz, jakich firm szukasz, i dodaj zlecenie powyżej.</span></div>`;
+  }
+  $("#req-list").addEventListener("click", async (e) => {
+    if (!e.target.hasAttribute("data-del")) return;
+    const id = e.target.closest(".req").dataset.id; await db?.doc("requests/" + id).delete().catch(() => toast("Nie udało się usunąć."));
+  });
+  $("#btn-add-req").onclick = async () => {
+    const branza = $("#r-branza").value.trim(), region = $("#r-region").value.trim();
+    if (!branza && !region) { toast("Wpisz branżę albo miasto."); return; }
+    if (!db) { toast("Baza jest niedostępna."); return; }
+    try {
+      await db.collection("requests").add({ branza, region, count: Math.min(100, Math.max(1, Number($("#r-count").value) || 20)), extra: $("#r-extra").value.trim(), status: "pending", createdAt: nowIso() });
+      $("#r-branza").value = ""; $("#r-region").value = ""; $("#r-extra").value = "";
+      toast("Dodano zlecenie. Napisz do Claude „znajdź leady”.");
+    } catch (e) { toast("Nie udało się dodać zlecenia (" + (e.code || "błąd") + ")."); }
+  };
+
+  function renderAll() { renderDashboard(); renderLeads(); renderRequests(); renderPreviewOptions(); if (S.formFilled && !dirty) renderPreview(); }
+  renderAll();
+
+  // ---------- boot capabilities ----------
+  const C = window.claude;
+  if (!C || typeof C.use !== "function") {
+    chip("#chip-db", "bad", "Baza: niedostępna"); chip("#chip-gmail", "bad", "Gmail: niedostępny"); chip("#chip-ai", "bad", "AI: niedostępne");
+    fillForm();
+    return;
+  }
+  C.use("db").then((d) => {
+    db = d;
+    if (!db) { chip("#chip-db", "bad", "Baza: niedostępna"); fillForm(); return; }
+    chip("#chip-db", "ok", "Baza: połączona");
+    const dbErr = (e) => { chip("#chip-db", "bad", "Baza: " + (e.code === "revoked" ? "brak dostępu" : "błąd")); };
+    db.collection("leads").onSnapshot((s) => { S.leads = s.docs.map((x) => ({ id: x.id, ...x.data() })); renderAll(); }, dbErr);
+    db.collection("requests").onSnapshot((s) => { S.requests = s.docs.map((x) => ({ id: x.id, ...x.data() })); renderDashboard(); renderRequests(); }, dbErr);
+    db.doc("settings/main").onSnapshot((s) => {
+      S.settings = { ...DEFAULTS, ...(s.exists ? s.data() : {}) }; S.settingsLoaded = true;
+      if (!dirty) fillForm();
+      renderDashboard(); renderLeads();
+    }, dbErr);
+  });
+  C.use("mcp").then(async (m) => {
+    mcp = m;
+    if (!mcp) { chip("#chip-gmail", "bad", "Gmail: niedostępny"); return; }
+    try {
+      const { servers } = await mcp.listTools(GMAIL);
+      const s = servers && servers[0];
+      if (!s) chip("#chip-gmail", "bad", "Gmail: niepodłączony");
+      else if (s.authStatus === "needs_reauth") chip("#chip-gmail", "bad", "Gmail: połącz ponownie");
+      else chip("#chip-gmail", "ok", "Gmail: gotowy");
+    } catch (e) { chip("#chip-gmail", "", "Gmail: " + (e.code || "?")); }
+  });
+  C.use("sample").then((s) => {
+    sample = s;
+    chip("#chip-ai", s ? "ok" : "bad", s ? "AI: dostępne" : "AI: niedostępne");
+    if (!s) { $("#btn-ai-preview").disabled = true; }
+  });
+})();
+</script>
