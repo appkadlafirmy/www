@@ -363,7 +363,7 @@
     followBody: "Dzień dobry {{imie}},\n\nuprzejmie przypominam się w sprawie mojej poprzedniej wiadomości. Czy temat jest dla Państwa interesujący? Wystarczy krótka odpowiedź „tak” lub „nie”.",
     followDays: 4,
     dailyLimit: 30,
-    delaySec: 30,
+    delaySec: 10,
     ai: false,
     senderEmail: "",
     lastCheckAt: null,
@@ -378,9 +378,10 @@
 
   const S = {
     leads: [], requests: [], settings: { ...DEFAULTS }, settingsLoaded: false, formFilled: false,
-    selected: new Set(), q: "", status: "all", busy: false, stop: false,
+    selected: new Set(), q: "", status: "all", busy: false, stop: false, tab: "pulpit", shown: 60,
   };
   let db = null, mcp = null, sample = null;
+  let renderQueued = false;
 
   // ---------- helpers ----------
   function toast(msg) {
@@ -462,6 +463,8 @@
     document.querySelectorAll(".tab").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.tab === name)));
     document.querySelectorAll('section[role="tabpanel"]').forEach((p) => (p.hidden = p.id !== "panel-" + name));
     try { localStorage.setItem("leady.tab", name); } catch (_) {}
+    S.tab = name;
+    scheduleRender();
   }
   document.querySelectorAll(".tab").forEach((b) => b.addEventListener("click", () => showTab(b.dataset.tab)));
   try { const t = localStorage.getItem("leady.tab"); if (t && $("#panel-" + t)) showTab(t); } catch (_) {}
@@ -534,6 +537,8 @@
       </div>`).join("")
       : `<div class="empty"><strong>Brak odpowiedzi</strong><span class="small">Kliknij „Sprawdź odpowiedzi” po kilku godzinach od wysyłki.</span></div>`;
     $("#last-check").textContent = S.settings.lastCheckAt ? "Sprawdzono " + fmtDate(S.settings.lastCheckAt) : "";
+  }
+  function renderBadges() {
     const pend = S.requests.filter((r) => r.status !== "done").length;
     $("#req-badge").hidden = !pend; $("#req-badge").textContent = pend;
     $("#lead-count").textContent = S.leads.length ? "(" + S.leads.length + ")" : "";
@@ -558,7 +563,8 @@
   }
   function renderLeads() {
     const rows = filteredLeads();
-    for (const id of [...S.selected]) if (!S.leads.some((l) => l.id === id)) S.selected.delete(id);
+    const ids = new Set(S.leads.map((l) => l.id));
+    for (const id of [...S.selected]) if (!ids.has(id)) S.selected.delete(id);
     const box = $("#leads-table");
     if (!S.leads.length) {
       box.innerHTML = `<div class="empty"><strong>Lista leadów jest pusta</strong><span class="small">Dodaj firmę ręcznie, wklej listę z arkusza albo zleć wyszukiwanie w zakładce „Szukaj leadów”.</span>
@@ -568,9 +574,9 @@
     } else {
       const all = rows.every((l) => S.selected.has(l.id));
       box.innerHTML = `<div class="table-wrap"><table>
-        <thead><tr><th style="width:32px"><input type="checkbox" id="sel-all" ${all ? "checked" : ""} aria-label="Zaznacz wszystkie widoczne"></th>
+        <thead><tr><th style="width:32px"><input type="checkbox" id="sel-all" ${all ? "checked" : ""} aria-label="Zaznacz wszystkie pasujące do filtra" title="Zaznacz wszystkie pasujące do filtra (${rows.length})"></th>
         <th>Firma</th><th>E-mail</th><th>Miasto · branża</th><th>Status</th><th>Ostatni mail</th><th></th></tr></thead>
-        <tbody>${rows.map((l) => {
+        <tbody>${rows.slice(0, S.shown).map((l) => {
           const st = l.repliedAt && !["not_interested", "unsubscribed"].includes(l.status) ? "replied" : (l.status || "new");
           const n = sends(l).length;
           return `<tr data-id="${esc(l.id)}">
@@ -584,7 +590,10 @@
             <td style="white-space:nowrap">${l.threadId ? `<a class="btn sm ghost" href="${esc(threadUrl(l))}" target="_blank" rel="noopener">Gmail</a>` : ""}<button class="btn sm ghost" data-act="edit">Edytuj</button></td>
           </tr>`;
         }).join("")}</tbody></table></div>
-        <p class="small muted" style="margin:8px 0 0">${rows.length} z ${S.leads.length}</p>`;
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px">
+          <span class="small muted">Widać ${Math.min(S.shown, rows.length)} z ${rows.length}${rows.length !== S.leads.length ? " (filtr, wszystkich " + S.leads.length + ")" : ""}</span>
+          ${rows.length > S.shown ? `<button class="btn sm" data-act="more">Pokaż więcej</button><button class="btn sm ghost" data-act="all">Pokaż wszystkie</button>` : ""}
+        </div>`;
     }
     $("#selbar").hidden = !S.selected.size;
     $("#sel-count").textContent = S.selected.size;
@@ -593,6 +602,8 @@
     const act = e.target.closest("[data-act]")?.dataset.act;
     if (act === "add") return openLeadForm();
     if (act === "import") return openImport();
+    if (act === "more") { S.shown += 100; return renderLeads(); }
+    if (act === "all") { S.shown = 100000; return renderLeads(); }
     const tr = e.target.closest("tr[data-id]");
     if (act === "edit" && tr) return openLeadForm(S.leads.find((l) => l.id === tr.dataset.id));
   });
@@ -600,8 +611,9 @@
     if (e.target.id === "sel-all") { for (const l of filteredLeads()) e.target.checked ? S.selected.add(l.id) : S.selected.delete(l.id); renderLeads(); return; }
     if (e.target.classList.contains("sel")) { const id = e.target.closest("tr").dataset.id; e.target.checked ? S.selected.add(id) : S.selected.delete(id); $("#selbar").hidden = !S.selected.size; $("#sel-count").textContent = S.selected.size; }
   });
-  $("#q").addEventListener("input", (e) => { S.q = e.target.value; renderLeads(); });
-  $("#status-filter").addEventListener("change", (e) => { S.status = e.target.value; renderLeads(); });
+  let qTimer = 0;
+  $("#q").addEventListener("input", (e) => { clearTimeout(qTimer); qTimer = setTimeout(() => { S.q = e.target.value; S.shown = 60; renderLeads(); }, 180); });
+  $("#status-filter").addEventListener("change", (e) => { S.status = e.target.value; S.shown = 60; renderLeads(); });
   $("#btn-add").onclick = () => openLeadForm();
   $("#btn-import").onclick = () => openImport();
   $("#btn-clear-sel").onclick = () => { S.selected.clear(); renderLeads(); };
@@ -925,6 +937,9 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
   }
   function renderPreviewOptions() {
     const sel = $("#preview-lead"), cur = sel.value;
+    const key = S.leads.length + "|" + S.leads.slice(0, 200).map((l) => l.id + (l.firma || "")).join(",");
+    if (key === renderPreviewOptions.key) return;
+    renderPreviewOptions.key = key;
     sel.innerHTML = S.leads.length ? S.leads.slice(0, 200).map((l) => `<option value="${esc(l.id)}">${esc(l.firma || l.email)}</option>`).join("") : `<option value="">Przykładowa firma</option>`;
     if ([...sel.options].some((o) => o.value === cur)) sel.value = cur;
   }
@@ -975,7 +990,20 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
     } catch (e) { toast("Nie udało się dodać zlecenia (" + (e.code || "błąd") + ")."); }
   };
 
-  function renderAll() { renderDashboard(); renderLeads(); renderRequests(); renderPreviewOptions(); if (S.formFilled && !dirty) renderPreview(); }
+  // Render only the visible tab, at most once per frame; hidden tabs render when opened.
+  function scheduleRender() {
+    if (renderQueued) return;
+    renderQueued = true;
+    requestAnimationFrame(() => {
+      renderQueued = false;
+      renderBadges();
+      if (S.tab === "pulpit") renderDashboard();
+      else if (S.tab === "leady") renderLeads();
+      else if (S.tab === "szukaj") renderRequests();
+      else if (S.tab === "wiadomosc") { renderPreviewOptions(); if (S.formFilled && !dirty) renderPreview(); }
+    });
+  }
+  const renderAll = scheduleRender;
   renderAll();
 
   // ---------- boot capabilities ----------
@@ -991,11 +1019,11 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
     chip("#chip-db", "ok", "Baza: połączona");
     const dbErr = (e) => { chip("#chip-db", "bad", "Baza: " + (e.code === "revoked" ? "brak dostępu" : "błąd")); };
     db.collection("leads").onSnapshot((s) => { S.leads = s.docs.map((x) => ({ id: x.id, ...x.data() })); renderAll(); }, dbErr);
-    db.collection("requests").onSnapshot((s) => { S.requests = s.docs.map((x) => ({ id: x.id, ...x.data() })); renderDashboard(); renderRequests(); }, dbErr);
+    db.collection("requests").onSnapshot((s) => { S.requests = s.docs.map((x) => ({ id: x.id, ...x.data() })); scheduleRender(); }, dbErr);
     db.doc("settings/main").onSnapshot((s) => {
       S.settings = { ...DEFAULTS, ...(s.exists ? s.data() : {}) }; S.settingsLoaded = true;
       if (!dirty) fillForm();
-      renderDashboard(); renderLeads();
+      scheduleRender();
     }, dbErr);
   });
   C.use("mcp").then(async (m) => {
