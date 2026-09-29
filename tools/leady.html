@@ -44,6 +44,7 @@
   }
 
   * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
   body { background: var(--bg); color: var(--fg); font: 15px/1.5 var(--font-body); }
   h1, h2, h3 { font-family: var(--font-display); margin: 0; text-wrap: balance; letter-spacing: -.01em; }
   button, input, textarea, select { font: inherit; color: inherit; }
@@ -248,6 +249,7 @@
           <option value="bounced">Odbite / błędy</option>
           <option value="closed">Niezainteresowani / wypisani</option>
         </select>
+        <button class="btn" id="btn-random" title="Losuje nowe leady (spośród pasujących do filtra) i otwiera podgląd wysyłki">Wyślij do 30 losowych</button>
         <button class="btn" id="btn-import">Importuj CSV</button>
         <button class="btn primary" id="btn-add">Dodaj lead</button>
       </div>
@@ -615,6 +617,17 @@
   $("#q").addEventListener("input", (e) => { clearTimeout(qTimer); qTimer = setTimeout(() => { S.q = e.target.value; S.shown = 60; renderLeads(); }, 180); });
   $("#status-filter").addEventListener("change", (e) => { S.status = e.target.value; S.shown = 60; renderLeads(); });
   $("#btn-add").onclick = () => openLeadForm();
+  $("#btn-random").onclick = () => {
+    const pool = filteredLeads().filter((l) => !sends(l).length && !BLOCKED.has(l.status) && !l.repliedAt && l.status !== "check" && isEmail(l.email));
+    const left = Math.max(0, (Number(S.settings.dailyLimit) || 30) - sentToday());
+    const n = Math.min(30, left, pool.length);
+    if (!pool.length) { toast("Brak nowych leadów do wysłania" + (S.q || S.status !== "all" ? " w tym filtrze." : ".")); return; }
+    if (!n) { toast("Dzienny limit jest wyczerpany. Wróć jutro."); return; }
+    for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
+    S.selected = new Set(pool.slice(0, n).map((l) => l.id));
+    renderLeads();
+    openSend("first");
+  };
   $("#btn-import").onclick = () => openImport();
   $("#btn-clear-sel").onclick = () => { S.selected.clear(); renderLeads(); };
   $("#btn-send-sel").onclick = () => openSend("first");
