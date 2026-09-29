@@ -249,7 +249,7 @@
           <option value="bounced">Odbite / błędy</option>
           <option value="closed">Niezainteresowani / wypisani</option>
         </select>
-        <button class="btn" id="btn-random" title="Losuje nowe leady (spośród pasujących do filtra) i otwiera podgląd wysyłki">Wyślij do 30 losowych</button>
+        <button class="btn" id="btn-random" title="Losuje nowe leady (spośród pasujących do filtra), tyle ile zostało z dziennego limitu, i otwiera podgląd wysyłki">Wyślij do losowych</button>
         <button class="btn" id="btn-import">Importuj CSV</button>
         <button class="btn primary" id="btn-add">Dodaj lead</button>
       </div>
@@ -541,6 +541,8 @@
     $("#last-check").textContent = S.settings.lastCheckAt ? "Sprawdzono " + fmtDate(S.settings.lastCheckAt) : "";
   }
   function renderBadges() {
+    const left = Math.max(0, (Number(S.settings.dailyLimit) || 30) - sentToday());
+    $("#btn-random").textContent = left ? `Wyślij do ${left} losowych` : "Limit na dziś wykorzystany";
     const pend = S.requests.filter((r) => r.status !== "done").length;
     $("#req-badge").hidden = !pend; $("#req-badge").textContent = pend;
     $("#lead-count").textContent = S.leads.length ? "(" + S.leads.length + ")" : "";
@@ -620,7 +622,7 @@
   $("#btn-random").onclick = () => {
     const pool = filteredLeads().filter((l) => !sends(l).length && !BLOCKED.has(l.status) && !l.repliedAt && l.status !== "check" && isEmail(l.email));
     const left = Math.max(0, (Number(S.settings.dailyLimit) || 30) - sentToday());
-    const n = Math.min(30, left, pool.length);
+    const n = Math.min(left, pool.length);
     if (!pool.length) { toast("Brak nowych leadów do wysłania" + (S.q || S.status !== "all" ? " w tym filtrze." : ".")); return; }
     if (!n) { toast("Dzienny limit jest wyczerpany. Wróć jutro."); return; }
     for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
