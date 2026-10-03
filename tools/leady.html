@@ -280,7 +280,7 @@
         <div class="row-2">
           <label class="f"><span>Follow-up po ilu dniach</span><input type="number" id="t-fdays" min="1" max="30"></label>
           <label class="f"><span>Limit wysyłek dziennie</span><input type="number" id="t-limit" min="1" max="400"></label>
-          <label class="f"><span>Odstęp między mailami (s)</span><input type="number" id="t-delay" min="5" max="600"></label>
+          <label class="f"><span>Odstęp między mailami (s)</span><input type="number" id="t-delay" min="2" max="600"></label>
         </div>
         <label class="check"><input type="checkbox" id="t-ai"> <span>Personalizuj każdą wiadomość z pomocą Claude (na podstawie danych leada; zużywa Twój limit Claude)</span></label>
         <div class="note">Gmail pozwala wysłać ok. 500 wiadomości dziennie, ale konto, które nagle wysyła dużo maili do obcych osób, szybko trafia do spamu. Zacznij od 20–30 dziennie.</div>
@@ -365,7 +365,7 @@
     followBody: "Dzień dobry {{imie}},\n\nuprzejmie przypominam się w sprawie mojej poprzedniej wiadomości. Czy temat jest dla Państwa interesujący? Wystarczy krótka odpowiedź „tak” lub „nie”.",
     followDays: 4,
     dailyLimit: 30,
-    delaySec: 10,
+    delaySec: 2,
     ai: false,
     senderEmail: "",
     lastCheckAt: null,
@@ -786,7 +786,7 @@
     const left = Math.max(0, (Number(S.settings.dailyLimit) || 30) - sentToday());
     const n = Math.min(ok.length, left);
     const pv = ok[0] ? compose(ok[0], kind) : null;
-    const delay = Math.max(5, Number(S.settings.delaySec) || 30);
+    const delay = Math.max(2, Number(S.settings.delaySec) || 10);
     const blockers = [];
     if (!mcp) blockers.push("Gmail jest niedostępny w tym widoku.");
     if (!db) blockers.push("Baza jest niedostępna.");
@@ -831,7 +831,7 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
     $("#send-run").hidden = false; $("#send-go").disabled = true;
     const cancel = $("#send-cancel"); cancel.textContent = "Zatrzymaj";
     const log = (t) => { const el = $("#send-log"); el.textContent += t + "\n"; el.scrollTop = el.scrollHeight; };
-    const delay = Math.max(5, Number(S.settings.delaySec) || 30);
+    const delay = Math.max(2, Number(S.settings.delaySec) || 10);
     let ok = 0, fail = 0;
     for (let i = 0; i < list.length; i++) {
       if (S.stop) { log("Zatrzymano."); break; }
@@ -927,7 +927,7 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
     const o = {};
     for (const [k, s] of Object.entries(tplIds)) o[k] = ["followDays", "dailyLimit", "delaySec"].includes(k) ? Number($(s).value) || DEFAULTS[k] : $(s).value;
     o.optOut = $("#t-optout").checked; o.ai = $("#t-ai").checked;
-    o.dailyLimit = Math.min(400, Math.max(1, o.dailyLimit)); o.delaySec = Math.min(600, Math.max(5, o.delaySec)); o.followDays = Math.min(30, Math.max(1, o.followDays));
+    o.dailyLimit = Math.min(400, Math.max(1, o.dailyLimit)); o.delaySec = Math.min(600, Math.max(2, o.delaySec)); o.followDays = Math.min(30, Math.max(1, o.followDays));
     return o;
   }
   function fillForm() {
