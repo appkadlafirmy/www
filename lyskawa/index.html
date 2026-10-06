@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Łyskawa — Cukiernia &amp; Piekarnia w Poznaniu od 1928 roku</title>
+<meta name="description" content="Cukiernia i Piekarnia Łyskawa — rodzinna firma od 1928 roku, cztery pokolenia tradycji. Torty na zamówienie, ciasta, pieczywo i słodki stół. Sklepy w Poznaniu.">
+<meta name="theme-color" content="#1E3A2F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%231E3A2F'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Georgia,serif' font-size='32' font-weight='700' fill='%23E9D7A8'%3E%C5%81%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-900: #142A21;
+    --green-800: #1E3A2F;
+    --green-700: #2A4D3E;
+    --green-100: #E3ECE6;
+    --cream: #FAF5EC;
+    --cream-deep: #F2E8D5;
+    --paper: #FFFDF8;
+    --gold: #B8913A;
+    --gold-soft: #E9D7A8;
+    --raspberry: #A3324A;
+    --raspberry-soft: #F6DDE2;
+    --ink: #24302A;
+    --ink-soft: #55635B;
+    --line: rgba(30, 58, 47, 0.14);
+    --font-display: "Fraunces", Georgia, serif;
+    --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --shadow-card: 0 14px 36px -18px rgba(20, 42, 33, 0.35);
+    --radius: 1.25rem;
+    --radius-full: 999px;
+    --container: 1240px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  ul, ol { margin: 0; padding: 0; list-style: none; }
+  h1, h2, h3, h4, p, figure, dl, dd { margin: 0; }
+  button { font: inherit; background: none; border: none; cursor: pointer; color: inherit; }
+  input, select, textarea { font: inherit; color: inherit; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+
+  :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
+
+  .skip-link {
+    position: absolute; top: 0.5rem; left: 0.5rem; z-index: 100;
+    background: var(--green-800); color: #fff; padding: 0.75rem 1.25rem; border-radius: 0.5rem;
+    transform: translateY(-160%); transition: transform 0.2s ease;
+  }
+  .skip-link:focus { transform: none; }
+
+  .container { max-width: var(--container); margin: 0 auto; padding: 0 1rem; }
+  @media (min-width: 640px) { .container { padding: 0 2rem; } }
+
+  .section { padding: 4.5rem 0; }
+  @media (min-width: 1024px) { .section { padding: 6.5rem 0; } }
+  .section--paper { background: var(--paper); }
+  .section--green { background: var(--green-800); color: var(--cream); }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--raspberry);
+  }
+  .eyebrow::before { content: ""; width: 1.75rem; height: 1px; background: currentColor; }
+  .section--green .eyebrow { color: var(--gold-soft); }
+
+  .h2 {
+    font-family: var(--font-display); font-weight: 600; color: var(--green-800);
+    font-size: clamp(1.9rem, 4vw, 2.9rem); line-height: 1.12; letter-spacing: -0.01em;
+    margin-top: 0.75rem;
+  }
+  .h2 em { font-style: italic; color: var(--raspberry); font-weight: 500; }
+  .section--green .h2 { color: var(--cream); }
+  .section--green .h2 em { color: var(--gold-soft); }
+  .lede { color: var(--ink-soft); font-size: 1.075rem; max-width: 40rem; margin-top: 1rem; }
+  .section--green .lede { color: rgba(250, 245, 236, 0.78); }
+  .section-head { margin-bottom: 2.75rem; }
+  .section-head--center { text-align: center; }
+  .section-head--center .lede { margin-left: auto; margin-right: auto; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    min-height: 48px; padding: 0.85rem 1.6rem; border-radius: var(--radius-full);
+    font-weight: 600; font-size: 0.98rem; transition: background-color .2s, color .2s, border-color .2s, transform .2s;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn svg { width: 1.1rem; height: 1.1rem; }
+  .btn--primary { background: var(--raspberry); color: #fff; box-shadow: 0 12px 24px -12px rgba(163, 50, 74, 0.7); }
+  .btn--primary:hover { background: #8A2A3F; }
+  .btn--dark { background: var(--green-800); color: var(--cream); }
+  .btn--dark:hover { background: var(--green-900); }
+  .btn--ghost { border: 1.5px solid var(--green-800); color: var(--green-800); }
+  .btn--ghost:hover { background: var(--green-100); }
+  .btn--light { background: var(--cream); color: var(--green-800); }
+  .btn--light:hover { background: #fff; }
+
+  /* ---------- Top bar + header ---------- */
+  .topbar { background: var(--green-900); color: var(--gold-soft); font-size: 0.85rem; }
+  .topbar .container { display: flex; justify-content: space-between; gap: 1rem; padding-top: 0.5rem; padding-bottom: 0.5rem; }
+  .topbar a { color: var(--cream); font-weight: 600; }
+  .topbar__right { display: none; gap: 1.25rem; }
+  @media (min-width: 768px) { .topbar__right { display: flex; } }
+
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(250, 245, 236, 0.94); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .site-header .container { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 0.85rem; padding-bottom: 0.85rem; }
+
+  .logo { display: flex; align-items: center; gap: 0.7rem; }
+  .logo__mark {
+    width: 2.75rem; height: 2.75rem; border-radius: 50%;
+    background: var(--green-800); color: var(--gold-soft);
+    display: grid; place-items: center;
+    font-family: var(--font-display); font-weight: 700; font-size: 1.4rem;
+    box-shadow: inset 0 0 0 2px var(--green-800), inset 0 0 0 4px var(--gold-soft);
+  }
+  .logo__text { display: flex; flex-direction: column; line-height: 1.05; }
+  .logo__name { font-family: var(--font-display); font-weight: 700; font-size: 1.45rem; color: var(--green-800); letter-spacing: -0.01em; }
+  .logo__sub { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
+
+  .nav-desktop { display: none; }
+  .nav-desktop ul { display: flex; gap: 1.9rem; font-weight: 500; font-size: 0.96rem; }
+  .nav-desktop a { position: relative; padding: 0.25rem 0; }
+  .nav-desktop a::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px;
+    background: var(--raspberry); transform: scaleX(0); transform-origin: left; transition: transform .25s ease;
+  }
+  .nav-desktop a:hover::after { transform: scaleX(1); }
+  @media (min-width: 1080px) { .nav-desktop { display: block; } }
+
+  .header-actions { display: flex; align-items: center; gap: 0.5rem; }
+  .header-cta { display: none; }
+  @media (min-width: 640px) { .header-cta { display: inline-flex; } }
+  .menu-toggle { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; color: var(--green-800); }
+  .menu-toggle:hover { background: var(--green-100); }
+  .menu-toggle svg { width: 1.6rem; height: 1.6rem; }
+  @media (min-width: 1080px) { .menu-toggle { display: none; } }
+
+  .nav-mobile { border-top: 1px solid var(--line); background: var(--cream); }
+  .nav-mobile[hidden] { display: none; }
+  .nav-mobile ul { padding: 0.75rem 1rem 1.25rem; display: grid; gap: 0.15rem; }
+  .nav-mobile a { display: block; padding: 0.85rem 0.75rem; border-radius: 0.75rem; font-weight: 500; }
+  .nav-mobile a:hover { background: var(--green-100); }
+
+  /* ---------- Hero ---------- */
+  .hero { position: relative; overflow: hidden; padding: 3.5rem 0 4.5rem; }
+  @media (min-width: 1024px) { .hero { padding: 5rem 0 6rem; } }
+  .hero::before {
+    content: ""; position: absolute; inset: auto -10% -45% auto; width: 60vw; height: 60vw; max-width: 760px; max-height: 760px;
+    background: radial-gradient(circle, rgba(233, 215, 168, 0.55), transparent 65%); pointer-events: none;
+  }
+  .hero .container { position: relative; display: grid; gap: 3rem; align-items: center; }
+  @media (min-width: 960px) { .hero .container { grid-template-columns: 1.1fr 0.9fr; } }
+
+  .hero h1 {
+    font-family: var(--font-display); font-weight: 600; color: var(--green-800);
+    font-size: clamp(2.5rem, 6.2vw, 4.6rem); line-height: 1.02; letter-spacing: -0.02em; margin-top: 1rem;
+  }
+  .hero h1 em { display: block; font-style: italic; font-weight: 500; color: var(--raspberry); }
+  .hero .lede { font-size: 1.15rem; }
+  .hero__ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+
+  .hero__visual { position: relative; justify-self: center; width: min(100%, 460px); }
+  .arch {
+    position: relative; aspect-ratio: 4 / 5; border-radius: 999px 999px 1.5rem 1.5rem; overflow: hidden;
+    background: linear-gradient(170deg, var(--green-700), var(--green-900));
+    box-shadow: 0 30px 60px -30px rgba(20, 42, 33, 0.6);
+  }
+  .arch svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .seal {
+    position: absolute; left: -0.75rem; bottom: 2.5rem; width: 7.5rem; height: 7.5rem; border-radius: 50%;
+    background: var(--cream); color: var(--green-800);
+    display: grid; place-items: center; text-align: center;
+    box-shadow: var(--shadow-card), inset 0 0 0 5px var(--cream), inset 0 0 0 6.5px var(--gold);
+  }
+  .seal small { display: block; font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); }
+  .seal strong { display: block; font-family: var(--font-display); font-size: 2rem; line-height: 1; }
+  .seal--spin { animation: wobble 9s ease-in-out infinite; }
+  @keyframes wobble { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
+  .tag-float {
+    position: absolute; right: -0.5rem; top: 2.5rem;
+    background: #fff; border-radius: 1rem; padding: 0.75rem 1rem; box-shadow: var(--shadow-card);
+    display: flex; align-items: center; gap: 0.6rem; font-size: 0.9rem; font-weight: 600;
+  }
+  .tag-float span { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: #3BA55C; box-shadow: 0 0 0 4px rgba(59,165,92,.2); }
+
+  /* ---------- Stats ---------- */
+  .stats { background: var(--green-800); color: var(--cream); }
+  .stats ul { display: grid; grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 900px) { .stats ul { grid-template-columns: repeat(4, 1fr); } }
+  .stats li { padding: 1.75rem 1rem; text-align: center; border-right: 1px solid rgba(233,215,168,.15); border-bottom: 1px solid rgba(233,215,168,.15); }
+  @media (min-width: 900px) { .stats li { border-bottom: 0; } .stats li:last-child { border-right: 0; } }
+  .stats strong { display: block; font-family: var(--font-display); font-size: clamp(1.9rem, 4vw, 2.6rem); color: var(--gold-soft); font-weight: 600; line-height: 1.1; }
+  .stats span { font-size: 0.92rem; color: rgba(250,245,236,.78); }
+
+  /* ---------- Offer cards ---------- */
+  .offer-grid { display: grid; gap: 1.25rem; }
+  @media (min-width: 640px) { .offer-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1080px) { .offer-grid { grid-template-columns: repeat(4, 1fr); } }
+  .offer-card {
+    position: relative; display: flex; flex-direction: column; gap: 0.85rem;
+    background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 1.75rem; transition: transform .25s ease, box-shadow .25s ease, border-color .25s;
+  }
+  .offer-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); border-color: transparent; }
+  .offer-card__icon { width: 3.25rem; height: 3.25rem; border-radius: 1rem; display: grid; place-items: center; background: var(--green-100); color: var(--green-800); }
+  .offer-card__icon svg { width: 1.6rem; height: 1.6rem; }
+  .offer-card:nth-child(2) .offer-card__icon { background: var(--raspberry-soft); color: var(--raspberry); }
+  .offer-card:nth-child(3) .offer-card__icon { background: var(--cream-deep); color: #8A6A22; }
+  .offer-card:nth-child(4) .offer-card__icon { background: #E6E3F1; color: #4B437A; }
+  .offer-card h3 { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; color: var(--green-800); }
+  .offer-card p { color: var(--ink-soft); font-size: 0.96rem; flex: 1; }
+  .offer-card a.more { font-weight: 600; color: var(--raspberry); display: inline-flex; gap: 0.35rem; align-items: center; }
+  .offer-card a.more::after { content: "→"; transition: transform .2s; }
+  .offer-card:hover a.more::after { transform: translateX(4px); }
+
+  /* ---------- History / timeline ---------- */
+  .history { display: grid; gap: 3rem; }
+  @media (min-width: 960px) { .history { grid-template-columns: 0.9fr 1.1fr; gap: 4.5rem; } }
+  .history blockquote {
+    margin: 2rem 0 0; padding: 1.5rem 1.75rem; border-left: 3px solid var(--gold);
+    background: rgba(233,215,168,.12); border-radius: 0 1rem 1rem 0;
+    font-family: var(--font-display); font-style: italic; font-size: 1.25rem; line-height: 1.45;
+  }
+  .timeline { position: relative; display: grid; gap: 1.75rem; padding-left: 2rem; }
+  .timeline::before { content: ""; position: absolute; left: 0.45rem; top: 0.5rem; bottom: 0.5rem; width: 2px; background: rgba(233,215,168,.3); }
+  .timeline li { position: relative; }
+  .timeline li::before {
+    content: ""; position: absolute; left: -2rem; top: 0.35rem; width: 1rem; height: 1rem; border-radius: 50%;
+    background: var(--green-800); border: 2px solid var(--gold-soft);
+  }
+  .timeline .when { font-family: var(--font-display); font-size: 1.35rem; color: var(--gold-soft); font-weight: 600; }
+  .timeline h3 { font-size: 1.05rem; font-weight: 700; margin-top: 0.15rem; }
+  .timeline p { color: rgba(250,245,236,.75); font-size: 0.97rem; margin-top: 0.25rem; }
+
+  /* ---------- Products (tabs) ---------- */
+  .tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 2.25rem; }
+  .tab {
+    min-height: 44px; padding: 0.6rem 1.25rem; border-radius: var(--radius-full);
+    border: 1.5px solid var(--line); font-weight: 600; font-size: 0.95rem; color: var(--ink-soft);
+    transition: background-color .2s, color .2s, border-color .2s;
+  }
+  .tab:hover { border-color: var(--green-800); color: var(--green-800); }
+  .tab[aria-selected="true"] { background: var(--green-800); color: var(--cream); border-color: var(--green-800); }
+  .tab-panel[hidden] { display: none; }
+  .product-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); }
+  .product {
+    display: flex; flex-direction: column; background: #fff; border-radius: 1rem; overflow: hidden;
+    border: 1px solid var(--line); transition: box-shadow .25s, transform .25s;
+  }
+  .product:hover { box-shadow: var(--shadow-card); transform: translateY(-3px); }
+  .product__art { aspect-ratio: 4 / 3; display: grid; place-items: center; }
+  .product__art svg { width: 58%; height: auto; }
+  .product__body { padding: 1rem 1.15rem 1.25rem; }
+  .product h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; color: var(--green-800); }
+  .product p { font-size: 0.9rem; color: var(--ink-soft); margin-top: 0.25rem; }
+  .badge { display: inline-block; margin-top: 0.6rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--raspberry); background: var(--raspberry-soft); padding: 0.2rem 0.55rem; border-radius: 0.4rem; }
+  .art-1 { background: linear-gradient(135deg, #F6DDE2, #FBEFF1); color: var(--raspberry); }
+  .art-2 { background: linear-gradient(135deg, #F2E8D5, #FBF6EA); color: #8A6A22; }
+  .art-3 { background: linear-gradient(135deg, #E3ECE6, #F3F7F4); color: var(--green-800); }
+  .art-4 { background: linear-gradient(135deg, #E6E3F1, #F4F2F9); color: #4B437A; }
+
+  /* ---------- Cakes / occasions ---------- */
+  .cakes { display: grid; gap: 3rem; align-items: start; }
+  @media (min-width: 1000px) { .cakes { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+  .occasions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-top: 2rem; }
+  @media (min-width: 640px) { .occasions { grid-template-columns: repeat(3, 1fr); } }
+  .occasion {
+    background: #fff; border: 1px solid var(--line); border-radius: 1rem; padding: 1rem;
+    display: flex; flex-direction: column; gap: 0.35rem;
+  }
+  .occasion svg { width: 1.6rem; height: 1.6rem; color: var(--raspberry); }
+  .occasion strong { font-size: 0.98rem; color: var(--green-800); }
+  .occasion span { font-size: 0.84rem; color: var(--ink-soft); }
+
+  .steps { display: grid; gap: 1rem; counter-reset: step; }
+  .step {
+    position: relative; background: var(--green-800); color: var(--cream); border-radius: var(--radius);
+    padding: 1.5rem 1.5rem 1.5rem 4.75rem;
+  }
+  .step::before {
+    counter-increment: step; content: counter(step);
+    position: absolute; left: 1.4rem; top: 1.4rem; width: 2.4rem; height: 2.4rem; border-radius: 50%;
+    display: grid; place-items: center; background: var(--gold-soft); color: var(--green-900);
+    font-family: var(--font-display); font-weight: 700; font-size: 1.15rem;
+  }
+  .step h3 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; }
+  .step p { color: rgba(250,245,236,.75); font-size: 0.95rem; margin-top: 0.25rem; }
+
+  /* ---------- Order form ---------- */
+  .order { background: #fff; border-radius: 1.5rem; padding: 1.75rem; box-shadow: var(--shadow-card); border: 1px solid var(--line); margin-top: 1.5rem; }
+  @media (min-width: 640px) { .order { padding: 2.25rem; } }
+  .order h3 { font-family: var(--font-display); font-size: 1.5rem; color: var(--green-800); font-weight: 600; }
+  .form-grid { display: grid; gap: 1rem; margin-top: 1.25rem; }
+  @media (min-width: 640px) { .form-grid { grid-template-columns: 1fr 1fr; } .form-grid .full { grid-column: 1 / -1; } }
+  .field label { display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 0.35rem; }
+  .field input, .field select, .field textarea {
+    width: 100%; min-height: 48px; padding: 0.75rem 0.9rem; border-radius: 0.75rem;
+    border: 1.5px solid var(--line); background: var(--cream); transition: border-color .2s, background-color .2s;
+  }
+  .field textarea { min-height: 110px; resize: vertical; }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--green-800); background: #fff; }
+  .form-note { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.75rem; }
+  .form-status { margin-top: 0.75rem; font-weight: 600; color: var(--green-700); min-height: 1.5em; }
+
+  /* ---------- Sweet table ---------- */
+  .sweet { display: grid; gap: 2.5rem; align-items: center; }
+  @media (min-width: 960px) { .sweet { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+  .sweet__art { border-radius: 1.5rem; overflow: hidden; background: var(--raspberry-soft); aspect-ratio: 5 / 4; }
+  .sweet__art svg { width: 100%; height: 100%; }
+  .checklist { display: grid; gap: 0.75rem; margin: 1.75rem 0 2rem; }
+  .checklist li { display: flex; gap: 0.75rem; align-items: flex-start; }
+  .checklist svg { width: 1.4rem; height: 1.4rem; color: var(--raspberry); flex-shrink: 0; margin-top: 0.1rem; }
+
+  /* ---------- Shops ---------- */
+  .shops { display: grid; gap: 1.25rem; }
+  @media (min-width: 700px) { .shops { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1100px) { .shops { grid-template-columns: repeat(3, 1fr); } }
+  .shop { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.9rem; }
+  .shop--main { background: var(--green-800); color: var(--cream); border-color: transparent; }
+  .shop__top { display: flex; justify-content: space-between; gap: 0.75rem; align-items: flex-start; }
+  .shop h3 { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; color: var(--green-800); }
+  .shop--main h3 { color: var(--cream); }
+  .shop__label { font-size: 0.7rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; padding: 0.25rem 0.55rem; border-radius: 0.4rem; background: var(--gold-soft); color: var(--green-900); white-space: nowrap; }
+  .shop dl { display: grid; gap: 0.5rem; font-size: 0.94rem; }
+  .shop dl div { display: flex; gap: 0.6rem; }
+  .shop dt svg { width: 1.15rem; height: 1.15rem; color: var(--raspberry); margin-top: 0.2rem; }
+  .shop--main dt svg { color: var(--gold-soft); }
+  .shop dd { color: var(--ink-soft); }
+  .shop--main dd { color: rgba(250,245,236,.82); }
+  .shop dd a { font-weight: 600; color: var(--ink); }
+  .shop--main dd a { color: var(--cream); }
+  .shop__map { margin-top: auto; font-weight: 600; font-size: 0.92rem; color: var(--raspberry); }
+  .shop--main .shop__map { color: var(--gold-soft); }
+  .shops-note { margin-top: 1.5rem; font-size: 0.9rem; color: var(--ink-soft); text-align: center; }
+
+  /* ---------- Bands ---------- */
+  .band { border-radius: 1.75rem; padding: 2.25rem; display: grid; gap: 1.5rem; align-items: center; }
+  @media (min-width: 900px) { .band { grid-template-columns: 1fr auto; padding: 3rem 3.25rem; } }
+  .band--gold { background: var(--cream-deep); }
+  .band h2 { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.5rem, 3vw, 2.1rem); color: var(--green-800); line-height: 1.2; }
+  .band p { color: var(--ink-soft); margin-top: 0.5rem; max-width: 42rem; }
+  .band__ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+  .two-bands { display: grid; gap: 1.25rem; }
+  @media (min-width: 900px) { .two-bands { grid-template-columns: 1fr 1fr; } .two-bands .band { grid-template-columns: 1fr; } }
+  .band--green { background: var(--green-800); color: var(--cream); }
+  .band--green h2 { color: var(--cream); }
+  .band--green p { color: rgba(250,245,236,.78); }
+
+  /* ---------- Footer ---------- */
+  .site-footer { background: var(--green-900); color: rgba(250,245,236,.8); padding: 4rem 0 2rem; font-size: 0.95rem; }
+  .footer-grid { display: grid; gap: 2.5rem; }
+  @media (min-width: 800px) { .footer-grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; } }
+  .site-footer .logo__name { color: var(--cream); }
+  .site-footer .logo__sub { color: var(--gold-soft); }
+  .site-footer h4 { color: var(--gold-soft); font-size: 0.78rem; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 1rem; }
+  .site-footer ul { display: grid; gap: 0.55rem; }
+  .site-footer a:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+  .socials { display: flex; gap: 0.6rem; margin-top: 1.25rem; }
+  .socials a { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; border: 1px solid rgba(233,215,168,.3); }
+  .socials a:hover { background: rgba(233,215,168,.12); text-decoration: none; }
+  .socials svg { width: 1.2rem; height: 1.2rem; }
+  .footer-bottom { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(233,215,168,.15); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; font-size: 0.85rem; color: rgba(250,245,236,.55); }
+
+  /* ---------- Reveal ---------- */
+  .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+  .js .reveal.is-visible { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Przejdź do treści</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></symbol>
+    <symbol id="i-cake" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/><path d="M2 21h20M7 8v3M12 8v3M17 8v3M7 4h.01M12 4h.01M17 4h.01"/></symbol>
+    <symbol id="i-cookie" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5h.01M16 15.5h.01M12 12h.01M11 17h.01M7 14h.01"/></symbol>
+    <symbol id="i-wheat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22 16 8"/><path d="M3.5 12.5 5 11l1.5 1.5a3.5 3.5 0 0 1 0 5L5 19l-1.5-1.5a3.5 3.5 0 0 1 0-5zM7.5 8.5 9 7l1.5 1.5a3.5 3.5 0 0 1 0 5L9 15l-1.5-1.5a3.5 3.5 0 0 1 0-5zM11.5 4.5 13 3l1.5 1.5a3.5 3.5 0 0 1 0 5L13 11l-1.5-1.5a3.5 3.5 0 0 1 0-5z"/><path d="M20 2h2v2a4 4 0 0 1-4 4h-2V6a4 4 0 0 1 4-4z"/></symbol>
+    <symbol id="i-table" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18M5 10v10M19 10v10"/><path d="M7 10V7a2 2 0 0 1 4 0v3M13 10V6a2 2 0 0 1 4 0v4"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7z"/></symbol>
+    <symbol id="i-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></symbol>
+    <symbol id="i-briefcase" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+    <symbol id="i-baby" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 12h.01M15 12h.01M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5"/></symbol>
+    <symbol id="i-cross" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M5 8h14"/></symbol>
+    <symbol id="i-rings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="14" r="6"/><circle cx="15" cy="14" r="6"/><path d="m10 4 2-2 2 2"/></symbol>
+    <symbol id="i-fb" viewBox="0 0 24 24" fill="currentColor"><path d="M14 8h3V4h-3a5 5 0 0 0-5 5v2H7v4h2v7h4v-7h3l1-4h-4V9a1 1 0 0 1 1-1z"/></symbol>
+    <symbol id="i-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2 21c0-3 1.9-5.4 5.1-6"/></symbol>
+  </defs>
+</svg>
+
+<div class="topbar">
+  <div class="container">
+    <span>Świeże pieczywo i ciasta codziennie od rana</span>
+    <div class="topbar__right">
+      <a href="tel:+48577477884">+48 577 477 884</a>
+      <a href="https://cukiernialyskawa.com/" target="_blank" rel="noopener">Sklep online</a>
+    </div>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="container">
+    <a href="#" class="logo" aria-label="Łyskawa — strona główna">
+      <span class="logo__mark" aria-hidden="true">Ł</span>
+      <span class="logo__text">
+        <span class="logo__name">Łyskawa</span>
+        <span class="logo__sub">Cukiernia &amp; Piekarnia</span>
+      </span>
+    </a>
+    <nav class="nav-desktop" aria-label="Nawigacja główna">
+      <ul>
+        <li><a href="#historia">Historia</a></li>
+        <li><a href="#wypieki">Wypieki</a></li>
+        <li><a href="#torty">Torty</a></li>
+        <li><a href="#slodki-stol">Słodki stół</a></li>
+        <li><a href="#sklepy">Nasze sklepy</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <a href="#zamow" class="btn btn--primary header-cta">Zamów tort</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Otwórz menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <nav id="mobile-menu" class="nav-mobile" aria-label="Nawigacja mobilna" hidden>
+    <ul>
+      <li><a href="#historia">Historia</a></li>
+      <li><a href="#wypieki">Wypieki</a></li>
+      <li><a href="#torty">Torty</a></li>
+      <li><a href="#slodki-stol">Słodki stół</a></li>
+      <li><a href="#sklepy">Nasze sklepy</a></li>
+      <li><a href="#zamow">Zamów tort</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div>
+        <span class="eyebrow">Poznań · rodzinnie od 1928 roku</span>
+        <h1>Cztery pokolenia. <em>Jeden smak.</em></h1>
+        <p class="lede">Łyskawa to rodzinna cukiernia i piekarnia, w której receptury przechodzą z rąk do rąk od blisko stu lat. Pieczemy codziennie, na naturalnych składnikach. Klasykę robimy jak dawniej, a nowe smaki wymyślamy po swojemu.</p>
+        <div class="hero__ctas">
+          <a href="#zamow" class="btn btn--primary">
+            <svg aria-hidden="true"><use href="#i-cake"/></svg> Zamów tort
+          </a>
+          <a href="#wypieki" class="btn btn--ghost">Zobacz wypieki</a>
+          <a href="#sklepy" class="btn btn--ghost">
+            <svg aria-hidden="true"><use href="#i-pin"/></svg> Znajdź sklep
+          </a>
+        </div>
+      </div>
+
+      <div class="hero__visual reveal">
+        <div class="arch">
+          <!-- Ilustracja: tort piętrowy z malinami -->
+          <svg viewBox="0 0 400 500" role="img" aria-label="Ilustracja tortu piętrowego z malinami">
+            <defs>
+              <linearGradient id="g-cream" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#FFFDF8"/><stop offset="1" stop-color="#F2E8D5"/></linearGradient>
+              <linearGradient id="g-pink" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#F6DDE2"/><stop offset="1" stop-color="#E9B8C3"/></linearGradient>
+            </defs>
+            <g fill="#E9D7A8" opacity=".18">
+              <circle cx="70" cy="90" r="3"/><circle cx="330" cy="130" r="4"/><circle cx="300" cy="60" r="2.5"/>
+              <circle cx="95" cy="200" r="2"/><circle cx="340" cy="250" r="2.5"/><circle cx="60" cy="300" r="3"/>
+            </g>
+            <ellipse cx="200" cy="455" rx="150" ry="16" fill="#0E1E17" opacity=".35"/>
+            <!-- patera -->
+            <rect x="185" y="420" width="30" height="30" fill="#E9D7A8"/>
+            <ellipse cx="200" cy="420" rx="135" ry="14" fill="#E9D7A8"/>
+            <ellipse cx="200" cy="450" rx="55" ry="8" fill="#C9AE6E"/>
+            <!-- dolne piętro -->
+            <rect x="80" y="320" width="240" height="100" rx="10" fill="url(#g-cream)"/>
+            <path d="M80 330c20 18 40 18 60 0s40-18 60 0 40 18 60 0 40-18 60 0" stroke="#E9B8C3" stroke-width="10" fill="none" stroke-linecap="round"/>
+            <rect x="80" y="395" width="240" height="8" fill="#B8913A" opacity=".55"/>
+            <!-- środkowe -->
+            <rect x="110" y="235" width="180" height="88" rx="10" fill="url(#g-pink)"/>
+            <path d="M110 245c15 14 30 14 45 0s30-14 45 0 30 14 45 0 30-14 45 0" stroke="#FFFDF8" stroke-width="9" fill="none" stroke-linecap="round"/>
+            <!-- górne -->
+            <rect x="140" y="165" width="120" height="74" rx="10" fill="url(#g-cream)"/>
+            <path d="M140 175c10 12 20 12 30 0s20-12 30 0 20 12 30 0 20-12 30 0" stroke="#E9B8C3" stroke-width="8" fill="none" stroke-linecap="round"/>
+            <!-- maliny -->
+            <g fill="#A3324A">
+              <circle cx="170" cy="158" r="11"/><circle cx="200" cy="150" r="13"/><circle cx="230" cy="158" r="11"/>
+              <circle cx="125" cy="232" r="8"/><circle cx="275" cy="232" r="8"/>
+              <circle cx="100" cy="318" r="9"/><circle cx="300" cy="318" r="9"/><circle cx="200" cy="318" r="9"/>
+            </g>
+            <g fill="#FFFDF8" opacity=".5"><circle cx="196" cy="146" r="3"/><circle cx="166" cy="155" r="2.5"/><circle cx="226" cy="155" r="2.5"/></g>
+            <!-- listki -->
+            <path d="M214 140c10-14 26-14 34-8-8 10-22 14-34 8z" fill="#5E8C6A"/>
+            <path d="M186 140c-10-14-26-14-34-8 8 10 22 14 34 8z" fill="#5E8C6A"/>
+          </svg>
+        </div>
+        <div class="seal seal--spin" aria-hidden="true">
+          <div><small>od roku</small><strong>1928</strong><small>Łyskawa</small></div>
+        </div>
+        <div class="tag-float"><span aria-hidden="true"></span>Pieczone dziś rano</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats" aria-label="Łyskawa w liczbach">
+    <div class="container">
+      <ul>
+        <li><strong>1928</strong><span>rok, od którego pieczemy</span></li>
+        <li><strong>4</strong><span>pokolenia rodziny Łyskawów</span></li>
+        <li><strong>100%</strong><span>naturalnych składników</span></li>
+        <li><strong>Codziennie</strong><span>świeże pieczywo i ciasta</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- OFERTA -->
+  <section id="oferta" class="section">
+    <div class="container">
+      <div class="section-head section-head--center reveal">
+        <span class="eyebrow">Nasza oferta</span>
+        <h2 class="h2">Od porannej bułki <em>po tort weselny</em></h2>
+        <p class="lede">Wszystko pieczemy sami, na miejscu i bez skrótów. Wybierz, na co masz dziś ochotę.</p>
+      </div>
+      <ul class="offer-grid">
+        <li class="offer-card reveal">
+          <span class="offer-card__icon"><svg aria-hidden="true"><use href="#i-cake"/></svg></span>
+          <h3>Torty</h3>
+          <p>Na wesele, komunię, chrzciny, urodziny i jubileusz. Każdy robimy ręcznie, pod Twoją okazję i Twój gust.</p>
+          <a href="#torty" class="more">Torty na zamówienie</a>
+        </li>
+        <li class="offer-card reveal">
+          <span class="offer-card__icon"><svg aria-hidden="true"><use href="#i-cookie"/></svg></span>
+          <h3>Cukiernia</h3>
+          <p>Ciasta na kawałki, ciastka, pączki i drożdżówki. Klasyka z rodzinnych zeszytów i nowe smaki.</p>
+          <a href="#wypieki" class="more">Zobacz wypieki</a>
+        </li>
+        <li class="offer-card reveal">
+          <span class="offer-card__icon"><svg aria-hidden="true"><use href="#i-wheat"/></svg></span>
+          <h3>Piekarnia</h3>
+          <p>Chleby na zakwasie, bułki i pieczywo na każdy dzień. Pachnie tak, jak pachniało u babci.</p>
+          <a href="#wypieki" class="more">Nasze pieczywo</a>
+        </li>
+        <li class="offer-card reveal">
+          <span class="offer-card__icon"><svg aria-hidden="true"><use href="#i-table"/></svg></span>
+          <h3>Słodki stół</h3>
+          <p>Bufet słodkości na przyjęcie, komunię albo firmowy event. Komponujemy go razem z Tobą.</p>
+          <a href="#slodki-stol" class="more">Słodki stół</a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- HISTORIA -->
+  <section id="historia" class="section section--green">
+    <div class="container history">
+      <div class="reveal">
+        <span class="eyebrow">Nasza historia</span>
+        <h2 class="h2">Prawie sto lat <em>przy jednym piecu</em></h2>
+        <p class="lede">Nasza historia zaczęła się w 1928 roku. Od tamtej pory cukiernię prowadzi ta sama rodzina, już czwarte pokolenie. Zmieniły się piece i trochę receptur, ale zasada została ta sama: pieczemy tak, jakbyśmy piekli dla swoich.</p>
+        <blockquote>„Receptury, które pamiętają lata dwudzieste, łączymy z odważnymi, nowoczesnymi smakami.”</blockquote>
+      </div>
+      <ol class="timeline reveal">
+        <li>
+          <span class="when">1928</span>
+          <h3>Pierwszy wypiek</h3>
+          <p>Rodzina Łyskawów zaczyna piec. Od tego dnia kolejne pokolenia uczą się fachu przy tym samym stole.</p>
+        </li>
+        <li>
+          <span class="when">Pokolenie po pokoleniu</span>
+          <h3>Receptury z rodzinnych zeszytów</h3>
+          <p>Przepisy przechodzą z ojca na syna i z matki na córkę. Część pieczemy tak samo od ponad 80 lat.</p>
+        </li>
+        <li>
+          <span class="when">Krotoszyn</span>
+          <h3>Własna pracownia</h3>
+          <p>W naszym zakładzie w Krotoszynie codziennie powstają chleby, ciasta i torty.</p>
+        </li>
+        <li>
+          <span class="when">Poznań</span>
+          <h3>Sklepy w Poznaniu</h3>
+          <p>Otwieramy własne sklepy w Poznaniu, żeby świeże wypieki trafiały prosto do Was.</p>
+        </li>
+        <li>
+          <span class="when">Dziś</span>
+          <h3>Czwarte pokolenie</h3>
+          <p>Szanujemy tradycję, ale nie boimy się nowości: monoporcje, sezonowe owoce i nietypowe połączenia smaków.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- WYPIEKI -->
+  <section id="wypieki" class="section section--paper">
+    <div class="container">
+      <div class="section-head section-head--center reveal">
+        <span class="eyebrow">Codziennie świeże</span>
+        <h2 class="h2">Co dziś <em>na ladzie?</em></h2>
+        <p class="lede">Kilka wypieków, po które wracacie najczęściej. Pełną i aktualną ofertę znajdziesz w naszych sklepach.</p>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Kategorie wypieków">
+        <button class="tab" role="tab" id="tab-ciasta" aria-controls="panel-ciasta" aria-selected="true">Ciasta</button>
+        <button class="tab" role="tab" id="tab-drobne" aria-controls="panel-drobne" aria-selected="false" tabindex="-1">Drobne słodkości</button>
+        <button class="tab" role="tab" id="tab-pieczywo" aria-controls="panel-pieczywo" aria-selected="false" tabindex="-1">Pieczywo</button>
+        <button class="tab" role="tab" id="tab-sezon" aria-controls="panel-sezon" aria-selected="false" tabindex="-1">Sezonowe</button>
+      </div>
+
+      <div class="tab-panel" role="tabpanel" id="panel-ciasta" aria-labelledby="tab-ciasta">
+        <ul class="product-grid">
+          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M10 30 90 18v30L10 60z" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M10 30 90 18" stroke="currentColor" stroke-width="6" stroke-linecap="round" opacity=".55"/></svg></div><div class="product__body"><h3>Sernik rodzinny</h3><p>Kremowy, na twarogu, według dawnej receptury.</p><span class="badge">Klasyk</span></div></li>
+          <li class="product"><div class="product__art art-1"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="10" y="22" width="80" height="36" rx="4" fill="#FBEFF1" stroke="currentColor" stroke-width="2.5"/><path d="M10 34h80M10 46h80" stroke="currentColor" stroke-width="2.5" opacity=".5"/><circle cx="25" cy="18" r="5" fill="currentColor"/><circle cx="50" cy="16" r="5" fill="currentColor"/><circle cx="75" cy="18" r="5" fill="currentColor"/></svg></div><div class="product__body"><h3>Malinowa chmurka</h3><p>Biszkopt, mascarpone i świeże maliny.</p></div></li>
+          <li class="product"><div class="product__art art-3"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="10" y="24" width="80" height="34" rx="4" fill="#F3F7F4" stroke="currentColor" stroke-width="2.5"/><path d="M14 24c6-8 12-8 18 0s12 8 18 0 12-8 18 0 12 8 18 0" stroke="currentColor" stroke-width="2.5" fill="none"/><path d="M22 42h8M42 46h8M62 40h8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></div><div class="product__body"><h3>Szarlotka</h3><p>Dużo jabłek, kruche ciasto i szczypta cynamonu.</p></div></li>
+          <li class="product"><div class="product__art art-4"><svg viewBox="0 0 100 70" aria-hidden="true"><ellipse cx="50" cy="38" rx="38" ry="22" fill="#F4F2F9" stroke="currentColor" stroke-width="2.5"/><path d="M50 16c-14 6-22 14-22 22s8 16 22 22c14-6 22-14 22-22S64 22 50 16z" fill="none" stroke="currentColor" stroke-width="2.5" opacity=".5"/><circle cx="50" cy="38" r="5" fill="currentColor"/></svg></div><div class="product__body"><h3>Makowiec</h3><p>Zawijany, z dużą ilością maku i bakalii.</p><span class="badge">Klasyk</span></div></li>
+          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="10" y="20" width="80" height="40" rx="4" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><path d="M10 33h80M10 47h80" stroke="currentColor" stroke-width="5" opacity=".35"/></svg></div><div class="product__body"><h3>Kremówka</h3><p>Chrupiące ciasto francuskie i delikatny krem.</p></div></li>
+          <li class="product"><div class="product__art art-1"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M15 55h70L74 22H26z" fill="#FBEFF1" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M26 22c8-8 40-8 48 0" stroke="currentColor" stroke-width="3" fill="none"/><path d="M30 38h40" stroke="currentColor" stroke-width="2.5" opacity=".5"/></svg></div><div class="product__body"><h3>Czekoladowe z wiśnią</h3><p>Wilgotne, mocno czekoladowe, z kwaśną wiśnią.</p><span class="badge">Nowość</span></div></li>
+        </ul>
+      </div>
+
+      <div class="tab-panel" role="tabpanel" id="panel-drobne" aria-labelledby="tab-drobne" hidden>
+        <ul class="product-grid">
+          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><circle cx="50" cy="36" r="24" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><circle cx="50" cy="36" r="7" fill="currentColor" opacity=".55"/></svg></div><div class="product__body"><h3>Pączki</h3><p>Puszyste, z różą albo konfiturą. Smażone codziennie.</p><span class="badge">Hit</span></div></li>
+          <li class="product"><div class="product__art art-3"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M20 48c0-16 14-26 30-26s30 10 30 26z" fill="#F3F7F4" stroke="currentColor" stroke-width="2.5"/><path d="M30 40c6-6 14-6 20 0s14 6 20 0" stroke="currentColor" stroke-width="2.5" fill="none"/></svg></div><div class="product__body"><h3>Drożdżówki</h3><p>Z serem, budyniem, owocami albo kruszonką.</p></div></li>
+          <li class="product"><div class="product__art art-1"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M22 38h56l-6 20H28z" fill="#FBEFF1" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M24 38c0-12 12-20 26-20s26 8 26 20" fill="currentColor" opacity=".55"/></svg></div><div class="product__body"><h3>Monoporcje</h3><p>Małe desery z musem, ładne i pyszne.</p><span class="badge">Nowość</span></div></li>
+          <li class="product"><div class="product__art art-4"><svg viewBox="0 0 100 70" aria-hidden="true"><ellipse cx="50" cy="40" rx="34" ry="14" fill="#F4F2F9" stroke="currentColor" stroke-width="2.5"/><ellipse cx="50" cy="32" rx="24" ry="10" fill="currentColor" opacity=".35"/></svg></div><div class="product__body"><h3>Eklery i ptysie</h3><p>Chrupiące ciasto parzone i dużo kremu.</p></div></li>
+          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><circle cx="34" cy="38" r="16" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><circle cx="66" cy="38" r="16" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><circle cx="30" cy="34" r="2.5" fill="currentColor"/><circle cx="38" cy="42" r="2.5" fill="currentColor"/><circle cx="64" cy="34" r="2.5" fill="currentColor"/><circle cx="70" cy="42" r="2.5" fill="currentColor"/></svg></div><div class="product__body"><h3>Ciastka kruche</h3><p>Do kawy i na wynos, sprzedawane na wagę.</p></div></li>
+        </ul>
+      </div>
+
+      <div class="tab-panel" role="tabpanel" id="panel-pieczywo" aria-labelledby="tab-pieczywo" hidden>
+        <ul class="product-grid">
+          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><ellipse cx="50" cy="40" rx="38" ry="20" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><path d="M30 32l8 10M46 28l8 12M62 30l8 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="product__body"><h3>Chleb żytni na zakwasie</h3><p>Długo fermentowany, z chrupiącą skórką.</p><span class="badge">Na zakwasie</span></div></li>
+          <li class="product"><div class="product__art art-3"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="16" y="24" width="68" height="32" rx="14" fill="#F3F7F4" stroke="currentColor" stroke-width="2.5"/><g fill="currentColor" opacity=".55"><circle cx="30" cy="34" r="1.8"/><circle cx="44" cy="40" r="1.8"/><circle cx="58" cy="33" r="1.8"/><circle cx="70" cy="42" r="1.8"/></g></svg></div><div class="product__body"><h3>Chleb wieloziarnisty</h3><p>Ze słonecznikiem, siemieniem i dynią.</p></div></li>
+          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><circle cx="34" cy="40" r="16" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><circle cx="66" cy="40" r="16" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><path d="M26 40h16M58 40h16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="product__body"><h3>Bułki i kajzerki</h3><p>Prosto z pieca, na śniadanie i do kanapek.</p></div></li>
+          <li class="product"><div class="product__art art-4"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M14 46c10-22 62-22 72 0-24 10-48 10-72 0z" fill="#F4F2F9" stroke="currentColor" stroke-width="2.5"/><path d="M30 38c8-6 32-6 40 0" stroke="currentColor" stroke-width="2.5" fill="none"/></svg></div><div class="product__body"><h3>Chałka</h3><p>Maślana, pleciona, posypana kruszonką.</p></div></li>
+        </ul>
+      </div>
+
+      <div class="tab-panel" role="tabpanel" id="panel-sezon" aria-labelledby="tab-sezon" hidden>
+        <ul class="product-grid">
+          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M14 46C20 20 80 20 86 46c-8 6-18 6-24 0-6 6-18 6-24 0-6 6-16 6-24 0z" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M28 30c8-4 36-4 44 0" stroke="currentColor" stroke-width="3" fill="none"/></svg></div><div class="product__body"><h3>Rogale z białym makiem</h3><p>Listopadowy przysmak Poznania, z dużą ilością nadzienia.</p><span class="badge">Listopad</span></div></li>
+          <li class="product"><div class="product__art art-1"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M50 12 64 40H36z" fill="#FBEFF1" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M50 26 70 58H30z" fill="#FBEFF1" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><circle cx="50" cy="10" r="3" fill="currentColor"/></svg></div><div class="product__body"><h3>Pierniki i ciasta świąteczne</h3><p>Korzenne smaki na Boże Narodzenie.</p><span class="badge">Grudzień</span></div></li>
+          <li class="product"><div class="product__art art-3"><svg viewBox="0 0 100 70" aria-hidden="true"><ellipse cx="50" cy="40" rx="22" ry="26" fill="#F3F7F4" stroke="currentColor" stroke-width="2.5"/><path d="M30 34h40M30 46h40" stroke="currentColor" stroke-width="2.5" opacity=".5"/></svg></div><div class="product__body"><h3>Mazurki i baby wielkanocne</h3><p>Na świąteczny stół, najlepiej zamówić z wyprzedzeniem.</p><span class="badge">Wielkanoc</span></div></li>
+          <li class="product"><div class="product__art art-4"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="12" y="26" width="76" height="30" rx="4" fill="#F4F2F9" stroke="currentColor" stroke-width="2.5"/><g fill="currentColor"><circle cx="24" cy="22" r="4"/><circle cx="38" cy="20" r="4"/><circle cx="52" cy="22" r="4"/><circle cx="66" cy="20" r="4"/><circle cx="80" cy="22" r="4"/></g></svg></div><div class="product__body"><h3>Ciasta z owocami sezonowymi</h3><p>Truskawki, borówki i śliwki, zależnie od pory roku.</p><span class="badge">Lato</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- TORTY -->
+  <section id="torty" class="section">
+    <div class="container cakes">
+      <div class="reveal">
+        <span class="eyebrow">Torty na zamówienie</span>
+        <h2 class="h2">Tort, który <em>zapamiętacie</em></h2>
+        <p class="lede">Smak, wielkość i dekorację ustalamy razem z Tobą. Doradzimy, ile porcji zamówić i co najlepiej pasuje do okazji.</p>
+        <ul class="occasions">
+          <li class="occasion"><svg aria-hidden="true"><use href="#i-rings"/></svg><strong>Wesele</strong><span>piętrowe, klasyczne i nowoczesne</span></li>
+          <li class="occasion"><svg aria-hidden="true"><use href="#i-cross"/></svg><strong>Komunia</strong><span>z personalizowaną dekoracją</span></li>
+          <li class="occasion"><svg aria-hidden="true"><use href="#i-baby"/></svg><strong>Chrzciny</strong><span>delikatne, pastelowe</span></li>
+          <li class="occasion"><svg aria-hidden="true"><use href="#i-gift"/></svg><strong>Urodziny</strong><span>dla dzieci i dorosłych</span></li>
+          <li class="occasion"><svg aria-hidden="true"><use href="#i-star"/></svg><strong>Jubileusz</strong><span>rocznice i okrągłe daty</span></li>
+          <li class="occasion"><svg aria-hidden="true"><use href="#i-briefcase"/></svg><strong>Dla firm</strong><span>z logo i na eventy</span></li>
+        </ul>
+      </div>
+
+      <div class="reveal">
+        <ol class="steps">
+          <li class="step"><h3>Zadzwoń lub napisz</h3><p>Podaj datę, okazję i przybliżoną liczbę gości.</p></li>
+          <li class="step"><h3>Wybierz smak i dekorację</h3><p>Pomożemy dobrać krem, owoce i wygląd tortu. Inspirację ze zdjęcia też przyjmiemy.</p></li>
+          <li class="step"><h3>Odbierz w sklepie</h3><p>Tort czeka na Ciebie świeży, w wybranym przez Ciebie sklepie Łyskawa.</p></li>
+        </ol>
+
+        <form id="zamow" class="order" novalidate>
+          <h3>Zapytaj o tort</h3>
+          <div class="form-grid">
+            <div class="field"><label for="f-name">Imię i nazwisko</label><input id="f-name" name="name" autocomplete="name" required></div>
+            <div class="field"><label for="f-phone">Telefon</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" required></div>
+            <div class="field"><label for="f-occasion">Okazja</label>
+              <select id="f-occasion" name="occasion">
+                <option>Urodziny</option><option>Wesele</option><option>Komunia</option><option>Chrzciny</option><option>Jubileusz</option><option>Event firmowy</option><option>Inna</option>
+              </select>
+            </div>
+            <div class="field"><label for="f-date">Data odbioru</label><input id="f-date" name="date" type="date" required></div>
+            <div class="field"><label for="f-portions">Liczba porcji</label><input id="f-portions" name="portions" type="number" min="4" inputmode="numeric" placeholder="np. 20"></div>
+            <div class="field"><label for="f-shop">Sklep odbioru</label>
+              <select id="f-shop" name="shop">
+                <option>ul. Mrzeżyńska 16</option><option>ul. Łomżyńska 1</option><option>ul. Zeylanda 12</option><option>ul. Półwiejska 43</option><option>ul. Głogowska 81</option>
+              </select>
+            </div>
+            <div class="field full"><label for="f-msg">Smak, dekoracja, napis</label><textarea id="f-msg" name="message" placeholder="np. tort malinowy, biały krem, napis „Sto lat, Ola!”"></textarea></div>
+          </div>
+          <div style="margin-top:1.25rem; display:flex; flex-wrap:wrap; gap:.75rem;">
+            <button type="submit" class="btn btn--primary">Wyślij zapytanie</button>
+            <a href="tel:+48577477884" class="btn btn--ghost"><svg aria-hidden="true"><use href="#i-phone"/></svg> Wolę zadzwonić</a>
+          </div>
+          <p class="form-status" role="status" aria-live="polite"></p>
+          <p class="form-note">Odpowiadamy w godzinach pracy sklepów. Torty weselne i komunijne najlepiej zamawiać z kilkutygodniowym wyprzedzeniem.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- SŁODKI STÓŁ -->
+  <section id="slodki-stol" class="section section--paper">
+    <div class="container sweet">
+      <div class="sweet__art reveal">
+        <svg viewBox="0 0 500 400" role="img" aria-label="Ilustracja słodkiego stołu z tortem, babeczkami i ciastkami">
+          <rect width="500" height="400" fill="#F6DDE2"/>
+          <path d="M0 0h500v60c-40 30-80 30-125 0s-85-30-125 0-85 30-125 0S40 30 0 60z" fill="#E9B8C3" opacity=".6"/>
+          <rect x="30" y="300" width="440" height="18" rx="4" fill="#1E3A2F"/>
+          <rect x="50" y="318" width="400" height="82" fill="#2A4D3E"/>
+          <!-- tort -->
+          <rect x="200" y="210" width="100" height="90" rx="8" fill="#FFFDF8"/>
+          <rect x="215" y="160" width="70" height="52" rx="8" fill="#FBEFF1"/>
+          <circle cx="250" cy="152" r="10" fill="#A3324A"/>
+          <path d="M200 225c12 10 25 10 37 0s25-10 37 0 20 8 26 4" stroke="#E9B8C3" stroke-width="7" fill="none" stroke-linecap="round"/>
+          <!-- babeczki -->
+          <g>
+            <path d="M70 300l6-36h40l6 36z" fill="#B8913A"/><circle cx="96" cy="258" r="22" fill="#FFFDF8"/><circle cx="96" cy="240" r="7" fill="#A3324A"/>
+            <path d="M130 300l6-36h40l6 36z" fill="#B8913A"/><circle cx="156" cy="258" r="22" fill="#E9B8C3"/><circle cx="156" cy="240" r="7" fill="#A3324A"/>
+          </g>
+          <!-- patera z ciastkami -->
+          <ellipse cx="380" cy="262" rx="70" ry="9" fill="#E9D7A8"/><rect x="373" y="262" width="14" height="38" fill="#E9D7A8"/>
+          <g fill="#FFFDF8"><circle cx="345" cy="248" r="13"/><circle cx="375" cy="244" r="13"/><circle cx="405" cy="248" r="13"/><circle cx="360" cy="228" r="12"/><circle cx="392" cy="228" r="12"/></g>
+          <g fill="#A3324A"><circle cx="375" cy="244" r="4"/><circle cx="360" cy="228" r="4"/><circle cx="392" cy="228" r="4"/></g>
+        </svg>
+      </div>
+      <div class="reveal">
+        <span class="eyebrow">Na przyjęcia i eventy</span>
+        <h2 class="h2">Słodki stół <em>pod klucz</em></h2>
+        <p class="lede">Komunia, wesele, urodziny w przedszkolu albo firmowe spotkanie? Przygotujemy bufet słodkości w kolorach i klimacie Twojej imprezy.</p>
+        <ul class="checklist">
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Tort główny i do tego monoporcje, babeczki, ciastka i musy</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Kolory, napisy i dekoracje dobrane do motywu</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Ilość dopasowana do liczby gości, bez marnowania</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Wersje dla dzieci, grup i firm</span></li>
+        </ul>
+        <a href="#zamow" class="btn btn--dark">Zapytaj o słodki stół</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKLEPY -->
+  <section id="sklepy" class="section">
+    <div class="container">
+      <div class="section-head section-head--center reveal">
+        <span class="eyebrow">Nasze sklepy</span>
+        <h2 class="h2">Znajdziesz nas <em>w Poznaniu</em></h2>
+        <p class="lede">Zajrzyj do najbliższego sklepu Łyskawa po świeży chleb, ciasto do kawy albo zamówiony tort.</p>
+      </div>
+      <ul class="shops">
+        <li class="shop shop--main reveal">
+          <div class="shop__top"><h3>Mrzeżyńska</h3><span class="shop__label">Biuro &amp; zamówienia</span></div>
+          <dl>
+            <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Mrzeżyńska 16<br>60-446 Poznań</dd></div>
+            <div><dt><svg aria-label="Telefon"><use href="#i-phone"/></svg></dt><dd><a href="tel:+48577477884">+48 577 477 884</a></dd></div>
+          </dl>
+          <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=Mrze%C5%BCy%C5%84ska+16+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
+        </li>
+        <li class="shop reveal">
+          <div class="shop__top"><h3>Łomżyńska</h3></div>
+          <dl>
+            <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Łomżyńska 1<br>61-048 Poznań</dd></div>
+            <div><dt><svg aria-label="Telefon"><use href="#i-phone"/></svg></dt><dd><a href="tel:+48616536436">61 653 64 36</a></dd></div>
+            <div><dt><svg aria-label="Godziny otwarcia"><use href="#i-clock"/></svg></dt><dd>pon.–pt. 7:00–17:00<br>sob. 7:00–15:00</dd></div>
+          </dl>
+          <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=%C5%81om%C5%BCy%C5%84ska+1+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
+        </li>
+        <li class="shop reveal">
+          <div class="shop__top"><h3>Zeylanda</h3></div>
+          <dl>
+            <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Zeylanda 12<br>Poznań</dd></div>
+            <div><dt><svg aria-label="Telefon"><use href="#i-phone"/></svg></dt><dd><a href="tel:+48661289725">661 289 725</a></dd></div>
+            <div><dt><svg aria-label="Godziny otwarcia"><use href="#i-clock"/></svg></dt><dd>pon.–pt. 7:00–16:00<br>sob. 7:00–13:00</dd></div>
+          </dl>
+          <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=Zeylanda+12+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
+        </li>
+        <li class="shop reveal">
+          <div class="shop__top"><h3>Półwiejska</h3></div>
+          <dl>
+            <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Półwiejska 43<br>61-893 Poznań</dd></div>
+          </dl>
+          <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=P%C3%B3%C5%82wiejska+43+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
+        </li>
+        <li class="shop reveal">
+          <div class="shop__top"><h3>Głogowska</h3></div>
+          <dl>
+            <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Głogowska 81<br>60-739 Poznań</dd></div>
+          </dl>
+          <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=G%C5%82ogowska+81+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
+        </li>
+        <li class="shop reveal" style="background:var(--cream-deep); border-style:dashed;">
+          <div class="shop__top"><h3>Sklep online</h3></div>
+          <dl>
+            <div><dt><svg aria-hidden="true"><use href="#i-bag"/></svg></dt><dd>Zamów przez internet. <strong>Darmowa dostawa</strong> przy zamówieniu powyżej 300 zł.</dd></div>
+          </dl>
+          <a class="shop__map" href="https://cukiernialyskawa.com/" target="_blank" rel="noopener">Przejdź do sklepu →</a>
+        </li>
+      </ul>
+      <p class="shops-note">Godziny otwarcia mogą się zmieniać w święta. Przed wizytą najlepiej zadzwonić.</p>
+    </div>
+  </section>
+
+  <!-- BANDS -->
+  <section class="section section--paper" aria-label="Dołącz do nas">
+    <div class="container two-bands">
+      <div class="band band--gold reveal">
+        <div>
+          <span class="eyebrow">Nie marnujemy</span>
+          <h2>Paczki-niespodzianki pod koniec dnia</h2>
+          <p>To, czego nie sprzedamy, możesz kupić taniej w aplikacji Too Good To Go. Smacznie i bez marnowania jedzenia.</p>
+        </div>
+        <div class="band__ctas"><a href="https://www.toogoodtogo.com/pl" target="_blank" rel="noopener" class="btn btn--dark"><svg aria-hidden="true"><use href="#i-leaf"/></svg> Too Good To Go</a></div>
+      </div>
+      <div class="band band--green reveal">
+        <div>
+          <span class="eyebrow">Bądźmy w kontakcie</span>
+          <h2>Pochwal się swoim tortem od Łyskawy</h2>
+          <p>Oznacz nas na Instagramie albo Facebooku. Najładniejsze zdjęcia pokazujemy na naszym profilu.</p>
+        </div>
+        <div class="band__ctas">
+          <a href="https://www.instagram.com/cukiernialyskawa/" target="_blank" rel="noopener" class="btn btn--light"><svg aria-hidden="true"><use href="#i-ig"/></svg> Instagram</a>
+          <a href="https://www.facebook.com/CukierniaLyskawaPoznan/" target="_blank" rel="noopener" class="btn btn--light"><svg aria-hidden="true"><use href="#i-fb"/></svg> Facebook</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#" class="logo" aria-label="Łyskawa — strona główna">
+          <span class="logo__mark" aria-hidden="true">Ł</span>
+          <span class="logo__text"><span class="logo__name">Łyskawa</span><span class="logo__sub">Cukiernia &amp; Piekarnia</span></span>
+        </a>
+        <p style="margin-top:1rem; max-width:22rem;">Rodzinna cukiernia i piekarnia od 1928 roku. Pieczemy codziennie z naturalnych składników.</p>
+        <div class="socials">
+          <a href="https://www.facebook.com/CukierniaLyskawaPoznan/" target="_blank" rel="noopener" aria-label="Facebook"><svg><use href="#i-fb"/></svg></a>
+          <a href="https://www.instagram.com/cukiernialyskawa/" target="_blank" rel="noopener" aria-label="Instagram"><svg><use href="#i-ig"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Oferta</h4>
+        <ul>
+          <li><a href="#torty">Torty na zamówienie</a></li>
+          <li><a href="#wypieki">Ciasta i ciastka</a></li>
+          <li><a href="#wypieki">Pieczywo</a></li>
+          <li><a href="#slodki-stol">Słodki stół</a></li>
+          <li><a href="https://cukiernialyskawa.com/" target="_blank" rel="noopener">Sklep online</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Sklepy</h4>
+        <ul>
+          <li>ul. Mrzeżyńska 16</li>
+          <li>ul. Łomżyńska 1</li>
+          <li>ul. Zeylanda 12</li>
+          <li>ul. Półwiejska 43</li>
+          <li>ul. Głogowska 81</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul>
+          <li><a href="tel:+48577477884">+48 577 477 884</a></li>
+          <li>ul. Mrzeżyńska 16<br>60-446 Poznań</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year">2026</span> Cukiernia Piekarnia Łyskawa sp. z o.o.</span>
+      <span>Wypiekamy od 1928 roku</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.documentElement.classList.add('js');
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Mobile menu
+  const toggle = document.querySelector('.menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  toggle.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    toggle.setAttribute('aria-label', open ? 'Otwórz menu' : 'Zamknij menu');
+    mobileMenu.hidden = open;
+  });
+  mobileMenu.addEventListener('click', (e) => {
+    if (e.target.closest('a')) { mobileMenu.hidden = true; toggle.setAttribute('aria-expanded', 'false'); }
+  });
+
+  // Tabs
+  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  function selectTab(tab) {
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+  }
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => selectTab(tab));
+    tab.addEventListener('keydown', (e) => {
+      const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!dir) return;
+      const next = tabs[(i + dir + tabs.length) % tabs.length];
+      selectTab(next); next.focus();
+    });
+  });
+
+  // Order form -> e-mail draft
+  const ORDER_EMAIL = 'cukiernialyskawa@gmail.com';
+  const form = document.getElementById('zamow');
+  const status = form.querySelector('.form-status');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const required = [...form.querySelectorAll('[required]')];
+    const missing = required.find((el) => !el.value.trim());
+    if (missing) { status.textContent = 'Uzupełnij imię, telefon i datę odbioru.'; missing.focus(); return; }
+    const d = Object.fromEntries(new FormData(form));
+    const body = [
+      `Imię i nazwisko: ${d.name}`, `Telefon: ${d.phone}`, `Okazja: ${d.occasion}`,
+      `Data odbioru: ${d.date}`, `Liczba porcji: ${d.portions || '—'}`, `Sklep odbioru: ${d.shop}`,
+      '', d.message || ''
+    ].join('\n');
+    window.location.href = `mailto:${ORDER_EMAIL}?subject=${encodeURIComponent('Zapytanie o tort — ' + d.occasion)}&body=${encodeURIComponent(body)}`;
+    status.textContent = 'Otwieramy Twój program pocztowy z gotową wiadomością.';
+  });
+
+  // Scroll reveal (content stays visible without IntersectionObserver)
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+    revealEls.forEach((el) => io.observe(el));
+  } else {
+    revealEls.forEach((el) => el.classList.add('is-visible'));
+  }
+</script>
+</body>
+</html>
