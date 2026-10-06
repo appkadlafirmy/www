@@ -9,7 +9,8 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%231E3A2F'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Georgia,serif' font-size='32' font-weight='700' fill='%23E9D7A8'%3E%C5%81%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=DM+Sans:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
 <style>
   :root {
     --green-900: #142A21;
@@ -28,6 +29,7 @@
     --line: rgba(30, 58, 47, 0.14);
     --font-display: "Fraunces", Georgia, serif;
     --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-script: "Caveat", "Brush Script MT", cursive;
     --shadow-card: 0 14px 36px -18px rgba(20, 42, 33, 0.35);
     --radius: 1.25rem;
     --radius-full: 999px;
@@ -36,8 +38,12 @@
 
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+  html { background: var(--green-800); }
   body {
-    margin: 0;
+    margin: 10px;
+    border-radius: 1.5rem;
+    overflow: clip;
+    min-height: calc(100vh - 20px);
     font-family: var(--font-sans);
     background: var(--cream);
     color: var(--ink);
@@ -100,7 +106,15 @@
     min-height: 48px; padding: 0.85rem 1.6rem; border-radius: var(--radius-full);
     font-weight: 600; font-size: 0.98rem; transition: background-color .2s, color .2s, border-color .2s, transform .2s;
   }
-  .btn:hover { transform: translateY(-1px); }
+  .btn { position: relative; isolation: isolate; letter-spacing: .06em; text-transform: uppercase; font-size: .84rem; }
+  .btn::after {
+    content: ""; position: absolute; inset: -1.5px; border-radius: inherit; pointer-events: none;
+    border: 1.5px solid var(--green-800); opacity: .55;
+    transform: translate(4px, 5px); transition: transform .18s ease;
+  }
+  .btn:hover::after, .btn:focus-visible::after { transform: translate(0, 0); }
+  .btn:active { transform: translate(2px, 2px); }
+  .btn--light::after, .section--green .btn::after, .band--green .btn::after { border-color: var(--gold-soft); }
   .btn svg { width: 1.1rem; height: 1.1rem; }
   .btn--primary { background: var(--raspberry); color: #fff; box-shadow: 0 12px 24px -12px rgba(163, 50, 74, 0.7); }
   .btn--primary:hover { background: #8A2A3F; }
@@ -382,9 +396,141 @@
   .socials svg { width: 1.2rem; height: 1.2rem; }
   .footer-bottom { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(233,215,168,.15); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; font-size: 0.85rem; color: rgba(250,245,236,.55); }
 
+  /* ---------- Awning (markiza) ---------- */
+  .awning {
+    position: relative; height: 54px;
+    background: repeating-linear-gradient(90deg, var(--green-800) 0 44px, var(--cream) 44px 88px);
+    transform-origin: top center; animation: awning 6s ease-in-out infinite;
+  }
+  .awning::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -14px; height: 15px;
+    background:
+      radial-gradient(circle at 22px 0, var(--green-800) 21px, transparent 22px) 0 0 / 88px 15px repeat-x,
+      radial-gradient(circle at 66px 0, var(--cream-deep) 21px, transparent 22px) 0 0 / 88px 15px repeat-x;
+    filter: drop-shadow(0 3px 2px rgba(20,42,33,.18));
+  }
+  .awning::before {
+    content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.12), transparent 40%);
+  }
+  @keyframes awning { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.06); } }
+
+  /* ---------- Script tagline ---------- */
+  .script { font-family: var(--font-script); font-weight: 500; font-size: clamp(1.7rem, 3vw, 2.2rem); color: var(--green-800); line-height: 1.1; }
+  .section--green .script { color: var(--gold-soft); }
+
+  /* ---------- Gingham divider with floating icons ---------- */
+  .divider {
+    position: relative; height: 92px; overflow: hidden;
+    background-color: var(--cream);
+    background-image:
+      linear-gradient(90deg, rgba(163,50,74,.55) 50%, transparent 50%),
+      linear-gradient(rgba(163,50,74,.55) 50%, transparent 50%);
+    background-size: 30px 30px;
+    border-top: 3px solid var(--raspberry); border-bottom: 3px solid var(--raspberry);
+  }
+  .divider--green {
+    background-image:
+      linear-gradient(90deg, rgba(30,58,47,.6) 50%, transparent 50%),
+      linear-gradient(rgba(30,58,47,.6) 50%, transparent 50%);
+    border-color: var(--green-800);
+  }
+  .divider span {
+    position: absolute; top: 50%; width: 56px; height: 56px; margin-top: -28px; border-radius: 50%;
+    background: var(--cream); color: var(--raspberry); display: grid; place-items: center;
+    box-shadow: 0 6px 16px -6px rgba(20,42,33,.45), inset 0 0 0 3px var(--cream), inset 0 0 0 4.5px currentColor;
+    animation: bob 4s ease-in-out infinite;
+  }
+  .divider--green span { color: var(--green-800); }
+  .divider span svg { width: 26px; height: 26px; }
+  .divider span:nth-child(1) { left: 14%; }
+  .divider span:nth-child(2) { left: 48%; animation-delay: -1.3s; }
+  .divider span:nth-child(3) { left: 80%; animation-delay: -2.6s; }
+  @keyframes bob { 0%, 100% { transform: translateY(-7px) rotate(-6deg); } 50% { transform: translateY(7px) rotate(6deg); } }
+
+  /* ---------- Offer cards: focus-blur grid ---------- */
+  .grid-focus .offer-card { transition: transform .5s ease, opacity .5s ease, filter .5s ease, box-shadow .5s ease; }
+  @media (hover: hover) {
+    .grid-focus:hover .offer-card { opacity: .55; filter: blur(2px); transform: scale(.97); }
+    .grid-focus .offer-card:hover { opacity: 1; filter: none; transform: scale(1.04); z-index: 1; box-shadow: 0 28px 50px -24px rgba(20,42,33,.55); }
+  }
+  .grid-focus:focus-within .offer-card:focus-within { opacity: 1; filter: none; transform: scale(1.04); }
+
+  .offer-card--tall {
+    position: relative; overflow: hidden; min-height: 330px; padding: 0; border: 0; color: #fff;
+    justify-content: flex-end; border-radius: 1.4rem;
+  }
+  .offer-card--tall .art { position: absolute; inset: 0; display: grid; place-items: start center; padding-top: 1.75rem; }
+  .offer-card--tall .art svg { width: 62%; height: auto; transition: transform .6s ease; }
+  .offer-card--tall:hover .art svg { transform: translateY(-6px) scale(1.06) rotate(-2deg); }
+  .offer-card--tall::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(20,42,33,.92) 88%); }
+  .offer-card--tall .txt { position: relative; z-index: 1; padding: 1.4rem 1.4rem 1.5rem; display: grid; gap: .35rem; }
+  .offer-card--tall .kicker { font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 700; color: var(--gold-soft); }
+  .offer-card--tall h3 { color: #fff; font-size: 1.45rem; line-height: 1.15; }
+  .offer-card--tall p { color: rgba(255,255,255,.8); flex: initial; font-size: .92rem; }
+  .bg-a { background: linear-gradient(160deg, #F6DDE2, #C9667C); }
+  .bg-b { background: linear-gradient(160deg, #F2E8D5, #B8913A); }
+  .bg-c { background: linear-gradient(160deg, #E3ECE6, #4F7A63); }
+  .bg-d { background: linear-gradient(160deg, #E6E3F1, #6E64A3); }
+
+  /* ---------- Carousel (karuzela) ---------- */
+  .marquee {
+    --marquee-time: 42s; overflow: hidden; padding: .5rem 0 1rem;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8% 92%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 8% 92%, transparent);
+  }
+  .marquee__track { display: flex; gap: 1rem; width: max-content; animation: marquee var(--marquee-time) linear infinite; will-change: transform; }
+  .marquee:hover .marquee__track, .marquee:focus-within .marquee__track { animation-play-state: paused; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .tile {
+    position: relative; flex: none; width: 15rem; aspect-ratio: 3 / 4; border-radius: 1.25rem; overflow: hidden;
+    display: flex; align-items: flex-end; padding: 1rem; transition: transform .35s ease;
+  }
+  .tile:hover { transform: translateY(-6px) rotate(-1deg); }
+  .tile svg { position: absolute; inset: 0; margin: auto; width: 70%; height: auto; }
+  .tile figcaption { position: relative; font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; color: rgba(20,42,33,.6); }
+  @media (prefers-reduced-motion: reduce) { .marquee { overflow-x: auto; } .marquee__track { animation: none; } }
+
+  /* ---------- CTA band full ---------- */
+  .cta-full { background: var(--raspberry); color: #fff; text-align: center; padding: 5rem 0; position: relative; overflow: hidden; }
+  .cta-full .eyebrow { color: var(--gold-soft); justify-content: center; }
+  .cta-full .eyebrow::before { display: none; }
+  .cta-full h2 { font-family: var(--font-display); font-weight: 600; font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.1; margin: .75rem 0 1rem; }
+  .cta-full p { color: rgba(255,255,255,.85); max-width: 36rem; margin: 0 auto 2rem; }
+  .cta-full .btn--light { color: var(--raspberry); }
+  .cta-full .btn--light::after { border-color: #fff; }
+
+  /* ---------- Giant wordmark ---------- */
+  .wordmark {
+    font-family: var(--font-display); font-weight: 700; text-align: center; line-height: .9;
+    font-size: clamp(4.5rem, 19vw, 15rem); letter-spacing: -0.04em; color: var(--gold-soft);
+    margin: 3rem 0 0; user-select: none;
+  }
+  .wordmark span { display: inline-block; transition: transform .35s cubic-bezier(.3,1.6,.5,1), color .3s; }
+  .wordmark span:hover { transform: translateY(-.12em) rotate(-4deg); color: #fff; }
+
+  /* ---------- Hero float ---------- */
+  .float { animation: float 6s ease-in-out infinite; }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+  .tag-float { animation: float 5s ease-in-out infinite -2s; }
+  .hero h1 strong { display: block; font-family: var(--font-sans); font-weight: 800; letter-spacing: -0.03em; text-transform: uppercase; color: var(--raspberry); font-size: 1.04em; }
+  .hero .script { margin-top: 1.75rem; }
+
   /* ---------- Reveal ---------- */
   .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
   .js .reveal.is-visible { opacity: 1; transform: none; }
+  .js .reveal-stagger > * { opacity: 0; transform: translateY(26px) scale(.98); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
+  .js .reveal-stagger.is-visible > * { opacity: 1; transform: none; }
+  .js .reveal-stagger.is-visible > *:nth-child(2) { transition-delay: .1s; }
+  .js .reveal-stagger.is-visible > *:nth-child(3) { transition-delay: .2s; }
+  .js .reveal-stagger.is-visible > *:nth-child(4) { transition-delay: .3s; }
+  .js .reveal-stagger.is-visible > *:nth-child(5) { transition-delay: .4s; }
+  .js .reveal-stagger.is-visible > *:nth-child(6) { transition-delay: .5s; }
+  .js .hero-in > * { animation: heroIn .9s cubic-bezier(.2,.8,.2,1) both; }
+  .js .hero-in > *:nth-child(2) { animation-delay: .12s; }
+  .js .hero-in > *:nth-child(3) { animation-delay: .24s; }
+  .js .hero-in > *:nth-child(4) { animation-delay: .36s; }
+  .js .hero-in > *:nth-child(5) { animation-delay: .48s; }
+  @keyframes heroIn { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
 </style>
 </head>
 <body>
@@ -460,15 +606,16 @@
     </ul>
   </nav>
 </header>
+<div class="awning" aria-hidden="true"></div>
 
 <main id="main">
 
   <!-- HERO -->
   <section class="hero">
     <div class="container">
-      <div>
+      <div class="hero-in">
         <span class="eyebrow">Poznań · rodzinnie od 1928 roku</span>
-        <h1>Cztery pokolenia. <em>Jeden smak.</em></h1>
+        <h1>Chleb, ciasta i&nbsp;torty. <strong>Łyskawa</strong> piecze od 1928 roku.</h1>
         <p class="lede">Łyskawa to rodzinna cukiernia i piekarnia, w której receptury przechodzą z rąk do rąk od blisko stu lat. Pieczemy codziennie, na naturalnych składnikach. Klasykę robimy jak dawniej, a nowe smaki wymyślamy po swojemu.</p>
         <div class="hero__ctas">
           <a href="#zamow" class="btn btn--primary">
@@ -479,10 +626,11 @@
             <svg aria-hidden="true"><use href="#i-pin"/></svg> Znajdź sklep
           </a>
         </div>
+        <p class="script">Cztery pokolenia, jeden smak</p>
       </div>
 
       <div class="hero__visual reveal">
-        <div class="arch">
+        <div class="arch float">
           <!-- Ilustracja: tort piętrowy z malinami -->
           <svg viewBox="0 0 400 500" role="img" aria-label="Ilustracja tortu piętrowego z malinami">
             <defs>
@@ -540,6 +688,10 @@
     </div>
   </section>
 
+  <div class="divider" aria-hidden="true">
+    <span><svg><use href="#i-cake"/></svg></span><span><svg><use href="#i-wheat"/></svg></span><span><svg><use href="#i-cookie"/></svg></span>
+  </div>
+
   <!-- OFERTA -->
   <section id="oferta" class="section">
     <div class="container">
@@ -548,30 +700,22 @@
         <h2 class="h2">Od porannej bułki <em>po tort weselny</em></h2>
         <p class="lede">Wszystko pieczemy sami, na miejscu i bez skrótów. Wybierz, na co masz dziś ochotę.</p>
       </div>
-      <ul class="offer-grid">
-        <li class="offer-card reveal">
-          <span class="offer-card__icon"><svg aria-hidden="true"><use href="#i-cake"/></svg></span>
-          <h3>Torty</h3>
-          <p>Na wesele, komunię, chrzciny, urodziny i jubileusz. Każdy robimy ręcznie, pod Twoją okazję i Twój gust.</p>
-          <a href="#torty" class="more">Torty na zamówienie</a>
+      <ul class="offer-grid grid-focus reveal-stagger">
+        <li class="offer-card offer-card--tall bg-a">
+          <div class="art" aria-hidden="true"><svg viewBox="0 0 120 110"><rect x="20" y="58" width="80" height="40" rx="6" fill="#FFFDF8"/><path d="M20 64c10 8 20 8 30 0s20-8 30 0 20 8 20 4" stroke="#E9B8C3" stroke-width="5" fill="none" stroke-linecap="round"/><rect x="34" y="28" width="52" height="32" rx="6" fill="#FBEFF1"/><circle cx="60" cy="22" r="7" fill="#A3324A"/><circle cx="46" cy="27" r="5" fill="#A3324A"/><circle cx="74" cy="27" r="5" fill="#A3324A"/><ellipse cx="60" cy="100" rx="50" ry="5" fill="#E9D7A8"/></svg></div>
+          <div class="txt"><span class="kicker">Torty</span><h3>Torty robione ręcznie na Twoją okazję</h3><a href="#torty" class="more" style="color:var(--gold-soft)">Torty na zamówienie</a></div>
         </li>
-        <li class="offer-card reveal">
-          <span class="offer-card__icon"><svg aria-hidden="true"><use href="#i-cookie"/></svg></span>
-          <h3>Cukiernia</h3>
-          <p>Ciasta na kawałki, ciastka, pączki i drożdżówki. Klasyka z rodzinnych zeszytów i nowe smaki.</p>
-          <a href="#wypieki" class="more">Zobacz wypieki</a>
+        <li class="offer-card offer-card--tall bg-b">
+          <div class="art" aria-hidden="true"><svg viewBox="0 0 120 110"><circle cx="40" cy="55" r="24" fill="#FBF6EA"/><circle cx="40" cy="55" r="8" fill="#B8913A" opacity=".6"/><path d="M62 82c0-18 12-28 26-28s26 10 26 28z" fill="#FFFDF8"/><path d="M70 72c6-5 12-5 18 0s12 5 18 0" stroke="#B8913A" stroke-width="3" fill="none"/><rect x="16" y="86" width="96" height="6" rx="3" fill="#FFFDF8" opacity=".7"/></svg></div>
+          <div class="txt"><span class="kicker">Cukiernia</span><h3>Ciasta, pączki i drożdżówki każdego dnia</h3><a href="#wypieki" class="more" style="color:var(--gold-soft)">Zobacz wypieki</a></div>
         </li>
-        <li class="offer-card reveal">
-          <span class="offer-card__icon"><svg aria-hidden="true"><use href="#i-wheat"/></svg></span>
-          <h3>Piekarnia</h3>
-          <p>Chleby na zakwasie, bułki i pieczywo na każdy dzień. Pachnie tak, jak pachniało u babci.</p>
-          <a href="#wypieki" class="more">Nasze pieczywo</a>
+        <li class="offer-card offer-card--tall bg-c">
+          <div class="art" aria-hidden="true"><svg viewBox="0 0 120 110"><ellipse cx="60" cy="62" rx="46" ry="26" fill="#FBF6EA"/><path d="M34 52l10 14M54 46l10 16M76 48l10 14" stroke="#B8913A" stroke-width="4" stroke-linecap="round"/><path d="M14 92h92" stroke="#FFFDF8" stroke-width="5" stroke-linecap="round"/></svg></div>
+          <div class="txt"><span class="kicker">Piekarnia</span><h3>Chleb na zakwasie, jak u babci</h3><a href="#wypieki" class="more" style="color:var(--gold-soft)">Nasze pieczywo</a></div>
         </li>
-        <li class="offer-card reveal">
-          <span class="offer-card__icon"><svg aria-hidden="true"><use href="#i-table"/></svg></span>
-          <h3>Słodki stół</h3>
-          <p>Bufet słodkości na przyjęcie, komunię albo firmowy event. Komponujemy go razem z Tobą.</p>
-          <a href="#slodki-stol" class="more">Słodki stół</a>
+        <li class="offer-card offer-card--tall bg-d">
+          <div class="art" aria-hidden="true"><svg viewBox="0 0 120 110"><rect x="10" y="80" width="100" height="8" rx="3" fill="#FFFDF8"/><path d="M18 80l4-22h22l4 22z" fill="#E9D7A8"/><circle cx="33" cy="54" r="13" fill="#FFFDF8"/><circle cx="33" cy="43" r="4" fill="#A3324A"/><rect x="56" y="48" width="34" height="32" rx="4" fill="#FFFDF8"/><rect x="62" y="30" width="22" height="20" rx="4" fill="#F6DDE2"/><circle cx="73" cy="26" r="4" fill="#A3324A"/><circle cx="100" cy="72" r="7" fill="#FFFDF8"/></svg></div>
+          <div class="txt"><span class="kicker">Słodki stół</span><h3>Bufet słodkości na Twoje przyjęcie</h3><a href="#slodki-stol" class="more" style="color:var(--gold-soft)">Słodki stół</a></div>
         </li>
       </ul>
     </div>
@@ -633,7 +777,7 @@
       </div>
 
       <div class="tab-panel" role="tabpanel" id="panel-ciasta" aria-labelledby="tab-ciasta">
-        <ul class="product-grid">
+        <ul class="product-grid reveal-stagger">
           <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M10 30 90 18v30L10 60z" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M10 30 90 18" stroke="currentColor" stroke-width="6" stroke-linecap="round" opacity=".55"/></svg></div><div class="product__body"><h3>Sernik rodzinny</h3><p>Kremowy, na twarogu, według dawnej receptury.</p><span class="badge">Klasyk</span></div></li>
           <li class="product"><div class="product__art art-1"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="10" y="22" width="80" height="36" rx="4" fill="#FBEFF1" stroke="currentColor" stroke-width="2.5"/><path d="M10 34h80M10 46h80" stroke="currentColor" stroke-width="2.5" opacity=".5"/><circle cx="25" cy="18" r="5" fill="currentColor"/><circle cx="50" cy="16" r="5" fill="currentColor"/><circle cx="75" cy="18" r="5" fill="currentColor"/></svg></div><div class="product__body"><h3>Malinowa chmurka</h3><p>Biszkopt, mascarpone i świeże maliny.</p></div></li>
           <li class="product"><div class="product__art art-3"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="10" y="24" width="80" height="34" rx="4" fill="#F3F7F4" stroke="currentColor" stroke-width="2.5"/><path d="M14 24c6-8 12-8 18 0s12 8 18 0 12-8 18 0 12 8 18 0" stroke="currentColor" stroke-width="2.5" fill="none"/><path d="M22 42h8M42 46h8M62 40h8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></div><div class="product__body"><h3>Szarlotka</h3><p>Dużo jabłek, kruche ciasto i szczypta cynamonu.</p></div></li>
@@ -644,7 +788,7 @@
       </div>
 
       <div class="tab-panel" role="tabpanel" id="panel-drobne" aria-labelledby="tab-drobne" hidden>
-        <ul class="product-grid">
+        <ul class="product-grid reveal-stagger">
           <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><circle cx="50" cy="36" r="24" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><circle cx="50" cy="36" r="7" fill="currentColor" opacity=".55"/></svg></div><div class="product__body"><h3>Pączki</h3><p>Puszyste, z różą albo konfiturą. Smażone codziennie.</p><span class="badge">Hit</span></div></li>
           <li class="product"><div class="product__art art-3"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M20 48c0-16 14-26 30-26s30 10 30 26z" fill="#F3F7F4" stroke="currentColor" stroke-width="2.5"/><path d="M30 40c6-6 14-6 20 0s14 6 20 0" stroke="currentColor" stroke-width="2.5" fill="none"/></svg></div><div class="product__body"><h3>Drożdżówki</h3><p>Z serem, budyniem, owocami albo kruszonką.</p></div></li>
           <li class="product"><div class="product__art art-1"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M22 38h56l-6 20H28z" fill="#FBEFF1" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M24 38c0-12 12-20 26-20s26 8 26 20" fill="currentColor" opacity=".55"/></svg></div><div class="product__body"><h3>Monoporcje</h3><p>Małe desery z musem, ładne i pyszne.</p><span class="badge">Nowość</span></div></li>
@@ -654,7 +798,7 @@
       </div>
 
       <div class="tab-panel" role="tabpanel" id="panel-pieczywo" aria-labelledby="tab-pieczywo" hidden>
-        <ul class="product-grid">
+        <ul class="product-grid reveal-stagger">
           <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><ellipse cx="50" cy="40" rx="38" ry="20" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><path d="M30 32l8 10M46 28l8 12M62 30l8 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="product__body"><h3>Chleb żytni na zakwasie</h3><p>Długo fermentowany, z chrupiącą skórką.</p><span class="badge">Na zakwasie</span></div></li>
           <li class="product"><div class="product__art art-3"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="16" y="24" width="68" height="32" rx="14" fill="#F3F7F4" stroke="currentColor" stroke-width="2.5"/><g fill="currentColor" opacity=".55"><circle cx="30" cy="34" r="1.8"/><circle cx="44" cy="40" r="1.8"/><circle cx="58" cy="33" r="1.8"/><circle cx="70" cy="42" r="1.8"/></g></svg></div><div class="product__body"><h3>Chleb wieloziarnisty</h3><p>Ze słonecznikiem, siemieniem i dynią.</p></div></li>
           <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><circle cx="34" cy="40" r="16" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><circle cx="66" cy="40" r="16" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><path d="M26 40h16M58 40h16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="product__body"><h3>Bułki i kajzerki</h3><p>Prosto z pieca, na śniadanie i do kanapek.</p></div></li>
@@ -663,7 +807,7 @@
       </div>
 
       <div class="tab-panel" role="tabpanel" id="panel-sezon" aria-labelledby="tab-sezon" hidden>
-        <ul class="product-grid">
+        <ul class="product-grid reveal-stagger">
           <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M14 46C20 20 80 20 86 46c-8 6-18 6-24 0-6 6-18 6-24 0-6 6-16 6-24 0z" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M28 30c8-4 36-4 44 0" stroke="currentColor" stroke-width="3" fill="none"/></svg></div><div class="product__body"><h3>Rogale z białym makiem</h3><p>Listopadowy przysmak Poznania, z dużą ilością nadzienia.</p><span class="badge">Listopad</span></div></li>
           <li class="product"><div class="product__art art-1"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M50 12 64 40H36z" fill="#FBEFF1" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M50 26 70 58H30z" fill="#FBEFF1" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><circle cx="50" cy="10" r="3" fill="currentColor"/></svg></div><div class="product__body"><h3>Pierniki i ciasta świąteczne</h3><p>Korzenne smaki na Boże Narodzenie.</p><span class="badge">Grudzień</span></div></li>
           <li class="product"><div class="product__art art-3"><svg viewBox="0 0 100 70" aria-hidden="true"><ellipse cx="50" cy="40" rx="22" ry="26" fill="#F3F7F4" stroke="currentColor" stroke-width="2.5"/><path d="M30 34h40M30 46h40" stroke="currentColor" stroke-width="2.5" opacity=".5"/></svg></div><div class="product__body"><h3>Mazurki i baby wielkanocne</h3><p>Na świąteczny stół, najlepiej zamówić z wyprzedzeniem.</p><span class="badge">Wielkanoc</span></div></li>
@@ -673,6 +817,10 @@
     </div>
   </section>
 
+  <div class="divider divider--green" aria-hidden="true">
+    <span><svg><use href="#i-rings"/></svg></span><span><svg><use href="#i-gift"/></svg></span><span><svg><use href="#i-star"/></svg></span>
+  </div>
+
   <!-- TORTY -->
   <section id="torty" class="section">
     <div class="container cakes">
@@ -680,7 +828,7 @@
         <span class="eyebrow">Torty na zamówienie</span>
         <h2 class="h2">Tort, który <em>zapamiętacie</em></h2>
         <p class="lede">Smak, wielkość i dekorację ustalamy razem z Tobą. Doradzimy, ile porcji zamówić i co najlepiej pasuje do okazji.</p>
-        <ul class="occasions">
+        <ul class="occasions reveal-stagger">
           <li class="occasion"><svg aria-hidden="true"><use href="#i-rings"/></svg><strong>Wesele</strong><span>piętrowe, klasyczne i nowoczesne</span></li>
           <li class="occasion"><svg aria-hidden="true"><use href="#i-cross"/></svg><strong>Komunia</strong><span>z personalizowaną dekoracją</span></li>
           <li class="occasion"><svg aria-hidden="true"><use href="#i-baby"/></svg><strong>Chrzciny</strong><span>delikatne, pastelowe</span></li>
@@ -767,6 +915,44 @@
     </div>
   </section>
 
+  <!-- KARUZELA -->
+  <section class="section" aria-labelledby="lada-title" style="padding-bottom:4rem">
+    <div class="container">
+      <div class="section-head section-head--center reveal">
+        <span class="eyebrow">Z naszej lady</span>
+        <h2 class="h2" id="lada-title">Pochwal się <em>swoim tortem</em></h2>
+        <p class="lede">Torty, chleby i słodkości, które codziennie wyjeżdżają od nas do Waszych domów.</p>
+      </div>
+    </div>
+    <div class="marquee" tabindex="0" aria-label="Galeria wypieków — najedź, aby zatrzymać">
+      <div class="marquee__track">
+          <figure class="tile art-1"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="20" y="50" width="60" height="40" rx="5" fill="#fff"/><rect x="30" y="26" width="40" height="26" rx="5" fill="#FBEFF1"/><path d="M50 8v14M44 14h12" stroke="#A3324A" stroke-width="3" stroke-linecap="round"/></svg><figcaption>Tort komunijny</figcaption></figure>
+          <figure class="tile art-2"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="18" y="64" width="64" height="28" rx="4" fill="#fff"/><rect x="28" y="40" width="44" height="26" rx="4" fill="#fff"/><rect x="36" y="20" width="28" height="22" rx="4" fill="#fff"/><circle cx="50" cy="16" r="5" fill="#B8913A"/></svg><figcaption>Tort weselny</figcaption></figure>
+          <figure class="tile art-3"><svg viewBox="0 0 100 100" aria-hidden="true"><ellipse cx="50" cy="56" rx="38" ry="24" fill="#FBF6EA" stroke="#1E3A2F" stroke-width="2"/><path d="M30 46l8 12M46 42l8 14M62 44l8 12" stroke="#1E3A2F" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>Chleb na zakwasie</figcaption></figure>
+          <figure class="tile art-1"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="22" y="36" width="56" height="50" rx="6" fill="#fff"/><path d="M22 42h56v6c-4 0-4 10-8 10s-4-8-8-8-4 14-8 14-4-12-8-12-4 8-8 8-4-10-8-10-4 6-8 6z" fill="#A3324A"/><circle cx="40" cy="30" r="5" fill="#A3324A"/><circle cx="58" cy="30" r="5" fill="#A3324A"/></svg><figcaption>Drip cake</figcaption></figure>
+          <figure class="tile art-4"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M28 80h44l-4-24H32z" fill="#fff"/><path d="M30 56c0-14 9-22 20-22s20 8 20 22z" fill="#6E64A3" opacity=".7"/><circle cx="50" cy="30" r="5" fill="#A3324A"/></svg><figcaption>Monoporcje</figcaption></figure>
+          <figure class="tile art-2"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M14 62C20 36 80 36 86 62c-8 6-18 6-24 0-6 6-18 6-24 0-6 6-16 6-24 0z" fill="#FBF6EA" stroke="#B8913A" stroke-width="2.5" stroke-linejoin="round"/><path d="M28 46c8-4 36-4 44 0" stroke="#B8913A" stroke-width="3" fill="none"/></svg><figcaption>Rogale z białym makiem</figcaption></figure>
+          <figure class="tile art-3"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="22" y="44" width="56" height="42" rx="6" fill="#fff"/><g fill="#1E3A2F"><circle cx="34" cy="60" r="3"/><circle cx="50" cy="66" r="3"/><circle cx="66" cy="58" r="3"/></g><path d="M40 44V30M50 44V26M60 44V30" stroke="#B8913A" stroke-width="3"/><g fill="#A3324A"><circle cx="40" cy="26" r="3"/><circle cx="50" cy="22" r="3"/><circle cx="60" cy="26" r="3"/></g></svg><figcaption>Tort dla dziecka</figcaption></figure>
+          <figure class="tile art-4"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="10" y="74" width="80" height="6" rx="2" fill="#4B437A"/><path d="M18 74l3-16h14l3 16z" fill="#E9D7A8"/><circle cx="28" cy="54" r="9" fill="#fff"/><rect x="46" y="46" width="24" height="28" rx="3" fill="#fff"/><circle cx="80" cy="66" r="6" fill="#fff"/></svg><figcaption>Słodki stół</figcaption></figure>
+          <figure class="tile art-1" aria-hidden="true"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="20" y="50" width="60" height="40" rx="5" fill="#fff"/><rect x="30" y="26" width="40" height="26" rx="5" fill="#FBEFF1"/><path d="M50 8v14M44 14h12" stroke="#A3324A" stroke-width="3" stroke-linecap="round"/></svg><figcaption>Tort komunijny</figcaption></figure>
+          <figure class="tile art-2" aria-hidden="true"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="18" y="64" width="64" height="28" rx="4" fill="#fff"/><rect x="28" y="40" width="44" height="26" rx="4" fill="#fff"/><rect x="36" y="20" width="28" height="22" rx="4" fill="#fff"/><circle cx="50" cy="16" r="5" fill="#B8913A"/></svg><figcaption>Tort weselny</figcaption></figure>
+          <figure class="tile art-3" aria-hidden="true"><svg viewBox="0 0 100 100" aria-hidden="true"><ellipse cx="50" cy="56" rx="38" ry="24" fill="#FBF6EA" stroke="#1E3A2F" stroke-width="2"/><path d="M30 46l8 12M46 42l8 14M62 44l8 12" stroke="#1E3A2F" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>Chleb na zakwasie</figcaption></figure>
+          <figure class="tile art-1" aria-hidden="true"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="22" y="36" width="56" height="50" rx="6" fill="#fff"/><path d="M22 42h56v6c-4 0-4 10-8 10s-4-8-8-8-4 14-8 14-4-12-8-12-4 8-8 8-4-10-8-10-4 6-8 6z" fill="#A3324A"/><circle cx="40" cy="30" r="5" fill="#A3324A"/><circle cx="58" cy="30" r="5" fill="#A3324A"/></svg><figcaption>Drip cake</figcaption></figure>
+          <figure class="tile art-4" aria-hidden="true"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M28 80h44l-4-24H32z" fill="#fff"/><path d="M30 56c0-14 9-22 20-22s20 8 20 22z" fill="#6E64A3" opacity=".7"/><circle cx="50" cy="30" r="5" fill="#A3324A"/></svg><figcaption>Monoporcje</figcaption></figure>
+          <figure class="tile art-2" aria-hidden="true"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M14 62C20 36 80 36 86 62c-8 6-18 6-24 0-6 6-18 6-24 0-6 6-16 6-24 0z" fill="#FBF6EA" stroke="#B8913A" stroke-width="2.5" stroke-linejoin="round"/><path d="M28 46c8-4 36-4 44 0" stroke="#B8913A" stroke-width="3" fill="none"/></svg><figcaption>Rogale z białym makiem</figcaption></figure>
+          <figure class="tile art-3" aria-hidden="true"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="22" y="44" width="56" height="42" rx="6" fill="#fff"/><g fill="#1E3A2F"><circle cx="34" cy="60" r="3"/><circle cx="50" cy="66" r="3"/><circle cx="66" cy="58" r="3"/></g><path d="M40 44V30M50 44V26M60 44V30" stroke="#B8913A" stroke-width="3"/><g fill="#A3324A"><circle cx="40" cy="26" r="3"/><circle cx="50" cy="22" r="3"/><circle cx="60" cy="26" r="3"/></g></svg><figcaption>Tort dla dziecka</figcaption></figure>
+          <figure class="tile art-4" aria-hidden="true"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="10" y="74" width="80" height="6" rx="2" fill="#4B437A"/><path d="M18 74l3-16h14l3 16z" fill="#E9D7A8"/><circle cx="28" cy="54" r="9" fill="#fff"/><rect x="46" y="46" width="24" height="28" rx="3" fill="#fff"/><circle cx="80" cy="66" r="6" fill="#fff"/></svg><figcaption>Słodki stół</figcaption></figure>
+      </div>
+    </div>
+    <div class="container" style="text-align:center; margin-top:2rem">
+      <a href="https://www.instagram.com/cukiernialyskawa/" target="_blank" rel="noopener" class="btn btn--ghost"><svg aria-hidden="true"><use href="#i-ig"/></svg> Więcej na Instagramie</a>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true">
+    <span><svg><use href="#i-pin"/></svg></span><span><svg><use href="#i-bag"/></svg></span><span><svg><use href="#i-heart"/></svg></span>
+  </div>
+
   <!-- SKLEPY -->
   <section id="sklepy" class="section">
     <div class="container">
@@ -775,8 +961,8 @@
         <h2 class="h2">Znajdziesz nas <em>w Poznaniu</em></h2>
         <p class="lede">Zajrzyj do najbliższego sklepu Łyskawa po świeży chleb, ciasto do kawy albo zamówiony tort.</p>
       </div>
-      <ul class="shops">
-        <li class="shop shop--main reveal">
+      <ul class="shops reveal-stagger">
+        <li class="shop shop--main">
           <div class="shop__top"><h3>Mrzeżyńska</h3><span class="shop__label">Biuro &amp; zamówienia</span></div>
           <dl>
             <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Mrzeżyńska 16<br>60-446 Poznań</dd></div>
@@ -784,7 +970,7 @@
           </dl>
           <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=Mrze%C5%BCy%C5%84ska+16+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
         </li>
-        <li class="shop reveal">
+        <li class="shop">
           <div class="shop__top"><h3>Łomżyńska</h3></div>
           <dl>
             <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Łomżyńska 1<br>61-048 Poznań</dd></div>
@@ -793,7 +979,7 @@
           </dl>
           <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=%C5%81om%C5%BCy%C5%84ska+1+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
         </li>
-        <li class="shop reveal">
+        <li class="shop">
           <div class="shop__top"><h3>Zeylanda</h3></div>
           <dl>
             <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Zeylanda 12<br>Poznań</dd></div>
@@ -802,21 +988,21 @@
           </dl>
           <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=Zeylanda+12+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
         </li>
-        <li class="shop reveal">
+        <li class="shop">
           <div class="shop__top"><h3>Półwiejska</h3></div>
           <dl>
             <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Półwiejska 43<br>61-893 Poznań</dd></div>
           </dl>
           <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=P%C3%B3%C5%82wiejska+43+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
         </li>
-        <li class="shop reveal">
+        <li class="shop">
           <div class="shop__top"><h3>Głogowska</h3></div>
           <dl>
             <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Głogowska 81<br>60-739 Poznań</dd></div>
           </dl>
           <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=G%C5%82ogowska+81+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
         </li>
-        <li class="shop reveal" style="background:var(--cream-deep); border-style:dashed;">
+        <li class="shop" style="background:var(--cream-deep); border-style:dashed;">
           <div class="shop__top"><h3>Sklep online</h3></div>
           <dl>
             <div><dt><svg aria-hidden="true"><use href="#i-bag"/></svg></dt><dd>Zamów przez internet. <strong>Darmowa dostawa</strong> przy zamówieniu powyżej 300 zł.</dd></div>
@@ -853,6 +1039,14 @@
     </div>
   </section>
 
+  <section class="cta-full">
+    <div class="container reveal">
+      <span class="eyebrow">5 sklepów w Poznaniu</span>
+      <h2>Odbierz swój tort blisko domu</h2>
+      <p>Mrzeżyńska, Łomżyńska, Zeylanda, Półwiejska i Głogowska. Wybierz sklep, a tort będzie tam na Ciebie czekał.</p>
+      <a href="#zamow" class="btn btn--light">Zamów tort</a>
+    </div>
+  </section>
 </main>
 
 <footer class="site-footer">
@@ -897,6 +1091,7 @@
         </ul>
       </div>
     </div>
+    <p class="wordmark" aria-hidden="true"><span>Ł</span><span>y</span><span>s</span><span>k</span><span>a</span><span>w</span><span>a</span></p>
     <div class="footer-bottom">
       <span>© <span id="year">2026</span> Cukiernia Piekarnia Łyskawa sp. z o.o.</span>
       <span>Wypiekamy od 1928 roku</span>
@@ -905,7 +1100,6 @@
 </footer>
 
 <script>
-  document.documentElement.classList.add('js');
   document.getElementById('year').textContent = new Date().getFullYear();
 
   // Mobile menu
@@ -961,7 +1155,7 @@
   });
 
   // Scroll reveal (content stays visible without IntersectionObserver)
-  const revealEls = document.querySelectorAll('.reveal');
+  const revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
