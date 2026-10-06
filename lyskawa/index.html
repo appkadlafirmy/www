@@ -404,6 +404,21 @@
   .tag-float { animation: float 5s ease-in-out infinite -2s; }
   @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
 
+  /* ---------- Zdjęcia ---------- */
+  .arch img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .arch::after { content: ""; position: absolute; inset: 0; box-shadow: inset 0 0 0 6px rgba(250,245,236,.18); border-radius: inherit; pointer-events: none; }
+  .product__art img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+  .product:hover .product__art img { transform: scale(1.06); }
+  .product__art { overflow: hidden; }
+  .archive { margin-top: 2rem; }
+  .archive img { width: 100%; border-radius: 1rem; filter: sepia(.25) contrast(1.05); box-shadow: 0 20px 40px -24px rgba(0,0,0,.6); }
+  .archive figcaption { margin-top: .6rem; font-size: .85rem; color: rgba(250,245,236,.65); font-style: italic; }
+  .collage { position: relative; aspect-ratio: 5 / 4; }
+  .collage img { position: absolute; object-fit: cover; border-radius: 1.5rem; box-shadow: var(--shadow-card); }
+  .collage .c1 { left: 0; top: 0; width: 66%; height: 92%; }
+  .collage .c2 { right: 0; bottom: 0; width: 48%; height: 60%; border: 6px solid var(--paper); transform: rotate(3deg); transition: transform .4s ease; }
+  .collage:hover .c2 { transform: rotate(0deg) scale(1.03); }
+
   /* ---------- Ticker ---------- */
   .ticker { position: relative; z-index: 2; background: var(--raspberry); color: #fff; transform: rotate(-1.4deg); margin: -1.25rem -2% 0; padding: .95rem 0; box-shadow: 0 14px 30px -18px rgba(163,50,74,.8); overflow: hidden; }
   .ticker__track { display: flex; width: max-content; animation: tick 38s linear infinite; }
@@ -498,6 +513,17 @@
   .js .hero-in > *:nth-child(4) { animation-delay: .36s; }
   .js .hero-in > *:nth-child(5) { animation-delay: .48s; }
   @keyframes heroIn { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+  /* ---------- Karty ze zdjęciami ---------- */
+  .tilt.tilt--photo { color: #fff; background: var(--green-900); }
+  .tilt.tilt--photo .photo { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.2,.8,.2,1); }
+  .tilt.tilt--photo:hover .photo { transform: scale(1.06); }
+  .tilt.tilt--photo::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(20,42,33,.05) 20%, rgba(20,42,33,.55) 50%, rgba(20,42,33,.94) 85%); }
+  .tilt.tilt--photo::after { z-index: 2; }
+  .tilt.tilt--photo > :not(.photo) { position: relative; z-index: 3; }
+  .tilt.tilt--photo .num { position: absolute; color: #fff; opacity: 1; background: rgba(20,42,33,.6); padding: .15rem .6rem; border-radius: 999px; }
+  .tilt.tilt--photo h3 { color: #fff; }
+  .tilt.tilt--photo p { color: rgba(255,255,255,.88); }
+  .tilt.tilt--photo a { color: var(--gold-soft); }
 </style>
 </head>
 <body>
@@ -600,42 +626,7 @@
 
       <div class="hero__visual reveal">
         <div class="arch float">
-          <!-- Ilustracja: tort piętrowy z malinami -->
-          <svg viewBox="0 0 400 500" role="img" aria-label="Ilustracja tortu piętrowego z malinami">
-            <defs>
-              <linearGradient id="g-cream" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#FFFDF8"/><stop offset="1" stop-color="#F2E8D5"/></linearGradient>
-              <linearGradient id="g-pink" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#F6DDE2"/><stop offset="1" stop-color="#E9B8C3"/></linearGradient>
-            </defs>
-            <g fill="#E9D7A8" opacity=".18">
-              <circle cx="70" cy="90" r="3"/><circle cx="330" cy="130" r="4"/><circle cx="300" cy="60" r="2.5"/>
-              <circle cx="95" cy="200" r="2"/><circle cx="340" cy="250" r="2.5"/><circle cx="60" cy="300" r="3"/>
-            </g>
-            <ellipse cx="200" cy="455" rx="150" ry="16" fill="#0E1E17" opacity=".35"/>
-            <!-- patera -->
-            <rect x="185" y="420" width="30" height="30" fill="#E9D7A8"/>
-            <ellipse cx="200" cy="420" rx="135" ry="14" fill="#E9D7A8"/>
-            <ellipse cx="200" cy="450" rx="55" ry="8" fill="#C9AE6E"/>
-            <!-- dolne piętro -->
-            <rect x="80" y="320" width="240" height="100" rx="10" fill="url(#g-cream)"/>
-            <path d="M80 330c20 18 40 18 60 0s40-18 60 0 40 18 60 0 40-18 60 0" stroke="#E9B8C3" stroke-width="10" fill="none" stroke-linecap="round"/>
-            <rect x="80" y="395" width="240" height="8" fill="#B8913A" opacity=".55"/>
-            <!-- środkowe -->
-            <rect x="110" y="235" width="180" height="88" rx="10" fill="url(#g-pink)"/>
-            <path d="M110 245c15 14 30 14 45 0s30-14 45 0 30 14 45 0 30-14 45 0" stroke="#FFFDF8" stroke-width="9" fill="none" stroke-linecap="round"/>
-            <!-- górne -->
-            <rect x="140" y="165" width="120" height="74" rx="10" fill="url(#g-cream)"/>
-            <path d="M140 175c10 12 20 12 30 0s20-12 30 0 20 12 30 0 20-12 30 0" stroke="#E9B8C3" stroke-width="8" fill="none" stroke-linecap="round"/>
-            <!-- maliny -->
-            <g fill="#A3324A">
-              <circle cx="170" cy="158" r="11"/><circle cx="200" cy="150" r="13"/><circle cx="230" cy="158" r="11"/>
-              <circle cx="125" cy="232" r="8"/><circle cx="275" cy="232" r="8"/>
-              <circle cx="100" cy="318" r="9"/><circle cx="300" cy="318" r="9"/><circle cx="200" cy="318" r="9"/>
-            </g>
-            <g fill="#FFFDF8" opacity=".5"><circle cx="196" cy="146" r="3"/><circle cx="166" cy="155" r="2.5"/><circle cx="226" cy="155" r="2.5"/></g>
-            <!-- listki -->
-            <path d="M214 140c10-14 26-14 34-8-8 10-22 14-34 8z" fill="#5E8C6A"/>
-            <path d="M186 140c-10-14-26-14-34-8 8 10 22 14 34 8z" fill="#5E8C6A"/>
-          </svg>
+          <img src="img/mini-tarty-pistacjowe.jpg" alt="Mini tarty pistacjowe z malinami z Cukierni Łyskawa" width="825" height="1100" decoding="async">
         </div>
         <div class="seal seal--spin" aria-hidden="true">
           <div><small>od roku</small><strong>1928</strong><small>Łyskawa</small></div>
@@ -661,30 +652,30 @@
         <p class="lede">Pieczywo, ciasta i torty z naturalnych składników, codziennie świeże. Wybierz, na co masz dziś ochotę.</p>
       </div>
       <ul class="bento reveal-stagger">
-        <li class="tilt tilt--big">
+        <li class="tilt tilt--big tilt--photo">
           <span class="num">01</span>
-          <svg class="art" viewBox="0 0 200 170" aria-hidden="true"><ellipse cx="100" cy="158" rx="80" ry="8" fill="#142A21"/><rect x="88" y="138" width="24" height="16" fill="#E9D7A8"/><ellipse cx="100" cy="138" rx="78" ry="8" fill="#E9D7A8"/><rect x="34" y="88" width="132" height="50" rx="8" fill="#FFFDF8"/><path d="M34 96c13 10 26 10 39 0s26-10 39 0 26 10 39 0 15-6 15-4" stroke="#E9B8C3" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="56" y="46" width="88" height="44" rx="8" fill="#F6DDE2"/><path d="M56 54c11 8 22 8 33 0s22-8 33 0 22 8 22 4" stroke="#FFFDF8" stroke-width="6" fill="none" stroke-linecap="round"/><circle cx="100" cy="36" r="10" fill="#A3324A"/><circle cx="80" cy="42" r="7" fill="#A3324A"/><circle cx="120" cy="42" r="7" fill="#A3324A"/><path d="M106 26c8-10 20-10 26-6-6 8-16 10-26 6z" fill="#5E8C6A"/></svg>
+          <img class="photo" src="img/tort-chrzest.jpg" alt="Tort na chrzest z bucikami z masy cukrowej" width="1080" height="1080" loading="lazy" decoding="async">
           <h3>Torty na Twoją okazję</h3>
           <p>Wesele, komunia, chrzciny, urodziny, jubileusz. Każdy na indywidualne zamówienie, dekorowany według Twojego pomysłu.</p>
           <a href="#torty">Torty na zamówienie <span>→</span></a>
         </li>
-        <li class="tilt tilt--rasp">
+        <li class="tilt tilt--rasp tilt--photo">
           <span class="num">02</span>
-          <svg class="art" viewBox="0 0 120 100" aria-hidden="true"><circle cx="60" cy="54" r="34" fill="#FBEFF1" stroke="#A3324A" stroke-width="3"/><circle cx="60" cy="54" r="10" fill="#A3324A" opacity=".55"/><g fill="#FFFDF8"><circle cx="44" cy="36" r="3"/><circle cx="76" cy="40" r="3"/><circle cx="70" cy="74" r="3"/></g></svg>
+          <img class="photo" src="img/croissant-pistacjowy.jpg" alt="Croissant z kremem pistacjowym" width="526" height="526" loading="lazy" decoding="async">
           <h3>Cukiernia</h3>
           <p>Ciasta do kawy, tarty, pavlova i jagodzianki. Codziennie świeże.</p>
           <a href="#wypieki">Zobacz wypieki <span>→</span></a>
         </li>
-        <li class="tilt tilt--gold">
+        <li class="tilt tilt--gold tilt--photo">
           <span class="num">03</span>
-          <svg class="art" viewBox="0 0 120 100" aria-hidden="true"><ellipse cx="60" cy="56" rx="46" ry="26" fill="#FBF6EA" stroke="#B8913A" stroke-width="3"/><path d="M36 46l8 12M54 40l8 14M74 44l8 12" stroke="#B8913A" stroke-width="3.5" stroke-linecap="round"/></svg>
+          <img class="photo" src="img/kanapka-croissant.jpg" alt="Kanapka na croissancie z rukolą, mozzarellą i pomidorem" width="1080" height="1080" loading="lazy" decoding="async">
           <h3>Piekarnia</h3>
           <p>Pieczywo na zakwasie, chrupiące bułeczki i kanapki robione na miejscu.</p>
           <a href="#wypieki">Nasze pieczywo <span>→</span></a>
         </li>
-        <li class="tilt tilt--wide">
+        <li class="tilt tilt--wide tilt--photo">
           <span class="num">04</span>
-          <svg class="art" viewBox="0 0 160 100" aria-hidden="true" style="width:30%;max-width:190px"><rect x="10" y="78" width="140" height="8" rx="3" fill="#4B437A"/><path d="M22 78l4-22h20l4 22z" fill="#E9D7A8"/><circle cx="36" cy="50" r="13" fill="#fff"/><circle cx="36" cy="38" r="4" fill="#A3324A"/><rect x="66" y="44" width="38" height="34" rx="4" fill="#fff"/><rect x="74" y="24" width="22" height="22" rx="4" fill="#F6DDE2"/><circle cx="85" cy="20" r="4" fill="#A3324A"/><circle cx="126" cy="68" r="9" fill="#fff"/><circle cx="140" cy="70" r="7" fill="#F6DDE2"/></svg>
+          <img class="photo" src="img/pavlova.jpg" alt="Pavlova z owocami i kwiatami" width="526" height="526" loading="lazy" decoding="async">
           <h3>Oferta bankietowa</h3>
           <p>Mini desery i słodkie stoły premium na bankiety, przyjęcia firmowe, wesela i eventy.</p>
           <a href="#slodki-stol">Oferta bankietowa <span>→</span></a>
@@ -700,6 +691,7 @@
         <span class="eyebrow">Nasza historia</span>
         <h2 class="h2">Prawie sto lat <em>rodzinnej tradycji</em></h2>
         <p class="lede">Wypiekamy od 1928 roku. Firmę prowadzi już czwarte pokolenie rodziny. Nasi dziadkowie zaczynali od wypieku chleba, a my kontynuujemy ich dzieło: łączymy sprawdzone, tradycyjne receptury z nowoczesnymi technikami i nowymi smakami.</p>
+        <figure class="archive"><img src="img/pokolenia-archiwum.jpg" alt="Archiwalne zdjęcie piekarzy przed piekarnią" width="550" height="337" loading="lazy" decoding="async"><figcaption>Pokolenia Łyskawy: zdjęcie archiwalne</figcaption></figure>
         <blockquote>„Pieczywo to coś więcej niż codzienny posiłek. To smak dzieciństwa, zapach domu i radość dzielenia się z bliskimi.”</blockquote>
         <div class="counters">
           <div><strong data-count="1928" data-from="1850">1928</strong><span>rok, od którego pieczemy</span></div>
@@ -756,7 +748,10 @@
 
       <div class="tab-panel" role="tabpanel" id="panel-desery" aria-labelledby="tab-desery">
         <ul class="product-grid reveal-stagger">
-          <li class="product"><div class="product__art art-1"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M18 52c0-14 14-26 32-26s32 12 32 26z" fill="#FFFDF8" stroke="currentColor" stroke-width="2.5"/><path d="M26 40c6-6 10-6 14 0M44 34c6-6 10-6 14 0M62 40c6-6 10-6 14 0" stroke="currentColor" stroke-width="2" fill="none" opacity=".5"/><circle cx="38" cy="24" r="5" fill="currentColor"/><circle cx="52" cy="20" r="5" fill="#4B437A"/><circle cx="64" cy="25" r="4.5" fill="currentColor"/></svg></div><div class="product__body"><h3>Pavlova</h3><p>Lekka, chrupiąca beza, aksamitny krem i świeże, sezonowe owoce. Można ją też zamówić na okazję.</p><span class="badge">Lato</span></div></li>
+          <li class="product"><div class="product__art"><img src="img/pavlova.jpg" alt="Pavlova z owocami" width="526" height="526" loading="lazy" decoding="async"></div><div class="product__body"><h3>Pavlova</h3><p>Lekka, chrupiąca beza, aksamitny krem i świeże, sezonowe owoce. Można ją też zamówić na okazję.</p><span class="badge">Lato</span></div></li>
+          <li class="product"><div class="product__art"><img src="img/mini-tarty-pistacjowe.jpg" alt="Mini tarty pistacjowe z malinami" width="825" height="1100" loading="lazy" decoding="async"></div><div class="product__body"><h3>Mini tarta pistacjowa</h3><p>Kruche ciasto, rozpływający się w ustach krem pistacjowy i świeże maliny na górze.</p></div></li>
+          <li class="product"><div class="product__art"><img src="img/croissant-pistacjowy.jpg" alt="Croissant z kremem pistacjowym" width="526" height="526" loading="lazy" decoding="async"></div><div class="product__body"><h3>Croissant pistacjowy</h3><p>Maślany croissant z kremem pistacjowym i posypką z pistacji.</p></div></li>
+          <li class="product"><div class="product__art"><img src="img/rogale-swietomarcinskie.jpg" alt="Rogale świętomarcińskie" width="1100" height="893" loading="lazy" decoding="async"></div><div class="product__body"><h3>Rogale świętomarcińskie</h3><p>Poznański przysmak z nadzieniem z białego maku, najchętniej kupowany na 11 listopada.</p><span class="badge">Listopad</span></div></li>
           <li class="product"><div class="product__art art-1"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M12 40h76l-6 16H18z" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><ellipse cx="50" cy="40" rx="38" ry="8" fill="#FFFDF8" stroke="currentColor" stroke-width="2.5"/><g fill="#A3324A"><circle cx="32" cy="38" r="4"/><circle cx="58" cy="36" r="4"/></g><g fill="#4B437A"><circle cx="44" cy="40" r="3.5"/><circle cx="70" cy="40" r="3.5"/></g></svg></div><div class="product__body"><h3>Tarta z mascarpone</h3><p>Krucha, maślana tarta z kremem mascarpone, truskawkami, borówkami, malinami i jeżynami.</p></div></li>
           <li class="product"><div class="product__art art-4"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M16 50c0-16 15-26 34-26s34 10 34 26c0 4-3 6-7 6H23c-4 0-7-2-7-6z" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><g fill="#4B437A"><circle cx="40" cy="36" r="3.5"/><circle cx="50" cy="32" r="3.5"/><circle cx="60" cy="36" r="3.5"/><circle cx="46" cy="42" r="3.5"/><circle cx="56" cy="42" r="3.5"/></g></svg></div><div class="product__body"><h3>Jagodzianki z kremem pâtissière</h3><p>Puszyste, maślane ciasto, krem pâtissière i mnóstwo jagód. Najlepsze jeszcze ciepłe.</p><span class="badge">Sezonowo</span></div></li>
           <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M10 30 90 18v30L10 60z" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M10 30 90 18" stroke="currentColor" stroke-width="6" stroke-linecap="round" opacity=".55"/><path d="M10 44 90 32" stroke="currentColor" stroke-width="2" opacity=".35"/></svg></div><div class="product__body"><h3>Ciasta do kawy</h3><p>Codziennie świeże ciasta: klasyka z recepturami o 80-letniej tradycji i nowe połączenia smaków.</p></div></li>
@@ -767,7 +762,7 @@
         <ul class="product-grid reveal-stagger">
           <li class="product"><div class="product__art art-1"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="8" y="30" width="84" height="26" rx="5" fill="#FFFDF8" stroke="currentColor" stroke-width="2.5"/><path d="M8 43h84" stroke="currentColor" stroke-width="2" opacity=".4"/><g fill="#A3324A"><circle cx="18" cy="26" r="4"/><circle cx="30" cy="26" r="4"/><circle cx="42" cy="26" r="4"/><circle cx="54" cy="26" r="4"/><circle cx="66" cy="26" r="4"/><circle cx="78" cy="26" r="4"/></g></svg></div><div class="product__body"><h3>Long Cake</h3><p>Modny, podłużny tort: delikatny biszkopt, aksamitny krem i soczyste maliny. Na śluby, urodziny i rocznice.</p><span class="badge">Modny</span></div></li>
           <li class="product"><div class="product__art art-3"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="20" y="30" width="60" height="28" rx="5" fill="#FFFDF8" stroke="currentColor" stroke-width="2.5"/><path d="M20 36c6 5 10 5 15 0s10-5 15 0 10 5 15 0 10-5 15 0" stroke="currentColor" stroke-width="2.5" fill="none"/><g><circle cx="34" cy="24" r="5" fill="#A3324A"/><circle cx="46" cy="22" r="5" fill="#B8913A"/><circle cx="58" cy="24" r="5" fill="#4B437A"/><circle cx="68" cy="26" r="4" fill="#5E8C6A"/></g></svg></div><div class="product__body"><h3>Tort w stylu włoskim</h3><p>Lekkie blaty, puszysty krem śmietankowy i obfita dekoracja ze świeżych owoców.</p><span class="badge">Wesela</span></div></li>
-          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="22" y="40" width="56" height="20" rx="4" fill="#FFFDF8" stroke="currentColor" stroke-width="2.5"/><rect x="32" y="22" width="36" height="20" rx="4" fill="#FFFDF8" stroke="currentColor" stroke-width="2.5"/><path d="M50 8v10M45 12h10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="product__body"><h3>Torty okolicznościowe</h3><p>Na komunię, wesele, chrzciny i jubileusz. Każdy na indywidualne zamówienie.</p></div></li>
+          <li class="product"><div class="product__art"><img src="img/tort-chrzest.jpg" alt="Tort na chrzest" width="1080" height="1080" loading="lazy" decoding="async"></div><div class="product__body"><h3>Torty okolicznościowe</h3><p>Na komunię, wesele, chrzciny i jubileusz. Każdy na indywidualne zamówienie.</p></div></li>
         </ul>
       </div>
 
@@ -775,7 +770,7 @@
         <ul class="product-grid reveal-stagger">
           <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><ellipse cx="50" cy="40" rx="38" ry="20" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><path d="M30 32l8 10M46 28l8 12M62 30l8 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="product__body"><h3>Pieczywo na zakwasie</h3><p>Z naturalnych składników od lokalnych dostawców, pieczone każdego ranka.</p></div></li>
           <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><circle cx="34" cy="40" r="16" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><circle cx="66" cy="40" r="16" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><path d="M26 40h16M58 40h16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="product__body"><h3>Chrupiące bułeczki</h3><p>Świeże od samego rana, na śniadanie i do kanapek.</p></div></li>
-          <li class="product"><div class="product__art art-3"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M14 36c0-10 16-14 36-14s36 4 36 14z" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><path d="M12 40c10 4 20-2 30 2s20-2 30 2 14 0 16-2" stroke="#5E8C6A" stroke-width="4" fill="none" stroke-linecap="round"/><rect x="14" y="44" width="72" height="6" rx="2" fill="#E9B8C3"/><path d="M14 54h72v2c0 3-2 4-5 4H19c-3 0-5-1-5-4z" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/></svg></div><div class="product__body"><h3>Kanapki</h3><p>Przygotowywane na miejscu, na świeżym pieczywie. Do tego smaczne przekąski.</p></div></li>
+          <li class="product"><div class="product__art"><img src="img/kanapka-croissant.jpg" alt="Kanapka na croissancie" width="1080" height="1080" loading="lazy" decoding="async"></div><div class="product__body"><h3>Kanapki</h3><p>Przygotowywane na miejscu, na świeżym pieczywie. Do tego smaczne przekąski.</p></div></li>
           <li class="product"><div class="product__art art-4"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M28 26h40v18c0 10-8 16-20 16s-20-6-20-16z" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><path d="M68 32h6a6 6 0 0 1 0 12h-6" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M40 10c-4 4 4 6 0 10M52 10c-4 4 4 6 0 10" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" opacity=".6"/></svg></div><div class="product__body"><h3>Kawa</h3><p>Do ciasta, w naszych kawiarniach.</p></div></li>
           <li class="product"><div class="product__art art-1"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M38 36h24L50 64z" fill="#E9D7A8" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><circle cx="44" cy="30" r="10" fill="#FBEFF1" stroke="currentColor" stroke-width="2.5"/><circle cx="56" cy="30" r="10" fill="#FFFDF8" stroke="currentColor" stroke-width="2.5"/><circle cx="50" cy="20" r="9" fill="#F3F7F4" stroke="currentColor" stroke-width="2.5"/></svg></div><div class="product__body"><h3>Lody</h3><p>O dostępne smaki zapytaj w lokalu.</p></div></li>
         </ul>
@@ -852,27 +847,9 @@
   <!-- SŁODKI STÓŁ -->
   <section id="slodki-stol" class="section section--paper">
     <div class="container sweet">
-      <div class="sweet__art reveal">
-        <svg viewBox="0 0 500 400" role="img" aria-label="Ilustracja stołu z tortem i małymi deserami">
-          <rect width="500" height="400" fill="#F6DDE2"/>
-          <path d="M0 0h500v60c-40 30-80 30-125 0s-85-30-125 0-85 30-125 0S40 30 0 60z" fill="#E9B8C3" opacity=".6"/>
-          <rect x="30" y="300" width="440" height="18" rx="4" fill="#1E3A2F"/>
-          <rect x="50" y="318" width="400" height="82" fill="#2A4D3E"/>
-          <!-- tort -->
-          <rect x="200" y="210" width="100" height="90" rx="8" fill="#FFFDF8"/>
-          <rect x="215" y="160" width="70" height="52" rx="8" fill="#FBEFF1"/>
-          <circle cx="250" cy="152" r="10" fill="#A3324A"/>
-          <path d="M200 225c12 10 25 10 37 0s25-10 37 0 20 8 26 4" stroke="#E9B8C3" stroke-width="7" fill="none" stroke-linecap="round"/>
-          <!-- babeczki -->
-          <g>
-            <path d="M70 300l6-36h40l6 36z" fill="#B8913A"/><circle cx="96" cy="258" r="22" fill="#FFFDF8"/><circle cx="96" cy="240" r="7" fill="#A3324A"/>
-            <path d="M130 300l6-36h40l6 36z" fill="#B8913A"/><circle cx="156" cy="258" r="22" fill="#E9B8C3"/><circle cx="156" cy="240" r="7" fill="#A3324A"/>
-          </g>
-          <!-- patera z ciastkami -->
-          <ellipse cx="380" cy="262" rx="70" ry="9" fill="#E9D7A8"/><rect x="373" y="262" width="14" height="38" fill="#E9D7A8"/>
-          <g fill="#FFFDF8"><circle cx="345" cy="248" r="13"/><circle cx="375" cy="244" r="13"/><circle cx="405" cy="248" r="13"/><circle cx="360" cy="228" r="12"/><circle cx="392" cy="228" r="12"/></g>
-          <g fill="#A3324A"><circle cx="375" cy="244" r="4"/><circle cx="360" cy="228" r="4"/><circle cx="392" cy="228" r="4"/></g>
-        </svg>
+      <div class="collage reveal">
+        <img class="c1" src="img/pavlova.jpg" alt="Pavlova z owocami i kwiatami" width="526" height="526" loading="lazy" decoding="async">
+        <img class="c2" src="img/mini-tarty-pistacjowe.jpg" alt="Mini tarty pistacjowe z malinami" width="825" height="1100" loading="lazy" decoding="async">
       </div>
       <div class="reveal">
         <span class="eyebrow">Oferta bankietowa</span>
