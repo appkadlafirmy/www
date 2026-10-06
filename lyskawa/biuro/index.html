@@ -55,7 +55,7 @@
   .tab svg { width: 18px; height: 18px; }
   .panel[hidden] { display: none; }
   .keybar { background: var(--paper); border: 1.5px dashed var(--rasp); border-radius: 18px; padding: 14px 16px; display: grid; gap: 10px; }
-  .keybar[hidden] { display: none; }
+  .keybar[hidden], .keyrow[hidden], .keyok[hidden] { display: none; }
   .keybar h2 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; color: var(--green); }
   .keybar p { margin: 0; font-size: .88rem; color: var(--ink-soft); }
   .keyrow { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -210,18 +210,6 @@
     </div>
     <span class="demo-tag">Demo</span>
   </header>
-
-  <section class="keybar" id="keybar" hidden aria-labelledby="key-h">
-    <h2 id="key-h">Połącz biuro z AI</h2>
-    <p>Żeby AI działało, wklej klucz API Anthropic (zaczyna się od <b>sk-ant-</b>, do założenia na console.anthropic.com). Klucz zostaje tylko w tej przeglądarce, na tym urządzeniu, i trafia wyłącznie do Anthropic. Bez klucza możesz oglądać biuro i pobierać PDF-y.</p>
-    <div class="keyrow" id="key-form">
-      <label for="api-key" style="position:absolute;left:-9999px">Klucz API Anthropic</label>
-      <input id="api-key" type="password" placeholder="sk-ant-…" autocomplete="off" spellcheck="false">
-      <button class="btn btn-main" id="key-save" type="button">Połącz</button>
-    </div>
-    <div class="keyok" id="key-ok" hidden><span>✓ AI połączone na tym urządzeniu</span><button class="btn btn-ghost btn-sm" id="key-clear" type="button">Odłącz klucz</button></div>
-    <p class="status" id="key-status" role="status"></p>
-  </section>
 
   <nav class="tabs" role="tablist" aria-label="Moduły">
     <button class="tab" role="tab" id="t-mail" aria-controls="p-mail" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Skrzynka</button>
@@ -459,23 +447,9 @@ function makeApiSample(apiKey) {
   return fn;
 }
 
-function showKeyBar() {
-  const has = !!readKey();
-  $('keybar').hidden = false;
-  $('key-form').hidden = has; $('key-ok').hidden = !has;
-}
-$('key-save').addEventListener('click', () => {
-  const k = $('api-key').value.trim();
-  if (!/^sk-ant-/.test(k)) { setStatus($('key-status'), 'To nie wygląda na klucz Anthropic. Powinien zaczynać się od sk-ant-.', true); return; }
-  writeKey(k); sample = makeApiSample(k); $('api-key').value = '';
-  setStatus($('key-status'), 'Połączono. Możesz korzystać z funkcji AI.'); showKeyBar();
-});
-$('key-clear').addEventListener('click', () => { writeKey(''); sample = null; setStatus($('key-status'), 'Klucz usunięty z tej przeglądarki.'); showKeyBar(); });
-
 (async () => {
   try { sample = window.claude ? await window.claude.use('sample') : null; } catch (_) { sample = null; }
   try { downloads = window.claude ? await window.claude.use('downloads') : null; } catch (_) { downloads = null; }
-  if (!sample) { const k = readKey(); if (k) sample = makeApiSample(k); showKeyBar(); }
   capsReady = true;
 })();
 
@@ -491,7 +465,7 @@ const ERR = {
 const errText = (e) => ERR[e?.code] || 'Połączenie z AI nie powiodło się. Spróbuj ponownie.';
 function needAI(statusEl) {
   if (!capsReady) { setStatus(statusEl, 'AI jeszcze się uruchamia, spróbuj za kilka sekund.', true); return false; }
-  if (!sample) { setStatus(statusEl, 'Najpierw połącz AI: wklej klucz API na górze strony.', true); $('keybar').hidden = false; return false; }
+  if (!sample) { setStatus(statusEl, 'Funkcje AI są wyłączone w tej wersji demonstracyjnej.', true); return false; }
   return true;
 }
 function setStatus(elm, msg, err = false) { elm.textContent = msg; elm.classList.toggle('err', err); }
@@ -606,7 +580,7 @@ function renderMail() {
 }
 async function processMail(m, fromPilot) {
   if (mrunning && !fromPilot) return;
-  if (!capsReady || !sample) { m.status = 'err'; m.error = capsReady ? 'Najpierw połącz AI: wklej klucz API na górze strony.' : 'AI jeszcze się uruchamia, spróbuj za chwilę.'; renderMail(); return; }
+  if (!capsReady || !sample) { m.status = 'err'; m.error = 'Funkcje AI są wyłączone w tej wersji demonstracyjnej.'; renderMail(); return; }
   mrunning = true; m.status = 'work'; msel = m.id; renderMail(); mctl = new AbortController();
   try {
     const r = await sample.json(MAIL_PROMPT(m), { modelTier: 'quick', cache: false, signal: mctl.signal });
