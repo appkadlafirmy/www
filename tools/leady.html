@@ -279,7 +279,8 @@
         <label class="f"><span>Treść przypomnienia (idzie w tym samym wątku, temat „Re: …”)</span><textarea id="t-fbody" rows="5"></textarea></label>
         <div class="row-2">
           <label class="f"><span>Follow-up po ilu dniach</span><input type="number" id="t-fdays" min="1" max="30"></label>
-          <label class="f"><span>Limit wysyłek dziennie</span><input type="number" id="t-limit" min="1" max="400"></label>
+          <label class="f"><span>Limit pierwszych maili dziennie</span><input type="number" id="t-limit" min="1" max="400"></label>
+          <label class="f"><span>Limit follow-upów dziennie</span><input type="number" id="t-flimit" min="0" max="400"></label>
           <label class="f"><span>Odstęp między mailami (s)</span><input type="number" id="t-delay" min="2" max="600"></label>
         </div>
         <label class="check"><input type="checkbox" id="t-ai"> <span>Personalizuj każdą wiadomość z pomocą Claude (na podstawie danych leada; zużywa Twój limit Claude)</span></label>
@@ -365,6 +366,7 @@
     followBody: "Dzień dobry {{imie}},\n\nuprzejmie przypominam się w sprawie mojej poprzedniej wiadomości. Czy temat jest dla Państwa interesujący? Wystarczy krótka odpowiedź „tak” lub „nie”.",
     followDays: 4,
     dailyLimit: 30,
+    followLimit: 30,
     delaySec: 2,
     ai: false,
     senderEmail: "",
@@ -454,11 +456,13 @@
     const s = sends(l); if (!s.length || s.length >= 3) return false;
     return Date.now() - new Date(lastSend(l)).getTime() >= (Number(S.settings.followDays) || 4) * 864e5;
   }
-  function sentToday() {
+  // First messages and follow-ups have separate daily limits.
+  function sentToday(kind = "first") {
     const t = dayKey(new Date()); let n = 0;
-    for (const l of S.leads) for (const s of sends(l)) if (dayKey(s.at) === t) n++;
+    for (const l of S.leads) for (const s of sends(l)) if (dayKey(s.at) === t && (s.kind === "followup") === (kind === "followup")) n++;
     return n;
   }
+  const limitFor = (kind = "first") => kind === "followup" ? (Number(S.settings.followLimit) || 30) : (Number(S.settings.dailyLimit) || 30);
 
   // ---------- tabs ----------
   function showTab(name) {
@@ -475,12 +479,12 @@
   // ---------- dashboard ----------
   function computeStats() {
     const today = dayKey(new Date()); const per = {};
-    let emails = 0, contacted = 0, replies = 0, bounced = 0, todayN = 0;
+    let emails = 0, contacted = 0, replies = 0, bounced = 0, todayN = 0, todayF = 0;
     const counts = { new: 0, sent: 0, replied: 0, bounced: 0, closed: 0 };
     for (const l of S.leads) {
       const s = sends(l);
       if (s.length) contacted++;
-      for (const x of s) { emails++; const k = dayKey(x.at); (per[k] ||= { s: 0, r: 0 }).s++; if (k === today) todayN++; }
+      for (const x of s) { emails++; const k = dayKey(x.at); (per[k] ||= { s: 0, r: 0 }).s++; if (k === today) { if (x.kind === "followup") todayF++; else todayN++; } }
       if (l.repliedAt) { replies++; const k = dayKey(l.repliedAt); (per[k] ||= { s: 0, r: 0 }).r++; }
       if (l.status === "bounced") bounced++;
       if (l.repliedAt || l.status === "replied") counts.replied++;
@@ -490,7 +494,7 @@
       else counts.new++;
     }
     const delivered = Math.max(0, contacted - bounced);
-    return { emails, contacted, replies, bounced, todayN, per, counts, rate: delivered ? replies / delivered : 0 };
+    return { emails, contacted, replies, bounced, todayN, todayF, per, counts, rate: delivered ? replies / delivered : 0 };
   }
   function niceStep(max) { if (max <= 5) return 1; if (max <= 10) return 2; if (max <= 25) return 5; if (max <= 50) return 10; return Math.ceil(max / 50) * 10; }
   function chartSVG(per) {
@@ -520,7 +524,7 @@
     $("#kpis").innerHTML =
       k("Leady", S.leads.length, `${st.counts.new} czeka na pierwszy mail`) +
       k("Wysłane maile", st.emails, `do ${st.contacted} firm`) +
-      k("Dziś", `${st.todayN}<span class="muted" style="font-size:16px"> / ${lim}</span>`, "dzienny limit", "", `<div class="meter"><span style="width:${Math.min(100, (st.todayN / lim) * 100)}%"></span></div>`) +
+      k("Dziś", `${st.todayN}<span class="muted" style="font-size:16px"> / ${lim}</span>`, `pierwsze maile · follow-upy ${st.todayF} / ${limitFor("followup")}`, "", `<div class="meter"><span style="width:${Math.min(100, (st.todayN / lim) * 100)}%"></span></div>`) +
       k("Odpowiedzi", st.replies, st.replies ? "zobacz niżej" : "jeszcze brak", st.replies ? "hl" : "") +
       k("Skuteczność", (st.rate * 100).toFixed(st.rate && st.rate < .1 ? 1 : 0) + "%", "odpowiedzi / dostarczone") +
       k("Odbite", st.bounced, "zły lub nieistniejący adres");
@@ -541,7 +545,7 @@
     $("#last-check").textContent = S.settings.lastCheckAt ? "Sprawdzono " + fmtDate(S.settings.lastCheckAt) : "";
   }
   function renderBadges() {
-    const left = Math.max(0, (Number(S.settings.dailyLimit) || 30) - sentToday());
+    const left = Math.max(0, limitFor() - sentToday());
     $("#btn-random").textContent = left ? `Wyślij do ${left} losowych` : "Limit na dziś wykorzystany";
     const pend = S.requests.filter((r) => r.status !== "done").length;
     $("#req-badge").hidden = !pend; $("#req-badge").textContent = pend;
@@ -621,7 +625,7 @@
   $("#btn-add").onclick = () => openLeadForm();
   $("#btn-random").onclick = () => {
     const pool = filteredLeads().filter((l) => !sends(l).length && !BLOCKED.has(l.status) && !l.repliedAt && l.status !== "check" && isEmail(l.email));
-    const left = Math.max(0, (Number(S.settings.dailyLimit) || 30) - sentToday());
+    const left = Math.max(0, limitFor() - sentToday());
     const n = Math.min(left, pool.length);
     if (!pool.length) { toast("Brak nowych leadów do wysłania" + (S.q || S.status !== "all" ? " w tym filtrze." : ".")); return; }
     if (!n) { toast("Dzienny limit jest wyczerpany. Wróć jutro."); return; }
@@ -783,7 +787,7 @@
   function openSend(kind) {
     const probs = templateProblems();
     const { ok, skip } = eligible(kind);
-    const left = Math.max(0, (Number(S.settings.dailyLimit) || 30) - sentToday());
+    const left = Math.max(0, limitFor(kind) - sentToday(kind));
     const n = Math.min(ok.length, left);
     const pv = ok[0] ? compose(ok[0], kind) : null;
     const delay = Math.max(2, Number(S.settings.delaySec) || 10);
@@ -837,7 +841,7 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
       if (S.stop) { log("Zatrzymano."); break; }
       const lead = S.leads.find((l) => l.id === list[i].id) || list[i];
       if (BLOCKED.has(lead.status) || lead.repliedAt || (kind === "first" && sends(lead).length)) { log("• " + lead.email + ": pominięty (status się zmienił)"); continue; }
-      if (sentToday() >= (Number(S.settings.dailyLimit) || 30)) { log("Osiągnięto dzienny limit."); break; }
+      if (sentToday(kind) >= limitFor(kind)) { log("Osiągnięto dzienny limit."); break; }
       let override = null;
       if (kind === "first" && S.settings.ai && sample) {
         log("• " + lead.email + ": personalizuję…");
@@ -914,7 +918,7 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
   };
 
   // ---------- template editor ----------
-  const tplIds = { subject: "#t-subject", body: "#t-body", signature: "#t-sig", followBody: "#t-fbody", followDays: "#t-fdays", dailyLimit: "#t-limit", delaySec: "#t-delay" };
+  const tplIds = { subject: "#t-subject", body: "#t-body", signature: "#t-sig", followBody: "#t-fbody", followDays: "#t-fdays", dailyLimit: "#t-limit", followLimit: "#t-flimit", delaySec: "#t-delay" };
   $("#tokens").innerHTML = FIELDS.map(([k, label]) => `<button type="button" data-k="${k}" title="Wstaw ${label}">{{${k}}}</button>`).join("");
   let lastText = $("#t-body");
   ["#t-subject", "#t-body", "#t-fbody", "#t-sig"].forEach((s) => $(s).addEventListener("focus", (e) => (lastText = e.target)));
@@ -925,9 +929,9 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
   });
   function readForm() {
     const o = {};
-    for (const [k, s] of Object.entries(tplIds)) o[k] = ["followDays", "dailyLimit", "delaySec"].includes(k) ? Number($(s).value) || DEFAULTS[k] : $(s).value;
+    for (const [k, s] of Object.entries(tplIds)) o[k] = ["followDays", "dailyLimit", "followLimit", "delaySec"].includes(k) ? (Number($(s).value) >= 0 && $(s).value !== "" ? Number($(s).value) : DEFAULTS[k]) : $(s).value;
     o.optOut = $("#t-optout").checked; o.ai = $("#t-ai").checked;
-    o.dailyLimit = Math.min(400, Math.max(1, o.dailyLimit)); o.delaySec = Math.min(600, Math.max(2, o.delaySec)); o.followDays = Math.min(30, Math.max(1, o.followDays));
+    o.dailyLimit = Math.min(400, Math.max(1, o.dailyLimit)); o.followLimit = Math.min(400, Math.max(0, o.followLimit)); o.delaySec = Math.min(600, Math.max(2, o.delaySec)); o.followDays = Math.min(30, Math.max(1, o.followDays));
     return o;
   }
   function fillForm() {
