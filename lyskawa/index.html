@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Łyskawa — Cukiernia &amp; Piekarnia w Poznaniu od 1928 roku</title>
+<meta name="description" content="Cukiernia i Piekarnia Łyskawa — rodzinna firma od 1928 roku, cztery pokolenia tradycji. Torty na zamówienie, ciasta, pieczywo i oferta bankietowa. Lokale w Poznaniu i okolicy.">
+<meta name="theme-color" content="#1E3A2F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%231E3A2F'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Georgia,serif' font-size='32' font-weight='700' fill='%23E9D7A8'%3E%C5%81%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=DM+Sans:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+  :root {
+    --green-900: #142A21;
+    --green-800: #1E3A2F;
+    --green-700: #2A4D3E;
+    --green-100: #E3ECE6;
+    --cream: #FAF5EC;
+    --cream-deep: #F2E8D5;
+    --paper: #FFFDF8;
+    --gold: #B8913A;
+    --gold-soft: #E9D7A8;
+    --raspberry: #A3324A;
+    --raspberry-soft: #F6DDE2;
+    --ink: #24302A;
+    --ink-soft: #55635B;
+    --line: rgba(30, 58, 47, 0.14);
+    --font-display: "Fraunces", Georgia, serif;
+    --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-script: "Caveat", "Brush Script MT", cursive;
+    --shadow-card: 0 14px 36px -18px rgba(20, 42, 33, 0.35);
+    --radius: 1.25rem;
+    --radius-full: 999px;
+    --container: 1240px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 5rem; overflow-x: clip; }
+  body {
+    margin: 0;
+    overflow-x: clip;
+    font-family: var(--font-sans);
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  ul, ol { margin: 0; padding: 0; list-style: none; }
+  h1, h2, h3, h4, p, figure, dl, dd { margin: 0; }
+  button { font: inherit; background: none; border: none; cursor: pointer; color: inherit; }
+  input, select, textarea { font: inherit; color: inherit; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+
+  :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
+
+  .skip-link {
+    position: absolute; top: 0.5rem; left: 0.5rem; z-index: 100;
+    background: var(--green-800); color: #fff; padding: 0.75rem 1.25rem; border-radius: 0.5rem;
+    transform: translateY(-160%); transition: transform 0.2s ease;
+  }
+  .skip-link:focus { transform: none; }
+
+  .container { max-width: var(--container); margin: 0 auto; padding: 0 1rem; }
+  @media (min-width: 640px) { .container { padding: 0 2rem; } }
+
+  .section { padding: 4.5rem 0; }
+  @media (min-width: 1024px) { .section { padding: 6.5rem 0; } }
+  .section--paper { background: var(--paper); }
+  .section--green { background: var(--green-800); color: var(--cream); }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--raspberry);
+  }
+  .eyebrow::before { content: ""; width: 1.75rem; height: 1px; background: currentColor; }
+  .section--green .eyebrow { color: var(--gold-soft); }
+
+  .h2 {
+    font-family: var(--font-display); font-weight: 600; color: var(--green-800);
+    font-size: clamp(1.9rem, 4vw, 2.9rem); line-height: 1.12; letter-spacing: -0.01em;
+    margin-top: 0.75rem;
+  }
+  .h2 em { font-style: italic; color: var(--raspberry); font-weight: 500; }
+  .section--green .h2 { color: var(--cream); }
+  .section--green .h2 em { color: var(--gold-soft); }
+  .lede { color: var(--ink-soft); font-size: 1.075rem; max-width: 40rem; margin-top: 1rem; }
+  .section--green .lede { color: rgba(250, 245, 236, 0.78); }
+  .section-head { margin-bottom: 2.75rem; }
+  .section-head--center { text-align: center; }
+  .section-head--center .lede { margin-left: auto; margin-right: auto; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    min-height: 48px; padding: 0.85rem 1.6rem; border-radius: var(--radius-full);
+    font-weight: 600; font-size: 0.98rem; transition: background-color .2s, color .2s, border-color .2s, transform .2s;
+  }
+  .btn { position: relative; isolation: isolate; overflow: hidden; }
+  .btn::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit;
+    background: var(--sweep, var(--green-900)); transform: scaleX(0); transform-origin: right;
+    transition: transform .45s cubic-bezier(.7,0,.2,1);
+  }
+  .btn:hover::before, .btn:focus-visible::before { transform: scaleX(1); transform-origin: left; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn svg { width: 1.1rem; height: 1.1rem; flex: none; transition: transform .3s ease; }
+  .btn:hover svg { transform: rotate(-12deg) scale(1.15); }
+  .btn--primary { background: var(--raspberry); color: #fff; box-shadow: 0 12px 24px -12px rgba(163, 50, 74, 0.7); }
+  .btn--primary { --sweep: var(--green-800); }
+  .btn--dark { background: var(--green-800); color: var(--cream); }
+  .btn--dark { --sweep: var(--raspberry); }
+  .btn--ghost { border: 1.5px solid var(--green-800); color: var(--green-800); }
+  .btn--ghost { --sweep: var(--green-800); }
+  .btn--ghost:hover { color: var(--cream); }
+  .btn--light { background: var(--cream); color: var(--green-800); }
+  .btn--light { --sweep: var(--gold-soft); }
+
+  /* ---------- Top bar + header ---------- */
+  .topbar { background: var(--green-900); color: var(--gold-soft); font-size: 0.85rem; }
+  .topbar .container { display: flex; justify-content: space-between; gap: 1rem; padding-top: 0.5rem; padding-bottom: 0.5rem; }
+  .topbar a { color: var(--cream); font-weight: 600; }
+  .topbar__right { display: none; gap: 1.25rem; }
+  @media (min-width: 768px) { .topbar__right { display: flex; } }
+
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(250, 245, 236, 0.94); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .site-header .container { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 0.85rem; padding-bottom: 0.85rem; }
+
+  .logo { display: flex; align-items: center; gap: 0.7rem; }
+  .logo__mark {
+    width: 2.75rem; height: 2.75rem; border-radius: 50%;
+    background: var(--green-800); color: var(--gold-soft);
+    display: grid; place-items: center;
+    font-family: var(--font-display); font-weight: 700; font-size: 1.4rem;
+    box-shadow: inset 0 0 0 2px var(--green-800), inset 0 0 0 4px var(--gold-soft);
+  }
+  .logo__text { display: flex; flex-direction: column; line-height: 1.05; }
+  .logo__name { font-family: var(--font-display); font-weight: 700; font-size: 1.45rem; color: var(--green-800); letter-spacing: -0.01em; }
+  .logo__sub { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
+
+  .nav-desktop { display: none; }
+  .nav-desktop ul { display: flex; gap: 1.9rem; font-weight: 500; font-size: 0.96rem; }
+  .nav-desktop a { position: relative; padding: 0.25rem 0; }
+  .nav-desktop a::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px;
+    background: var(--raspberry); transform: scaleX(0); transform-origin: left; transition: transform .25s ease;
+  }
+  .nav-desktop a:hover::after { transform: scaleX(1); }
+  @media (min-width: 1080px) { .nav-desktop { display: block; } }
+
+  .header-actions { display: flex; align-items: center; gap: 0.5rem; }
+  .header-cta { display: none; }
+  @media (min-width: 640px) { .header-cta { display: inline-flex; } }
+  .menu-toggle { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; color: var(--green-800); }
+  .menu-toggle:hover { background: var(--green-100); }
+  .menu-toggle svg { width: 1.6rem; height: 1.6rem; }
+  @media (min-width: 1080px) { .menu-toggle { display: none; } }
+
+  .nav-mobile { border-top: 1px solid var(--line); background: var(--cream); }
+  .nav-mobile[hidden] { display: none; }
+  .nav-mobile ul { padding: 0.75rem 1rem 1.25rem; display: grid; gap: 0.15rem; }
+  .nav-mobile a { display: block; padding: 0.85rem 0.75rem; border-radius: 0.75rem; font-weight: 500; }
+  .nav-mobile a:hover { background: var(--green-100); }
+
+  /* ---------- Hero ---------- */
+  .hero { position: relative; overflow: hidden; padding: 3.5rem 0 4.5rem; }
+  @media (min-width: 1024px) { .hero { padding: 5rem 0 6rem; } }
+  .hero::before {
+    content: ""; position: absolute; inset: auto -10% -45% auto; width: 60vw; height: 60vw; max-width: 760px; max-height: 760px;
+    background: radial-gradient(circle, rgba(233, 215, 168, 0.55), transparent 65%); pointer-events: none;
+  }
+  .hero .container { position: relative; display: grid; gap: 3rem; align-items: center; }
+  @media (min-width: 960px) { .hero .container { grid-template-columns: 1.1fr 0.9fr; } }
+
+  .hero h1 {
+    font-family: var(--font-display); font-weight: 600; color: var(--green-800);
+    font-size: clamp(2.5rem, 6.2vw, 4.6rem); line-height: 1.02; letter-spacing: -0.02em; margin-top: 1rem;
+  }
+  .hero h1 em { display: block; font-style: italic; font-weight: 500; color: var(--raspberry); }
+  .hero .lede { font-size: 1.15rem; }
+  .hero__ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+
+  .hero__visual { position: relative; justify-self: center; width: min(100%, 460px); }
+  .arch {
+    position: relative; aspect-ratio: 4 / 5; border-radius: 999px 999px 1.5rem 1.5rem; overflow: hidden;
+    background: linear-gradient(170deg, var(--green-700), var(--green-900));
+    box-shadow: 0 30px 60px -30px rgba(20, 42, 33, 0.6);
+  }
+  .arch svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .seal {
+    position: absolute; left: -0.75rem; bottom: 2.5rem; width: 7.5rem; height: 7.5rem; border-radius: 50%;
+    background: var(--cream); color: var(--green-800);
+    display: grid; place-items: center; text-align: center;
+    box-shadow: var(--shadow-card), inset 0 0 0 5px var(--cream), inset 0 0 0 6.5px var(--gold);
+  }
+  .seal small { display: block; font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); }
+  .seal strong { display: block; font-family: var(--font-display); font-size: 2rem; line-height: 1; }
+  .seal--spin { animation: wobble 9s ease-in-out infinite; }
+  @keyframes wobble { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
+  .tag-float {
+    position: absolute; right: -0.5rem; top: 2.5rem;
+    background: #fff; border-radius: 1rem; padding: 0.75rem 1rem; box-shadow: var(--shadow-card);
+    display: flex; align-items: center; gap: 0.6rem; font-size: 0.9rem; font-weight: 600;
+  }
+  .tag-float span { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: #3BA55C; box-shadow: 0 0 0 4px rgba(59,165,92,.2); }
+
+  /* ---------- Stats ---------- */
+  .stats { background: var(--green-800); color: var(--cream); }
+  .stats ul { display: grid; grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 900px) { .stats ul { grid-template-columns: repeat(4, 1fr); } }
+  .stats li { padding: 1.75rem 1rem; text-align: center; border-right: 1px solid rgba(233,215,168,.15); border-bottom: 1px solid rgba(233,215,168,.15); }
+  @media (min-width: 900px) { .stats li { border-bottom: 0; } .stats li:last-child { border-right: 0; } }
+  .stats strong { display: block; font-family: var(--font-display); font-size: clamp(1.9rem, 4vw, 2.6rem); color: var(--gold-soft); font-weight: 600; line-height: 1.1; }
+  .stats span { font-size: 0.92rem; color: rgba(250,245,236,.78); }
+
+  /* ---------- Offer cards ---------- */
+  .offer-grid { display: grid; gap: 1.25rem; }
+  @media (min-width: 640px) { .offer-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1080px) { .offer-grid { grid-template-columns: repeat(4, 1fr); } }
+  .offer-card {
+    position: relative; display: flex; flex-direction: column; gap: 0.85rem;
+    background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 1.75rem; transition: transform .25s ease, box-shadow .25s ease, border-color .25s;
+  }
+  .offer-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); border-color: transparent; }
+  .offer-card__icon { width: 3.25rem; height: 3.25rem; border-radius: 1rem; display: grid; place-items: center; background: var(--green-100); color: var(--green-800); }
+  .offer-card__icon svg { width: 1.6rem; height: 1.6rem; }
+  .offer-card:nth-child(2) .offer-card__icon { background: var(--raspberry-soft); color: var(--raspberry); }
+  .offer-card:nth-child(3) .offer-card__icon { background: var(--cream-deep); color: #8A6A22; }
+  .offer-card:nth-child(4) .offer-card__icon { background: #E6E3F1; color: #4B437A; }
+  .offer-card h3 { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; color: var(--green-800); }
+  .offer-card p { color: var(--ink-soft); font-size: 0.96rem; flex: 1; }
+  .offer-card a.more { font-weight: 600; color: var(--raspberry); display: inline-flex; gap: 0.35rem; align-items: center; }
+  .offer-card a.more::after { content: "→"; transition: transform .2s; }
+  .offer-card:hover a.more::after { transform: translateX(4px); }
+
+  /* ---------- History / timeline ---------- */
+  .history { display: grid; gap: 3rem; }
+  @media (min-width: 960px) { .history { grid-template-columns: 0.9fr 1.1fr; gap: 4.5rem; } }
+  .history blockquote {
+    margin: 2rem 0 0; padding: 1.5rem 1.75rem; border-left: 3px solid var(--gold);
+    background: rgba(233,215,168,.12); border-radius: 0 1rem 1rem 0;
+    font-family: var(--font-display); font-style: italic; font-size: 1.25rem; line-height: 1.45;
+  }
+  .timeline { position: relative; display: grid; gap: 1.75rem; padding-left: 2rem; }
+  .timeline::before { content: ""; position: absolute; left: 0.45rem; top: 0.5rem; bottom: 0.5rem; width: 2px; background: rgba(233,215,168,.3); }
+  .timeline li { position: relative; }
+  .timeline li::before {
+    content: ""; position: absolute; left: -2rem; top: 0.35rem; width: 1rem; height: 1rem; border-radius: 50%;
+    background: var(--green-800); border: 2px solid var(--gold-soft);
+  }
+  .timeline .when { font-family: var(--font-display); font-size: 1.35rem; color: var(--gold-soft); font-weight: 600; }
+  .timeline h3 { font-size: 1.05rem; font-weight: 700; margin-top: 0.15rem; }
+  .timeline p { color: rgba(250,245,236,.75); font-size: 0.97rem; margin-top: 0.25rem; }
+
+  /* ---------- Products (tabs) ---------- */
+  .tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 2.25rem; }
+  .tab {
+    min-height: 44px; padding: 0.6rem 1.25rem; border-radius: var(--radius-full);
+    border: 1.5px solid var(--line); font-weight: 600; font-size: 0.95rem; color: var(--ink-soft);
+    transition: background-color .2s, color .2s, border-color .2s;
+  }
+  .tab:hover { border-color: var(--green-800); color: var(--green-800); }
+  .tab[aria-selected="true"] { background: var(--green-800); color: var(--cream); border-color: var(--green-800); }
+  .tab-panel[hidden] { display: none; }
+  .product-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); }
+  .product {
+    display: flex; flex-direction: column; background: #fff; border-radius: 1rem; overflow: hidden;
+    border: 1px solid var(--line); transition: box-shadow .25s, transform .25s;
+  }
+  .product:hover { box-shadow: var(--shadow-card); transform: translateY(-3px); }
+  .product__art { aspect-ratio: 4 / 3; display: grid; place-items: center; }
+  .product__art svg { width: 58%; height: auto; }
+  .product__body { padding: 1rem 1.15rem 1.25rem; }
+  .product h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; color: var(--green-800); }
+  .product p { font-size: 0.9rem; color: var(--ink-soft); margin-top: 0.25rem; }
+  .badge { display: inline-block; margin-top: 0.6rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--raspberry); background: var(--raspberry-soft); padding: 0.2rem 0.55rem; border-radius: 0.4rem; }
+  .art-1 { background: linear-gradient(135deg, #F6DDE2, #FBEFF1); color: var(--raspberry); }
+  .art-2 { background: linear-gradient(135deg, #F2E8D5, #FBF6EA); color: #8A6A22; }
+  .art-3 { background: linear-gradient(135deg, #E3ECE6, #F3F7F4); color: var(--green-800); }
+  .art-4 { background: linear-gradient(135deg, #E6E3F1, #F4F2F9); color: #4B437A; }
+
+  /* ---------- Cakes / occasions ---------- */
+  .cakes { display: grid; gap: 3rem; align-items: start; }
+  @media (min-width: 1000px) { .cakes { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+  .occasions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-top: 2rem; }
+  @media (min-width: 640px) { .occasions { grid-template-columns: repeat(3, 1fr); } }
+  .occasion {
+    background: #fff; border: 1px solid var(--line); border-radius: 1rem; padding: 1rem;
+    display: flex; flex-direction: column; gap: 0.35rem;
+  }
+  .occasion svg { width: 1.6rem; height: 1.6rem; color: var(--raspberry); }
+  .occasion strong { font-size: 0.98rem; color: var(--green-800); }
+  .occasion span { font-size: 0.84rem; color: var(--ink-soft); }
+
+  .steps { display: grid; gap: 1rem; counter-reset: step; }
+  .step {
+    position: relative; background: var(--green-800); color: var(--cream); border-radius: var(--radius);
+    padding: 1.5rem 1.5rem 1.5rem 4.75rem;
+  }
+  .step::before {
+    counter-increment: step; content: counter(step);
+    position: absolute; left: 1.4rem; top: 1.4rem; width: 2.4rem; height: 2.4rem; border-radius: 50%;
+    display: grid; place-items: center; background: var(--gold-soft); color: var(--green-900);
+    font-family: var(--font-display); font-weight: 700; font-size: 1.15rem;
+  }
+  .step h3 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; }
+  .step p { color: rgba(250,245,236,.75); font-size: 0.95rem; margin-top: 0.25rem; }
+
+  /* ---------- Order form ---------- */
+  .order { background: #fff; border-radius: 1.5rem; padding: 1.75rem; box-shadow: var(--shadow-card); border: 1px solid var(--line); margin-top: 1.5rem; }
+  @media (min-width: 640px) { .order { padding: 2.25rem; } }
+  .order h3 { font-family: var(--font-display); font-size: 1.5rem; color: var(--green-800); font-weight: 600; }
+  .form-grid { display: grid; gap: 1rem; margin-top: 1.25rem; }
+  @media (min-width: 640px) { .form-grid { grid-template-columns: 1fr 1fr; } .form-grid .full { grid-column: 1 / -1; } }
+  .field label { display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 0.35rem; }
+  .field input, .field select, .field textarea {
+    width: 100%; min-height: 48px; padding: 0.75rem 0.9rem; border-radius: 0.75rem;
+    border: 1.5px solid var(--line); background: var(--cream); transition: border-color .2s, background-color .2s;
+  }
+  .field textarea { min-height: 110px; resize: vertical; }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--green-800); background: #fff; }
+  .form-note { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.75rem; }
+  .form-status { margin-top: 0.75rem; font-weight: 600; color: var(--green-700); min-height: 1.5em; }
+
+  /* ---------- Sweet table ---------- */
+  .sweet { display: grid; gap: 2.5rem; align-items: center; }
+  @media (min-width: 960px) { .sweet { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+  .sweet__art { border-radius: 1.5rem; overflow: hidden; background: var(--raspberry-soft); aspect-ratio: 5 / 4; }
+  .sweet__art svg { width: 100%; height: 100%; }
+  .checklist { display: grid; gap: 0.75rem; margin: 1.75rem 0 2rem; }
+  .checklist li { display: flex; gap: 0.75rem; align-items: flex-start; }
+  .checklist svg { width: 1.4rem; height: 1.4rem; color: var(--raspberry); flex-shrink: 0; margin-top: 0.1rem; }
+
+  /* ---------- Shops ---------- */
+  .shops { display: grid; gap: 1.25rem; }
+  @media (min-width: 700px) { .shops { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1100px) { .shops { grid-template-columns: repeat(4, 1fr); } }
+  .shop { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.9rem; }
+  .shop--main { background: var(--green-800); color: var(--cream); border-color: transparent; }
+  .shop__top { display: flex; justify-content: space-between; gap: 0.75rem; align-items: flex-start; }
+  .shop h3 { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; color: var(--green-800); }
+  .shop--main h3 { color: var(--cream); }
+  .shop__label { font-size: 0.7rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; padding: 0.25rem 0.55rem; border-radius: 0.4rem; background: var(--gold-soft); color: var(--green-900); white-space: nowrap; }
+  .shop dl { display: grid; gap: 0.5rem; font-size: 0.94rem; }
+  .shop dl div { display: flex; gap: 0.6rem; }
+  .shop dt svg { width: 1.15rem; height: 1.15rem; color: var(--raspberry); margin-top: 0.2rem; }
+  .shop--main dt svg { color: var(--gold-soft); }
+  .shop dd { color: var(--ink-soft); }
+  .shop--main dd { color: rgba(250,245,236,.82); }
+  .shop dd a { font-weight: 600; color: var(--ink); }
+  .shop--main dd a { color: var(--cream); }
+  .shop__map { margin-top: auto; font-weight: 600; font-size: 0.92rem; color: var(--raspberry); }
+  .shop--main .shop__map { color: var(--gold-soft); }
+  .shops-note { margin-top: 1.5rem; font-size: 0.9rem; color: var(--ink-soft); text-align: center; }
+
+  /* ---------- Bands ---------- */
+  .band { border-radius: 1.75rem; padding: 2.25rem; display: grid; gap: 1.5rem; align-items: center; }
+  @media (min-width: 900px) { .band { grid-template-columns: 1fr auto; padding: 3rem 3.25rem; } }
+  .band--gold { background: var(--cream-deep); }
+  .band h2 { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.5rem, 3vw, 2.1rem); color: var(--green-800); line-height: 1.2; }
+  .band p { color: var(--ink-soft); margin-top: 0.5rem; max-width: 42rem; }
+  .band__ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+  .two-bands { display: grid; gap: 1.25rem; }
+  @media (min-width: 900px) { .two-bands { grid-template-columns: 1fr 1fr; } .two-bands .band { grid-template-columns: 1fr; } }
+  .band--green { background: var(--green-800); color: var(--cream); }
+  .band--green h2 { color: var(--cream); }
+  .band--green p { color: rgba(250,245,236,.78); }
+
+  /* ---------- Footer ---------- */
+  .site-footer { background: var(--green-900); color: rgba(250,245,236,.8); padding: 4rem 0 2rem; font-size: 0.95rem; }
+  .footer-grid { display: grid; gap: 2.5rem; }
+  @media (min-width: 800px) { .footer-grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; } }
+  .site-footer .logo__name { color: var(--cream); }
+  .site-footer .logo__sub { color: var(--gold-soft); }
+  .site-footer h4 { color: var(--gold-soft); font-size: 0.78rem; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 1rem; }
+  .site-footer ul { display: grid; gap: 0.55rem; }
+  .site-footer a:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+  .socials { display: flex; gap: 0.6rem; margin-top: 1.25rem; }
+  .socials a { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; border: 1px solid rgba(233,215,168,.3); }
+  .socials a:hover { background: rgba(233,215,168,.12); text-decoration: none; }
+  .socials svg { width: 1.2rem; height: 1.2rem; }
+  .footer-bottom { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(233,215,168,.15); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; font-size: 0.85rem; color: rgba(250,245,236,.55); }
+
+  /* ---------- Hero: tablica "Dziś z pieca" ---------- */
+  .hero h1 em { display: inline; }
+  .hero__chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.75rem; }
+  .chip { display: inline-flex; align-items: center; gap: .45rem; padding: .45rem .85rem; border-radius: var(--radius-full); background: #fff; border: 1px solid var(--line); font-size: .86rem; font-weight: 600; color: var(--green-800); }
+  .chip svg { width: 1rem; height: 1rem; color: var(--raspberry); }
+
+  .float { animation: float 6s ease-in-out infinite; }
+  .tag-float { animation: float 5s ease-in-out infinite -2s; }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
+  /* ---------- Zdjęcia ---------- */
+  .arch img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .arch::after { content: ""; position: absolute; inset: 0; box-shadow: inset 0 0 0 6px rgba(250,245,236,.18); border-radius: inherit; pointer-events: none; }
+  .product__art { position: relative; }
+  .product__art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+  .product:hover .product__art img { transform: scale(1.06); }
+  .product__art { overflow: hidden; }
+  .archive { margin-top: 2rem; }
+  .archive img { width: 100%; border-radius: 1rem; filter: sepia(.25) contrast(1.05); box-shadow: 0 20px 40px -24px rgba(0,0,0,.6); }
+  .archive figcaption { margin-top: .6rem; font-size: .85rem; color: rgba(250,245,236,.65); font-style: italic; }
+  .collage { position: relative; aspect-ratio: 5 / 4; }
+  .collage img { position: absolute; object-fit: cover; border-radius: 1.5rem; box-shadow: var(--shadow-card); }
+  .collage .c1 { left: 0; top: 0; width: 66%; height: 92%; }
+  .collage .c2 { right: 0; bottom: 0; width: 48%; height: 60%; border: 6px solid var(--paper); transform: rotate(3deg); transition: transform .4s ease; }
+  .collage:hover .c2 { transform: rotate(0deg) scale(1.03); }
+
+  /* ---------- Ticker ---------- */
+  .ticker { position: relative; z-index: 2; background: var(--raspberry); color: #fff; transform: rotate(-1.4deg); margin: -1.25rem -2% 0; padding: .95rem 0; box-shadow: 0 14px 30px -18px rgba(163,50,74,.8); overflow: hidden; }
+  .ticker__track { display: flex; width: max-content; animation: tick 38s linear infinite; }
+  .ticker:hover .ticker__track { animation-play-state: paused; }
+  .ticker__track span { font-family: var(--font-display); font-style: italic; font-size: clamp(1.15rem, 2.4vw, 1.6rem); padding: 0 1.4rem; white-space: nowrap; display: inline-flex; align-items: center; gap: 2.8rem; }
+  .ticker__track span::after { content: "✦"; font-style: normal; color: var(--gold-soft); font-size: .8em; }
+  @keyframes tick { to { transform: translateX(-50%); } }
+  .ticker--alt { background: var(--green-800); transform: rotate(1deg); margin-top: 0; }
+  .ticker--alt .ticker__track { animation-direction: reverse; }
+
+  /* ---------- Icing drip ---------- */
+  .drip { display: block; width: 100%; height: 70px; background: var(--to); color: var(--from); }
+  .drip svg { width: 100%; height: 100%; display: block; }
+  .drip .drop { animation: drop 3.5s ease-in infinite; transform-box: fill-box; transform-origin: top; }
+  .drip .drop:nth-of-type(2) { animation-delay: 1.2s; } .drip .drop:nth-of-type(3) { animation-delay: 2.3s; }
+  @keyframes drop { 0%, 55% { transform: translateY(0) scale(1); opacity: 1; } 85% { transform: translateY(26px) scale(.7); opacity: 1; } 100% { transform: translateY(34px) scale(.4); opacity: 0; } }
+
+  /* ---------- Bento offer with 3D tilt ---------- */
+  .bento { display: grid; gap: 1.1rem; }
+  @media (min-width: 760px) { .bento { grid-template-columns: 1.25fr 1fr 1fr; grid-template-rows: auto auto; } .bento .tilt--big { grid-row: span 2; } .bento .tilt--wide { grid-column: span 2; } }
+  .tilt {
+    position: relative; overflow: hidden; border-radius: 1.6rem; padding: 1.75rem; min-height: 270px;
+    display: flex; flex-direction: column; justify-content: flex-end; gap: .4rem;
+    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    transition: transform .25s ease, box-shadow .3s ease; box-shadow: var(--shadow-card);
+  }
+  .tilt:hover { box-shadow: 0 30px 50px -26px rgba(20,42,33,.55); }
+  .tilt::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.45), transparent 45%); }
+  .tilt:hover::after { opacity: 1; }
+  .tilt--big { min-height: 560px; background: var(--green-800); color: var(--cream); }
+  .tilt--rasp { background: var(--raspberry-soft); }
+  .tilt--gold { background: var(--cream-deep); }
+  .tilt--wide { background: #E6E3F1; }
+  .tilt .art { position: absolute; right: 1rem; top: 1rem; width: 34%; max-width: 130px; transition: transform .6s cubic-bezier(.2,.8,.2,1); }
+  .tilt--big .art { right: auto; left: 50%; top: 2.5rem; width: 62%; max-width: 300px; transform: translateX(-50%); }
+  .tilt:hover .art { transform: translateY(-8px) rotate(-4deg) scale(1.05); }
+  .tilt--big:hover .art { transform: translateX(-50%) translateY(-10px) scale(1.05); }
+  .tilt .num { position: absolute; left: 1.5rem; top: 1.25rem; font-family: var(--font-display); font-style: italic; font-size: 1rem; opacity: .55; }
+  .tilt h3 { position: relative; font-family: var(--font-display); font-weight: 600; font-size: 1.6rem; line-height: 1.12; color: var(--green-800); max-width: 15ch; }
+  .tilt--big h3 { color: var(--cream); font-size: clamp(1.8rem, 3vw, 2.4rem); }
+  .tilt p { position: relative; color: var(--ink-soft); font-size: .95rem; max-width: 30ch; }
+  .tilt--big p { color: rgba(250,245,236,.78); }
+  .tilt a { position: relative; margin-top: .5rem; font-weight: 700; color: var(--raspberry); display: inline-flex; align-items: center; gap: .4rem; }
+  .tilt--big a { color: var(--gold-soft); }
+  .tilt a::after { content: ""; position: absolute; inset: -400px; }
+  .tilt a span { transition: transform .25s; } .tilt:hover a span { transform: translateX(5px); }
+
+  /* ---------- Counters (w historii) ---------- */
+  .counters { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin-top: 2.25rem; background: rgba(233,215,168,.18); border-radius: 1rem; overflow: hidden; }
+  .counters div { background: var(--green-800); padding: 1.15rem 1.25rem; }
+  .counters strong { display: block; font-family: var(--font-display); font-size: 2.2rem; line-height: 1.1; color: var(--gold-soft); font-variant-numeric: tabular-nums; }
+  .counters span { font-size: .88rem; color: rgba(250,245,236,.72); }
+
+  /* ---------- Kalkulator tortu ---------- */
+  .calc { display: grid; gap: 2.5rem; align-items: center; background: var(--paper); border: 1px solid var(--line); border-radius: 2rem; padding: 2rem; box-shadow: var(--shadow-card); }
+  @media (min-width: 900px) { .calc { grid-template-columns: 1fr 1fr; padding: 3rem; gap: 4rem; } }
+  .calc input[type=range] { width: 100%; margin-top: 1.5rem; accent-color: var(--raspberry); height: 2rem; }
+  .calc__guests { font-family: var(--font-display); font-size: clamp(3rem, 7vw, 4.5rem); line-height: 1; color: var(--raspberry); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .calc__guests small { font-size: 1.1rem; color: var(--ink-soft); font-family: var(--font-sans); font-weight: 500; margin-left: .4rem; }
+  .calc__out { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; margin: 1.5rem 0; }
+  .calc__out div { background: var(--cream); border-radius: 1rem; padding: .9rem; text-align: center; }
+  .calc__out strong { display: block; font-family: var(--font-display); font-size: 1.5rem; color: var(--green-800); }
+  .calc__out span { font-size: .8rem; color: var(--ink-soft); }
+  .calc__note { font-size: .85rem; color: var(--ink-soft); margin-bottom: 1.25rem; }
+  .calc__cake { width: min(100%, 360px); justify-self: center; overflow: visible; }
+  .calc__cake .tier { transform-box: fill-box; transform-origin: bottom; transition: transform .55s cubic-bezier(.3,1.5,.5,1), opacity .35s; }
+  .calc__cake .tier.is-off { transform: translateY(-40px) scaleY(.2); opacity: 0; }
+
+  /* ---------- Footer stamp ---------- */
+  .stamp { width: 150px; height: 150px; margin: 0 auto; position: relative; }
+  .stamp svg { width: 100%; height: 100%; animation: spin 22s linear infinite; }
+  .stamp text { font-family: var(--font-sans); font-size: 10px; font-weight: 700; letter-spacing: 1px; fill: var(--gold-soft); text-transform: uppercase; }
+  .stamp b { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--font-display); font-size: 3rem; color: var(--cream); }
+  .stamp:hover svg { animation-duration: 5s; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .footer-stamp { margin-top: 3rem; }
+
+  /* ---------- Reveal ---------- */
+  .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+  .js .reveal.is-visible { opacity: 1; transform: none; }
+  .js .reveal-stagger > * { opacity: 0; transform: translateY(26px) scale(.98); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
+  .js .reveal-stagger.is-visible > * { opacity: 1; transform: none; }
+  .js .reveal-stagger.is-visible > *:nth-child(2) { transition-delay: .1s; }
+  .js .reveal-stagger.is-visible > *:nth-child(3) { transition-delay: .2s; }
+  .js .reveal-stagger.is-visible > *:nth-child(4) { transition-delay: .3s; }
+  .js .reveal-stagger.is-visible > *:nth-child(5) { transition-delay: .4s; }
+  .js .reveal-stagger.is-visible > *:nth-child(6) { transition-delay: .5s; }
+  .js .hero-in > * { animation: heroIn .9s cubic-bezier(.2,.8,.2,1) both; }
+  .js .hero-in > *:nth-child(2) { animation-delay: .12s; }
+  .js .hero-in > *:nth-child(3) { animation-delay: .24s; }
+  .js .hero-in > *:nth-child(4) { animation-delay: .36s; }
+  .js .hero-in > *:nth-child(5) { animation-delay: .48s; }
+  @keyframes heroIn { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+  /* ---------- Karty ze zdjęciami ---------- */
+  .tilt.tilt--photo { color: #fff; background: var(--green-900); }
+  .tilt.tilt--photo .photo { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.2,.8,.2,1); }
+  .tilt.tilt--photo:hover .photo { transform: scale(1.06); }
+  .tilt.tilt--photo::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(20,42,33,.05) 20%, rgba(20,42,33,.55) 50%, rgba(20,42,33,.94) 85%); }
+  .tilt.tilt--photo::after { z-index: 2; }
+  .tilt.tilt--photo > :not(.photo) { position: relative; z-index: 3; }
+  .tilt.tilt--photo .num { position: absolute; color: #fff; opacity: 1; background: rgba(20,42,33,.6); padding: .15rem .6rem; border-radius: 999px; }
+  .tilt.tilt--photo h3 { color: #fff; }
+  .tilt.tilt--photo p { color: rgba(255,255,255,.88); }
+  .tilt.tilt--photo a { color: var(--gold-soft); }
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Przejdź do treści</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></symbol>
+    <symbol id="i-cake" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/><path d="M2 21h20M7 8v3M12 8v3M17 8v3M7 4h.01M12 4h.01M17 4h.01"/></symbol>
+    <symbol id="i-cookie" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5h.01M16 15.5h.01M12 12h.01M11 17h.01M7 14h.01"/></symbol>
+    <symbol id="i-wheat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22 16 8"/><path d="M3.5 12.5 5 11l1.5 1.5a3.5 3.5 0 0 1 0 5L5 19l-1.5-1.5a3.5 3.5 0 0 1 0-5zM7.5 8.5 9 7l1.5 1.5a3.5 3.5 0 0 1 0 5L9 15l-1.5-1.5a3.5 3.5 0 0 1 0-5zM11.5 4.5 13 3l1.5 1.5a3.5 3.5 0 0 1 0 5L13 11l-1.5-1.5a3.5 3.5 0 0 1 0-5z"/><path d="M20 2h2v2a4 4 0 0 1-4 4h-2V6a4 4 0 0 1 4-4z"/></symbol>
+    <symbol id="i-table" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18M5 10v10M19 10v10"/><path d="M7 10V7a2 2 0 0 1 4 0v3M13 10V6a2 2 0 0 1 4 0v4"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7z"/></symbol>
+    <symbol id="i-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></symbol>
+    <symbol id="i-briefcase" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+    <symbol id="i-baby" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 12h.01M15 12h.01M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5"/></symbol>
+    <symbol id="i-cross" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M5 8h14"/></symbol>
+    <symbol id="i-rings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="14" r="6"/><circle cx="15" cy="14" r="6"/><path d="m10 4 2-2 2 2"/></symbol>
+    <symbol id="i-fb" viewBox="0 0 24 24" fill="currentColor"><path d="M14 8h3V4h-3a5 5 0 0 0-5 5v2H7v4h2v7h4v-7h3l1-4h-4V9a1 1 0 0 1 1-1z"/></symbol>
+    <symbol id="i-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2 21c0-3 1.9-5.4 5.1-6"/></symbol>
+  </defs>
+</svg>
+
+<div class="topbar">
+  <div class="container">
+    <span>Świeże pieczywo i ciasta codziennie od rana</span>
+    <div class="topbar__right">
+      <a href="tel:+48577477884">+48 577 477 884</a>
+      <a href="mailto:zamowienia.lyskawa@gmail.com">zamowienia.lyskawa@gmail.com</a>
+    </div>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="container">
+    <a href="#" class="logo" aria-label="Łyskawa — strona główna">
+      <span class="logo__mark" aria-hidden="true">Ł</span>
+      <span class="logo__text">
+        <span class="logo__name">Łyskawa</span>
+        <span class="logo__sub">Cukiernia &amp; Piekarnia</span>
+      </span>
+    </a>
+    <nav class="nav-desktop" aria-label="Nawigacja główna">
+      <ul>
+        <li><a href="#historia">Historia</a></li>
+        <li><a href="#wypieki">Wypieki</a></li>
+        <li><a href="#torty">Torty</a></li>
+        <li><a href="#slodki-stol">Bankiety</a></li>
+        <li><a href="#sklepy">Nasze sklepy</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <a href="#zamow" class="btn btn--primary header-cta">Zamów tort</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Otwórz menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <nav id="mobile-menu" class="nav-mobile" aria-label="Nawigacja mobilna" hidden>
+    <ul>
+      <li><a href="#historia">Historia</a></li>
+      <li><a href="#wypieki">Wypieki</a></li>
+      <li><a href="#torty">Torty</a></li>
+      <li><a href="#slodki-stol">Bankiety</a></li>
+      <li><a href="#sklepy">Nasze sklepy</a></li>
+      <li><a href="#zamow">Zamów tort</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-in">
+        <span class="eyebrow">Cukiernia &amp; Piekarnia · Poznań</span>
+        <h1>Świeże z pieca, <em>od pokoleń.</em></h1>
+        <p class="lede">Łyskawa to rodzinna cukiernia i piekarnia z historią sięgającą 1928 roku. Każdego ranka pieczemy chleb, ciasta i torty z naturalnych składników, według receptur, które znamy od dziadków, i kilku nowych, które wymyśliliśmy sami.</p>
+        <div class="hero__ctas">
+          <a href="#zamow" class="btn btn--primary">
+            <svg aria-hidden="true"><use href="#i-cake"/></svg> Zamów tort
+          </a>
+          <a href="#sklepy" class="btn btn--ghost">
+            <svg aria-hidden="true"><use href="#i-pin"/></svg> Znajdź sklep
+          </a>
+        </div>
+        <ul class="hero__chips">
+          <li class="chip"><svg aria-hidden="true"><use href="#i-heart"/></svg>4 pokolenia</li>
+          <li class="chip"><svg aria-hidden="true"><use href="#i-wheat"/></svg>Pieczywo na zakwasie</li>
+          <li class="chip"><svg aria-hidden="true"><use href="#i-leaf"/></svg>Naturalne składniki</li>
+        </ul>
+      </div>
+
+      <div class="hero__visual reveal">
+        <div class="arch float">
+          <img src="img/tarta-mascarpone.jpg" alt="Tarta z mascarpone i owocami leśnymi z Cukierni Łyskawa" width="1100" height="1361" decoding="async">
+        </div>
+        <div class="seal seal--spin" aria-hidden="true">
+          <div><small>od roku</small><strong>1928</strong><small>Łyskawa</small></div>
+        </div>
+        <div class="tag-float"><span aria-hidden="true"></span>Pieczone dziś rano</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker__track">
+      <span>Pavlova</span><span>Jagodzianki z kremem pâtissière</span><span>Long Cake</span><span>Tort w stylu włoskim</span><span>Tarta z mascarpone</span><span>Pieczywo na zakwasie</span><span>Kawa i kanapki</span><span>Od 1928 roku</span>
+      <span>Pavlova</span><span>Jagodzianki z kremem pâtissière</span><span>Long Cake</span><span>Tort w stylu włoskim</span><span>Tarta z mascarpone</span><span>Pieczywo na zakwasie</span><span>Kawa i kanapki</span><span>Od 1928 roku</span>
+    </div>
+  </div>
+
+  <!-- OFERTA -->
+  <section id="oferta" class="section">
+    <div class="container">
+      <div class="section-head section-head--center reveal">
+        <span class="eyebrow">Nasza oferta</span>
+        <h2 class="h2">Od porannej bułki <em>po tort weselny</em></h2>
+        <p class="lede">Pieczywo, ciasta i torty z naturalnych składników, codziennie świeże. Wybierz, na co masz dziś ochotę.</p>
+      </div>
+      <ul class="bento reveal-stagger">
+        <li class="tilt tilt--big tilt--photo">
+          <span class="num">01</span>
+          <img class="photo" src="img/tort-chrzest.jpg" alt="Tort na chrzest z bucikami z masy cukrowej" width="1080" height="1080" loading="lazy" decoding="async">
+          <h3>Torty na Twoją okazję</h3>
+          <p>Wesele, komunia, chrzciny, urodziny, jubileusz. Każdy na indywidualne zamówienie, dekorowany według Twojego pomysłu.</p>
+          <a href="#torty">Torty na zamówienie <span>→</span></a>
+        </li>
+        <li class="tilt tilt--rasp tilt--photo">
+          <span class="num">02</span>
+          <img class="photo" src="img/croissant-pistacjowy.jpg" alt="Croissant z kremem pistacjowym" width="526" height="526" loading="lazy" decoding="async">
+          <h3>Cukiernia</h3>
+          <p>Ciasta do kawy, tarty, pavlova i jagodzianki. Codziennie świeże.</p>
+          <a href="#wypieki">Zobacz wypieki <span>→</span></a>
+        </li>
+        <li class="tilt tilt--gold tilt--photo">
+          <span class="num">03</span>
+          <img class="photo" src="img/kanapka-croissant.jpg" alt="Kanapka na croissancie z rukolą, mozzarellą i pomidorem" width="1080" height="1080" loading="lazy" decoding="async">
+          <h3>Piekarnia</h3>
+          <p>Pieczywo na zakwasie, chrupiące bułeczki i kanapki robione na miejscu.</p>
+          <a href="#wypieki">Nasze pieczywo <span>→</span></a>
+        </li>
+        <li class="tilt tilt--wide tilt--photo">
+          <span class="num">04</span>
+          <img class="photo" src="img/pavlova.jpg" alt="Pavlova z owocami i kwiatami" width="526" height="526" loading="lazy" decoding="async">
+          <h3>Oferta bankietowa</h3>
+          <p>Mini desery i słodkie stoły premium na bankiety, przyjęcia firmowe, wesela i eventy.</p>
+          <a href="#slodki-stol">Oferta bankietowa <span>→</span></a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- HISTORIA -->
+  <section id="historia" class="section section--green">
+    <div class="container history">
+      <div class="reveal">
+        <span class="eyebrow">Nasza historia</span>
+        <h2 class="h2">Prawie sto lat <em>rodzinnej tradycji</em></h2>
+        <p class="lede">Wypiekamy od 1928 roku. Firmę prowadzi już czwarte pokolenie rodziny. Nasi dziadkowie zaczynali od wypieku chleba, a my kontynuujemy ich dzieło: łączymy sprawdzone, tradycyjne receptury z nowoczesnymi technikami i nowymi smakami.</p>
+        <figure class="archive"><img src="img/pokolenia-archiwum.jpg" alt="Archiwalne zdjęcie piekarzy przed piekarnią" width="550" height="337" loading="lazy" decoding="async"><figcaption>Pokolenia Łyskawy: zdjęcie archiwalne</figcaption></figure>
+        <blockquote>„Pieczywo to coś więcej niż codzienny posiłek. To smak dzieciństwa, zapach domu i radość dzielenia się z bliskimi.”</blockquote>
+        <div class="counters">
+          <div><strong data-count="1928" data-from="1850">1928</strong><span>rok, od którego pieczemy</span></div>
+          <div><strong data-count="4">4</strong><span>pokolenia rodziny</span></div>
+          <div><strong data-count="100" data-suffix="%">100%</strong><span>naturalnych składników</span></div>
+          <div><strong data-count="7">7</strong><span>lokali w Poznaniu i okolicy</span></div>
+        </div>
+      </div>
+      <ol class="timeline reveal">
+        <li>
+          <span class="when">1928</span>
+          <h3>Początek</h3>
+          <p>Rok, od którego rodzina Łyskawów zajmuje się wypiekami.</p>
+        </li>
+        <li>
+          <span class="when">Pokolenie po pokoleniu</span>
+          <h3>Receptury z tradycją</h3>
+          <p>Część naszych wypieków opiera się na recepturach o 80-letniej tradycji.</p>
+        </li>
+        <li>
+          <span class="when">Krotoszyn</span>
+          <h3>Siedziba i produkcja</h3>
+          <p>W Krotoszynie mieści się nasza główna siedziba i zakład produkcyjny.</p>
+        </li>
+        <li>
+          <span class="when">Poznań</span>
+          <h3>Lokale w Poznaniu</h3>
+          <p>Od kilku lat mamy własne lokale w Poznaniu i okolicy, a w 2026 roku otworzyliśmy nowy przy ul. Dąbrowskiego 3.</p>
+        </li>
+        <li>
+          <span class="when">Dziś</span>
+          <h3>Czwarte pokolenie</h3>
+          <p>Szanujemy tradycję, ale lubimy nowości: Long Cake, tort w stylu włoskim czy mini desery Matcha &amp; Czekolada.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- WYPIEKI -->
+  <section id="wypieki" class="section section--paper">
+    <div class="container">
+      <div class="section-head section-head--center reveal">
+        <span class="eyebrow">Codziennie świeże</span>
+        <h2 class="h2">Co dziś <em>na ladzie?</em></h2>
+        <p class="lede">Wybrane wypieki z naszej lady. Asortyment zmienia się z sezonem, więc o ciasto dnia zapytaj w najbliższym lokalu.</p>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Kategorie wypieków">
+        <button class="tab" role="tab" id="tab-desery" aria-controls="panel-desery" aria-selected="true">Desery i ciasta</button>
+        <button class="tab" role="tab" id="tab-torty" aria-controls="panel-torty" aria-selected="false" tabindex="-1">Torty</button>
+        <button class="tab" role="tab" id="tab-kawiarnia" aria-controls="panel-kawiarnia" aria-selected="false" tabindex="-1">Piekarnia i kawiarnia</button>
+        <button class="tab" role="tab" id="tab-bankiety" aria-controls="panel-bankiety" aria-selected="false" tabindex="-1">Oferta bankietowa</button>
+      </div>
+
+      <div class="tab-panel" role="tabpanel" id="panel-desery" aria-labelledby="tab-desery">
+        <ul class="product-grid reveal-stagger">
+          <li class="product"><div class="product__art"><img src="img/pavlova.jpg" alt="Pavlova z owocami" width="526" height="526" loading="lazy" decoding="async"></div><div class="product__body"><h3>Pavlova</h3><p>Lekka, chrupiąca beza, aksamitny krem i świeże, sezonowe owoce. Można ją też zamówić na okazję.</p><span class="badge">Lato</span></div></li>
+          <li class="product"><div class="product__art"><img style="object-position:50% 50%" src="img/mini-tarty-pistacjowe.jpg" alt="Mini tarty pistacjowe z malinami" width="825" height="1100" loading="lazy" decoding="async"></div><div class="product__body"><h3>Mini tarta pistacjowa</h3><p>Kruche ciasto, rozpływający się w ustach krem pistacjowy i świeże maliny na górze.</p></div></li>
+          <li class="product"><div class="product__art"><img src="img/croissant-pistacjowy.jpg" alt="Croissant z kremem pistacjowym" width="526" height="526" loading="lazy" decoding="async"></div><div class="product__body"><h3>Croissant pistacjowy</h3><p>Maślany croissant z kremem pistacjowym i posypką z pistacji.</p></div></li>
+          <li class="product"><div class="product__art"><img src="img/rogale-swietomarcinskie.jpg" alt="Rogale świętomarcińskie" width="1100" height="893" loading="lazy" decoding="async"></div><div class="product__body"><h3>Rogale świętomarcińskie</h3><p>Poznański przysmak z nadzieniem z białego maku, najchętniej kupowany na 11 listopada.</p><span class="badge">Listopad</span></div></li>
+          <li class="product"><div class="product__art"><img style="object-position:50% 68%" src="img/tarta-mascarpone.jpg" alt="Tarta z mascarpone i owocami leśnymi" width="1100" height="1361" loading="lazy" decoding="async"></div><div class="product__body"><h3>Tarta z mascarpone</h3><p>Krucha, maślana tarta z kremem mascarpone, truskawkami, borówkami, malinami i jeżynami.</p></div></li>
+          <li class="product"><div class="product__art"><img style="object-position:50% 72%" src="img/jagodzianka-kawa.jpg" alt="Jagodzianka przekrojona na pół, obok filiżanka kawy" width="1100" height="1371" loading="lazy" decoding="async"></div><div class="product__body"><h3>Jagodzianki z kremem pâtissière</h3><p>Puszyste, maślane ciasto, krem pâtissière i mnóstwo jagód. Najlepsze jeszcze ciepłe.</p><span class="badge">Sezonowo</span></div></li>
+          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M10 30 90 18v30L10 60z" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M10 30 90 18" stroke="currentColor" stroke-width="6" stroke-linecap="round" opacity=".55"/><path d="M10 44 90 32" stroke="currentColor" stroke-width="2" opacity=".35"/></svg></div><div class="product__body"><h3>Ciasta do kawy</h3><p>Codziennie świeże ciasta: klasyka z recepturami o 80-letniej tradycji i nowe połączenia smaków.</p></div></li>
+        </ul>
+      </div>
+
+      <div class="tab-panel" role="tabpanel" id="panel-torty" aria-labelledby="tab-torty" hidden>
+        <ul class="product-grid reveal-stagger">
+          <li class="product"><div class="product__art art-1"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="8" y="30" width="84" height="26" rx="5" fill="#FFFDF8" stroke="currentColor" stroke-width="2.5"/><path d="M8 43h84" stroke="currentColor" stroke-width="2" opacity=".4"/><g fill="#A3324A"><circle cx="18" cy="26" r="4"/><circle cx="30" cy="26" r="4"/><circle cx="42" cy="26" r="4"/><circle cx="54" cy="26" r="4"/><circle cx="66" cy="26" r="4"/><circle cx="78" cy="26" r="4"/></g></svg></div><div class="product__body"><h3>Long Cake</h3><p>Modny, podłużny tort: delikatny biszkopt, aksamitny krem i soczyste maliny. Na śluby, urodziny i rocznice.</p><span class="badge">Modny</span></div></li>
+          <li class="product"><div class="product__art art-3"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="20" y="30" width="60" height="28" rx="5" fill="#FFFDF8" stroke="currentColor" stroke-width="2.5"/><path d="M20 36c6 5 10 5 15 0s10-5 15 0 10 5 15 0 10-5 15 0" stroke="currentColor" stroke-width="2.5" fill="none"/><g><circle cx="34" cy="24" r="5" fill="#A3324A"/><circle cx="46" cy="22" r="5" fill="#B8913A"/><circle cx="58" cy="24" r="5" fill="#4B437A"/><circle cx="68" cy="26" r="4" fill="#5E8C6A"/></g></svg></div><div class="product__body"><h3>Tort w stylu włoskim</h3><p>Lekkie blaty, puszysty krem śmietankowy i obfita dekoracja ze świeżych owoców.</p><span class="badge">Wesela</span></div></li>
+          <li class="product"><div class="product__art"><img src="img/tort-chrzest.jpg" alt="Tort na chrzest" width="1080" height="1080" loading="lazy" decoding="async"></div><div class="product__body"><h3>Torty okolicznościowe</h3><p>Na komunię, wesele, chrzciny i jubileusz. Każdy na indywidualne zamówienie.</p></div></li>
+        </ul>
+      </div>
+
+      <div class="tab-panel" role="tabpanel" id="panel-kawiarnia" aria-labelledby="tab-kawiarnia" hidden>
+        <ul class="product-grid reveal-stagger">
+          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><ellipse cx="50" cy="40" rx="38" ry="20" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><path d="M30 32l8 10M46 28l8 12M62 30l8 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="product__body"><h3>Pieczywo na zakwasie</h3><p>Z naturalnych składników od lokalnych dostawców, pieczone każdego ranka.</p></div></li>
+          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><circle cx="34" cy="40" r="16" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><circle cx="66" cy="40" r="16" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><path d="M26 40h16M58 40h16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="product__body"><h3>Chrupiące bułeczki</h3><p>Świeże od samego rana, na śniadanie i do kanapek.</p></div></li>
+          <li class="product"><div class="product__art"><img src="img/kanapka-croissant.jpg" alt="Kanapka na croissancie" width="1080" height="1080" loading="lazy" decoding="async"></div><div class="product__body"><h3>Kanapki</h3><p>Przygotowywane na miejscu, na świeżym pieczywie. Do tego smaczne przekąski.</p></div></li>
+          <li class="product"><div class="product__art"><img style="object-position:50% 22%" src="img/jagodzianka-kawa.jpg" alt="Kawa i jagodzianka na stole w kawiarni" width="1100" height="1371" loading="lazy" decoding="async"></div><div class="product__body"><h3>Kawa</h3><p>Do ciasta, w naszych kawiarniach.</p></div></li>
+          <li class="product"><div class="product__art art-1"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M38 36h24L50 64z" fill="#E9D7A8" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><circle cx="44" cy="30" r="10" fill="#FBEFF1" stroke="currentColor" stroke-width="2.5"/><circle cx="56" cy="30" r="10" fill="#FFFDF8" stroke="currentColor" stroke-width="2.5"/><circle cx="50" cy="20" r="9" fill="#F3F7F4" stroke="currentColor" stroke-width="2.5"/></svg></div><div class="product__body"><h3>Lody</h3><p>O dostępne smaki zapytaj w lokalu.</p></div></li>
+        </ul>
+      </div>
+
+      <div class="tab-panel" role="tabpanel" id="panel-bankiety" aria-labelledby="tab-bankiety" hidden>
+        <ul class="product-grid reveal-stagger">
+          <li class="product"><div class="product__art art-3"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M26 44h48l-5 14H31z" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M28 44c0-12 10-20 22-20s22 8 22 20z" fill="#7FA36B"/><path d="M28 44c4-6 40-6 44 0" fill="#3B2A20"/><g fill="#A3324A"><circle cx="44" cy="26" r="2.5"/><circle cx="56" cy="28" r="2.5"/><circle cx="50" cy="22" r="2.5"/></g></svg></div><div class="product__body"><h3>Mini deser Matcha &amp; Czekolada</h3><p>Krem matcha, aksamitna czekolada i krucha tartaletka, wykończone lekkim musem i owocową posypką.</p><span class="badge">Bankiety</span></div></li>
+          <li class="product"><div class="product__art art-4"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="8" y="52" width="84" height="6" rx="2" fill="currentColor"/><path d="M16 52l3-14h12l3 14z" fill="#E9D7A8"/><circle cx="25" cy="34" r="7" fill="#FFFDF8" stroke="currentColor" stroke-width="2"/><rect x="42" y="30" width="20" height="22" rx="3" fill="#FFFDF8" stroke="currentColor" stroke-width="2"/><circle cx="76" cy="46" r="6" fill="#FFFDF8" stroke="currentColor" stroke-width="2"/></svg></div><div class="product__body"><h3>Słodkie stoły premium</h3><p>Małe desery na bankiety, przyjęcia firmowe, wesela i eventy.</p></div></li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="drip" style="--from:var(--paper);--to:var(--cream)" aria-hidden="true">
+    <svg viewBox="0 0 1200 70" preserveAspectRatio="none"><path fill="currentColor" d="M0 0h1200v18c-30 0-34 30-58 30s-22-26-52-26-30 40-58 40-26-34-56-34-34 16-60 16-30-22-58-22-30 46-60 46-30-40-60-40-28 18-56 18-30-30-60-30-32 38-62 38-28-28-58-28-30 14-58 14-30-24-60-24-28 34-58 34-30-30-58-30-30 20-60 20-28-24-58-24-30 30-58 30S30 18 0 18z"/><circle class="drop" cx="294" cy="64" r="6" fill="currentColor"/><circle class="drop" cx="708" cy="58" r="5" fill="currentColor"/><circle class="drop" cx="1028" cy="62" r="5" fill="currentColor"/></svg>
+  </div>
+
+  <!-- TORTY -->
+  <section id="torty" class="section">
+    <div class="container cakes">
+      <div class="reveal">
+        <span class="eyebrow">Torty na zamówienie</span>
+        <h2 class="h2">Tort, który <em>zapamiętacie</em></h2>
+        <p class="lede">Każdy tort wykonujemy na indywidualne zamówienie i dekorujemy według Twojego pomysłu. Chętnie doradzimy słodkie menu na Twoją uroczystość.</p>
+        <ul class="occasions reveal-stagger">
+          <li class="occasion"><svg aria-hidden="true"><use href="#i-rings"/></svg><strong>Wesele</strong><span>np. tort w stylu włoskim</span></li>
+          <li class="occasion"><svg aria-hidden="true"><use href="#i-cross"/></svg><strong>Komunia</strong><span>dekoracja według Twojego pomysłu</span></li>
+          <li class="occasion"><svg aria-hidden="true"><use href="#i-baby"/></svg><strong>Chrzciny</strong><span>tort na chrzest</span></li>
+          <li class="occasion"><svg aria-hidden="true"><use href="#i-gift"/></svg><strong>Urodziny</strong><span>np. modny Long Cake</span></li>
+          <li class="occasion"><svg aria-hidden="true"><use href="#i-star"/></svg><strong>Jubileusz</strong><span>rocznice i okrągłe daty</span></li>
+          <li class="occasion"><svg aria-hidden="true"><use href="#i-briefcase"/></svg><strong>Dla firm</strong><span>bankiety i eventy</span></li>
+        </ul>
+      </div>
+
+      <div class="reveal">
+        <ol class="steps">
+          <li class="step"><h3>Zadzwoń lub napisz</h3><p>Podaj datę, okazję i przybliżoną liczbę gości.</p></li>
+          <li class="step"><h3>Wybierz smak i dekorację</h3><p>Opisz swój pomysł na dekorację. Chętnie doradzimy, co wybrać.</p></li>
+          <li class="step"><h3>Ustalcie odbiór</h3><p>Potwierdzimy zamówienie oraz termin i miejsce odbioru tortu.</p></li>
+        </ol>
+
+        <form id="zamow" class="order" novalidate>
+          <h3>Zapytaj o tort</h3>
+          <div class="form-grid">
+            <div class="field"><label for="f-name">Imię i nazwisko</label><input id="f-name" name="name" autocomplete="name" required></div>
+            <div class="field"><label for="f-phone">Telefon</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" required></div>
+            <div class="field"><label for="f-occasion">Okazja</label>
+              <select id="f-occasion" name="occasion">
+                <option>Urodziny</option><option>Wesele</option><option>Komunia</option><option>Chrzciny</option><option>Jubileusz</option><option>Event firmowy</option><option>Inna</option>
+              </select>
+            </div>
+            <div class="field"><label for="f-date">Data odbioru</label><input id="f-date" name="date" type="date" required></div>
+            <div class="field"><label for="f-portions">Liczba porcji</label><input id="f-portions" name="portions" type="number" min="4" inputmode="numeric" placeholder="np. 20"></div>
+            <div class="field"><label for="f-shop">Preferowany lokal</label>
+              <select id="f-shop" name="shop">
+                <option>ul. Półwiejska 43</option><option>ul. Zeylanda 12</option><option>ul. Dąbrowskiego 3</option><option>ul. Mrzeżyńska 16</option><option>Galeria Avenida (Matyi 2)</option><option>Galeria Dąbrówka</option><option>Luboń (Poniatowskiego 24)</option>
+              </select>
+            </div>
+            <div class="field full"><label for="f-msg">Smak, dekoracja, napis</label><textarea id="f-msg" name="message" placeholder="np. tort malinowy, biały krem, napis „Sto lat, Ola!”"></textarea></div>
+          </div>
+          <div style="margin-top:1.25rem; display:flex; flex-wrap:wrap; gap:.75rem;">
+            <button type="submit" class="btn btn--primary">Wyślij zapytanie</button>
+            <a href="tel:+48577477884" class="btn btn--ghost"><svg aria-hidden="true"><use href="#i-phone"/></svg> Wolę zadzwonić</a>
+          </div>
+          <p class="form-status" role="status" aria-live="polite"></p>
+          <p class="form-note">Formularz otworzy wiadomość e-mail do <a href="mailto:zamowienia.lyskawa@gmail.com">zamowienia.lyskawa@gmail.com</a>. Termin i szczegóły potwierdzimy w odpowiedzi.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- SŁODKI STÓŁ -->
+  <section id="slodki-stol" class="section section--paper">
+    <div class="container sweet">
+      <div class="collage reveal">
+        <img class="c1" src="img/pavlova.jpg" alt="Pavlova z owocami i kwiatami" width="526" height="526" loading="lazy" decoding="async">
+        <img class="c2" src="img/mini-tarty-pistacjowe.jpg" alt="Mini tarty pistacjowe z malinami" width="825" height="1100" loading="lazy" decoding="async">
+      </div>
+      <div class="reveal">
+        <span class="eyebrow">Oferta bankietowa</span>
+        <h2 class="h2">Małe desery, <em>wielkie wrażenie</em></h2>
+        <p class="lede">Bankiet, przyjęcie firmowe, wesele albo event? Przygotujemy mini desery i słodkie stoły premium, a do tego doradzimy całe słodkie menu.</p>
+        <ul class="checklist">
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Mini deser Matcha &amp; Czekolada: krem matcha, czekolada i krucha tartaletka</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Pavlova i tarty z owocami na wyjątkową okazję</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Torty na wesela, komunie, chrzciny i jubileusze</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Na bankiety, przyjęcia firmowe, wesela i eventy</span></li>
+        </ul>
+        <a href="#zamow" class="btn btn--dark">Zapytaj o ofertę bankietową</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker ticker--alt" aria-hidden="true">
+    <div class="ticker__track">
+      <span>Półwiejska 43</span><span>Zeylanda 12</span><span>Dąbrowskiego 3</span><span>Mrzeżyńska 16</span><span>Galeria Avenida</span><span>Galeria Dąbrówka</span><span>Luboń</span>
+      <span>Półwiejska 43</span><span>Zeylanda 12</span><span>Dąbrowskiego 3</span><span>Mrzeżyńska 16</span><span>Galeria Avenida</span><span>Galeria Dąbrówka</span><span>Luboń</span>
+    </div>
+  </div>
+
+  <!-- SKLEPY -->
+  <section id="sklepy" class="section" style="padding-top:5rem">
+    <div class="container">
+      <div class="section-head section-head--center reveal">
+        <span class="eyebrow">Nasze sklepy</span>
+        <h2 class="h2">Znajdziesz nas <em>w Poznaniu i okolicy</em></h2>
+        <p class="lede">Zajrzyj do najbliższego lokalu Łyskawa po świeże pieczywo, ciasto i kawę albo odbierz zamówiony tort.</p>
+      </div>
+      <ul class="shops reveal-stagger">
+        <li class="shop shop--main">
+          <div class="shop__top"><h3>Mrzeżyńska</h3><span class="shop__label">Biuro</span></div>
+          <dl>
+            <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Mrzeżyńska 16<br>60-446 Poznań</dd></div>
+            <div><dt><svg aria-label="Telefon"><use href="#i-phone"/></svg></dt><dd>Lokal: <a href="tel:+48790471471">790 471 471</a><br>Biuro: <a href="tel:+48577477884">577 477 884</a></dd></div>
+            <div><dt><svg aria-label="Godziny otwarcia"><use href="#i-clock"/></svg></dt><dd>pon.–pt. 7:00–15:00<br>sob. 7:00–12:00</dd></div>
+          </dl>
+          <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=Mrze%C5%BCy%C5%84ska+16+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
+        </li>
+        <li class="shop">
+          <div class="shop__top"><h3>Półwiejska</h3></div>
+          <dl>
+            <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Półwiejska 43<br>61-893 Poznań</dd></div>
+            <div><dt><svg aria-label="Telefon"><use href="#i-phone"/></svg></dt><dd><a href="tel:+48500059570">500 059 570</a></dd></div>
+            <div><dt><svg aria-label="Godziny otwarcia"><use href="#i-clock"/></svg></dt><dd>pon.–pt. 7:00–18:00<br>sob. 9:00–18:00</dd></div>
+          </dl>
+          <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=P%C3%B3%C5%82wiejska+43+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
+        </li>
+        <li class="shop">
+          <div class="shop__top"><h3>Zeylanda</h3></div>
+          <dl>
+            <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Zeylanda 12<br>60-808 Poznań</dd></div>
+            <div><dt><svg aria-label="Telefon"><use href="#i-phone"/></svg></dt><dd><a href="tel:+48577337525">577 337 525</a></dd></div>
+            <div><dt><svg aria-label="Godziny otwarcia"><use href="#i-clock"/></svg></dt><dd>pon.–pt. 7:00–19:00<br>sob.–niedz. 8:00–19:00</dd></div>
+          </dl>
+          <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=Zeylanda+12+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
+        </li>
+        <li class="shop">
+          <div class="shop__top"><h3>Dąbrowskiego</h3><span class="shop__label">Nowy lokal</span></div>
+          <dl>
+            <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Dąbrowskiego 3<br>Poznań</dd></div>
+            <div><dt><svg aria-label="Godziny otwarcia"><use href="#i-clock"/></svg></dt><dd>Godziny wkrótce. Zadzwoń do biura.</dd></div>
+          </dl>
+          <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=D%C4%85browskiego+3+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
+        </li>
+        <li class="shop">
+          <div class="shop__top"><h3>Galeria Avenida</h3></div>
+          <dl>
+            <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Matyi 2<br>61-581 Poznań</dd></div>
+            <div><dt><svg aria-label="Telefon"><use href="#i-phone"/></svg></dt><dd><a href="tel:+48577477465">577 477 465</a></dd></div>
+            <div><dt><svg aria-label="Godziny otwarcia"><use href="#i-clock"/></svg></dt><dd>pon.–sob. 8:00–21:00</dd></div>
+          </dl>
+          <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=Galeria+Avenida+Matyi+2+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
+        </li>
+        <li class="shop">
+          <div class="shop__top"><h3>Galeria Dąbrówka</h3></div>
+          <dl>
+            <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Poznańska 31<br>62-069 Dąbrówka</dd></div>
+            <div><dt><svg aria-label="Telefon"><use href="#i-phone"/></svg></dt><dd><a href="tel:+48730035910">730 035 910</a></dd></div>
+            <div><dt><svg aria-label="Godziny otwarcia"><use href="#i-clock"/></svg></dt><dd>pon.–pt. 6:00–18:00<br>sob. 7:00–18:00<br>niedz. 10:00–16:00</dd></div>
+          </dl>
+          <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=Galeria+D%C4%85br%C3%B3wka+Pozna%C5%84ska+31" target="_blank" rel="noopener">Pokaż na mapie →</a>
+        </li>
+        <li class="shop">
+          <div class="shop__top"><h3>Luboń</h3></div>
+          <dl>
+            <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Poniatowskiego 24<br>Luboń</dd></div>
+            <div><dt><svg aria-label="Telefon"><use href="#i-phone"/></svg></dt><dd><a href="tel:+48577377536">577 377 536</a></dd></div>
+            <div><dt><svg aria-label="Godziny otwarcia"><use href="#i-clock"/></svg></dt><dd>pon.–pt. 7:00–18:00<br>sob. 7:00–14:00<br>niedz. 9:00–14:00</dd></div>
+          </dl>
+          <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=Poniatowskiego+24+Lubo%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
+        </li>
+        <li class="shop" style="background:var(--cream-deep); border-style:dashed;">
+          <div class="shop__top"><h3>Zamówienia</h3></div>
+          <dl>
+            <div><dt><svg aria-hidden="true"><use href="#i-cake"/></svg></dt><dd>Torty, słodkie stoły i oferta bankietowa:<br><a href="mailto:zamowienia.lyskawa@gmail.com">zamowienia.lyskawa@gmail.com</a></dd></div>
+          </dl>
+          <a class="shop__map" href="#zamow">Zapytaj o tort →</a>
+        </li>
+      </ul>
+      <p class="shops-note">Godziny otwarcia mogą się zmieniać w święta. Przed wizytą najlepiej zadzwonić.</p>
+    </div>
+  </section>
+
+  <!-- BANDS -->
+  <section class="section section--paper" aria-label="Dołącz do nas">
+    <div class="container two-bands">
+      <div class="band band--gold reveal">
+        <div>
+          <span class="eyebrow">Nie marnujemy</span>
+          <h2>Paczki-niespodzianki pod koniec dnia</h2>
+          <p>W wybranych lokalach znajdziesz nas w aplikacji Too Good To Go: paczki-niespodzianki z wypiekami taniej, bez marnowania jedzenia.</p>
+        </div>
+        <div class="band__ctas"><a href="https://www.toogoodtogo.com/pl" target="_blank" rel="noopener" class="btn btn--dark"><svg aria-hidden="true"><use href="#i-leaf"/></svg> Too Good To Go</a></div>
+      </div>
+      <div class="band band--green reveal">
+        <div>
+          <span class="eyebrow">Obserwuj nas</span>
+          <h2>Nowości i sezonowe wypieki na bieżąco</h2>
+          <p>Nowe torty, sezonowe desery i wiadomości z naszych lokali publikujemy na Instagramie i Facebooku.</p>
+        </div>
+        <div class="band__ctas">
+          <a href="https://www.instagram.com/cukiernialyskawa/" target="_blank" rel="noopener" class="btn btn--light"><svg aria-hidden="true"><use href="#i-ig"/></svg> Instagram</a>
+          <a href="https://www.facebook.com/CukierniaLyskawaPoznan/" target="_blank" rel="noopener" class="btn btn--light"><svg aria-hidden="true"><use href="#i-fb"/></svg> Facebook</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="calc-title">
+    <div class="container">
+      <div class="calc reveal">
+        <div>
+          <span class="eyebrow">Kalkulator tortu</span>
+          <h2 class="h2" id="calc-title">Jaki tort <em>na ile osób?</em></h2>
+          <label for="guests" class="lede" style="display:block">Przesuń suwak i ustaw liczbę gości.</label>
+          <input type="range" id="guests" min="6" max="120" step="2" value="24">
+          <p class="calc__guests"><span id="g-out">24</span><small>gości</small></p>
+          <div class="calc__out">
+            <div><strong id="c-kg">3 kg</strong><span>orientacyjna waga</span></div>
+            <div><strong id="c-tiers">2</strong><span>piętra</span></div>
+            <div><strong id="c-port">24</strong><span>porcje</span></div>
+          </div>
+          <p class="calc__note">To tylko orientacyjny szacunek (ok. 120 g tortu na osobę), nie oferta. Wielkość i cenę potwierdzimy przy zamówieniu.</p>
+          <a href="#zamow" class="btn btn--primary" id="calc-cta">Zapytaj o taki tort</a>
+        </div>
+        <svg class="calc__cake" viewBox="0 0 300 280" aria-hidden="true">
+          <ellipse cx="150" cy="262" rx="120" ry="10" fill="rgba(20,42,33,.15)"/>
+          <rect x="135" y="236" width="30" height="22" fill="#E9D7A8"/><ellipse cx="150" cy="236" rx="128" ry="11" fill="#E9D7A8"/>
+          <g class="tier" data-tier="1"><rect x="40" y="166" width="220" height="70" rx="10" fill="#FFFDF8" stroke="#F2E8D5" stroke-width="2"/><path d="M40 176c18 14 36 14 55 0s37-14 55 0 37 14 55 0 37-14 55 0" stroke="#E9B8C3" stroke-width="8" fill="none" stroke-linecap="round"/></g>
+          <g class="tier" data-tier="2"><rect x="72" y="104" width="156" height="64" rx="10" fill="#F6DDE2"/><path d="M72 114c13 11 26 11 39 0s26-11 39 0 26 11 39 0 26-11 39 0" stroke="#FFFDF8" stroke-width="7" fill="none" stroke-linecap="round"/></g>
+          <g class="tier" data-tier="3"><rect x="102" y="50" width="96" height="56" rx="10" fill="#FFFDF8" stroke="#F2E8D5" stroke-width="2"/><path d="M102 60c8 9 16 9 24 0s16-9 24 0 16 9 24 0 16-9 24 0" stroke="#E9B8C3" stroke-width="6" fill="none" stroke-linecap="round"/></g>
+          <g class="tier topper" data-top="1"><circle cx="150" cy="40" r="11" fill="#A3324A"/><circle cx="130" cy="46" r="7" fill="#A3324A"/><circle cx="170" cy="46" r="7" fill="#A3324A"/></g>
+        </svg>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#" class="logo" aria-label="Łyskawa — strona główna">
+          <span class="logo__mark" aria-hidden="true">Ł</span>
+          <span class="logo__text"><span class="logo__name">Łyskawa</span><span class="logo__sub">Cukiernia &amp; Piekarnia</span></span>
+        </a>
+        <p style="margin-top:1rem; max-width:22rem;">Rodzinna cukiernia i piekarnia od 1928 roku. Pieczemy codziennie z naturalnych składników.</p>
+        <div class="socials">
+          <a href="https://www.facebook.com/CukierniaLyskawaPoznan/" target="_blank" rel="noopener" aria-label="Facebook"><svg><use href="#i-fb"/></svg></a>
+          <a href="https://www.instagram.com/cukiernialyskawa/" target="_blank" rel="noopener" aria-label="Instagram"><svg><use href="#i-ig"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Oferta</h4>
+        <ul>
+          <li><a href="#torty">Torty na zamówienie</a></li>
+          <li><a href="#wypieki">Ciasta i desery</a></li>
+          <li><a href="#wypieki">Pieczywo</a></li>
+          <li><a href="#slodki-stol">Bankiety</a></li>
+          <li><a href="#zamow">Oferta bankietowa</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Lokale</h4>
+        <ul>
+          <li>ul. Półwiejska 43</li>
+          <li>ul. Zeylanda 12</li>
+          <li>ul. Dąbrowskiego 3</li>
+          <li>ul. Mrzeżyńska 16</li>
+          <li>Galeria Avenida</li>
+          <li>Galeria Dąbrówka</li>
+          <li>Luboń, ul. Poniatowskiego 24</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul>
+          <li><a href="tel:+48577477884">+48 577 477 884</a></li>
+          <li><a href="mailto:zamowienia.lyskawa@gmail.com">zamowienia.lyskawa@gmail.com</a></li>
+          <li>ul. Mrzeżyńska 16<br>60-446 Poznań</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-stamp" aria-hidden="true">
+      <div class="stamp">
+        <svg viewBox="0 0 150 150"><defs><path id="stamp-circle" d="M75 75m-58 0a58 58 0 1 1 116 0a58 58 0 1 1-116 0"/></defs><circle cx="75" cy="75" r="72" fill="none" stroke="rgba(233,215,168,.35)" stroke-width="1.5"/><circle cx="75" cy="75" r="44" fill="none" stroke="rgba(233,215,168,.35)" stroke-width="1.5"/><text><textPath href="#stamp-circle" textLength="360" lengthAdjust="spacing">Wypiekamy od 1928 • Cukiernia &amp; Piekarnia • </textPath></text></svg>
+        <b>Ł</b>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year">2026</span> Cukiernia Piekarnia Łyskawa sp. z o.o.</span>
+      <span>Wypiekamy od 1928 roku</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Mobile menu
+  const toggle = document.querySelector('.menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  toggle.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    toggle.setAttribute('aria-label', open ? 'Otwórz menu' : 'Zamknij menu');
+    mobileMenu.hidden = open;
+  });
+  mobileMenu.addEventListener('click', (e) => {
+    if (e.target.closest('a')) { mobileMenu.hidden = true; toggle.setAttribute('aria-expanded', 'false'); }
+  });
+
+  // Tabs
+  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  function selectTab(tab) {
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+  }
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => selectTab(tab));
+    tab.addEventListener('keydown', (e) => {
+      const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!dir) return;
+      const next = tabs[(i + dir + tabs.length) % tabs.length];
+      selectTab(next); next.focus();
+    });
+  });
+
+  // Order form -> e-mail draft
+  const ORDER_EMAIL = 'zamowienia.lyskawa@gmail.com';
+  const form = document.getElementById('zamow');
+  const status = form.querySelector('.form-status');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const required = [...form.querySelectorAll('[required]')];
+    const missing = required.find((el) => !el.value.trim());
+    if (missing) { status.textContent = 'Uzupełnij imię, telefon i datę odbioru.'; missing.focus(); return; }
+    const d = Object.fromEntries(new FormData(form));
+    const body = [
+      `Imię i nazwisko: ${d.name}`, `Telefon: ${d.phone}`, `Okazja: ${d.occasion}`,
+      `Data odbioru: ${d.date}`, `Liczba porcji: ${d.portions || '—'}`, `Preferowany lokal: ${d.shop}`,
+      '', d.message || ''
+    ].join('\n');
+    window.location.href = `mailto:${ORDER_EMAIL}?subject=${encodeURIComponent('Zapytanie o tort — ' + d.occasion)}&body=${encodeURIComponent(body)}`;
+    status.textContent = 'Otwieramy Twój program pocztowy z gotową wiadomością.';
+  });
+
+  // 3D tilt
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (fine && !still) {
+    document.querySelectorAll('.tilt').forEach((card) => {
+      card.addEventListener('pointermove', (e) => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        card.style.setProperty('--ry', `${(x - 0.5) * 10}deg`);
+        card.style.setProperty('--rx', `${(0.5 - y) * 10}deg`);
+        card.style.setProperty('--mx', `${x * 100}%`);
+        card.style.setProperty('--my', `${y * 100}%`);
+      });
+      card.addEventListener('pointerleave', () => { card.style.setProperty('--rx', '0deg'); card.style.setProperty('--ry', '0deg'); });
+    });
+  }
+
+  // Kalkulator tortu
+  const guests = document.getElementById('guests');
+  const tiers = [...document.querySelectorAll('.calc__cake .tier[data-tier]')];
+  function updateCalc() {
+    const g = Number(guests.value);
+    const kg = Math.max(1, Math.round(g * 0.12 * 2) / 2);
+    const t = g <= 20 ? 1 : g <= 50 ? 2 : 3;
+    document.getElementById('g-out').textContent = g;
+    document.getElementById('c-kg').textContent = `${String(kg).replace('.', ',')} kg`;
+    document.getElementById('c-tiers').textContent = t;
+    document.getElementById('c-tiers').nextElementSibling.textContent = t === 1 ? 'piętro' : 'piętra';
+    document.getElementById('c-port').textContent = g;
+    tiers.forEach((el) => el.classList.toggle('is-off', Number(el.dataset.tier) > t));
+    const topper = document.querySelector('.calc__cake .topper');
+    topper.style.transform = `translateY(${(3 - t) * 60}px)`;
+  }
+  guests.addEventListener('input', updateCalc);
+  updateCalc();
+  document.getElementById('calc-cta').addEventListener('click', () => {
+    document.getElementById('f-portions').value = guests.value;
+  });
+
+  // Liczniki
+  function countUp(el) {
+    const to = Number(el.dataset.count), from = Number(el.dataset.from || 0), suf = el.dataset.suffix || '';
+    if (still) { el.textContent = to + suf; return; }
+    const t0 = performance.now(), dur = 1400;
+    const step = (t) => {
+      const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = Math.round(from + (to - from) * e) + suf;
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  // Scroll reveal (content stays visible without IntersectionObserver)
+  const revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); entry.target.querySelectorAll('[data-count]').forEach(countUp); io.unobserve(entry.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+    revealEls.forEach((el) => io.observe(el));
+  } else {
+    revealEls.forEach((el) => el.classList.add('is-visible'));
+  }
+</script>
+</body>
+</html>
