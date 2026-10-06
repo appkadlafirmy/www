@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel administracyjny — OBSIDIAN Detailing</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0A0908">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%230A0908'/%3E%3Cpath d='M32 10 L48 22 L42 46 L22 46 L16 22 Z' fill='none' stroke='%23C9A961' stroke-width='2.5'/%3E%3Cpath d='M22 24 L34 16' stroke='%23E8C877' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;0,700;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-bg: #0A0908;
+    --color-bg-alt: #100F0D;
+    --color-bg-elevated: #141210;
+    --color-bg-card: #1C1916;
+    --color-bg-hover: #211D19;
+    --color-line: rgba(201,169,97,0.14);
+    --color-line-strong: rgba(201,169,97,0.3);
+    --color-text: #F3EEE3;
+    --color-text-muted: #ADA595;
+    --color-text-faint: #746D5F;
+    --color-gold: #C9A961;
+    --color-gold-bright: #E8C877;
+    --color-gold-deep: #8F702F;
+    --color-green: #6FA97C;
+    --color-red: #C4634A;
+    --color-blue: #6C93B8;
+    --font-display: "Cormorant", Georgia, serif;
+    --font-sans: Montserrat, ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --shadow-soft: 0 30px 70px -25px rgba(0,0,0,0.75);
+    --shadow-card: 0 12px 32px -16px rgba(0,0,0,0.65);
+    --radius-lg: 1.1rem;
+    --radius-md: 0.75rem;
+    --radius-full: 999px;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --sidebar-w: 264px;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; font-family: var(--font-sans); background: var(--color-bg); color: var(--color-text);
+    -webkit-font-smoothing: antialiased; min-height: 100vh;
+  }
+  img, svg { display: block; }
+  a { color: inherit; }
+  ul, ol { margin: 0; padding: 0; list-style: none; }
+  h1, h2, h3, p, dl, dd, dt { margin: 0; }
+  button { font: inherit; background: none; border: none; cursor: pointer; color: inherit; }
+  input, select, textarea { font: inherit; color: inherit; }
+  table { border-collapse: collapse; width: 100%; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+  :focus-visible { outline: 2px solid var(--color-gold-bright); outline-offset: 2px; border-radius: 4px; }
+  [hidden] { display: none !important; }
+
+  .icon { flex-shrink: 0; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    border-radius: var(--radius-full); font-weight: 600; font-size: 0.85rem; padding: 0.65rem 1.2rem;
+    cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    min-height: 40px; white-space: nowrap;
+  }
+  .btn--primary { background: linear-gradient(135deg, var(--color-gold-bright), var(--color-gold)); color: #14120F; }
+  .btn--primary:hover { transform: translateY(-1px); }
+  .btn--outline { border: 1.5px solid var(--color-line-strong); color: var(--color-text); background: transparent; }
+  .btn--outline:hover { border-color: var(--color-gold); background: rgba(201,169,97,0.08); }
+  .btn--danger { border: 1.5px solid rgba(196,99,74,0.5); color: #E0937D; background: transparent; }
+  .btn--danger:hover { background: rgba(196,99,74,0.12); }
+  .btn--ghost { color: var(--color-text-muted); padding: 0.5rem 0.75rem; }
+  .btn--ghost:hover { color: var(--color-text); background: rgba(201,169,97,0.08); }
+  .btn--sm { padding: 0.4rem 0.85rem; font-size: 0.78rem; min-height: 32px; }
+  .btn--icon { width: 2.25rem; height: 2.25rem; padding: 0; border-radius: 50%; }
+
+  /* ============ LOGIN ============ */
+  .login-screen {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1.5rem;
+    background:
+      radial-gradient(circle at 18% 20%, rgba(201,169,97,0.14) 0, rgba(201,169,97,0) 45%),
+      radial-gradient(circle at 82% 85%, rgba(201,169,97,0.1) 0, rgba(201,169,97,0) 45%),
+      var(--color-bg);
+  }
+  .login-card {
+    width: 100%; max-width: 24rem; border: 1px solid var(--color-line-strong); border-radius: var(--radius-lg);
+    background: var(--color-bg-card); box-shadow: var(--shadow-soft); padding: 2.5rem 2rem;
+  }
+  .login-logo { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.5rem; }
+  .login-logo .icon { width: 2.75rem; height: 2.75rem; color: var(--color-gold); }
+  .login-logo strong { font-family: var(--font-display); font-weight: 700; font-size: 1.4rem; letter-spacing: 0.08em; color: #FFFDF8; }
+  .login-logo span { font-size: 0.68rem; letter-spacing: 0.28em; color: var(--color-text-faint); }
+  .login-title { margin-top: 1.75rem; text-align: center; font-family: var(--font-display); font-weight: 600; font-size: 1.5rem; color: #FFFDF8; }
+  .login-sub { margin-top: 0.4rem; text-align: center; font-size: 0.85rem; color: var(--color-text-muted); }
+  .login-form { margin-top: 1.75rem; display: flex; flex-direction: column; gap: 1.1rem; }
+  .field label { display: block; margin-bottom: 0.4rem; font-size: 0.82rem; font-weight: 600; }
+  .field input, .field select, .field textarea {
+    width: 100%; border-radius: var(--radius-md); border: 1px solid var(--color-line-strong);
+    background: var(--color-bg-elevated); color: var(--color-text); padding: 0.7rem 0.9rem; transition: border-color 0.2s ease;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--color-gold); outline: none; }
+  .login-error {
+    margin-top: 0.25rem; font-size: 0.82rem; color: #E0937D; background: rgba(196,99,74,0.08);
+    border: 1px solid rgba(196,99,74,0.35); border-radius: var(--radius-md); padding: 0.6rem 0.85rem;
+  }
+  .login-hint {
+    margin-top: 1.5rem; font-size: 0.78rem; color: var(--color-text-faint); text-align: center; line-height: 1.6;
+    border-top: 1px dashed var(--color-line-strong); padding-top: 1.1rem;
+  }
+  .login-hint code { color: var(--color-gold-bright); background: rgba(201,169,97,0.1); padding: 0.1rem 0.4rem; border-radius: 4px; }
+  .demo-badge {
+    display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+    color: var(--color-gold-bright); background: rgba(201,169,97,0.12); border: 1px solid var(--color-line-strong);
+    padding: 0.3rem 0.7rem; border-radius: var(--radius-full); margin: 0 auto 1rem; width: fit-content;
+  }
+
+  /* ============ APP SHELL ============ */
+  .app { display: flex; min-height: 100vh; }
+  .sidebar {
+    width: var(--sidebar-w); flex-shrink: 0; background: var(--color-bg-alt); border-right: 1px solid var(--color-line);
+    display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0; z-index: 60;
+    transition: transform 0.3s var(--ease-out);
+  }
+  .sidebar-brand { display: flex; align-items: center; gap: 0.65rem; padding: 1.5rem 1.5rem 1.25rem; }
+  .sidebar-brand .icon { width: 2rem; height: 2rem; color: var(--color-gold); }
+  .sidebar-brand strong { display: block; font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: #FFFDF8; letter-spacing: 0.06em; }
+  .sidebar-brand span { display: block; font-size: 0.6rem; letter-spacing: 0.24em; color: var(--color-text-faint); margin-top: 0.15rem; }
+  .sidebar-nav { flex: 1; padding: 0.5rem 0.9rem; overflow-y: auto; }
+  .sidebar-nav ul { display: flex; flex-direction: column; gap: 0.15rem; }
+  .nav-link {
+    display: flex; align-items: center; gap: 0.75rem; width: 100%; padding: 0.7rem 0.85rem; border-radius: var(--radius-md);
+    font-size: 0.87rem; font-weight: 500; color: var(--color-text-muted); transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .nav-link .icon { width: 1.2rem; height: 1.2rem; flex-shrink: 0; }
+  .nav-link:hover { background: rgba(201,169,97,0.07); color: var(--color-text); }
+  .nav-link.is-active { background: rgba(201,169,97,0.12); color: var(--color-gold-bright); }
+  .nav-link .count-badge {
+    margin-left: auto; font-size: 0.68rem; font-weight: 700; background: rgba(201,169,97,0.16); color: var(--color-gold-bright);
+    padding: 0.1rem 0.45rem; border-radius: var(--radius-full);
+  }
+  .sidebar-foot { padding: 1rem 1.4rem 1.5rem; border-top: 1px solid var(--color-line); }
+  .sidebar-user { display: flex; align-items: center; gap: 0.65rem; }
+  .sidebar-user__avatar {
+    width: 2.25rem; height: 2.25rem; border-radius: 50%; background: linear-gradient(135deg, var(--color-gold-bright), var(--color-gold));
+    display: flex; align-items: center; justify-content: center; font-weight: 700; color: #14120F; font-size: 0.85rem; flex-shrink: 0;
+  }
+  .sidebar-user__name { font-size: 0.85rem; font-weight: 600; color: var(--color-text); }
+  .sidebar-user__role { font-size: 0.72rem; color: var(--color-text-faint); }
+  .sidebar-logout { margin-top: 0.9rem; width: 100%; justify-content: flex-start; padding-left: 0.85rem; }
+
+  .sidebar-close { display: none; position: absolute; top: 1rem; right: 1rem; width: 2rem; height: 2rem; border-radius: 50%; color: var(--color-text-muted); align-items: center; justify-content: center; }
+  .sidebar-close .icon { width: 1.1rem; height: 1.1rem; }
+
+  .app-main { flex: 1; margin-left: var(--sidebar-w); min-width: 0; display: flex; flex-direction: column; }
+  .topbar {
+    position: sticky; top: 0; z-index: 40; display: flex; align-items: center; gap: 1rem; padding: 1rem 1.75rem;
+    background: rgba(10,9,8,0.85); backdrop-filter: blur(10px); border-bottom: 1px solid var(--color-line);
+  }
+  .topbar-menu-toggle { display: none; width: 2.5rem; height: 2.5rem; border-radius: var(--radius-md); align-items: center; justify-content: center; color: var(--color-text); }
+  .topbar-menu-toggle:hover { background: rgba(201,169,97,0.08); }
+  .topbar-menu-toggle .icon { width: 1.35rem; height: 1.35rem; }
+  .topbar-title { font-family: var(--font-display); font-weight: 600; font-size: 1.35rem; color: #FFFDF8; }
+  .topbar-search {
+    flex: 1; max-width: 24rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.55rem 0.9rem;
+    border-radius: var(--radius-full); border: 1px solid var(--color-line-strong); background: var(--color-bg-card);
+  }
+  .topbar-search .icon { width: 1rem; height: 1rem; color: var(--color-text-faint); flex-shrink: 0; }
+  .topbar-search input { flex: 1; background: none; border: none; font-size: 0.85rem; color: var(--color-text); }
+  .topbar-search input::placeholder { color: var(--color-text-faint); }
+  .topbar-actions { display: flex; align-items: center; gap: 0.6rem; margin-left: auto; }
+  .icon-btn { position: relative; width: 2.5rem; height: 2.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); }
+  .icon-btn:hover { background: rgba(201,169,97,0.08); color: var(--color-text); }
+  .icon-btn .icon { width: 1.2rem; height: 1.2rem; }
+  .icon-btn__dot { position: absolute; top: 6px; right: 7px; width: 8px; height: 8px; border-radius: 50%; background: var(--color-gold-bright); border: 2px solid var(--color-bg); }
+
+  .content { padding: 1.75rem; flex: 1; }
+  .view { display: flex; flex-direction: column; gap: 1.75rem; }
+
+  .demo-strip {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; font-size: 0.78rem; color: var(--color-text-faint);
+    border: 1px dashed var(--color-line-strong); border-radius: var(--radius-md); padding: 0.6rem 1rem;
+  }
+  .demo-strip strong { color: var(--color-gold-bright); }
+
+  /* ============ CARDS / KPI ============ */
+  .kpi-grid { display: grid; gap: 1.1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (min-width: 720px) { .kpi-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .kpi-card {
+    border: 1px solid var(--color-line); border-radius: var(--radius-lg); background: var(--color-bg-card);
+    padding: 1.3rem 1.4rem; box-shadow: var(--shadow-card); display: flex; flex-direction: column; gap: 0.6rem;
+  }
+  .kpi-card__head { display: flex; align-items: center; justify-content: space-between; }
+  .kpi-card__label { font-size: 0.78rem; color: var(--color-text-muted); font-weight: 500; }
+  .kpi-card__icon { width: 2.1rem; height: 2.1rem; border-radius: 0.6rem; background: rgba(201,169,97,0.12); display: flex; align-items: center; justify-content: center; color: var(--color-gold); }
+  .kpi-card__icon .icon { width: 1.1rem; height: 1.1rem; }
+  .kpi-card__value { font-family: var(--font-display); font-weight: 700; font-size: 1.9rem; color: #FFFDF8; }
+  .kpi-card__delta { font-size: 0.76rem; font-weight: 600; display: flex; align-items: center; gap: 0.3rem; }
+  .kpi-card__delta.up { color: var(--color-green); }
+  .kpi-card__delta.down { color: var(--color-red); }
+  .kpi-card__delta .icon { width: 0.85rem; height: 0.85rem; }
+
+  .panel-grid { display: grid; gap: 1.25rem; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 980px) { .panel-grid { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); } }
+  .panel {
+    border: 1px solid var(--color-line); border-radius: var(--radius-lg); background: var(--color-bg-card);
+    box-shadow: var(--shadow-card); padding: 1.5rem;
+  }
+  .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; }
+  .panel-head h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; color: #FFFDF8; }
+  .panel-head p { font-size: 0.78rem; color: var(--color-text-faint); margin-top: 0.2rem; }
+
+  /* charts */
+  .chart-bars { display: flex; align-items: flex-end; gap: 0.9rem; height: 160px; }
+  .chart-bar { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; height: 100%; justify-content: flex-end; }
+  .chart-bar__col { width: 100%; max-width: 2.2rem; border-radius: 0.4rem 0.4rem 0 0; background: linear-gradient(180deg, var(--color-gold-bright), var(--color-gold-deep)); position: relative; transition: transform 0.2s ease; }
+  .chart-bar__col:hover { transform: scaleY(1.02); }
+  .chart-bar__label { font-size: 0.7rem; color: var(--color-text-faint); }
+  .chart-bar__value { font-size: 0.7rem; color: var(--color-text-muted); font-weight: 600; }
+
+  .service-bars { display: flex; flex-direction: column; gap: 0.9rem; }
+  .service-bar__row { display: flex; align-items: center; justify-content: space-between; font-size: 0.82rem; margin-bottom: 0.35rem; }
+  .service-bar__row span:last-child { color: var(--color-text-faint); font-weight: 600; }
+  .service-bar__track { height: 8px; border-radius: 999px; background: var(--color-bg-elevated); overflow: hidden; }
+  .service-bar__fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--color-gold), var(--color-gold-bright)); }
+
+  /* ============ TABLE ============ */
+  .table-wrap { overflow-x: auto; border-radius: var(--radius-lg); border: 1px solid var(--color-line); }
+  .data-table { min-width: 720px; font-size: 0.85rem; }
+  .data-table thead th {
+    text-align: left; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600;
+    color: var(--color-text-faint); background: var(--color-bg-elevated); padding: 0.8rem 1rem; border-bottom: 1px solid var(--color-line);
+    position: sticky; top: 0;
+  }
+  .data-table tbody td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--color-line); color: var(--color-text-muted); vertical-align: middle; }
+  .data-table tbody tr { background: var(--color-bg-card); transition: background-color 0.15s ease; cursor: pointer; }
+  .data-table tbody tr:hover { background: var(--color-bg-hover); }
+  .data-table tbody tr:last-child td { border-bottom: none; }
+  .data-table td strong, .data-table td.primary { color: var(--color-text); font-weight: 600; }
+  .table-actions { display: flex; gap: 0.4rem; justify-content: flex-end; }
+
+  .badge { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 600; padding: 0.3rem 0.65rem; border-radius: var(--radius-full); white-space: nowrap; }
+  .badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .badge--nowa { color: var(--color-blue); background: rgba(108,147,184,0.14); }
+  .badge--potwierdzona { color: var(--color-gold-bright); background: rgba(201,169,97,0.14); }
+  .badge--zrealizowana { color: var(--color-green); background: rgba(111,169,124,0.14); }
+  .badge--anulowana { color: var(--color-red); background: rgba(196,99,74,0.14); }
+  .badge--pending { color: var(--color-blue); background: rgba(108,147,184,0.14); }
+  .badge--approved { color: var(--color-green); background: rgba(111,169,124,0.14); }
+  .badge--rejected { color: var(--color-red); background: rgba(196,99,74,0.14); }
+
+  .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
+  .toolbar-search { display: flex; align-items: center; gap: 0.5rem; padding: 0.55rem 0.9rem; border-radius: var(--radius-full); border: 1px solid var(--color-line-strong); background: var(--color-bg-elevated); min-width: 14rem; flex: 1; max-width: 20rem; }
+  .toolbar-search .icon { width: 1rem; height: 1rem; color: var(--color-text-faint); }
+  .toolbar-search input { flex: 1; background: none; border: none; font-size: 0.85rem; color: var(--color-text); }
+  .toolbar-search input::placeholder { color: var(--color-text-faint); }
+  .toolbar select {
+    border-radius: var(--radius-full); border: 1px solid var(--color-line-strong); background: var(--color-bg-elevated);
+    color: var(--color-text); padding: 0.55rem 2rem 0.55rem 0.9rem; font-size: 0.83rem;
+    appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C9A961' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.7rem center; background-size: 0.95rem;
+  }
+  .empty-state { text-align: center; padding: 3rem 1.5rem; color: var(--color-text-faint); }
+  .empty-state .icon { width: 2.5rem; height: 2.5rem; margin: 0 auto 0.75rem; color: var(--color-text-faint); }
+
+  /* ============ CALENDAR ============ */
+  .calendar-head { display: flex; align-items: center; justify-content: space-between; }
+  .calendar-nav { display: flex; align-items: center; gap: 0.5rem; }
+  .calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.5rem; margin-top: 1rem; }
+  .calendar-dow { text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; color: var(--color-text-faint); padding-bottom: 0.4rem; text-transform: uppercase; }
+  .calendar-cell {
+    min-height: 5.5rem; border-radius: var(--radius-md); border: 1px solid var(--color-line); padding: 0.5rem;
+    display: flex; flex-direction: column; gap: 0.3rem; background: var(--color-bg-elevated); cursor: pointer; transition: border-color 0.2s ease;
+  }
+  .calendar-cell:hover { border-color: var(--color-line-strong); }
+  .calendar-cell.is-muted { opacity: 0.35; }
+  .calendar-cell.is-today { border-color: var(--color-gold); }
+  .calendar-cell.is-selected { background: rgba(201,169,97,0.1); border-color: var(--color-gold-bright); }
+  .calendar-cell__num { font-size: 0.8rem; font-weight: 600; color: var(--color-text); }
+  .calendar-cell__dots { display: flex; flex-wrap: wrap; gap: 0.2rem; }
+  .calendar-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .calendar-cell__count { margin-top: auto; font-size: 0.68rem; color: var(--color-gold-bright); font-weight: 600; }
+  .calendar-day-list { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .day-list-item { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.75rem 1rem; border-radius: var(--radius-md); background: var(--color-bg-elevated); border: 1px solid var(--color-line); cursor: pointer; }
+  .day-list-item:hover { border-color: var(--color-line-strong); }
+  .day-list-item__main { display: flex; flex-direction: column; }
+  .day-list-item__main strong { font-size: 0.85rem; color: var(--color-text); }
+  .day-list-item__main span { font-size: 0.76rem; color: var(--color-text-faint); }
+
+  /* ============ MODAL ============ */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center;
+    padding: 1.25rem; background: rgba(5,5,4,0.75); backdrop-filter: blur(3px);
+  }
+  .modal-card {
+    width: min(34rem, calc(100vw - 2.5rem)); max-height: 85vh; display: flex; flex-direction: column;
+    border-radius: var(--radius-lg); border: 1px solid var(--color-line-strong); background: var(--color-bg-card); box-shadow: var(--shadow-soft);
+  }
+  .modal-card--sm { width: min(26rem, calc(100vw - 2.5rem)); }
+  .modal-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.4rem 1.6rem; border-bottom: 1px solid var(--color-line); flex-shrink: 0; }
+  .modal-head h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; color: #FFFDF8; }
+  .modal-close { width: 2.1rem; height: 2.1rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); flex-shrink: 0; }
+  .modal-close:hover { background: rgba(201,169,97,0.1); color: var(--color-text); }
+  .modal-close .icon { width: 1.05rem; height: 1.05rem; }
+  .modal-body { padding: 1.5rem 1.6rem; overflow-y: auto; }
+  .modal-foot { display: flex; justify-content: flex-end; gap: 0.75rem; padding: 1.25rem 1.6rem; border-top: 1px solid var(--color-line); flex-shrink: 0; }
+  .form-row { display: grid; gap: 1rem; grid-template-columns: 1fr; margin-top: 1rem; }
+  .form-row:first-child { margin-top: 0; }
+  @media (min-width: 520px) { .form-row.cols-2 { grid-template-columns: 1fr 1fr; } }
+  .confirm-body { display: flex; gap: 1rem; align-items: flex-start; }
+  .confirm-body .icon { width: 2rem; height: 2rem; color: #E0937D; flex-shrink: 0; }
+  .confirm-body p { font-size: 0.88rem; color: var(--color-text-muted); line-height: 1.6; }
+
+  /* ============ TOASTS ============ */
+  .toast-container { position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 200; display: flex; flex-direction: column; gap: 0.6rem; max-width: 22rem; }
+  .toast {
+    display: flex; align-items: center; gap: 0.7rem; padding: 0.85rem 1.1rem; border-radius: var(--radius-md);
+    background: var(--color-bg-card); border: 1px solid var(--color-line-strong); box-shadow: var(--shadow-soft);
+    font-size: 0.84rem; color: var(--color-text); animation: toastIn 0.3s var(--ease-out);
+  }
+  .toast .icon { width: 1.1rem; height: 1.1rem; color: var(--color-green); flex-shrink: 0; }
+  .toast.toast--error .icon { color: var(--color-red); }
+  @keyframes toastIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 55; }
+
+  /* Medium widths (e.g. a browser side panel): keep the sidebar permanently visible, just
+     narrower, rather than collapsing it behind a hamburger a user has to discover. */
+  @media (max-width: 900px) {
+    :root { --sidebar-w: 208px; }
+    .sidebar-brand strong { font-size: 1rem; }
+    .nav-link { padding: 0.65rem 0.6rem; font-size: 0.82rem; }
+    .topbar-search { display: none; }
+  }
+  /* Only genuinely narrow (phone-width) viewports collapse to an off-canvas menu. */
+  @media (max-width: 620px) {
+    :root { --sidebar-w: 264px; }
+    .sidebar { transform: translateX(-100%); box-shadow: var(--shadow-soft); }
+    .sidebar.is-open { transform: translateX(0); }
+    .sidebar-close { display: flex; }
+    .app-main { margin-left: 0; }
+    .topbar-menu-toggle { display: flex; }
+    .sidebar-backdrop.is-open { display: block; }
+  }
+  @media (max-width: 560px) {
+    .content { padding: 1.1rem; }
+    .topbar { padding: 0.9rem 1.1rem; }
+    .data-table { min-width: 600px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<div id="login-screen" class="login-screen">
+  <form id="login-form" class="login-card" novalidate>
+    <div class="login-logo">
+      <svg class="icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M32 8 L50 21 L43 48 L21 48 L14 21 Z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><path d="M20 23 L34 14" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" opacity="0.85"/><circle cx="32" cy="33" r="3" fill="currentColor"/></svg>
+      <strong>OBSIDIAN</strong>
+      <span>DETAILING STUDIO</span>
+    </div>
+    <div class="demo-badge"><svg class="icon" style="width:0.85rem;height:0.85rem" aria-hidden="true" focusable="false"><use href="#icon-info"/></svg>TRYB DEMO</div>
+    <h1 class="login-title">Panel administracyjny</h1>
+    <p class="login-sub">Zaloguj się, aby zarządzać rezerwacjami studia</p>
+    <div class="login-form">
+      <div class="field">
+        <label for="login-user">Login</label>
+        <input id="login-user" type="text" autocomplete="username" value="admin" placeholder="admin">
+      </div>
+      <div class="field">
+        <label for="login-pass">Hasło</label>
+        <input id="login-pass" type="password" autocomplete="current-password" value="admin123" placeholder="••••••••">
+      </div>
+      <p id="login-error" class="login-error" hidden>Nieprawidłowy login lub hasło. Spróbuj ponownie.</p>
+      <button type="submit" class="btn btn--primary btn--block" style="width:100%; margin-top:0.25rem;">Zaloguj się</button>
+    </div>
+    <p class="login-hint">To jest w pełni działające demo panelu — dane zapisywane są lokalnie w Twojej przeglądarce. Dane logowania: <code>admin</code> / <code>admin123</code></p>
+  </form>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app" class="app" hidden>
+  <div id="sidebar-backdrop" class="sidebar-backdrop"></div>
+  <aside class="sidebar" id="sidebar">
+    <button type="button" class="sidebar-close" id="sidebar-close" aria-label="Zamknij menu"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-x"/></svg></button>
+    <div class="sidebar-brand">
+      <svg class="icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M32 8 L50 21 L43 48 L21 48 L14 21 Z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><path d="M20 23 L34 14" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" opacity="0.85"/><circle cx="32" cy="33" r="3" fill="currentColor"/></svg>
+      <div>
+        <strong>OBSIDIAN</strong>
+        <span>PANEL ADMINA</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav" aria-label="Nawigacja panelu">
+      <ul>
+        <li><button type="button" class="nav-link is-active" data-view="dashboard"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-grid"/></svg>Przegląd</button></li>
+        <li><button type="button" class="nav-link" data-view="bookings"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-list"/></svg>Rezerwacje<span class="count-badge" id="nav-count-bookings">0</span></button></li>
+        <li><button type="button" class="nav-link" data-view="calendar"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-calendar"/></svg>Kalendarz</button></li>
+        <li><button type="button" class="nav-link" data-view="customers"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-users"/></svg>Klienci</button></li>
+        <li><button type="button" class="nav-link" data-view="services"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-wrench"/></svg>Usługi i cennik</button></li>
+        <li><button type="button" class="nav-link" data-view="reviews"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-star"/></svg>Opinie<span class="count-badge" id="nav-count-reviews">0</span></button></li>
+        <li><button type="button" class="nav-link" data-view="settings"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-settings"/></svg>Ustawienia</button></li>
+      </ul>
+    </nav>
+    <div class="sidebar-foot">
+      <div class="sidebar-user">
+        <div class="sidebar-user__avatar">A</div>
+        <div>
+          <div class="sidebar-user__name">Administrator</div>
+          <div class="sidebar-user__role">Właściciel studia</div>
+        </div>
+      </div>
+      <button type="button" id="logout-btn" class="btn btn--ghost sidebar-logout"><svg class="icon" style="width:1.1rem;height:1.1rem" aria-hidden="true" focusable="false"><use href="#icon-logout"/></svg>Wyloguj się</button>
+    </div>
+  </aside>
+
+  <div class="app-main">
+    <header class="topbar">
+      <button type="button" class="topbar-menu-toggle" id="menu-toggle" aria-label="Otwórz menu"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-menu"/></svg></button>
+      <h1 class="topbar-title" id="view-title">Przegląd</h1>
+      <div class="topbar-search">
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-search"/></svg>
+        <input type="search" id="global-search" placeholder="Szukaj klienta, auta, rezerwacji…" aria-label="Szukaj">
+      </div>
+      <div class="topbar-actions">
+        <button type="button" class="icon-btn" aria-label="Powiadomienia"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-bell"/></svg><span class="icon-btn__dot" aria-hidden="true"></span></button>
+        <div class="sidebar-user__avatar" style="width:2.25rem;height:2.25rem;font-size:0.8rem;" title="Administrator">A</div>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <!-- DASHBOARD -->
+      <section id="view-dashboard" class="view">
+        <div class="demo-strip"><svg class="icon" style="width:1rem;height:1rem;color:var(--color-gold)" aria-hidden="true" focusable="false"><use href="#icon-info"/></svg>To jest interaktywne demo. Wszystkie zmiany zapisują się lokalnie w Twojej przeglądarce — <strong>nic nie wysyła się na żywy serwer</strong>.</div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-card__head"><span class="kpi-card__label">Rezerwacje dzisiaj</span><span class="kpi-card__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-calendar"/></svg></span></div>
+            <div class="kpi-card__value" id="kpi-today">0</div>
+            <div class="kpi-card__delta up"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-trend-up"/></svg>na bieżąco</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card__head"><span class="kpi-card__label">Przychód w tym miesiącu</span><span class="kpi-card__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-money"/></svg></span></div>
+            <div class="kpi-card__value" id="kpi-revenue">0 zł</div>
+            <div class="kpi-card__delta up" id="kpi-revenue-delta"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-trend-up"/></svg>—</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card__head"><span class="kpi-card__label">Średnia ocena</span><span class="kpi-card__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-star"/></svg></span></div>
+            <div class="kpi-card__value" id="kpi-rating">0</div>
+            <div class="kpi-card__delta up" id="kpi-rating-count">—</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card__head"><span class="kpi-card__label">Oczekujące rezerwacje</span><span class="kpi-card__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-clock"/></svg></span></div>
+            <div class="kpi-card__value" id="kpi-pending">0</div>
+            <div class="kpi-card__delta up" id="kpi-pending-note">—</div>
+          </div>
+        </div>
+
+        <div class="panel-grid">
+          <div class="panel">
+            <div class="panel-head"><div><h2>Przychód — ostatnie 6 miesięcy</h2><p>Suma zrealizowanych usług miesięcznie</p></div></div>
+            <svg id="revenue-chart" viewBox="0 0 560 180" style="width:100%; height:180px; overflow:visible;"></svg>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div><h2>Popularność usług</h2><p>Udział w liczbie rezerwacji</p></div></div>
+            <div class="service-bars" id="service-popularity"></div>
+          </div>
+        </div>
+
+        <div class="panel-grid">
+          <div class="panel">
+            <div class="panel-head"><div><h2>Rezerwacje w ostatnich 7 dniach</h2><p>Liczba nowych rezerwacji dziennie</p></div></div>
+            <div class="chart-bars" id="weekly-chart"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div><h2>Najnowsze opinie</h2><p>Oczekujące na moderację</p></div><button type="button" class="btn btn--ghost btn--sm" data-goto="reviews">Zobacz wszystkie</button></div>
+            <div id="dashboard-reviews" style="display:flex; flex-direction:column; gap:0.75rem;"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><div><h2>Najbliższe rezerwacje</h2><p>5 najbliższych wizyt w studiu</p></div><button type="button" class="btn btn--ghost btn--sm" data-goto="bookings">Zobacz wszystkie</button></div>
+          <div class="table-wrap"><table class="data-table"><thead><tr><th>Klient</th><th>Auto</th><th>Usługa</th><th>Termin</th><th>Status</th></tr></thead><tbody id="dashboard-bookings"></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- BOOKINGS -->
+      <section id="view-bookings" class="view" hidden>
+        <div class="toolbar">
+          <div class="toolbar-search"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-search"/></svg><input type="search" id="bookings-search" placeholder="Szukaj po kliencie, aucie…" aria-label="Szukaj rezerwacji"></div>
+          <select id="bookings-filter-status" aria-label="Filtruj po statusie">
+            <option value="">Wszystkie statusy</option>
+            <option value="nowa">Nowa</option>
+            <option value="potwierdzona">Potwierdzona</option>
+            <option value="zrealizowana">Zrealizowana</option>
+            <option value="anulowana">Anulowana</option>
+          </select>
+          <button type="button" class="btn btn--primary" id="add-booking-btn" style="margin-left:auto;"><svg class="icon" style="width:1rem;height:1rem" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg>Nowa rezerwacja</button>
+        </div>
+        <div class="table-wrap"><table class="data-table"><thead><tr><th>Klient</th><th>Auto</th><th>Usługa</th><th>Termin</th><th>Cena</th><th>Status</th><th></th></tr></thead><tbody id="bookings-table"></tbody></table></div>
+      </section>
+
+      <!-- CALENDAR -->
+      <section id="view-calendar" class="view" hidden>
+        <div class="panel">
+          <div class="calendar-head">
+            <h2 id="calendar-month-label" style="font-family:var(--font-display); font-weight:600; font-size:1.25rem; color:#FFFDF8;"></h2>
+            <div class="calendar-nav">
+              <button type="button" class="btn btn--outline btn--icon" id="cal-prev" aria-label="Poprzedni miesiąc"><svg class="icon" style="width:1rem;height:1rem" aria-hidden="true" focusable="false"><use href="#icon-chevron-left"/></svg></button>
+              <button type="button" class="btn btn--outline btn--sm" id="cal-today">Dziś</button>
+              <button type="button" class="btn btn--outline btn--icon" id="cal-next" aria-label="Następny miesiąc"><svg class="icon" style="width:1rem;height:1rem" aria-hidden="true" focusable="false"><use href="#icon-chevron-right"/></svg></button>
+            </div>
+          </div>
+          <div class="calendar-grid" id="calendar-grid"></div>
+          <div class="calendar-day-list" id="calendar-day-list"></div>
+        </div>
+      </section>
+
+      <!-- CUSTOMERS -->
+      <section id="view-customers" class="view" hidden>
+        <div class="toolbar">
+          <div class="toolbar-search"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-search"/></svg><input type="search" id="customers-search" placeholder="Szukaj klienta…" aria-label="Szukaj klienta"></div>
+        </div>
+        <div class="table-wrap"><table class="data-table"><thead><tr><th>Klient</th><th>Kontakt</th><th>Wizyty</th><th>Suma wydatków</th><th>Ostatnia wizyta</th></tr></thead><tbody id="customers-table"></tbody></table></div>
+      </section>
+
+      <!-- SERVICES -->
+      <section id="view-services" class="view" hidden>
+        <div class="toolbar">
+          <p style="font-size:0.85rem; color:var(--color-text-muted);">Zarządzaj usługami i cennikiem widocznym na stronie głównej.</p>
+          <button type="button" class="btn btn--primary" id="add-service-btn" style="margin-left:auto;"><svg class="icon" style="width:1rem;height:1rem" aria-hidden="true" focusable="false"><use href="#icon-plus"/></svg>Dodaj usługę</button>
+        </div>
+        <div class="table-wrap"><table class="data-table"><thead><tr><th>Usługa</th><th>Opis</th><th>Czas</th><th>Cena</th><th></th></tr></thead><tbody id="services-table"></tbody></table></div>
+      </section>
+
+      <!-- REVIEWS -->
+      <section id="view-reviews" class="view" hidden>
+        <div class="toolbar">
+          <select id="reviews-filter-status" aria-label="Filtruj opinie">
+            <option value="">Wszystkie statusy</option>
+            <option value="pending">Oczekujące</option>
+            <option value="approved">Opublikowane</option>
+            <option value="rejected">Odrzucone</option>
+          </select>
+        </div>
+        <div id="reviews-list" style="display:flex; flex-direction:column; gap:0.9rem;"></div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section id="view-settings" class="view" hidden>
+        <div class="panel" style="max-width:40rem;">
+          <div class="panel-head"><div><h2>Dane studia</h2><p>Widoczne w sekcji kontakt na stronie głównej</p></div></div>
+          <form id="settings-form">
+            <div class="form-row cols-2">
+              <div class="field"><label for="s-phone">Telefon</label><input id="s-phone" type="tel"></div>
+              <div class="field"><label for="s-email">E-mail</label><input id="s-email" type="email"></div>
+            </div>
+            <div class="form-row"><div class="field"><label for="s-address">Adres</label><input id="s-address" type="text"></div></div>
+            <div class="form-row cols-2">
+              <div class="field"><label for="s-hours-week">Godziny pon–pt</label><input id="s-hours-week" type="text" placeholder="9:00–18:00"></div>
+              <div class="field"><label for="s-hours-sat">Godziny sobota</label><input id="s-hours-sat" type="text" placeholder="9:00–14:00"></div>
+            </div>
+            <div class="modal-foot" style="padding:1.5rem 0 0; border:none;">
+              <button type="button" class="btn btn--outline" id="reset-demo-btn">Przywróć dane demo</button>
+              <button type="submit" class="btn btn--primary">Zapisz zmiany</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- ============ MODALS ============ -->
+<div id="modal-booking" class="modal-overlay" hidden>
+  <div class="modal-card">
+    <div class="modal-head"><h2 id="booking-modal-title">Nowa rezerwacja</h2><button type="button" class="modal-close" data-close><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-x"/></svg></button></div>
+    <form id="booking-form">
+      <div class="modal-body">
+        <div class="form-row cols-2">
+          <div class="field"><label for="b-customer">Imię i nazwisko</label><input id="b-customer" required></div>
+          <div class="field"><label for="b-phone">Telefon</label><input id="b-phone" type="tel" required></div>
+        </div>
+        <div class="form-row"><div class="field"><label for="b-email">E-mail</label><input id="b-email" type="email"></div></div>
+        <div class="form-row cols-2">
+          <div class="field"><label for="b-car">Marka i model auta</label><input id="b-car" required></div>
+          <div class="field"><label for="b-service">Usługa</label><select id="b-service" required></select></div>
+        </div>
+        <div class="form-row cols-2">
+          <div class="field"><label for="b-date">Data</label><input id="b-date" type="date" required></div>
+          <div class="field"><label for="b-price">Cena (zł)</label><input id="b-price" type="number" min="0" step="1" required></div>
+        </div>
+        <div class="form-row cols-2">
+          <div class="field"><label for="b-status">Status</label>
+            <select id="b-status">
+              <option value="nowa">Nowa</option>
+              <option value="potwierdzona">Potwierdzona</option>
+              <option value="zrealizowana">Zrealizowana</option>
+              <option value="anulowana">Anulowana</option>
+            </select>
+          </div>
+          <div class="field"><label for="b-notes">Notatki <span style="color:var(--color-text-faint); font-weight:400;">(opcjonalnie)</span></label><input id="b-notes"></div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn btn--danger" id="booking-delete-btn" hidden>Usuń rezerwację</button>
+        <button type="button" class="btn btn--outline" data-close>Anuluj</button>
+        <button type="submit" class="btn btn--primary">Zapisz</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="modal-service" class="modal-overlay" hidden>
+  <div class="modal-card modal-card--sm">
+    <div class="modal-head"><h2 id="service-modal-title">Nowa usługa</h2><button type="button" class="modal-close" data-close><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-x"/></svg></button></div>
+    <form id="service-form">
+      <div class="modal-body">
+        <div class="form-row"><div class="field"><label for="sv-name">Nazwa usługi</label><input id="sv-name" required></div></div>
+        <div class="form-row"><div class="field"><label for="sv-desc">Opis</label><textarea id="sv-desc" rows="3"></textarea></div></div>
+        <div class="form-row cols-2">
+          <div class="field"><label for="sv-duration">Czas realizacji</label><input id="sv-duration" placeholder="np. 2 h"></div>
+          <div class="field"><label for="sv-price">Cena od (zł)</label><input id="sv-price" type="number" min="0" step="1" required></div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn btn--danger" id="service-delete-btn" hidden>Usuń usługę</button>
+        <button type="button" class="btn btn--outline" data-close>Anuluj</button>
+        <button type="submit" class="btn btn--primary">Zapisz</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="modal-confirm" class="modal-overlay" hidden>
+  <div class="modal-card modal-card--sm">
+    <div class="modal-head"><h2>Potwierdź</h2><button type="button" class="modal-close" data-close><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-x"/></svg></button></div>
+    <div class="modal-body confirm-body">
+      <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-warning"/></svg>
+      <p id="confirm-text">Czy na pewno chcesz wykonać tę operację?</p>
+    </div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn--outline" data-close>Anuluj</button>
+      <button type="button" class="btn btn--danger" id="confirm-ok-btn">Usuń</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+<!-- SVG sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="icon-grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+    <symbol id="icon-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="icon-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="icon-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 20c0-3.3 2.5-5.5 5.5-5.5s5.5 2.2 5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M15.5 5.2c1.5.3 2.7 1.6 2.7 3.2 0 1.6-1.1 2.9-2.6 3.2M17.8 14.7c2 .5 3.7 2.4 3.7 5.3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="icon-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 4.9L3 17.5 6.5 21l6.3-6.3a4 4 0 0 0 4.9-5.4l-3 3-2.4-2.4Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-star" viewBox="0 0 24 24"><path d="m12 3 2.6 5.6 6.1.6-4.6 4.2 1.3 6.1L12 16.6 6.6 19.5l1.3-6.1L3.3 9.2l6.1-.6L12 3Z" fill="currentColor"/></symbol>
+    <symbol id="icon-star-outline" viewBox="0 0 24 24"><path d="m12 3 2.6 5.6 6.1.6-4.6 4.2 1.3 6.1L12 16.6 6.6 19.5l1.3-6.1L3.3 9.2l6.1-.6L12 3Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M19.4 13.5a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V20a2 2 0 1 1-4 0v-.2a1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H4a2 2 0 1 1 0-4h.2a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H10a1.7 1.7 0 0 0 1-1.6V4a2 2 0 1 1 4 0v.2a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V10a1.7 1.7 0 0 0 1.6 1H20a2 2 0 1 1 0 4h-.2a1.7 1.7 0 0 0-1.6 1Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 17l5-5-5-5M21 12H9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="icon-x" viewBox="0 0 24 24"><path d="m5 5 14 14M19 5 5 19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="icon-bell" viewBox="0 0 24 24"><path d="M18 16v-5a6 6 0 1 0-12 0v5l-1.5 2.5h15L18 16Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 20a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="icon-money" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="icon-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-trend-up" viewBox="0 0 24 24"><path d="M3 16 10 9l4 4 7-7M14 6h7v7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="icon-edit" viewBox="0 0 24 24"><path d="M4 20h4L18.5 9.5a2.1 2.1 0 0 0-3-3L5 17v3Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m-9 0 1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="m5 13 4.5 4.5L19 8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m8 12.5 2.5 2.5L16 9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-warning" viewBox="0 0 24 24"><path d="M12 3.5 22 20H2Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 10v4.5M12 17.2h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="icon-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 11v5.5M12 7.8h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="icon-chevron-left" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-chevron-right" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<script>
+(function () {
+  'use strict';
+
+  var STORAGE_KEY = 'obsidian-admin-data-v1';
+  var AUTH_KEY = 'obsidian-admin-auth';
+
+  var SEED = {
+    settings: {
+      phone: '+48 512 340 210', email: 'kontakt@obsidian-detailing.pl',
+      address: 'ul. Fabryczna 14, 03-887 Warszawa', hoursWeek: '9:00–18:00', hoursSat: '9:00–14:00'
+    },
+    services: [
+      { id: 'sv1', name: 'Mycie i dekontaminacja', desc: 'Bezdotykowe mycie dwuetapowe, dekontaminacja chemiczna i mechaniczna (clay).', duration: '2 h', price: 250 },
+      { id: 'sv2', name: 'Korekta lakieru', desc: 'Usuwanie rys, hologramów i utraty połysku.', duration: '1–3 dni', price: 1200 },
+      { id: 'sv3', name: 'Powłoka ceramiczna', desc: 'Twarda powłoka 9H, ochrona chemiczna i UV, do 5 lat.', duration: '1 dzień', price: 1800 },
+      { id: 'sv4', name: 'Folia PPF', desc: 'Niewidzialna folia ochronna na lakier.', duration: '2 dni', price: 2400 },
+      { id: 'sv5', name: 'Detailing wnętrza', desc: 'Pranie tapicerki, ozonowanie, impregnacja, skóra.', duration: '3 h', price: 450 },
+      { id: 'sv6', name: 'Felgi i szyby', desc: 'Powłoki na felgi, hydrofobowe szyby, czarnienie opon.', duration: '1.5 h', price: 220 }
+    ],
+    bookings: [
+      { id: 'b1', customer: 'Marek Nowicki', phone: '512 001 122', email: 'marek.nowicki@example.com', car: 'BMW 320d', service: 'Mycie i dekontaminacja', date: '2026-08-25', price: 250, status: 'zrealizowana', notes: '' },
+      { id: 'b2', customer: 'Agnieszka Kowalczyk', phone: '600 112 233', email: 'a.kowalczyk@example.com', car: 'Audi A4', service: 'Korekta lakieru', date: '2026-08-27', price: 1350, status: 'zrealizowana', notes: 'Klientka stała, rabat 10%' },
+      { id: 'b3', customer: 'Tomasz Wiśniewski', phone: '789 334 221', email: 't.wisniewski@example.com', car: 'Škoda Octavia', service: 'Powłoka ceramiczna', date: '2026-08-29', price: 1900, status: 'zrealizowana', notes: '' },
+      { id: 'b4', customer: 'Katarzyna Zielińska', phone: '512 998 776', email: 'k.zielinska@example.com', car: 'Volvo XC60', service: 'Detailing wnętrza', date: '2026-09-01', price: 480, status: 'zrealizowana', notes: '' },
+      { id: 'b5', customer: 'Michał Kaczmarek', phone: '609 221 334', email: 'm.kaczmarek@example.com', car: 'Porsche Macan', service: 'Folia PPF', date: '2026-09-02', price: 2600, status: 'zrealizowana', notes: 'Tylko przód auta' },
+      { id: 'b6', customer: 'Paweł Szymański', phone: '511 224 556', email: 'p.szymanski@example.com', car: 'Mercedes C-Class', service: 'Felgi i szyby', date: '2026-09-03', price: 220, status: 'zrealizowana', notes: '' },
+      { id: 'b7', customer: 'Anna Dąbrowska', phone: '693 112 998', email: 'a.dabrowska@example.com', car: 'Toyota RAV4', service: 'Mycie i dekontaminacja', date: '2026-09-04', price: 260, status: 'zrealizowana', notes: '' },
+      { id: 'b8', customer: 'Piotr Lewandowski', phone: '505 667 889', email: 'p.lewandowski@example.com', car: 'BMW X5', service: 'Powłoka ceramiczna', date: '2026-09-05', price: 1800, status: 'zrealizowana', notes: 'Pakiet Signature' },
+      { id: 'b9', customer: 'Magdalena Wójcik', phone: '602 334 771', email: 'm.wojcik@example.com', car: 'Audi Q5', service: 'Powłoka ceramiczna', date: '2026-09-08', price: 2000, status: 'zrealizowana', notes: '' },
+      { id: 'b10', customer: 'Jakub Kamiński', phone: '515 998 213', email: 'j.kaminski@example.com', car: 'Mazda CX-5', service: 'Korekta lakieru', date: '2026-09-09', price: 1250, status: 'zrealizowana', notes: '' },
+      { id: 'b11', customer: 'Natalia Krawczyk', phone: '600 445 223', email: 'n.krawczyk@example.com', car: 'Volkswagen Passat', service: 'Detailing wnętrza', date: '2026-09-10', price: 450, status: 'anulowana', notes: 'Klient odwołał — choroba' },
+      { id: 'b12', customer: 'Marcin Piotrowski', phone: '789 112 456', email: 'm.piotrowski@example.com', car: 'Porsche 911', service: 'Folia PPF', date: '2026-09-11', price: 4200, status: 'potwierdzona', notes: 'Pakiet Obsidian — pełne auto' },
+      { id: 'b13', customer: 'Ewa Grabowska', phone: '512 776 334', email: 'e.grabowska@example.com', car: 'Kia Sportage', service: 'Mycie i dekontaminacja', date: '2026-09-12', price: 250, status: 'potwierdzona', notes: '' },
+      { id: 'b14', customer: 'Rafał Pawlak', phone: '693 221 887', email: 'r.pawlak@example.com', car: 'BMW 3', service: 'Folia PPF', date: '2026-09-14', price: 2400, status: 'potwierdzona', notes: '' },
+      { id: 'b15', customer: 'Joanna Michalska', phone: '502 118 664', email: 'j.michalska@example.com', car: 'Audi A6', service: 'Powłoka ceramiczna', date: '2026-09-16', price: 1900, status: 'nowa', notes: '' },
+      { id: 'b16', customer: 'Grzegorz Adamczyk', phone: '607 334 129', email: 'g.adamczyk@example.com', car: 'Range Rover Evoque', service: 'Powłoka ceramiczna', date: '2026-09-18', price: 1800, status: 'nowa', notes: 'Pakiet Signature' },
+      { id: 'b17', customer: 'Karolina Zając', phone: '515 662 998', email: 'k.zajac@example.com', car: 'Mini Cooper', service: 'Korekta lakieru', date: '2026-09-20', price: 1300, status: 'nowa', notes: '' },
+      { id: 'b18', customer: 'Dominik Wróbel', phone: '600 887 112', email: 'd.wrobel@example.com', car: 'Tesla Model 3', service: 'Detailing wnętrza', date: '2026-09-22', price: 480, status: 'nowa', notes: '' }
+    ],
+    reviews: [
+      { id: 'r1', author: 'Michał R.', car: 'BMW serii 5', rating: 5, text: 'Korekta lakieru zrobiła z mojego auta zupełnie inny samochód. Nie spodziewałem się, że po latach jazdy lakier może wyglądać tak głęboko i czysto.', status: 'approved', date: '2026-08-20' },
+      { id: 'r2', author: 'Katarzyna W.', car: 'Audi Q5', rating: 5, text: 'Powłoka ceramiczna trzyma obietnicę — auto po deszczu wygląda jakby dopiero co wyjechało z myjni. Profesjonalizm na każdym etapie.', status: 'approved', date: '2026-08-24' },
+      { id: 'r3', author: 'Tomasz L.', car: 'Porsche Macan', rating: 5, text: 'Folia PPF na przodzie auta to najlepsza inwestycja — żadnych nowych odprysków po całym sezonie. Studio na najwyższym poziomie.', status: 'approved', date: '2026-08-30' },
+      { id: 'r4', author: 'Dominik W.', car: 'Tesla Model 3', rating: 4, text: 'Bardzo dobra robota przy detailingu wnętrza, drobne opóźnienie w terminie odbioru, ale efekt wart czekania.', status: 'pending', date: '2026-09-09' },
+      { id: 'r5', author: 'Karolina Z.', car: 'Mini Cooper', rating: 5, text: 'Świetna korekta lakieru, auto wygląda jak nowe! Na pewno wrócę na powłokę ceramiczną.', status: 'pending', date: '2026-09-10' }
+    ],
+    revenueHistory: [
+      { label: 'Kwi', value: 18500 }, { label: 'Maj', value: 21200 }, { label: 'Cze', value: 19800 },
+      { label: 'Lip', value: 24300 }, { label: 'Sie', value: 27100 }, { label: 'Wrz', value: 15600 }
+    ]
+  };
+
+  var TODAY = new Date('2026-09-11T12:00:00');
+
+  function loadState() {
+    try {
+      var raw = window.localStorage.getItem(STORAGE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch (e) { /* private mode or corrupted data: fall back to seed */ }
+    return JSON.parse(JSON.stringify(SEED));
+  }
+  function saveState() {
+    try { window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) { /* private mode: changes stay in-memory for this session */ }
+  }
+
+  var state = loadState();
+  var editingBookingId = null;
+  var editingServiceId = null;
+  var confirmCallback = null;
+  var calendarCursor = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
+  var selectedDay = fmtDate(TODAY);
+
+  function fmtDate(d) {
+    var y = d.getFullYear(), m = String(d.getMonth() + 1).padStart(2, '0'), day = String(d.getDate()).padStart(2, '0');
+    return y + '-' + m + '-' + day;
+  }
+  function fmtDateLabel(iso) {
+    var d = new Date(iso + 'T12:00:00');
+    return d.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+  function fmtMoney(n) { return n.toLocaleString('pl-PL') + ' zł'; }
+  function statusLabel(s) { return { nowa: 'Nowa', potwierdzona: 'Potwierdzona', zrealizowana: 'Zrealizowana', anulowana: 'Anulowana' }[s] || s; }
+  function reviewStatusLabel(s) { return { pending: 'Oczekująca', approved: 'Opublikowana', rejected: 'Odrzucona' }[s] || s; }
+  function uid(prefix) { return prefix + '_' + Math.random().toString(36).slice(2, 9); }
+
+  // ---------- AUTH ----------
+  var loginScreen = document.getElementById('login-screen');
+  var appEl = document.getElementById('app');
+  var loginForm = document.getElementById('login-form');
+  var loginError = document.getElementById('login-error');
+
+  function isAuthed() {
+    try { return window.sessionStorage.getItem(AUTH_KEY) === '1'; } catch (e) { return false; }
+  }
+  function setAuthed(v) {
+    try { window.sessionStorage.setItem(AUTH_KEY, v ? '1' : '0'); } catch (e) { /* private mode: session resets on reload */ }
+  }
+  function showApp() {
+    loginScreen.hidden = true;
+    appEl.hidden = false;
+    renderAll();
+  }
+  function showLogin() {
+    appEl.hidden = true;
+    loginScreen.hidden = false;
+  }
+  // Note: the isAuthed() check that calls showApp() on load runs at the very end of this
+  // script (after every other section), not here — showApp() triggers renderAll(), which
+  // touches DOM-reference variables (bookingsSearch, customersSearch, etc.) that are only
+  // assigned once their own sections below have run. Calling it this early — which happens
+  // for a returning session (sessionStorage persists e.g. across an artifact republish reload)
+  // — hit those variables while still undefined, threw, and aborted the rest of the script
+  // before it reached the nav-link click listeners further down. Hover still worked (pure
+  // CSS) while every click handler silently never got attached.
+
+  loginForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var user = document.getElementById('login-user').value.trim();
+    var pass = document.getElementById('login-pass').value;
+    if (user === 'admin' && pass === 'admin123') {
+      loginError.hidden = true;
+      setAuthed(true);
+      showApp();
+    } else {
+      loginError.hidden = false;
+    }
+  });
+  document.getElementById('logout-btn').addEventListener('click', function () {
+    setAuthed(false);
+    showLogin();
+  });
+
+  // ---------- SIDEBAR / NAV ----------
+  var sidebar = document.getElementById('sidebar');
+  var sidebarBackdrop = document.getElementById('sidebar-backdrop');
+  function openSidebar() { sidebar.classList.add('is-open'); sidebarBackdrop.classList.add('is-open'); }
+  function closeSidebar() { sidebar.classList.remove('is-open'); sidebarBackdrop.classList.remove('is-open'); }
+  document.getElementById('menu-toggle').addEventListener('click', openSidebar);
+  document.getElementById('sidebar-close').addEventListener('click', closeSidebar);
+  sidebarBackdrop.addEventListener('click', closeSidebar);
+
+  var viewTitles = { dashboard: 'Przegląd', bookings: 'Rezerwacje', calendar: 'Kalendarz', customers: 'Klienci', services: 'Usługi i cennik', reviews: 'Opinie', settings: 'Ustawienia' };
+  function switchView(view) {
+    document.querySelectorAll('.view').forEach(function (v) { v.hidden = (v.id !== 'view-' + view); });
+    document.querySelectorAll('.nav-link').forEach(function (l) { l.classList.toggle('is-active', l.getAttribute('data-view') === view); });
+    document.getElementById('view-title').textContent = viewTitles[view] || '';
+    closeSidebar();
+    if (view === 'calendar') renderCalendar();
+  }
+  document.querySelectorAll('.nav-link[data-view]').forEach(function (btn) {
+    btn.addEventListener('click', function () { switchView(btn.getAttribute('data-view')); });
+  });
+  document.querySelectorAll('[data-goto]').forEach(function (btn) {
+    btn.addEventListener('click', function () { switchView(btn.getAttribute('data-goto')); });
+  });
+
+  // ---------- TOASTS ----------
+  function toast(message, type) {
+    var el = document.createElement('div');
+    el.className = 'toast' + (type === 'error' ? ' toast--error' : '');
+    el.innerHTML = '<svg class="icon" aria-hidden="true" focusable="false"><use href="#' + (type === 'error' ? 'icon-warning' : 'icon-check-circle') + '"/></svg><span>' + message + '</span>';
+    document.getElementById('toast-container').appendChild(el);
+    window.setTimeout(function () {
+      el.style.transition = 'opacity 0.3s ease';
+      el.style.opacity = '0';
+      window.setTimeout(function () { el.remove(); }, 300);
+    }, 3200);
+  }
+
+  // ---------- MODALS (plain overlay divs — no native <dialog>, so behavior never depends on
+  // browser/iframe support for the top-layer or allow-modals) ----------
+  function openModal(el) { el.hidden = false; }
+  function closeModal(el) { el.hidden = true; }
+
+  var confirmDialog = document.getElementById('modal-confirm');
+  document.getElementById('confirm-ok-btn').addEventListener('click', function () {
+    if (confirmCallback) confirmCallback();
+    closeModal(confirmDialog);
+  });
+  function askConfirm(text, cb) {
+    document.getElementById('confirm-text').textContent = text;
+    confirmCallback = cb;
+    openModal(confirmDialog);
+  }
+
+  // generic modal close wiring: close buttons, click-outside, and Escape
+  document.querySelectorAll('.modal-overlay').forEach(function (overlay) {
+    overlay.querySelectorAll('[data-close]').forEach(function (btn) { btn.addEventListener('click', function () { closeModal(overlay); }); });
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(overlay); });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    document.querySelectorAll('.modal-overlay').forEach(function (overlay) { if (!overlay.hidden) closeModal(overlay); });
+  });
+
+  // ---------- RENDER: DASHBOARD ----------
+  function renderDashboard() {
+    var todayIso = fmtDate(TODAY);
+    var todayCount = state.bookings.filter(function (b) { return b.date === todayIso; }).length;
+    document.getElementById('kpi-today').textContent = todayCount;
+
+    var monthPrefix = todayIso.slice(0, 7);
+    var monthRevenue = state.bookings.filter(function (b) { return b.date.slice(0, 7) === monthPrefix && b.status === 'zrealizowana'; })
+      .reduce(function (sum, b) { return sum + b.price; }, 0);
+    document.getElementById('kpi-revenue').textContent = fmtMoney(monthRevenue);
+    var prevMonth = state.revenueHistory[state.revenueHistory.length - 2];
+    var deltaEl = document.getElementById('kpi-revenue-delta');
+    if (prevMonth && prevMonth.value > 0) {
+      var pct = Math.round((monthRevenue - prevMonth.value) / prevMonth.value * 100);
+      deltaEl.innerHTML = '<svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-trend-up"/></svg>' + (pct >= 0 ? '+' : '') + pct + '% vs. poprz. miesiąc';
+      deltaEl.className = 'kpi-card__delta ' + (pct >= 0 ? 'up' : 'down');
+    }
+
+    var approved = state.reviews.filter(function (r) { return r.status === 'approved'; });
+    var avgRating = approved.length ? (approved.reduce(function (s, r) { return s + r.rating; }, 0) / approved.length) : 0;
+    document.getElementById('kpi-rating').textContent = avgRating ? avgRating.toFixed(1) : '—';
+    document.getElementById('kpi-rating-count').textContent = approved.length + ' opublikowanych opinii';
+
+    var pending = state.bookings.filter(function (b) { return b.status === 'nowa' || b.status === 'potwierdzona'; }).length;
+    document.getElementById('kpi-pending').textContent = pending;
+    document.getElementById('kpi-pending-note').textContent = 'wymaga uwagi';
+
+    renderRevenueChart();
+    renderServicePopularity();
+    renderWeeklyChart();
+    renderDashboardReviews();
+    renderDashboardBookings();
+
+    document.getElementById('nav-count-bookings').textContent = pending;
+    document.getElementById('nav-count-reviews').textContent = state.reviews.filter(function (r) { return r.status === 'pending'; }).length;
+  }
+
+  function renderRevenueChart() {
+    var svg = document.getElementById('revenue-chart');
+    var data = state.revenueHistory;
+    var w = 560, h = 180, padL = 10, padR = 10, padT = 10, padB = 26;
+    var max = Math.max.apply(null, data.map(function (d) { return d.value; })) * 1.15;
+    var stepX = (w - padL - padR) / (data.length - 1);
+    var points = data.map(function (d, i) { return [padL + i * stepX, padT + (h - padT - padB) * (1 - d.value / max)]; });
+    var linePath = points.map(function (p, i) { return (i === 0 ? 'M' : 'L') + p[0] + ' ' + p[1]; }).join(' ');
+    var areaPath = linePath + ' L ' + points[points.length - 1][0] + ' ' + (h - padB) + ' L ' + points[0][0] + ' ' + (h - padB) + ' Z';
+
+    var svgns = 'http://www.w3.org/2000/svg';
+    svg.innerHTML = '';
+    var defs = document.createElementNS(svgns, 'defs');
+    defs.innerHTML = '<linearGradient id="revGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E8C877" stop-opacity="0.35"/><stop offset="100%" stop-color="#E8C877" stop-opacity="0"/></linearGradient>';
+    svg.appendChild(defs);
+
+    [0.25, 0.5, 0.75].forEach(function (f) {
+      var y = padT + (h - padT - padB) * f;
+      var line = document.createElementNS(svgns, 'line');
+      line.setAttribute('x1', padL); line.setAttribute('x2', w - padR); line.setAttribute('y1', y); line.setAttribute('y2', y);
+      line.setAttribute('stroke', 'rgba(201,169,97,0.1)'); line.setAttribute('stroke-width', '1');
+      svg.appendChild(line);
+    });
+
+    var area = document.createElementNS(svgns, 'path');
+    area.setAttribute('d', areaPath); area.setAttribute('fill', 'url(#revGrad)');
+    svg.appendChild(area);
+
+    var line = document.createElementNS(svgns, 'path');
+    line.setAttribute('d', linePath); line.setAttribute('fill', 'none'); line.setAttribute('stroke', '#E8C877'); line.setAttribute('stroke-width', '2.5');
+    line.setAttribute('stroke-linecap', 'round'); line.setAttribute('stroke-linejoin', 'round');
+    svg.appendChild(line);
+
+    points.forEach(function (p, i) {
+      var dot = document.createElementNS(svgns, 'circle');
+      dot.setAttribute('cx', p[0]); dot.setAttribute('cy', p[1]); dot.setAttribute('r', '4');
+      dot.setAttribute('fill', '#0A0908'); dot.setAttribute('stroke', '#E8C877'); dot.setAttribute('stroke-width', '2');
+      svg.appendChild(dot);
+      var label = document.createElementNS(svgns, 'text');
+      label.setAttribute('x', p[0]); label.setAttribute('y', h - 6); label.setAttribute('text-anchor', 'middle');
+      label.setAttribute('font-size', '11'); label.setAttribute('fill', '#746D5F'); label.setAttribute('font-family', 'Montserrat, sans-serif');
+      label.textContent = data[i].label;
+      svg.appendChild(label);
+    });
+  }
+
+  function renderServicePopularity() {
+    var counts = {};
+    state.bookings.forEach(function (b) { counts[b.service] = (counts[b.service] || 0) + 1; });
+    var entries = Object.keys(counts).map(function (k) { return { name: k, count: counts[k] }; }).sort(function (a, b) { return b.count - a.count; });
+    var max = entries.length ? entries[0].count : 1;
+    var wrap = document.getElementById('service-popularity');
+    wrap.innerHTML = entries.map(function (e) {
+      var pct = Math.round(e.count / max * 100);
+      return '<div><div class="service-bar__row"><span>' + e.name + '</span><span>' + e.count + '×</span></div><div class="service-bar__track"><div class="service-bar__fill" style="width:' + pct + '%"></div></div></div>';
+    }).join('');
+  }
+
+  function renderWeeklyChart() {
+    var days = [];
+    for (var i = 6; i >= 0; i--) {
+      var d = new Date(TODAY); d.setDate(d.getDate() - i);
+      days.push(d);
+    }
+    var wrap = document.getElementById('weekly-chart');
+    var counts = days.map(function (d) { return state.bookings.filter(function (b) { return b.date === fmtDate(d); }).length; });
+    var max = Math.max.apply(null, counts.concat([1]));
+    wrap.innerHTML = days.map(function (d, i) {
+      var h = Math.max(6, Math.round(counts[i] / max * 130));
+      return '<div class="chart-bar"><span class="chart-bar__value">' + counts[i] + '</span><div class="chart-bar__col" style="height:' + h + 'px"></div><span class="chart-bar__label">' + d.toLocaleDateString('pl-PL', { weekday: 'short' }) + '</span></div>';
+    }).join('');
+  }
+
+  function renderDashboardReviews() {
+    var pending = state.reviews.filter(function (r) { return r.status === 'pending'; }).slice(0, 3);
+    var wrap = document.getElementById('dashboard-reviews');
+    if (!pending.length) { wrap.innerHTML = '<p style="font-size:0.85rem; color:var(--color-text-faint);">Brak oczekujących opinii.</p>'; return; }
+    wrap.innerHTML = pending.map(function (r) {
+      return '<div style="padding:0.85rem; border-radius:0.7rem; background:var(--color-bg-elevated); border:1px solid var(--color-line);">' +
+        '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;"><strong style="font-size:0.85rem;">' + r.author + '</strong>' + starsHtml(r.rating) + '</div>' +
+        '<p style="font-size:0.8rem; color:var(--color-text-muted); line-height:1.5;">' + truncate(r.text, 90) + '</p></div>';
+    }).join('');
+  }
+
+  function renderDashboardBookings() {
+    var upcoming = state.bookings.filter(function (b) { return b.status !== 'anulowana' && b.date >= fmtDate(TODAY); })
+      .sort(function (a, b) { return a.date.localeCompare(b.date); }).slice(0, 5);
+    var body = document.getElementById('dashboard-bookings');
+    if (!upcoming.length) { body.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--color-text-faint); padding:2rem;">Brak nadchodzących rezerwacji.</td></tr>'; return; }
+    body.innerHTML = upcoming.map(function (b) {
+      return '<tr data-open-booking="' + b.id + '"><td class="primary">' + b.customer + '</td><td>' + b.car + '</td><td>' + b.service + '</td><td>' + fmtDateLabel(b.date) + '</td><td><span class="badge badge--' + b.status + '">' + statusLabel(b.status) + '</span></td></tr>';
+    }).join('');
+    wireRowOpen(body);
+  }
+
+  function starsHtml(rating) {
+    var out = '<span style="display:flex; gap:1px; color:var(--color-gold);">';
+    for (var i = 1; i <= 5; i++) out += '<svg class="icon" style="width:0.8rem;height:0.8rem;" aria-hidden="true"><use href="#' + (i <= rating ? 'icon-star' : 'icon-star-outline') + '"/></svg>';
+    return out + '</span>';
+  }
+  function truncate(s, n) { return s.length > n ? s.slice(0, n).trim() + '…' : s; }
+
+  function wireRowOpen(container) {
+    container.querySelectorAll('[data-open-booking]').forEach(function (row) {
+      row.addEventListener('click', function () { openBookingModal(row.getAttribute('data-open-booking')); });
+    });
+  }
+
+  // ---------- RENDER: BOOKINGS ----------
+  var bookingsSearch = document.getElementById('bookings-search');
+  var bookingsFilter = document.getElementById('bookings-filter-status');
+  function renderBookings() {
+    var q = (bookingsSearch.value || '').toLowerCase();
+    var statusF = bookingsFilter.value;
+    var rows = state.bookings.filter(function (b) {
+      var matchQ = !q || (b.customer + ' ' + b.car + ' ' + b.service).toLowerCase().indexOf(q) !== -1;
+      var matchS = !statusF || b.status === statusF;
+      return matchQ && matchS;
+    }).sort(function (a, b) { return b.date.localeCompare(a.date); });
+
+    var body = document.getElementById('bookings-table');
+    if (!rows.length) {
+      body.innerHTML = '<tr><td colspan="7"><div class="empty-state"><svg class="icon" aria-hidden="true"><use href="#icon-search"/></svg><p>Brak rezerwacji spełniających kryteria.</p></div></td></tr>';
+      return;
+    }
+    body.innerHTML = rows.map(function (b) {
+      return '<tr data-open-booking="' + b.id + '"><td class="primary">' + b.customer + '</td><td>' + b.car + '</td><td>' + b.service + '</td><td>' + fmtDateLabel(b.date) + '</td><td>' + fmtMoney(b.price) + '</td><td><span class="badge badge--' + b.status + '">' + statusLabel(b.status) + '</span></td>' +
+        '<td class="table-actions"><button type="button" class="btn btn--ghost btn--icon" data-edit-booking="' + b.id + '" aria-label="Edytuj"><svg class="icon" style="width:1rem;height:1rem" aria-hidden="true"><use href="#icon-edit"/></svg></button></td></tr>';
+    }).join('');
+    wireRowOpen(body);
+    body.querySelectorAll('[data-edit-booking]').forEach(function (btn) {
+      btn.addEventListener('click', function (e) { e.stopPropagation(); openBookingModal(btn.getAttribute('data-edit-booking')); });
+    });
+  }
+  bookingsSearch.addEventListener('input', renderBookings);
+  bookingsFilter.addEventListener('change', renderBookings);
+
+  var globalSearch = document.getElementById('global-search');
+  globalSearch.addEventListener('input', function () {
+    if (globalSearch.value.trim()) {
+      switchView('bookings');
+      bookingsSearch.value = globalSearch.value;
+      renderBookings();
+    }
+  });
+
+  // ---------- BOOKING MODAL ----------
+  var bookingModal = document.getElementById('modal-booking');
+  var bookingForm = document.getElementById('booking-form');
+  var bookingServiceSelect = document.getElementById('b-service');
+  var bookingDeleteBtn = document.getElementById('booking-delete-btn');
+
+  function populateServiceOptions() {
+    bookingServiceSelect.innerHTML = state.services.map(function (s) { return '<option value="' + s.name + '">' + s.name + '</option>'; }).join('');
+  }
+
+  function openBookingModal(id) {
+    populateServiceOptions();
+    editingBookingId = id || null;
+    var b = id ? state.bookings.find(function (x) { return x.id === id; }) : null;
+    document.getElementById('booking-modal-title').textContent = b ? 'Edytuj rezerwację' : 'Nowa rezerwacja';
+    document.getElementById('b-customer').value = b ? b.customer : '';
+    document.getElementById('b-phone').value = b ? b.phone : '';
+    document.getElementById('b-email').value = b ? b.email : '';
+    document.getElementById('b-car').value = b ? b.car : '';
+    bookingServiceSelect.value = b ? b.service : state.services[0].name;
+    document.getElementById('b-date').value = b ? b.date : fmtDate(TODAY);
+    document.getElementById('b-price').value = b ? b.price : (state.services[0] ? state.services[0].price : 0);
+    document.getElementById('b-status').value = b ? b.status : 'nowa';
+    document.getElementById('b-notes').value = b ? (b.notes || '') : '';
+    bookingDeleteBtn.hidden = !b;
+    openModal(bookingModal);
+  }
+  document.getElementById('add-booking-btn').addEventListener('click', function () { openBookingModal(null); });
+
+  bookingForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var payload = {
+      customer: document.getElementById('b-customer').value.trim(),
+      phone: document.getElementById('b-phone').value.trim(),
+      email: document.getElementById('b-email').value.trim(),
+      car: document.getElementById('b-car').value.trim(),
+      service: bookingServiceSelect.value,
+      date: document.getElementById('b-date').value,
+      price: Number(document.getElementById('b-price').value) || 0,
+      status: document.getElementById('b-status').value,
+      notes: document.getElementById('b-notes').value.trim()
+    };
+    if (editingBookingId) {
+      var idx = state.bookings.findIndex(function (b) { return b.id === editingBookingId; });
+      state.bookings[idx] = Object.assign({ id: editingBookingId }, payload);
+      toast('Rezerwacja zaktualizowana.');
+    } else {
+      payload.id = uid('b');
+      state.bookings.push(payload);
+      toast('Rezerwacja dodana.');
+    }
+    saveState();
+    closeModal(bookingModal);
+    renderDashboard(); renderBookings(); renderCustomers(); if (!document.getElementById('view-calendar').hidden) renderCalendar();
+  });
+
+  bookingDeleteBtn.addEventListener('click', function () {
+    askConfirm('Czy na pewno chcesz usunąć tę rezerwację? Tej operacji nie można cofnąć.', function () {
+      state.bookings = state.bookings.filter(function (b) { return b.id !== editingBookingId; });
+      saveState();
+      closeModal(bookingModal);
+      toast('Rezerwacja usunięta.');
+      renderDashboard(); renderBookings(); renderCustomers();
+    });
+  });
+
+  // ---------- CALENDAR ----------
+  var MONTH_NAMES = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
+  var DOW = ['Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob', 'Niedz'];
+  var STATUS_COLOR = { nowa: 'var(--color-blue)', potwierdzona: 'var(--color-gold-bright)', zrealizowana: 'var(--color-green)', anulowana: 'var(--color-red)' };
+
+  function renderCalendar() {
+    document.getElementById('calendar-month-label').textContent = MONTH_NAMES[calendarCursor.getMonth()] + ' ' + calendarCursor.getFullYear();
+    var grid = document.getElementById('calendar-grid');
+    grid.innerHTML = DOW.map(function (d) { return '<div class="calendar-dow">' + d + '</div>'; }).join('');
+
+    var firstOfMonth = new Date(calendarCursor.getFullYear(), calendarCursor.getMonth(), 1);
+    var startOffset = (firstOfMonth.getDay() + 6) % 7;
+    var startDate = new Date(firstOfMonth); startDate.setDate(startDate.getDate() - startOffset);
+
+    for (var i = 0; i < 42; i++) {
+      var d = new Date(startDate); d.setDate(d.getDate() + i);
+      var iso = fmtDate(d);
+      var inMonth = d.getMonth() === calendarCursor.getMonth();
+      var dayBookings = state.bookings.filter(function (b) { return b.date === iso; });
+      var cell = document.createElement('div');
+      cell.className = 'calendar-cell' + (inMonth ? '' : ' is-muted') + (iso === fmtDate(TODAY) ? ' is-today' : '') + (iso === selectedDay ? ' is-selected' : '');
+      cell.setAttribute('data-day', iso);
+      var dotsHtml = dayBookings.slice(0, 4).map(function (b) { return '<span class="calendar-dot" style="background:' + STATUS_COLOR[b.status] + '"></span>'; }).join('');
+      cell.innerHTML = '<span class="calendar-cell__num">' + d.getDate() + '</span><div class="calendar-cell__dots">' + dotsHtml + '</div>' + (dayBookings.length ? '<span class="calendar-cell__count">' + dayBookings.length + ' rez.</span>' : '');
+      cell.addEventListener('click', function () { selectedDay = this.getAttribute('data-day'); renderCalendar(); });
+      grid.appendChild(cell);
+    }
+    renderCalendarDayList();
+  }
+
+  function renderCalendarDayList() {
+    var list = document.getElementById('calendar-day-list');
+    var dayBookings = state.bookings.filter(function (b) { return b.date === selectedDay; });
+    var heading = '<h3 style="font-size:0.85rem; font-weight:700; color:var(--color-text); margin-bottom:0.75rem;">' + fmtDateLabel(selectedDay) + '</h3>';
+    if (!dayBookings.length) { list.innerHTML = heading + '<p style="font-size:0.82rem; color:var(--color-text-faint);">Brak rezerwacji w tym dniu.</p>'; return; }
+    list.innerHTML = heading + dayBookings.map(function (b) {
+      return '<div class="day-list-item" data-open-booking="' + b.id + '"><div class="day-list-item__main"><strong>' + b.customer + '</strong><span>' + b.car + ' · ' + b.service + '</span></div><span class="badge badge--' + b.status + '">' + statusLabel(b.status) + '</span></div>';
+    }).join('');
+    wireRowOpen(list);
+  }
+
+  document.getElementById('cal-prev').addEventListener('click', function () { calendarCursor.setMonth(calendarCursor.getMonth() - 1); renderCalendar(); });
+  document.getElementById('cal-next').addEventListener('click', function () { calendarCursor.setMonth(calendarCursor.getMonth() + 1); renderCalendar(); });
+  document.getElementById('cal-today').addEventListener('click', function () { calendarCursor = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1); selectedDay = fmtDate(TODAY); renderCalendar(); });
+
+  // ---------- CUSTOMERS ----------
+  var customersSearch = document.getElementById('customers-search');
+  function renderCustomers() {
+    var byPhone = {};
+    state.bookings.forEach(function (b) {
+      if (!byPhone[b.phone]) byPhone[b.phone] = { name: b.customer, phone: b.phone, email: b.email, visits: 0, spent: 0, last: b.date };
+      var c = byPhone[b.phone];
+      c.visits += 1;
+      if (b.status === 'zrealizowana') c.spent += b.price;
+      if (b.date > c.last) c.last = b.date;
+    });
+    var q = (customersSearch.value || '').toLowerCase();
+    var list = Object.values(byPhone).filter(function (c) { return !q || (c.name + ' ' + c.phone + ' ' + c.email).toLowerCase().indexOf(q) !== -1; })
+      .sort(function (a, b) { return b.spent - a.spent; });
+
+    var body = document.getElementById('customers-table');
+    if (!list.length) { body.innerHTML = '<tr><td colspan="5"><div class="empty-state"><svg class="icon" aria-hidden="true"><use href="#icon-users"/></svg><p>Brak klientów spełniających kryteria.</p></div></td></tr>'; return; }
+    body.innerHTML = list.map(function (c) {
+      return '<tr><td class="primary">' + c.name + '</td><td>' + c.phone + '<br><span style="color:var(--color-text-faint); font-size:0.78rem;">' + c.email + '</span></td><td>' + c.visits + '</td><td>' + fmtMoney(c.spent) + '</td><td>' + fmtDateLabel(c.last) + '</td></tr>';
+    }).join('');
+  }
+  customersSearch.addEventListener('input', renderCustomers);
+
+  // ---------- SERVICES ----------
+  function renderServices() {
+    var body = document.getElementById('services-table');
+    body.innerHTML = state.services.map(function (s) {
+      return '<tr><td class="primary">' + s.name + '</td><td style="max-width:20rem;">' + s.desc + '</td><td>' + s.duration + '</td><td>od ' + fmtMoney(s.price) + '</td>' +
+        '<td class="table-actions"><button type="button" class="btn btn--ghost btn--icon" data-edit-service="' + s.id + '" aria-label="Edytuj"><svg class="icon" style="width:1rem;height:1rem" aria-hidden="true"><use href="#icon-edit"/></svg></button></td></tr>';
+    }).join('');
+    body.querySelectorAll('[data-edit-service]').forEach(function (btn) {
+      btn.addEventListener('click', function () { openServiceModal(btn.getAttribute('data-edit-service')); });
+    });
+  }
+
+  var serviceModal = document.getElementById('modal-service');
+  var serviceForm = document.getElementById('service-form');
+  var serviceDeleteBtn = document.getElementById('service-delete-btn');
+  function openServiceModal(id) {
+    editingServiceId = id || null;
+    var s = id ? state.services.find(function (x) { return x.id === id; }) : null;
+    document.getElementById('service-modal-title').textContent = s ? 'Edytuj usługę' : 'Nowa usługa';
+    document.getElementById('sv-name').value = s ? s.name : '';
+    document.getElementById('sv-desc').value = s ? s.desc : '';
+    document.getElementById('sv-duration').value = s ? s.duration : '';
+    document.getElementById('sv-price').value = s ? s.price : '';
+    serviceDeleteBtn.hidden = !s;
+    openModal(serviceModal);
+  }
+  document.getElementById('add-service-btn').addEventListener('click', function () { openServiceModal(null); });
+
+  serviceForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var payload = {
+      name: document.getElementById('sv-name').value.trim(),
+      desc: document.getElementById('sv-desc').value.trim(),
+      duration: document.getElementById('sv-duration').value.trim(),
+      price: Number(document.getElementById('sv-price').value) || 0
+    };
+    if (editingServiceId) {
+      var idx = state.services.findIndex(function (s) { return s.id === editingServiceId; });
+      state.services[idx] = Object.assign({ id: editingServiceId }, payload);
+      toast('Usługa zaktualizowana.');
+    } else {
+      payload.id = uid('sv');
+      state.services.push(payload);
+      toast('Usługa dodana.');
+    }
+    saveState();
+    closeModal(serviceModal);
+    renderServices(); renderDashboard();
+  });
+  serviceDeleteBtn.addEventListener('click', function () {
+    askConfirm('Czy na pewno chcesz usunąć tę usługę z cennika?', function () {
+      state.services = state.services.filter(function (s) { return s.id !== editingServiceId; });
+      saveState();
+      closeModal(serviceModal);
+      toast('Usługa usunięta.');
+      renderServices(); renderDashboard();
+    });
+  });
+
+  // ---------- REVIEWS ----------
+  var reviewsFilter = document.getElementById('reviews-filter-status');
+  function renderReviews() {
+    var f = reviewsFilter.value;
+    var list = state.reviews.filter(function (r) { return !f || r.status === f; }).sort(function (a, b) { return b.date.localeCompare(a.date); });
+    var wrap = document.getElementById('reviews-list');
+    if (!list.length) { wrap.innerHTML = '<div class="empty-state"><svg class="icon" aria-hidden="true"><use href="#icon-star-outline"/></svg><p>Brak opinii spełniających kryteria.</p></div>'; return; }
+    wrap.innerHTML = list.map(function (r) {
+      var actions = '';
+      if (r.status !== 'approved') actions += '<button type="button" class="btn btn--outline btn--sm" data-review-action="approve" data-id="' + r.id + '"><svg class="icon" style="width:0.9rem;height:0.9rem" aria-hidden="true"><use href="#icon-check"/></svg>Opublikuj</button>';
+      if (r.status !== 'rejected') actions += '<button type="button" class="btn btn--danger btn--sm" data-review-action="reject" data-id="' + r.id + '">Odrzuć</button>';
+      actions += '<button type="button" class="btn btn--ghost btn--icon" data-review-action="delete" data-id="' + r.id + '" aria-label="Usuń"><svg class="icon" style="width:1rem;height:1rem" aria-hidden="true"><use href="#icon-trash"/></svg></button>';
+      return '<div class="panel" style="padding:1.25rem 1.4rem;">' +
+        '<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; flex-wrap:wrap;">' +
+        '<div><strong style="font-size:0.92rem;">' + r.author + '</strong> <span style="color:var(--color-text-faint); font-size:0.8rem;">· ' + r.car + '</span><div style="margin-top:0.3rem;">' + starsHtml(r.rating) + '</div></div>' +
+        '<span class="badge badge--' + r.status + '">' + reviewStatusLabel(r.status) + '</span></div>' +
+        '<p style="margin-top:0.75rem; font-size:0.86rem; color:var(--color-text-muted); line-height:1.6;">' + r.text + '</p>' +
+        '<div style="margin-top:1rem; display:flex; gap:0.5rem; flex-wrap:wrap;">' + actions + '</div></div>';
+    }).join('');
+    wrap.querySelectorAll('[data-review-action]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var id = btn.getAttribute('data-id'), action = btn.getAttribute('data-review-action');
+        if (action === 'delete') {
+          askConfirm('Czy na pewno chcesz usunąć tę opinię?', function () {
+            state.reviews = state.reviews.filter(function (r) { return r.id !== id; });
+            saveState(); toast('Opinia usunięta.'); renderReviews(); renderDashboard();
+          });
+          return;
+        }
+        var r = state.reviews.find(function (x) { return x.id === id; });
+        r.status = action === 'approve' ? 'approved' : 'rejected';
+        saveState();
+        toast(action === 'approve' ? 'Opinia opublikowana.' : 'Opinia odrzucona.');
+        renderReviews(); renderDashboard();
+      });
+    });
+  }
+  reviewsFilter.addEventListener('change', renderReviews);
+
+  // ---------- SETTINGS ----------
+  function renderSettings() {
+    document.getElementById('s-phone').value = state.settings.phone;
+    document.getElementById('s-email').value = state.settings.email;
+    document.getElementById('s-address').value = state.settings.address;
+    document.getElementById('s-hours-week').value = state.settings.hoursWeek;
+    document.getElementById('s-hours-sat').value = state.settings.hoursSat;
+  }
+  document.getElementById('settings-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    state.settings = {
+      phone: document.getElementById('s-phone').value.trim(),
+      email: document.getElementById('s-email').value.trim(),
+      address: document.getElementById('s-address').value.trim(),
+      hoursWeek: document.getElementById('s-hours-week').value.trim(),
+      hoursSat: document.getElementById('s-hours-sat').value.trim()
+    };
+    saveState();
+    toast('Ustawienia zapisane.');
+  });
+  document.getElementById('reset-demo-btn').addEventListener('click', function () {
+    askConfirm('Czy na pewno chcesz przywrócić dane demonstracyjne? Wszystkie wprowadzone zmiany zostaną utracone.', function () {
+      state = JSON.parse(JSON.stringify(SEED));
+      saveState();
+      toast('Dane demo przywrócone.');
+      renderAll();
+    });
+  });
+
+  function renderAll() {
+    renderDashboard();
+    renderBookings();
+    renderCustomers();
+    renderServices();
+    renderReviews();
+    renderSettings();
+  }
+
+  // Runs last, once every section above has assigned its DOM-reference variables — see the
+  // note in the AUTH section for why this can't run any earlier.
+  if (isAuthed()) showApp();
+})();
+</script>
+</body>
+</html>
