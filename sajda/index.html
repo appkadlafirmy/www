@@ -465,8 +465,16 @@
   }
   .filter::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--water-2); transform: translateY(101%); border-radius: inherit; transition: transform .45s var(--ease); }
   .filter:hover { border-color: rgba(255,255,255,.4); color: #fff; }
-  .filter[aria-pressed="true"] { color: #fff; border-color: var(--water-2); }
-  .filter[aria-pressed="true"]::before { transform: none; }
+  .filter { cursor: pointer; user-select: none; }
+  .filter input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+  .filter:has(input:checked) { color: #fff; border-color: var(--water-2); }
+  .filter:has(input:checked)::before { transform: none; }
+  .filter:has(input:focus-visible) { outline: 3px solid var(--copper); outline-offset: 3px; }
+  /* CSS-only filtering: works even when scripts are blocked */
+  .gallery:has(input[value="lazienki"]:checked) .gitem:not([data-cat="lazienki"]),
+  .gallery:has(input[value="ogrzewanie"]:checked) .gitem:not([data-cat="ogrzewanie"]),
+  .gallery:has(input[value="instalacje"]:checked) .gitem:not([data-cat="instalacje"]),
+  .gallery:has(input[value="klima"]:checked) .gitem:not([data-cat="klima"]) { display: none; }
   .filter sup { font-size: .7em; opacity: .7; margin-left: .2rem; }
 
   .ggrid { columns: 2; column-gap: .9rem; margin-top: 2.6rem; }
@@ -493,9 +501,7 @@
   .gitem__zoom { width: 38px; height: 38px; flex: none; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; transform: scale(.5) rotate(-45deg); transition: transform .5s var(--ease); }
   .gitem:hover .gitem__zoom { transform: none; }
   .gitem__zoom svg { width: 18px; height: 18px; }
-  .gitem.is-hiding { animation: gOut .35s var(--ease) forwards; }
-  .gitem.is-showing { animation: gIn .55s var(--ease); }
-  @keyframes gOut { to { opacity: 0; transform: scale(.85); } }
+  .gitem { animation: gIn .55s var(--ease) both; }
   @keyframes gIn { from { opacity: 0; transform: scale(.85) translateY(20px); } to { opacity: 1; transform: none; } }
 
   /* before / after */
@@ -1195,12 +1201,12 @@
           <p class="lead">Łazienki, ogrzewanie, instalacje schowane w ścianach i pod podłogą. Kliknij zdjęcie, żeby je powiększyć.</p>
           <span class="demo-note">Zdjęcia poglądowe — do podmiany na zdjęcia z realizacji</span>
         </div>
-        <div class="filters reveal" role="group" aria-label="Filtruj realizacje">
-          <button class="filter" data-filter="all" aria-pressed="true">Wszystkie<sup>11</sup></button>
-          <button class="filter" data-filter="lazienki" aria-pressed="false">Łazienki<sup>4</sup></button>
-          <button class="filter" data-filter="ogrzewanie" aria-pressed="false">Ogrzewanie<sup>4</sup></button>
-          <button class="filter" data-filter="instalacje" aria-pressed="false">Instalacje<sup>2</sup></button>
-          <button class="filter" data-filter="klima" aria-pressed="false">Klimatyzacja<sup>1</sup></button>
+        <div class="filters reveal" role="radiogroup" aria-label="Filtruj realizacje">
+          <label class="filter"><input type="radio" name="gfilter" value="all" checked>Wszystkie<sup>11</sup></label>
+          <label class="filter"><input type="radio" name="gfilter" value="lazienki">Łazienki<sup>4</sup></label>
+          <label class="filter"><input type="radio" name="gfilter" value="ogrzewanie">Ogrzewanie<sup>4</sup></label>
+          <label class="filter"><input type="radio" name="gfilter" value="instalacje">Instalacje<sup>2</sup></label>
+          <label class="filter"><input type="radio" name="gfilter" value="klima">Klimatyzacja<sup>1</sup></label>
         </div>
       </div>
 
@@ -1842,26 +1848,6 @@
     gitems.forEach(function (g) { g.classList.add('is-visible'); });
   }
 
-  // Gallery: filters
-  var filterBtns = document.querySelectorAll('.filter');
-  filterBtns.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var f = btn.dataset.filter;
-      filterBtns.forEach(function (b) { b.setAttribute('aria-pressed', b === btn); });
-      gitems.forEach(function (g) {
-        var show = f === 'all' || g.dataset.cat === f;
-        if (show && g.hidden) {
-          g.hidden = false; g.classList.remove('is-hiding'); g.classList.add('is-showing');
-          setTimeout(function () { g.classList.remove('is-showing'); }, 600);
-        } else if (!show && !g.hidden) {
-          if (reduce) { g.hidden = true; return; }
-          g.classList.add('is-hiding');
-          setTimeout(function () { if (g.classList.contains('is-hiding')) { g.hidden = true; g.classList.remove('is-hiding'); } }, 340);
-        }
-      });
-    });
-  });
-
   // Gallery: lightbox
   var lb = document.getElementById('lb'), lbImg = document.getElementById('lbImg');
   var lbTitle = document.getElementById('lbTitle'), lbCredit = document.getElementById('lbCredit'), lbCount = document.getElementById('lbCount');
@@ -1879,7 +1865,7 @@
     if (lbImg.complete) lbImg.classList.add('is-loaded');
   }
   function lbOpen(g) {
-    lbList = gitems.filter(function (x) { return !x.hidden; });
+    lbList = gitems.filter(function (x) { return x.offsetParent !== null; });
     lbReturn = g;
     lb.classList.add('is-open'); lb.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
