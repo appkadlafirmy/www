@@ -7,6 +7,29 @@
 <meta name="description" content="Daniel Sajda — hydraulik z Łodzi, działa od 2013 roku. Instalacje wodno-kanalizacyjne, grzewcze, gazowe i klimatyzacja. Awarie, remonty łazienek, biały montaż. Tel. 531 146 252.">
 <meta name="theme-color" content="#06142B">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2306142B'/%3E%3Cpath d='M32 12c8 11 14 19 14 27a14 14 0 0 1-28 0c0-8 6-16 14-27z' fill='%2338BDF8'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pl_PL">
+<meta property="og:title" content="Daniel Sajda — Hydraulik Łódź">
+<meta property="og:description" content="Instalacje wodno-kanalizacyjne, grzewcze, gazowe i klimatyzacja w Łodzi. Działam od 2013 roku. Tel. 531 146 252.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Plumber",
+  "name": "Daniel Sajda — Hydraulik Łódź",
+  "telephone": "+48 531 146 252",
+  "email": "ds.sajda@gmail.com",
+  "foundingDate": "2013",
+  "taxID": "7251988372",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "ul. Traugutta 8 lok. 11",
+    "postalCode": "90-107",
+    "addressLocality": "Łódź",
+    "addressCountry": "PL"
+  },
+  "areaServed": ["Łódź", "Zgierz", "Pabianice", "Konstantynów Łódzki", "Aleksandrów Łódzki", "Rzgów"]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -34,7 +57,7 @@
   }
 
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: 76px; }
   body {
     margin: 0;
     font-family: var(--font-sans);
@@ -537,7 +560,7 @@
 
   /* lightbox */
   .lb { position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; padding: 70px 16px 90px; background: rgba(3,10,22,.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); opacity: 0; visibility: hidden; transition: opacity .4s, visibility .4s; }
-  .lb.is-open { opacity: 1; visibility: visible; }
+  .lb.is-open { opacity: 1; visibility: visible; transition: opacity .4s, visibility 0s; }
   .lb figure { position: relative; max-width: min(1100px, 100%); max-height: 100%; display: flex; flex-direction: column; align-items: center; }
   .lb img { max-width: 100%; max-height: calc(100vh - 200px); max-height: calc(100svh - 200px); border-radius: 18px; box-shadow: 0 40px 80px rgba(0,0,0,.6); transform: scale(.94); opacity: 0; transition: transform .5s var(--ease), opacity .4s; }
   .lb.is-open img.is-loaded { transform: none; opacity: 1; }
@@ -1805,6 +1828,12 @@
   // Form -> mailto
   var form = document.getElementById('form');
   var ok = document.getElementById('formOk');
+  ['f-name', 'f-phone', 'f-msg'].forEach(function (id) {
+    document.getElementById(id).addEventListener('input', function () {
+      this.style.borderColor = '';
+      if (ok.style.color) ok.classList.remove('is-shown');
+    });
+  });
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var bad = null;
