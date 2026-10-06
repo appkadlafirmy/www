@@ -346,7 +346,7 @@
   /* ---------- Shops ---------- */
   .shops { display: grid; gap: 1.25rem; }
   @media (min-width: 700px) { .shops { grid-template-columns: repeat(2, 1fr); } }
-  @media (min-width: 1100px) { .shops { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 1100px) { .shops { grid-template-columns: repeat(4, 1fr); } }
   .shop { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.9rem; }
   .shop--main { background: var(--green-800); color: var(--cream); border-color: transparent; }
   .shop__top { display: flex; justify-content: space-between; gap: 0.75rem; align-items: flex-start; }
@@ -532,7 +532,7 @@
     <span>Świeże pieczywo i ciasta codziennie od rana</span>
     <div class="topbar__right">
       <a href="tel:+48577477884">+48 577 477 884</a>
-      <a href="https://cukiernialyskawa.com/" target="_blank" rel="noopener">Sklep online</a>
+      <a href="mailto:zamowienia.lyskawa@gmail.com">zamowienia.lyskawa@gmail.com</a>
     </div>
   </div>
 </div>
@@ -593,7 +593,7 @@
         </div>
         <ul class="hero__chips">
           <li class="chip"><svg aria-hidden="true"><use href="#i-heart"/></svg>4 pokolenia</li>
-          <li class="chip"><svg aria-hidden="true"><use href="#i-wheat"/></svg>Chleb na zakwasie</li>
+          <li class="chip"><svg aria-hidden="true"><use href="#i-wheat"/></svg>Pieczywo na zakwasie</li>
           <li class="chip"><svg aria-hidden="true"><use href="#i-leaf"/></svg>Naturalne składniki</li>
         </ul>
       </div>
@@ -647,8 +647,8 @@
 
   <div class="ticker" aria-hidden="true">
     <div class="ticker__track">
-      <span>Chleb na zakwasie</span><span>Pączki z różą</span><span>Torty na zamówienie</span><span>Sernik rodzinny</span><span>Drożdżówki</span><span>Słodki stół</span><span>Makowiec</span><span>Od 1928 roku</span>
-      <span>Chleb na zakwasie</span><span>Pączki z różą</span><span>Torty na zamówienie</span><span>Sernik rodzinny</span><span>Drożdżówki</span><span>Słodki stół</span><span>Makowiec</span><span>Od 1928 roku</span>
+      <span>Pavlova</span><span>Jagodzianki z kremem pâtissière</span><span>Long Cake</span><span>Tort w stylu włoskim</span><span>Tarta z mascarpone</span><span>Pieczywo na zakwasie</span><span>Kawa i kanapki</span><span>Od 1928 roku</span>
+      <span>Pavlova</span><span>Jagodzianki z kremem pâtissière</span><span>Long Cake</span><span>Tort w stylu włoskim</span><span>Tarta z mascarpone</span><span>Pieczywo na zakwasie</span><span>Kawa i kanapki</span><span>Od 1928 roku</span>
     </div>
   </div>
 
@@ -672,14 +672,14 @@
           <span class="num">02</span>
           <svg class="art" viewBox="0 0 120 100" aria-hidden="true"><circle cx="60" cy="54" r="34" fill="#FBEFF1" stroke="#A3324A" stroke-width="3"/><circle cx="60" cy="54" r="10" fill="#A3324A" opacity=".55"/><g fill="#FFFDF8"><circle cx="44" cy="36" r="3"/><circle cx="76" cy="40" r="3"/><circle cx="70" cy="74" r="3"/></g></svg>
           <h3>Cukiernia</h3>
-          <p>Ciasta, pączki, drożdżówki i ciastka. Codziennie świeże.</p>
+          <p>Ciasta do kawy, tarty, pavlova i jagodzianki. Codziennie świeże.</p>
           <a href="#wypieki">Zobacz wypieki <span>→</span></a>
         </li>
         <li class="tilt tilt--gold">
           <span class="num">03</span>
           <svg class="art" viewBox="0 0 120 100" aria-hidden="true"><ellipse cx="60" cy="56" rx="46" ry="26" fill="#FBF6EA" stroke="#B8913A" stroke-width="3"/><path d="M36 46l8 12M54 40l8 14M74 44l8 12" stroke="#B8913A" stroke-width="3.5" stroke-linecap="round"/></svg>
           <h3>Piekarnia</h3>
-          <p>Chleb na zakwasie, bułki i chałki prosto z pieca.</p>
+          <p>Pieczywo na zakwasie, chrupiące bułeczki i kanapki robione na miejscu.</p>
           <a href="#wypieki">Nasze pieczywo <span>→</span></a>
         </li>
         <li class="tilt tilt--wide">
@@ -705,7 +705,7 @@
           <div><strong data-count="1928" data-from="1850">1928</strong><span>rok, od którego pieczemy</span></div>
           <div><strong data-count="4">4</strong><span>pokolenia rodziny</span></div>
           <div><strong data-count="100" data-suffix="%">100%</strong><span>naturalnych składników</span></div>
-          <div><strong data-count="5">5</strong><span>sklepów w Poznaniu</span></div>
+          <div><strong data-count="7">7</strong><span>lokali w Poznaniu i okolicy</span></div>
         </div>
       </div>
       <ol class="timeline reveal">
@@ -732,7 +732,7 @@
         <li>
           <span class="when">Dziś</span>
           <h3>Czwarte pokolenie</h3>
-          <p>Szanujemy tradycję, ale nie boimy się nowości: monoporcje, sezonowe owoce i nietypowe połączenia smaków.</p>
+          <p>Szanujemy tradycję, ale lubimy nowości: Long Cake, tort w stylu włoskim czy mini desery Matcha &amp; Czekolada.</p>
         </li>
       </ol>
     </div>
@@ -744,54 +744,50 @@
       <div class="section-head section-head--center reveal">
         <span class="eyebrow">Codziennie świeże</span>
         <h2 class="h2">Co dziś <em>na ladzie?</em></h2>
-        <p class="lede">Kilka wypieków, po które wracacie najczęściej. Pełną i aktualną ofertę znajdziesz w naszych sklepach.</p>
+        <p class="lede">Wybrane wypieki z naszej lady. Asortyment zmienia się z sezonem, więc o ciasto dnia zapytaj w najbliższym lokalu.</p>
       </div>
 
       <div class="tabs" role="tablist" aria-label="Kategorie wypieków">
-        <button class="tab" role="tab" id="tab-ciasta" aria-controls="panel-ciasta" aria-selected="true">Ciasta</button>
-        <button class="tab" role="tab" id="tab-drobne" aria-controls="panel-drobne" aria-selected="false" tabindex="-1">Drobne słodkości</button>
-        <button class="tab" role="tab" id="tab-pieczywo" aria-controls="panel-pieczywo" aria-selected="false" tabindex="-1">Pieczywo</button>
-        <button class="tab" role="tab" id="tab-sezon" aria-controls="panel-sezon" aria-selected="false" tabindex="-1">Sezonowe</button>
+        <button class="tab" role="tab" id="tab-desery" aria-controls="panel-desery" aria-selected="true">Desery i ciasta</button>
+        <button class="tab" role="tab" id="tab-torty" aria-controls="panel-torty" aria-selected="false" tabindex="-1">Torty</button>
+        <button class="tab" role="tab" id="tab-kawiarnia" aria-controls="panel-kawiarnia" aria-selected="false" tabindex="-1">Piekarnia i kawiarnia</button>
+        <button class="tab" role="tab" id="tab-bankiety" aria-controls="panel-bankiety" aria-selected="false" tabindex="-1">Oferta bankietowa</button>
       </div>
 
-      <div class="tab-panel" role="tabpanel" id="panel-ciasta" aria-labelledby="tab-ciasta">
+      <div class="tab-panel" role="tabpanel" id="panel-desery" aria-labelledby="tab-desery">
         <ul class="product-grid reveal-stagger">
-          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M10 30 90 18v30L10 60z" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M10 30 90 18" stroke="currentColor" stroke-width="6" stroke-linecap="round" opacity=".55"/></svg></div><div class="product__body"><h3>Sernik rodzinny</h3><p>Kremowy, na twarogu, według dawnej receptury.</p><span class="badge">Klasyk</span></div></li>
-          <li class="product"><div class="product__art art-1"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="10" y="22" width="80" height="36" rx="4" fill="#FBEFF1" stroke="currentColor" stroke-width="2.5"/><path d="M10 34h80M10 46h80" stroke="currentColor" stroke-width="2.5" opacity=".5"/><circle cx="25" cy="18" r="5" fill="currentColor"/><circle cx="50" cy="16" r="5" fill="currentColor"/><circle cx="75" cy="18" r="5" fill="currentColor"/></svg></div><div class="product__body"><h3>Malinowa chmurka</h3><p>Biszkopt, mascarpone i świeże maliny.</p></div></li>
-          <li class="product"><div class="product__art art-3"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="10" y="24" width="80" height="34" rx="4" fill="#F3F7F4" stroke="currentColor" stroke-width="2.5"/><path d="M14 24c6-8 12-8 18 0s12 8 18 0 12-8 18 0 12 8 18 0" stroke="currentColor" stroke-width="2.5" fill="none"/><path d="M22 42h8M42 46h8M62 40h8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></div><div class="product__body"><h3>Szarlotka</h3><p>Dużo jabłek, kruche ciasto i szczypta cynamonu.</p></div></li>
-          <li class="product"><div class="product__art art-4"><svg viewBox="0 0 100 70" aria-hidden="true"><ellipse cx="50" cy="38" rx="38" ry="22" fill="#F4F2F9" stroke="currentColor" stroke-width="2.5"/><path d="M50 16c-14 6-22 14-22 22s8 16 22 22c14-6 22-14 22-22S64 22 50 16z" fill="none" stroke="currentColor" stroke-width="2.5" opacity=".5"/><circle cx="50" cy="38" r="5" fill="currentColor"/></svg></div><div class="product__body"><h3>Makowiec</h3><p>Zawijany, z dużą ilością maku i bakalii.</p><span class="badge">Klasyk</span></div></li>
-          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="10" y="20" width="80" height="40" rx="4" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><path d="M10 33h80M10 47h80" stroke="currentColor" stroke-width="5" opacity=".35"/></svg></div><div class="product__body"><h3>Kremówka</h3><p>Chrupiące ciasto francuskie i delikatny krem.</p></div></li>
-          <li class="product"><div class="product__art art-1"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M15 55h70L74 22H26z" fill="#FBEFF1" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M26 22c8-8 40-8 48 0" stroke="currentColor" stroke-width="3" fill="none"/><path d="M30 38h40" stroke="currentColor" stroke-width="2.5" opacity=".5"/></svg></div><div class="product__body"><h3>Czekoladowe z wiśnią</h3><p>Wilgotne, mocno czekoladowe, z kwaśną wiśnią.</p><span class="badge">Nowość</span></div></li>
+          <li class="product"><div class="product__art art-1"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M18 52c0-14 14-26 32-26s32 12 32 26z" fill="#FFFDF8" stroke="currentColor" stroke-width="2.5"/><path d="M26 40c6-6 10-6 14 0M44 34c6-6 10-6 14 0M62 40c6-6 10-6 14 0" stroke="currentColor" stroke-width="2" fill="none" opacity=".5"/><circle cx="38" cy="24" r="5" fill="currentColor"/><circle cx="52" cy="20" r="5" fill="#4B437A"/><circle cx="64" cy="25" r="4.5" fill="currentColor"/></svg></div><div class="product__body"><h3>Pavlova</h3><p>Lekka, chrupiąca beza, aksamitny krem i świeże, sezonowe owoce. Można ją też zamówić na okazję.</p><span class="badge">Lato</span></div></li>
+          <li class="product"><div class="product__art art-1"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M12 40h76l-6 16H18z" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><ellipse cx="50" cy="40" rx="38" ry="8" fill="#FFFDF8" stroke="currentColor" stroke-width="2.5"/><g fill="#A3324A"><circle cx="32" cy="38" r="4"/><circle cx="58" cy="36" r="4"/></g><g fill="#4B437A"><circle cx="44" cy="40" r="3.5"/><circle cx="70" cy="40" r="3.5"/></g></svg></div><div class="product__body"><h3>Tarta z mascarpone</h3><p>Krucha, maślana tarta z kremem mascarpone, truskawkami, borówkami, malinami i jeżynami.</p></div></li>
+          <li class="product"><div class="product__art art-4"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M16 50c0-16 15-26 34-26s34 10 34 26c0 4-3 6-7 6H23c-4 0-7-2-7-6z" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><g fill="#4B437A"><circle cx="40" cy="36" r="3.5"/><circle cx="50" cy="32" r="3.5"/><circle cx="60" cy="36" r="3.5"/><circle cx="46" cy="42" r="3.5"/><circle cx="56" cy="42" r="3.5"/></g></svg></div><div class="product__body"><h3>Jagodzianki z kremem pâtissière</h3><p>Puszyste, maślane ciasto, krem pâtissière i mnóstwo jagód. Najlepsze jeszcze ciepłe.</p><span class="badge">Sezonowo</span></div></li>
+          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M10 30 90 18v30L10 60z" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M10 30 90 18" stroke="currentColor" stroke-width="6" stroke-linecap="round" opacity=".55"/><path d="M10 44 90 32" stroke="currentColor" stroke-width="2" opacity=".35"/></svg></div><div class="product__body"><h3>Ciasta do kawy</h3><p>Codziennie świeże ciasta: klasyka z recepturami o 80-letniej tradycji i nowe połączenia smaków.</p></div></li>
         </ul>
       </div>
 
-      <div class="tab-panel" role="tabpanel" id="panel-drobne" aria-labelledby="tab-drobne" hidden>
+      <div class="tab-panel" role="tabpanel" id="panel-torty" aria-labelledby="tab-torty" hidden>
         <ul class="product-grid reveal-stagger">
-          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><circle cx="50" cy="36" r="24" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><circle cx="50" cy="36" r="7" fill="currentColor" opacity=".55"/></svg></div><div class="product__body"><h3>Pączki</h3><p>Puszyste, z różą albo konfiturą. Smażone codziennie.</p><span class="badge">Hit</span></div></li>
-          <li class="product"><div class="product__art art-3"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M20 48c0-16 14-26 30-26s30 10 30 26z" fill="#F3F7F4" stroke="currentColor" stroke-width="2.5"/><path d="M30 40c6-6 14-6 20 0s14 6 20 0" stroke="currentColor" stroke-width="2.5" fill="none"/></svg></div><div class="product__body"><h3>Drożdżówki</h3><p>Z serem, budyniem, owocami albo kruszonką.</p></div></li>
-          <li class="product"><div class="product__art art-1"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M22 38h56l-6 20H28z" fill="#FBEFF1" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M24 38c0-12 12-20 26-20s26 8 26 20" fill="currentColor" opacity=".55"/></svg></div><div class="product__body"><h3>Monoporcje</h3><p>Małe desery z musem, ładne i pyszne.</p><span class="badge">Nowość</span></div></li>
-          <li class="product"><div class="product__art art-4"><svg viewBox="0 0 100 70" aria-hidden="true"><ellipse cx="50" cy="40" rx="34" ry="14" fill="#F4F2F9" stroke="currentColor" stroke-width="2.5"/><ellipse cx="50" cy="32" rx="24" ry="10" fill="currentColor" opacity=".35"/></svg></div><div class="product__body"><h3>Eklery i ptysie</h3><p>Chrupiące ciasto parzone i dużo kremu.</p></div></li>
-          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><circle cx="34" cy="38" r="16" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><circle cx="66" cy="38" r="16" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><circle cx="30" cy="34" r="2.5" fill="currentColor"/><circle cx="38" cy="42" r="2.5" fill="currentColor"/><circle cx="64" cy="34" r="2.5" fill="currentColor"/><circle cx="70" cy="42" r="2.5" fill="currentColor"/></svg></div><div class="product__body"><h3>Ciastka kruche</h3><p>Do kawy i na wynos, sprzedawane na wagę.</p></div></li>
+          <li class="product"><div class="product__art art-1"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="8" y="30" width="84" height="26" rx="5" fill="#FFFDF8" stroke="currentColor" stroke-width="2.5"/><path d="M8 43h84" stroke="currentColor" stroke-width="2" opacity=".4"/><g fill="#A3324A"><circle cx="18" cy="26" r="4"/><circle cx="30" cy="26" r="4"/><circle cx="42" cy="26" r="4"/><circle cx="54" cy="26" r="4"/><circle cx="66" cy="26" r="4"/><circle cx="78" cy="26" r="4"/></g></svg></div><div class="product__body"><h3>Long Cake</h3><p>Modny, podłużny tort: delikatny biszkopt, aksamitny krem i soczyste maliny. Na śluby, urodziny i rocznice.</p><span class="badge">Modny</span></div></li>
+          <li class="product"><div class="product__art art-3"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="20" y="30" width="60" height="28" rx="5" fill="#FFFDF8" stroke="currentColor" stroke-width="2.5"/><path d="M20 36c6 5 10 5 15 0s10-5 15 0 10 5 15 0 10-5 15 0" stroke="currentColor" stroke-width="2.5" fill="none"/><g><circle cx="34" cy="24" r="5" fill="#A3324A"/><circle cx="46" cy="22" r="5" fill="#B8913A"/><circle cx="58" cy="24" r="5" fill="#4B437A"/><circle cx="68" cy="26" r="4" fill="#5E8C6A"/></g></svg></div><div class="product__body"><h3>Tort w stylu włoskim</h3><p>Lekkie blaty, puszysty krem śmietankowy i obfita dekoracja ze świeżych owoców.</p><span class="badge">Wesela</span></div></li>
+          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="22" y="40" width="56" height="20" rx="4" fill="#FFFDF8" stroke="currentColor" stroke-width="2.5"/><rect x="32" y="22" width="36" height="20" rx="4" fill="#FFFDF8" stroke="currentColor" stroke-width="2.5"/><path d="M50 8v10M45 12h10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="product__body"><h3>Torty okolicznościowe</h3><p>Na komunię, wesele, chrzciny i jubileusz. Każdy na indywidualne zamówienie.</p></div></li>
         </ul>
       </div>
 
-      <div class="tab-panel" role="tabpanel" id="panel-pieczywo" aria-labelledby="tab-pieczywo" hidden>
+      <div class="tab-panel" role="tabpanel" id="panel-kawiarnia" aria-labelledby="tab-kawiarnia" hidden>
         <ul class="product-grid reveal-stagger">
-          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><ellipse cx="50" cy="40" rx="38" ry="20" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><path d="M30 32l8 10M46 28l8 12M62 30l8 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="product__body"><h3>Chleb żytni na zakwasie</h3><p>Długo fermentowany, z chrupiącą skórką.</p><span class="badge">Na zakwasie</span></div></li>
-          <li class="product"><div class="product__art art-3"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="16" y="24" width="68" height="32" rx="14" fill="#F3F7F4" stroke="currentColor" stroke-width="2.5"/><g fill="currentColor" opacity=".55"><circle cx="30" cy="34" r="1.8"/><circle cx="44" cy="40" r="1.8"/><circle cx="58" cy="33" r="1.8"/><circle cx="70" cy="42" r="1.8"/></g></svg></div><div class="product__body"><h3>Chleb wieloziarnisty</h3><p>Ze słonecznikiem, siemieniem i dynią.</p></div></li>
-          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><circle cx="34" cy="40" r="16" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><circle cx="66" cy="40" r="16" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><path d="M26 40h16M58 40h16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="product__body"><h3>Bułki i kajzerki</h3><p>Prosto z pieca, na śniadanie i do kanapek.</p></div></li>
-          <li class="product"><div class="product__art art-4"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M14 46c10-22 62-22 72 0-24 10-48 10-72 0z" fill="#F4F2F9" stroke="currentColor" stroke-width="2.5"/><path d="M30 38c8-6 32-6 40 0" stroke="currentColor" stroke-width="2.5" fill="none"/></svg></div><div class="product__body"><h3>Chałka</h3><p>Maślana, pleciona, posypana kruszonką.</p></div></li>
+          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><ellipse cx="50" cy="40" rx="38" ry="20" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><path d="M30 32l8 10M46 28l8 12M62 30l8 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="product__body"><h3>Pieczywo na zakwasie</h3><p>Z naturalnych składników od lokalnych dostawców, pieczone każdego ranka.</p></div></li>
+          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><circle cx="34" cy="40" r="16" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><circle cx="66" cy="40" r="16" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><path d="M26 40h16M58 40h16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="product__body"><h3>Chrupiące bułeczki</h3><p>Świeże od samego rana, na śniadanie i do kanapek.</p></div></li>
+          <li class="product"><div class="product__art art-3"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M14 36c0-10 16-14 36-14s36 4 36 14z" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><path d="M12 40c10 4 20-2 30 2s20-2 30 2 14 0 16-2" stroke="#5E8C6A" stroke-width="4" fill="none" stroke-linecap="round"/><rect x="14" y="44" width="72" height="6" rx="2" fill="#E9B8C3"/><path d="M14 54h72v2c0 3-2 4-5 4H19c-3 0-5-1-5-4z" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/></svg></div><div class="product__body"><h3>Kanapki</h3><p>Przygotowywane na miejscu, na świeżym pieczywie. Do tego smaczne przekąski.</p></div></li>
+          <li class="product"><div class="product__art art-4"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M28 26h40v18c0 10-8 16-20 16s-20-6-20-16z" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5"/><path d="M68 32h6a6 6 0 0 1 0 12h-6" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M40 10c-4 4 4 6 0 10M52 10c-4 4 4 6 0 10" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" opacity=".6"/></svg></div><div class="product__body"><h3>Kawa</h3><p>Do ciasta w naszych kawiarniach albo na wynos.</p></div></li>
+          <li class="product"><div class="product__art art-1"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M38 36h24L50 64z" fill="#E9D7A8" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><circle cx="44" cy="30" r="10" fill="#FBEFF1" stroke="currentColor" stroke-width="2.5"/><circle cx="56" cy="30" r="10" fill="#FFFDF8" stroke="currentColor" stroke-width="2.5"/><circle cx="50" cy="20" r="9" fill="#F3F7F4" stroke="currentColor" stroke-width="2.5"/></svg></div><div class="product__body"><h3>Lody</h3><p>Na letnie dni i w sezonie.</p><span class="badge">Lato</span></div></li>
         </ul>
       </div>
 
-      <div class="tab-panel" role="tabpanel" id="panel-sezon" aria-labelledby="tab-sezon" hidden>
+      <div class="tab-panel" role="tabpanel" id="panel-bankiety" aria-labelledby="tab-bankiety" hidden>
         <ul class="product-grid reveal-stagger">
-          <li class="product"><div class="product__art art-2"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M14 46C20 20 80 20 86 46c-8 6-18 6-24 0-6 6-18 6-24 0-6 6-16 6-24 0z" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M28 30c8-4 36-4 44 0" stroke="currentColor" stroke-width="3" fill="none"/></svg></div><div class="product__body"><h3>Rogale z białym makiem</h3><p>Listopadowy przysmak Poznania, z dużą ilością nadzienia.</p><span class="badge">Listopad</span></div></li>
-          <li class="product"><div class="product__art art-1"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M50 12 64 40H36z" fill="#FBEFF1" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M50 26 70 58H30z" fill="#FBEFF1" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><circle cx="50" cy="10" r="3" fill="currentColor"/></svg></div><div class="product__body"><h3>Pierniki i ciasta świąteczne</h3><p>Korzenne smaki na Boże Narodzenie.</p><span class="badge">Grudzień</span></div></li>
-          <li class="product"><div class="product__art art-3"><svg viewBox="0 0 100 70" aria-hidden="true"><ellipse cx="50" cy="40" rx="22" ry="26" fill="#F3F7F4" stroke="currentColor" stroke-width="2.5"/><path d="M30 34h40M30 46h40" stroke="currentColor" stroke-width="2.5" opacity=".5"/></svg></div><div class="product__body"><h3>Mazurki i baby wielkanocne</h3><p>Na świąteczny stół, najlepiej zamówić z wyprzedzeniem.</p><span class="badge">Wielkanoc</span></div></li>
-          <li class="product"><div class="product__art art-4"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="12" y="26" width="76" height="30" rx="4" fill="#F4F2F9" stroke="currentColor" stroke-width="2.5"/><g fill="currentColor"><circle cx="24" cy="22" r="4"/><circle cx="38" cy="20" r="4"/><circle cx="52" cy="22" r="4"/><circle cx="66" cy="20" r="4"/><circle cx="80" cy="22" r="4"/></g></svg></div><div class="product__body"><h3>Ciasta z owocami sezonowymi</h3><p>Truskawki, borówki i śliwki, zależnie od pory roku.</p><span class="badge">Lato</span></div></li>
+          <li class="product"><div class="product__art art-3"><svg viewBox="0 0 100 70" aria-hidden="true"><path d="M26 44h48l-5 14H31z" fill="#FBF6EA" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M28 44c0-12 10-20 22-20s22 8 22 20z" fill="#7FA36B"/><path d="M28 44c4-6 40-6 44 0" fill="#3B2A20"/><g fill="#A3324A"><circle cx="44" cy="26" r="2.5"/><circle cx="56" cy="28" r="2.5"/><circle cx="50" cy="22" r="2.5"/></g></svg></div><div class="product__body"><h3>Mini deser Matcha &amp; Czekolada</h3><p>Krem matcha, aksamitna czekolada i krucha tartaletka, wykończone lekkim musem i owocową posypką.</p><span class="badge">Nowość</span></div></li>
+          <li class="product"><div class="product__art art-4"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="8" y="52" width="84" height="6" rx="2" fill="currentColor"/><path d="M16 52l3-14h12l3 14z" fill="#E9D7A8"/><circle cx="25" cy="34" r="7" fill="#FFFDF8" stroke="currentColor" stroke-width="2"/><rect x="42" y="30" width="20" height="22" rx="3" fill="#FFFDF8" stroke="currentColor" stroke-width="2"/><circle cx="76" cy="46" r="6" fill="#FFFDF8" stroke="currentColor" stroke-width="2"/></svg></div><div class="product__body"><h3>Słodkie stoły premium</h3><p>Małe desery na bankiety, przyjęcia firmowe, wesela i eventy.</p></div></li>
         </ul>
       </div>
+
     </div>
   </section>
 
@@ -837,7 +833,7 @@
             <div class="field"><label for="f-portions">Liczba porcji</label><input id="f-portions" name="portions" type="number" min="4" inputmode="numeric" placeholder="np. 20"></div>
             <div class="field"><label for="f-shop">Sklep odbioru</label>
               <select id="f-shop" name="shop">
-                <option>ul. Mrzeżyńska 16</option><option>ul. Łomżyńska 1</option><option>ul. Zeylanda 12</option><option>ul. Półwiejska 43</option><option>ul. Głogowska 81</option>
+                <option>ul. Półwiejska 43</option><option>ul. Zeylanda 12</option><option>ul. Dąbrowskiego 3</option><option>ul. Mrzeżyńska 16</option><option>Galeria Avenida (Matyi 2)</option><option>Galeria Dąbrówka</option><option>Luboń (Poniatowskiego 24)</option>
               </select>
             </div>
             <div class="field full"><label for="f-msg">Smak, dekoracja, napis</label><textarea id="f-msg" name="message" placeholder="np. tort malinowy, biały krem, napis „Sto lat, Ola!”"></textarea></div>
@@ -847,7 +843,7 @@
             <a href="tel:+48577477884" class="btn btn--ghost"><svg aria-hidden="true"><use href="#i-phone"/></svg> Wolę zadzwonić</a>
           </div>
           <p class="form-status" role="status" aria-live="polite"></p>
-          <p class="form-note">Odpowiadamy w godzinach pracy sklepów. Torty weselne i komunijne najlepiej zamawiać z kilkutygodniowym wyprzedzeniem.</p>
+          <p class="form-note">Odpowiadamy w godzinach pracy lokali. Torty weselne i komunijne najlepiej zamawiać z kilkutygodniowym wyprzedzeniem.</p>
         </form>
       </div>
     </div>
@@ -883,7 +879,7 @@
         <h2 class="h2">Słodki stół <em>pod klucz</em></h2>
         <p class="lede">Komunia, wesele, urodziny w przedszkolu albo firmowe spotkanie? Przygotujemy bufet słodkości w kolorach i klimacie Twojej imprezy.</p>
         <ul class="checklist">
-          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Tort główny i do tego monoporcje, babeczki, ciastka i musy</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Tort główny, a do tego mini desery na kruchej tartaletce, np. Matcha &amp; Czekolada</span></li>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Kolory, napisy i dekoracje dobrane do motywu</span></li>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Ilość dopasowana do liczby gości, bez marnowania</span></li>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Wersje dla dzieci, grup i firm</span></li>
@@ -895,8 +891,8 @@
 
   <div class="ticker ticker--alt" aria-hidden="true">
     <div class="ticker__track">
-      <span>Mrzeżyńska 16</span><span>Łomżyńska 1</span><span>Zeylanda 12</span><span>Półwiejska 43</span><span>Głogowska 81</span><span>Sklep online</span>
-      <span>Mrzeżyńska 16</span><span>Łomżyńska 1</span><span>Zeylanda 12</span><span>Półwiejska 43</span><span>Głogowska 81</span><span>Sklep online</span>
+      <span>Półwiejska 43</span><span>Zeylanda 12</span><span>Dąbrowskiego 3</span><span>Mrzeżyńska 16</span><span>Galeria Avenida</span><span>Galeria Dąbrówka</span><span>Luboń</span>
+      <span>Półwiejska 43</span><span>Zeylanda 12</span><span>Dąbrowskiego 3</span><span>Mrzeżyńska 16</span><span>Galeria Avenida</span><span>Galeria Dąbrówka</span><span>Luboń</span>
     </div>
   </div>
 
@@ -905,56 +901,78 @@
     <div class="container">
       <div class="section-head section-head--center reveal">
         <span class="eyebrow">Nasze sklepy</span>
-        <h2 class="h2">Znajdziesz nas <em>w Poznaniu</em></h2>
-        <p class="lede">Zajrzyj do najbliższego sklepu Łyskawa po świeży chleb, ciasto do kawy albo zamówiony tort.</p>
+        <h2 class="h2">Znajdziesz nas <em>w Poznaniu i okolicy</em></h2>
+        <p class="lede">Zajrzyj do najbliższego lokalu Łyskawa po świeże pieczywo, ciasto i kawę albo odbierz zamówiony tort.</p>
       </div>
       <ul class="shops reveal-stagger">
         <li class="shop shop--main">
-          <div class="shop__top"><h3>Mrzeżyńska</h3><span class="shop__label">Biuro &amp; zamówienia</span></div>
+          <div class="shop__top"><h3>Mrzeżyńska</h3><span class="shop__label">Biuro</span></div>
           <dl>
             <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Mrzeżyńska 16<br>60-446 Poznań</dd></div>
-            <div><dt><svg aria-label="Telefon"><use href="#i-phone"/></svg></dt><dd><a href="tel:+48577477884">+48 577 477 884</a></dd></div>
+            <div><dt><svg aria-label="Telefon"><use href="#i-phone"/></svg></dt><dd>Lokal: <a href="tel:+48790471471">790 471 471</a><br>Biuro: <a href="tel:+48577477884">577 477 884</a></dd></div>
+            <div><dt><svg aria-label="Godziny otwarcia"><use href="#i-clock"/></svg></dt><dd>pon.–pt. 7:00–15:00<br>sob. 7:00–12:00</dd></div>
           </dl>
           <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=Mrze%C5%BCy%C5%84ska+16+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
-        </li>
-        <li class="shop">
-          <div class="shop__top"><h3>Łomżyńska</h3></div>
-          <dl>
-            <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Łomżyńska 1<br>61-048 Poznań</dd></div>
-            <div><dt><svg aria-label="Telefon"><use href="#i-phone"/></svg></dt><dd><a href="tel:+48616536436">61 653 64 36</a></dd></div>
-            <div><dt><svg aria-label="Godziny otwarcia"><use href="#i-clock"/></svg></dt><dd>pon.–pt. 7:00–17:00<br>sob. 7:00–15:00</dd></div>
-          </dl>
-          <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=%C5%81om%C5%BCy%C5%84ska+1+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
-        </li>
-        <li class="shop">
-          <div class="shop__top"><h3>Zeylanda</h3></div>
-          <dl>
-            <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Zeylanda 12<br>Poznań</dd></div>
-            <div><dt><svg aria-label="Telefon"><use href="#i-phone"/></svg></dt><dd><a href="tel:+48661289725">661 289 725</a></dd></div>
-            <div><dt><svg aria-label="Godziny otwarcia"><use href="#i-clock"/></svg></dt><dd>pon.–pt. 7:00–16:00<br>sob. 7:00–13:00</dd></div>
-          </dl>
-          <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=Zeylanda+12+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
         </li>
         <li class="shop">
           <div class="shop__top"><h3>Półwiejska</h3></div>
           <dl>
             <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Półwiejska 43<br>61-893 Poznań</dd></div>
+            <div><dt><svg aria-label="Telefon"><use href="#i-phone"/></svg></dt><dd><a href="tel:+48500059570">500 059 570</a></dd></div>
+            <div><dt><svg aria-label="Godziny otwarcia"><use href="#i-clock"/></svg></dt><dd>pon.–pt. 7:00–18:00<br>sob. 9:00–18:00</dd></div>
           </dl>
           <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=P%C3%B3%C5%82wiejska+43+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
         </li>
         <li class="shop">
-          <div class="shop__top"><h3>Głogowska</h3></div>
+          <div class="shop__top"><h3>Zeylanda</h3></div>
           <dl>
-            <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Głogowska 81<br>60-739 Poznań</dd></div>
+            <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Zeylanda 12<br>60-808 Poznań</dd></div>
+            <div><dt><svg aria-label="Telefon"><use href="#i-phone"/></svg></dt><dd><a href="tel:+48577337525">577 337 525</a></dd></div>
+            <div><dt><svg aria-label="Godziny otwarcia"><use href="#i-clock"/></svg></dt><dd>pon.–pt. 7:00–19:00<br>sob.–niedz. 8:00–19:00</dd></div>
           </dl>
-          <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=G%C5%82ogowska+81+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
+          <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=Zeylanda+12+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
+        </li>
+        <li class="shop">
+          <div class="shop__top"><h3>Dąbrowskiego</h3><span class="shop__label">Nowy lokal</span></div>
+          <dl>
+            <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Dąbrowskiego 3<br>Poznań</dd></div>
+            <div><dt><svg aria-label="Godziny otwarcia"><use href="#i-clock"/></svg></dt><dd>Godziny wkrótce. Zadzwoń do biura.</dd></div>
+          </dl>
+          <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=D%C4%85browskiego+3+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
+        </li>
+        <li class="shop">
+          <div class="shop__top"><h3>Galeria Avenida</h3></div>
+          <dl>
+            <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Matyi 2<br>61-581 Poznań</dd></div>
+            <div><dt><svg aria-label="Telefon"><use href="#i-phone"/></svg></dt><dd><a href="tel:+48577477465">577 477 465</a></dd></div>
+            <div><dt><svg aria-label="Godziny otwarcia"><use href="#i-clock"/></svg></dt><dd>pon.–sob. 8:00–21:00</dd></div>
+          </dl>
+          <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=Galeria+Avenida+Matyi+2+Pozna%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
+        </li>
+        <li class="shop">
+          <div class="shop__top"><h3>Galeria Dąbrówka</h3></div>
+          <dl>
+            <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Poznańska 31<br>62-069 Dąbrówka</dd></div>
+            <div><dt><svg aria-label="Telefon"><use href="#i-phone"/></svg></dt><dd><a href="tel:+48730035910">730 035 910</a></dd></div>
+            <div><dt><svg aria-label="Godziny otwarcia"><use href="#i-clock"/></svg></dt><dd>pon.–pt. 6:00–18:00<br>sob. 7:00–18:00<br>niedz. 10:00–16:00</dd></div>
+          </dl>
+          <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=Galeria+D%C4%85br%C3%B3wka+Pozna%C5%84ska+31" target="_blank" rel="noopener">Pokaż na mapie →</a>
+        </li>
+        <li class="shop">
+          <div class="shop__top"><h3>Luboń</h3></div>
+          <dl>
+            <div><dt><svg aria-label="Adres"><use href="#i-pin"/></svg></dt><dd>ul. Poniatowskiego 24<br>Luboń</dd></div>
+            <div><dt><svg aria-label="Telefon"><use href="#i-phone"/></svg></dt><dd><a href="tel:+48577377536">577 377 536</a></dd></div>
+            <div><dt><svg aria-label="Godziny otwarcia"><use href="#i-clock"/></svg></dt><dd>pon.–pt. 7:00–18:00<br>sob. 7:00–14:00<br>niedz. 9:00–14:00</dd></div>
+          </dl>
+          <a class="shop__map" href="https://www.google.com/maps/search/?api=1&amp;query=Poniatowskiego+24+Lubo%C5%84" target="_blank" rel="noopener">Pokaż na mapie →</a>
         </li>
         <li class="shop" style="background:var(--cream-deep); border-style:dashed;">
-          <div class="shop__top"><h3>Sklep online</h3></div>
+          <div class="shop__top"><h3>Zamówienia</h3></div>
           <dl>
-            <div><dt><svg aria-hidden="true"><use href="#i-bag"/></svg></dt><dd>Zamów przez internet. <strong>Darmowa dostawa</strong> przy zamówieniu powyżej 300 zł.</dd></div>
+            <div><dt><svg aria-hidden="true"><use href="#i-cake"/></svg></dt><dd>Torty, słodkie stoły i oferta bankietowa:<br><a href="mailto:zamowienia.lyskawa@gmail.com">zamowienia.lyskawa@gmail.com</a></dd></div>
           </dl>
-          <a class="shop__map" href="https://cukiernialyskawa.com/" target="_blank" rel="noopener">Przejdź do sklepu →</a>
+          <a class="shop__map" href="#zamow">Zapytaj o tort →</a>
         </li>
       </ul>
       <p class="shops-note">Godziny otwarcia mogą się zmieniać w święta. Przed wizytą najlepiej zadzwonić.</p>
@@ -1034,26 +1052,29 @@
         <h4>Oferta</h4>
         <ul>
           <li><a href="#torty">Torty na zamówienie</a></li>
-          <li><a href="#wypieki">Ciasta i ciastka</a></li>
+          <li><a href="#wypieki">Ciasta i desery</a></li>
           <li><a href="#wypieki">Pieczywo</a></li>
           <li><a href="#slodki-stol">Słodki stół</a></li>
-          <li><a href="https://cukiernialyskawa.com/" target="_blank" rel="noopener">Sklep online</a></li>
+          <li><a href="#zamow">Oferta bankietowa</a></li>
         </ul>
       </div>
       <div>
-        <h4>Sklepy</h4>
+        <h4>Lokale</h4>
         <ul>
-          <li>ul. Mrzeżyńska 16</li>
-          <li>ul. Łomżyńska 1</li>
-          <li>ul. Zeylanda 12</li>
           <li>ul. Półwiejska 43</li>
-          <li>ul. Głogowska 81</li>
+          <li>ul. Zeylanda 12</li>
+          <li>ul. Dąbrowskiego 3</li>
+          <li>ul. Mrzeżyńska 16</li>
+          <li>Galeria Avenida</li>
+          <li>Galeria Dąbrówka</li>
+          <li>Luboń, ul. Poniatowskiego 24</li>
         </ul>
       </div>
       <div>
         <h4>Kontakt</h4>
         <ul>
           <li><a href="tel:+48577477884">+48 577 477 884</a></li>
+          <li><a href="mailto:zamowienia.lyskawa@gmail.com">zamowienia.lyskawa@gmail.com</a></li>
           <li>ul. Mrzeżyńska 16<br>60-446 Poznań</li>
         </ul>
       </div>
@@ -1108,7 +1129,7 @@
   });
 
   // Order form -> e-mail draft
-  const ORDER_EMAIL = 'cukiernialyskawa@gmail.com';
+  const ORDER_EMAIL = 'zamowienia.lyskawa@gmail.com';
   const form = document.getElementById('zamow');
   const status = form.querySelector('.form-status');
   form.addEventListener('submit', (e) => {
