@@ -138,7 +138,7 @@
   .logo__sub { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--water); font-weight: 700; }
   .nav__links { display: none; gap: .3rem; }
   .nav__links a {
-    color: rgba(255,255,255,.78); font-weight: 600; font-size: .95rem; padding: .5rem .85rem; border-radius: 999px;
+    color: rgba(255,255,255,.78); font-weight: 600; font-size: .93rem; padding: .5rem .7rem; border-radius: 999px;
     transition: color .2s, background .2s;
   }
   .nav__links a:hover { color: #fff; background: rgba(255,255,255,.08); }
@@ -178,6 +178,7 @@
   .mobile-menu.is-open a:nth-child(5) { transition-delay: .2s; }
   .mobile-menu.is-open a:nth-child(6) { transition-delay: .25s; }
   .mobile-menu.is-open a:nth-child(7) { transition-delay: .3s; }
+  .mobile-menu.is-open a:nth-child(8) { transition-delay: .35s; }
   .mobile-menu .btn { margin-top: 1.5rem; align-self: flex-start; font-family: var(--font-sans); font-size: 1.05rem; }
 
   /* ============ HERO ============ */
@@ -449,6 +450,104 @@
   .tile--copper p { color: rgba(255,255,255,.88); }
   .tile--copper .tile__ic { background: rgba(255,255,255,.2); color: #fff; }
 
+  /* ============ GALLERY ============ */
+  .gallery { background: var(--ink-2); color: #fff; overflow: hidden; }
+  .gallery .eyebrow { color: var(--water); }
+  .gallery .lead { color: rgba(255,255,255,.7); }
+  .gallery .demo-note { background: rgba(249,115,22,.12); color: #FDBA74; }
+  .gallery__head { display: grid; gap: 1.5rem; align-items: end; }
+  @media (min-width: 960px) { .gallery__head { grid-template-columns: 1fr auto; } }
+  .filters { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .filter {
+    position: relative; padding: .65rem 1.1rem; border-radius: 999px; font-weight: 700; font-size: .92rem;
+    border: 1.5px solid rgba(255,255,255,.16); color: rgba(255,255,255,.8); overflow: hidden; isolation: isolate;
+    transition: color .3s, border-color .3s;
+  }
+  .filter::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--water-2); transform: translateY(101%); border-radius: inherit; transition: transform .45s var(--ease); }
+  .filter:hover { border-color: rgba(255,255,255,.4); color: #fff; }
+  .filter[aria-pressed="true"] { color: #fff; border-color: var(--water-2); }
+  .filter[aria-pressed="true"]::before { transform: none; }
+  .filter sup { font-size: .7em; opacity: .7; margin-left: .2rem; }
+
+  .ggrid { columns: 2; column-gap: .9rem; margin-top: 2.6rem; }
+  @media (min-width: 700px) { .ggrid { columns: 3; } }
+  @media (min-width: 1100px) { .ggrid { columns: 4; } }
+  .gitem { position: relative; border-radius: 20px; overflow: hidden; background: var(--ink-3); cursor: zoom-in; padding: 0; display: block; width: 100%; margin: 0 0 .9rem; break-inside: avoid; text-align: left; }
+  .gitem[hidden] { display: none; }
+  .gitem img { width: 100%; height: auto; display: block; transform: scale(1.08); transition: transform 1.2s var(--ease), filter .6s; }
+  .gitem:hover img, .gitem:focus-visible img { transform: scale(1.16); filter: saturate(1.15); }
+  .gitem.is-visible img { transform: scale(1); }
+  .gitem.is-visible:hover img, .gitem.is-visible:focus-visible img { transform: scale(1.07); }
+  .gitem__wipe { position: absolute; inset: 0; background: linear-gradient(180deg, var(--water-2), var(--water-3)); transform-origin: top; transition: transform 1.1s var(--ease); z-index: 2; pointer-events: none; }
+  .gitem.is-visible .gitem__wipe { transform: scaleY(0); }
+  .no-js .gitem__wipe { display: none; }
+  .gitem__info {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: 2.4rem 1rem .9rem; z-index: 1;
+    background: linear-gradient(180deg, transparent, rgba(6,20,43,.88)); display: flex; justify-content: space-between; align-items: flex-end; gap: .6rem;
+    transform: translateY(35%); opacity: 0; transition: transform .5s var(--ease), opacity .4s;
+  }
+  .gitem:hover .gitem__info, .gitem:focus-visible .gitem__info { transform: none; opacity: 1; }
+  @media (hover: none) { .gitem__info { transform: none; opacity: 1; } }
+  .gitem__info b { display: block; font-size: .95rem; line-height: 1.25; color: #fff; }
+  .gitem__info small { color: var(--water); font-weight: 700; font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
+  .gitem__zoom { width: 38px; height: 38px; flex: none; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; transform: scale(.5) rotate(-45deg); transition: transform .5s var(--ease); }
+  .gitem:hover .gitem__zoom { transform: none; }
+  .gitem__zoom svg { width: 18px; height: 18px; }
+  .gitem.is-hiding { animation: gOut .35s var(--ease) forwards; }
+  .gitem.is-showing { animation: gIn .55s var(--ease); }
+  @keyframes gOut { to { opacity: 0; transform: scale(.85); } }
+  @keyframes gIn { from { opacity: 0; transform: scale(.85) translateY(20px); } to { opacity: 1; transform: none; } }
+
+  /* before / after */
+  .ba { display: grid; gap: 2rem; align-items: center; margin-top: 4.5rem; }
+  @media (min-width: 960px) { .ba { grid-template-columns: .8fr 1.2fr; gap: 3rem; } }
+  .ba h3 { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.5rem, 3vw, 2.1rem); letter-spacing: -.02em; line-height: 1.15; margin-top: .8rem; }
+  .ba p { color: rgba(255,255,255,.7); margin-top: .8rem; }
+  .ba__hint { display: inline-flex; align-items: center; gap: .5rem; margin-top: 1.4rem; font-weight: 700; font-size: .9rem; color: var(--water); }
+  .ba__hint span { display: inline-block; animation: nudge 1.6s ease-in-out infinite; }
+  @keyframes nudge { 0%, 100% { transform: translateX(-4px); } 50% { transform: translateX(4px); } }
+  .compare { --pos: 50%; position: relative; aspect-ratio: 4 / 3; border-radius: 26px; overflow: hidden; box-shadow: 0 40px 80px -40px rgba(0,0,0,.8); user-select: none; touch-action: pan-y; background: var(--ink-3); }
+  .compare img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+  .compare__after { clip-path: inset(0 0 0 var(--pos)); }
+  .compare__line { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 3px; margin-left: -1.5px; background: #fff; box-shadow: 0 0 20px rgba(56,189,248,.8); pointer-events: none; }
+  .compare__knob {
+    position: absolute; top: 50%; left: var(--pos); width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%;
+    background: #fff; color: var(--ink); display: grid; place-items: center; box-shadow: 0 10px 30px rgba(0,0,0,.4); pointer-events: none;
+    transition: transform .3s var(--ease);
+  }
+  .compare:active .compare__knob { transform: scale(.9); }
+  .compare__knob svg { width: 26px; height: 26px; }
+  .compare__tag { position: absolute; top: 1rem; padding: .35rem .8rem; border-radius: 999px; font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; background: rgba(6,20,43,.75); backdrop-filter: blur(6px); pointer-events: none; }
+  .compare__tag--l { left: 1rem; }
+  .compare__tag--r { right: 1rem; background: var(--copper); }
+  .compare input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
+  .compare:has(input:focus-visible) { outline: 3px solid var(--copper); outline-offset: 4px; }
+
+  .credits { margin-top: 3rem; font-size: .82rem; color: rgba(255,255,255,.55); }
+  .credits summary { cursor: pointer; font-weight: 700; color: rgba(255,255,255,.7); }
+  .credits ul { margin-top: .8rem; display: grid; gap: .3rem; }
+  .credits a { text-decoration: underline; text-underline-offset: 2px; }
+  .credits a:hover { color: var(--water); }
+
+  /* lightbox */
+  .lb { position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; padding: 70px 16px 90px; background: rgba(3,10,22,.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); opacity: 0; visibility: hidden; transition: opacity .4s, visibility .4s; }
+  .lb.is-open { opacity: 1; visibility: visible; }
+  .lb figure { position: relative; max-width: min(1100px, 100%); max-height: 100%; display: flex; flex-direction: column; align-items: center; }
+  .lb img { max-width: 100%; max-height: calc(100vh - 200px); max-height: calc(100svh - 200px); border-radius: 18px; box-shadow: 0 40px 80px rgba(0,0,0,.6); transform: scale(.94); opacity: 0; transition: transform .5s var(--ease), opacity .4s; }
+  .lb.is-open img.is-loaded { transform: none; opacity: 1; }
+  .lb figcaption { margin-top: 1rem; color: #fff; text-align: center; }
+  .lb figcaption b { font-family: var(--font-display); font-size: 1.1rem; display: block; }
+  .lb figcaption small { color: rgba(255,255,255,.55); font-size: .8rem; }
+  .lb__btn { position: absolute; width: 52px; height: 52px; border-radius: 50%; background: rgba(255,255,255,.1); color: #fff; display: grid; place-items: center; transition: background .3s, transform .3s var(--ease); }
+  .lb__btn:hover { background: var(--water-2); transform: scale(1.06); }
+  .lb__btn svg { width: 22px; height: 22px; }
+  .lb__close { top: 16px; right: 16px; }
+  .lb__prev, .lb__next { top: 50%; margin-top: -26px; }
+  .lb__prev { left: 16px; } .lb__prev svg { transform: rotate(180deg); }
+  .lb__next { right: 16px; }
+  @media (max-width: 700px) { .lb__prev, .lb__next { top: auto; bottom: 20px; margin: 0; } .lb__prev { left: calc(50% - 64px); } .lb__next { right: calc(50% - 64px); } }
+  .lb__count { position: absolute; top: 28px; left: 24px; color: rgba(255,255,255,.6); font-weight: 700; font-size: .9rem; }
+
   /* ============ REVIEWS ============ */
   .reviews { background: var(--white); overflow: hidden; }
   .reviews__head { display: grid; gap: 1.5rem; align-items: end; }
@@ -689,6 +788,9 @@
     <symbol id="i-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></g></symbol>
     <symbol id="i-broom" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 3-7 7"/><path d="M10 9 4 15l5 5 6-6zM6 17l-3 3M9 13l2 2"/></g></symbol>
     <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z"/></symbol>
+    <symbol id="i-zoom" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4M11 8v6M8 11h6"/></g></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-lr" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M9 6 3 12l6 6M15 6l6 6-6 6"/></symbol>
     <symbol id="i-receipt" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l3-2 3 2 2-2 2 2 3-2 3 2V2l-3 2-3-2-2 2-2-2-3 2z"/><path d="M8 9h8M8 13h6"/></g></symbol>
   </defs>
 </svg>
@@ -707,6 +809,7 @@
       <a href="#uslugi">Usługi</a>
       <a href="#awaria">Awaria?</a>
       <a href="#jak">Jak działam</a>
+      <a href="#realizacje">Realizacje</a>
       <a href="#opinie">Opinie</a>
       <a href="#obszar">Obszar</a>
       <a href="#faq">FAQ</a>
@@ -720,6 +823,7 @@
   <a href="#uslugi">Usługi</a>
   <a href="#awaria">Awaria?</a>
   <a href="#jak">Jak działam</a>
+  <a href="#realizacje">Realizacje</a>
   <a href="#opinie">Opinie</a>
   <a href="#obszar">Obszar</a>
   <a href="#kontakt">Kontakt</a>
@@ -1078,6 +1182,135 @@
       </div>
     </div>
   </section>
+
+  <!-- GALLERY -->
+  <!-- UWAGA: zdjęcia w galerii są POGLĄDOWE (licencje Creative Commons, autorzy w sekcji "credits") i NIE przedstawiają prac Daniela Sajdy.
+       Przed publikacją podmień pliki w sajda/img/ na zdjęcia z jego realizacji, usuń .demo-note i listę autorów. -->
+  <section class="section gallery" id="realizacje">
+    <div class="container">
+      <div class="gallery__head">
+        <div class="reveal">
+          <span class="eyebrow">Realizacje</span>
+          <h2 class="h2" data-split>Robota, którą widać. I której nie widać.</h2>
+          <p class="lead">Łazienki, ogrzewanie, instalacje schowane w ścianach i pod podłogą. Kliknij zdjęcie, żeby je powiększyć.</p>
+          <span class="demo-note">Zdjęcia poglądowe — do podmiany na zdjęcia z realizacji</span>
+        </div>
+        <div class="filters reveal" role="group" aria-label="Filtruj realizacje">
+          <button class="filter" data-filter="all" aria-pressed="true">Wszystkie<sup>11</sup></button>
+          <button class="filter" data-filter="lazienki" aria-pressed="false">Łazienki<sup>4</sup></button>
+          <button class="filter" data-filter="ogrzewanie" aria-pressed="false">Ogrzewanie<sup>4</sup></button>
+          <button class="filter" data-filter="instalacje" aria-pressed="false">Instalacje<sup>2</sup></button>
+          <button class="filter" data-filter="klima" aria-pressed="false">Klimatyzacja<sup>1</sup></button>
+        </div>
+      </div>
+
+      <div class="ggrid" id="ggrid">
+        <button class="gitem" data-cat="lazienki" data-title="Jasna łazienka z wanną przyścienną" data-credit="PortiaTurbo · CC PDM 1.0" data-src="img/lazienka-biala.jpg">
+          <img src="img/lazienka-biala.jpg" alt="Jasna łazienka z wanną przyścienną (zdjęcie poglądowe)" width="768" height="1024" loading="lazy" decoding="async">
+          <span class="gitem__wipe" aria-hidden="true"></span>
+          <span class="gitem__info"><span><small>Łazienki</small><b>Jasna łazienka z wanną przyścienną</b></span><span class="gitem__zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span></span>
+        </button>
+        <button class="gitem" data-cat="ogrzewanie" data-title="Rozdzielacz ogrzewania podłogowego" data-credit="Bryn Pinzgauer · CC BY 2.0" data-src="img/rozdzielacz-podlogowki.jpg">
+          <img src="img/rozdzielacz-podlogowki.jpg" alt="Rozdzielacz ogrzewania podłogowego (zdjęcie poglądowe)" width="768" height="1024" loading="lazy" decoding="async">
+          <span class="gitem__wipe" aria-hidden="true"></span>
+          <span class="gitem__info"><span><small>Ogrzewanie</small><b>Rozdzielacz ogrzewania podłogowego</b></span><span class="gitem__zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span></span>
+        </button>
+        <button class="gitem" data-cat="lazienki" data-title="Prysznic z deszczownicą" data-credit="Craftsman Court Ceramics · CC BY 2.0" data-src="img/prysznic-marmur.jpg">
+          <img src="img/prysznic-marmur.jpg" alt="Prysznic z deszczownicą (zdjęcie poglądowe)" width="1024" height="683" loading="lazy" decoding="async">
+          <span class="gitem__wipe" aria-hidden="true"></span>
+          <span class="gitem__info"><span><small>Łazienki</small><b>Prysznic z deszczownicą</b></span><span class="gitem__zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span></span>
+        </button>
+        <button class="gitem" data-cat="ogrzewanie" data-title="Montaż kotła gazowego" data-credit="Kai Hendry · CC BY 2.0" data-src="img/kociol-gazowy.jpg">
+          <img src="img/kociol-gazowy.jpg" alt="Montaż kotła gazowego (zdjęcie poglądowe)" width="685" height="1023" loading="lazy" decoding="async">
+          <span class="gitem__wipe" aria-hidden="true"></span>
+          <span class="gitem__info"><span><small>Ogrzewanie</small><b>Montaż kotła gazowego</b></span><span class="gitem__zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span></span>
+        </button>
+        <button class="gitem" data-cat="instalacje" data-title="Rozprowadzenie instalacji wodnej" data-credit="scottbb · CC BY-SA 2.0" data-src="img/instalacja-wod-kan.jpg">
+          <img src="img/instalacja-wod-kan.jpg" alt="Rozprowadzenie instalacji wodnej (zdjęcie poglądowe)" width="768" height="1024" loading="lazy" decoding="async">
+          <span class="gitem__wipe" aria-hidden="true"></span>
+          <span class="gitem__info"><span><small>Instalacje</small><b>Rozprowadzenie instalacji wodnej</b></span><span class="gitem__zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span></span>
+        </button>
+        <button class="gitem" data-cat="ogrzewanie" data-title="Pętle ogrzewania podłogowego" data-credit="Bryn Pinzgauer · CC BY 2.0" data-src="img/ogrzewanie-podlogowe.jpg">
+          <img src="img/ogrzewanie-podlogowe.jpg" alt="Pętle ogrzewania podłogowego (zdjęcie poglądowe)" width="1024" height="768" loading="lazy" decoding="async">
+          <span class="gitem__wipe" aria-hidden="true"></span>
+          <span class="gitem__info"><span><small>Ogrzewanie</small><b>Pętle ogrzewania podłogowego</b></span><span class="gitem__zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span></span>
+        </button>
+        <button class="gitem" data-cat="klima" data-title="Klimatyzator ścienny typu split" data-credit="rockriver · CC BY 2.0" data-src="img/klimatyzator.jpg">
+          <img src="img/klimatyzator.jpg" alt="Klimatyzator ścienny typu split (zdjęcie poglądowe)" width="1024" height="768" loading="lazy" decoding="async">
+          <span class="gitem__wipe" aria-hidden="true"></span>
+          <span class="gitem__info"><span><small>Klimatyzacja</small><b>Klimatyzator ścienny typu split</b></span><span class="gitem__zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span></span>
+        </button>
+        <button class="gitem" data-cat="lazienki" data-title="Umywalka nablatowa i WC kompakt" data-credit="Jeremy Levine Design · CC BY 2.0" data-src="img/lazienka-umywalka.jpg">
+          <img src="img/lazienka-umywalka.jpg" alt="Umywalka nablatowa i WC kompakt (zdjęcie poglądowe)" width="681" height="1023" loading="lazy" decoding="async">
+          <span class="gitem__wipe" aria-hidden="true"></span>
+          <span class="gitem__info"><span><small>Łazienki</small><b>Umywalka nablatowa i WC kompakt</b></span><span class="gitem__zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span></span>
+        </button>
+        <button class="gitem" data-cat="instalacje" data-title="Montaż rur miedzianych" data-credit="johncarljohnson · CC BY 2.0" data-src="img/montaz-miedz.jpg">
+          <img src="img/montaz-miedz.jpg" alt="Montaż rur miedzianych (zdjęcie poglądowe)" width="768" height="1024" loading="lazy" decoding="async">
+          <span class="gitem__wipe" aria-hidden="true"></span>
+          <span class="gitem__info"><span><small>Instalacje</small><b>Montaż rur miedzianych</b></span><span class="gitem__zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span></span>
+        </button>
+        <button class="gitem" data-cat="ogrzewanie" data-title="Kocioł z zasobnikiem ciepłej wody" data-credit="IainCameron · CC BY 2.0" data-src="img/kotlownia.jpg">
+          <img src="img/kotlownia.jpg" alt="Kocioł z zasobnikiem ciepłej wody (zdjęcie poglądowe)" width="768" height="1024" loading="lazy" decoding="async">
+          <span class="gitem__wipe" aria-hidden="true"></span>
+          <span class="gitem__info"><span><small>Ogrzewanie</small><b>Kocioł z zasobnikiem ciepłej wody</b></span><span class="gitem__zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span></span>
+        </button>
+        <button class="gitem" data-cat="lazienki" data-title="Wanna z parawanem i armaturą" data-credit="Mike Burns · CC BY-SA 2.0" data-src="img/wanna-parawan.jpg">
+          <img src="img/wanna-parawan.jpg" alt="Wanna z parawanem i armaturą (zdjęcie poglądowe)" width="1024" height="768" loading="lazy" decoding="async">
+          <span class="gitem__wipe" aria-hidden="true"></span>
+          <span class="gitem__info"><span><small>Łazienki</small><b>Wanna z parawanem i armaturą</b></span><span class="gitem__zoom" aria-hidden="true"><svg><use href="#i-zoom"/></svg></span></span>
+        </button>
+      </div>
+
+      <div class="ba">
+        <div class="reveal">
+          <span class="eyebrow">Przed i po</span>
+          <h3>Ta sama łazienka. Zupełnie inny klimat.</h3>
+          <p>Przesuń suwak, żeby porównać stan przed remontem i po nim. Nowa armatura, oświetlenie i wykończenie ścian.</p>
+          <span class="ba__hint"><span>⟷</span> Przeciągnij suwak</span>
+        </div>
+        <div class="compare reveal" id="compare">
+          <img src="img/lazienka-przed.jpg" alt="Łazienka przed remontem (zdjęcie poglądowe)" loading="lazy">
+          <img class="compare__after" src="img/lazienka-po.jpg" alt="Łazienka po remoncie (zdjęcie poglądowe)" loading="lazy">
+          <span class="compare__tag compare__tag--l">Przed</span>
+          <span class="compare__tag compare__tag--r">Po</span>
+          <span class="compare__line"></span>
+          <span class="compare__knob"><svg aria-hidden="true"><use href="#i-lr"/></svg></span>
+          <input type="range" min="0" max="100" value="50" aria-label="Porównanie przed i po remoncie">
+        </div>
+      </div>
+
+      <details class="credits">
+        <summary>Źródła zdjęć poglądowych (Flickr, licencje Creative Commons)</summary>
+        <ul>
+          <li><a href="https://www.flickr.com/photos/89187948@N05/23152080580" target="_blank" rel="noopener">„Parramatta Bathroom Renovation”</a> — PortiaTurbo, <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a></li>
+          <li><a href="https://www.flickr.com/photos/12394349@N06/3337288829" target="_blank" rel="noopener">„Underfloor heating installation”</a> — Bryn Pinzgauer, <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a></li>
+          <li><a href="https://www.flickr.com/photos/95499292@N07/20468584061" target="_blank" rel="noopener">„RTOP Shower Install”</a> — Craftsman Court Ceramics, <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a></li>
+          <li><a href="https://www.flickr.com/photos/16105436@N00/5610159038" target="_blank" rel="noopener">„Gas boiler”</a> — Kai Hendry, <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a></li>
+          <li><a href="https://www.flickr.com/photos/34197011@N00/202291233" target="_blank" rel="noopener">„Finished the plumbing finally!”</a> — scottbb, <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener">CC BY-SA 2.0</a></li>
+          <li><a href="https://www.flickr.com/photos/12394349@N06/3338113020" target="_blank" rel="noopener">„Underfloor heating installation”</a> — Bryn Pinzgauer, <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a></li>
+          <li><a href="https://www.flickr.com/photos/20247775@N02/2044969585" target="_blank" rel="noopener">„Air Conditioner”</a> — rockriver, <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a></li>
+          <li><a href="https://www.flickr.com/photos/25186605@N04/3122657285" target="_blank" rel="noopener">„Bathroom Remodel”</a> — Jeremy Levine Design, <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a></li>
+          <li><a href="https://www.flickr.com/photos/20968794@N00/320144113" target="_blank" rel="noopener">„Copper Pipes”</a> — johncarljohnson, <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a></li>
+          <li><a href="https://www.flickr.com/photos/67872859@N00/44091666901" target="_blank" rel="noopener">„Gas Boiler and Hot water storage”</a> — IainCameron, <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a></li>
+          <li><a href="https://www.flickr.com/photos/51612898@N00/1155624779" target="_blank" rel="noopener">„XV Beacon - bathroom shower”</a> — Mike Burns, <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener">CC BY-SA 2.0</a></li>
+          <li><a href="https://www.flickr.com/photos/53917146@N05/5861377990" target="_blank" rel="noopener">„Downstairs Bathroom Renovation: Before”</a> — b4ssm4st3r, <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a></li>
+          <li><a href="https://www.flickr.com/photos/53917146@N05/5860826053" target="_blank" rel="noopener">„Downstairs Bathroom Renovation: After”</a> — b4ssm4st3r, <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a></li>
+        </ul>
+      </details>
+    </div>
+  </section>
+
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Podgląd zdjęcia" aria-hidden="true">
+    <span class="lb__count" id="lbCount"></span>
+    <button class="lb__btn lb__close" id="lbClose" aria-label="Zamknij"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+    <button class="lb__btn lb__prev" id="lbPrev" aria-label="Poprzednie zdjęcie"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+    <figure>
+      <img id="lbImg" alt="">
+      <figcaption><b id="lbTitle"></b><small id="lbCredit"></small></figcaption>
+    </figure>
+    <button class="lb__btn lb__next" id="lbNext" aria-label="Następne zdjęcie"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+  </div>
 
   <!-- REVIEWS -->
   <!-- UWAGA: poniższe opinie są PRZYKŁADOWE (demo). Przed publikacją zastąp je prawdziwymi opiniami klientów (np. z Google) i usuń .demo-note. -->
@@ -1596,6 +1829,112 @@
       document.body.appendChild(r);
       setTimeout(function () { r.remove(); }, 800);
     });
+  }
+
+  // Gallery: reveal wipe
+  var gitems = Array.prototype.slice.call(document.querySelectorAll('.gitem'));
+  if ('IntersectionObserver' in window && !reduce) {
+    var gio = new IntersectionObserver(function (en) {
+      en.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-visible'); gio.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    gitems.forEach(function (g, i) { g.querySelector('.gitem__wipe').style.transitionDelay = (i % 4) * 0.08 + 's'; gio.observe(g); });
+  } else {
+    gitems.forEach(function (g) { g.classList.add('is-visible'); });
+  }
+
+  // Gallery: filters
+  var filterBtns = document.querySelectorAll('.filter');
+  filterBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var f = btn.dataset.filter;
+      filterBtns.forEach(function (b) { b.setAttribute('aria-pressed', b === btn); });
+      gitems.forEach(function (g) {
+        var show = f === 'all' || g.dataset.cat === f;
+        if (show && g.hidden) {
+          g.hidden = false; g.classList.remove('is-hiding'); g.classList.add('is-showing');
+          setTimeout(function () { g.classList.remove('is-showing'); }, 600);
+        } else if (!show && !g.hidden) {
+          if (reduce) { g.hidden = true; return; }
+          g.classList.add('is-hiding');
+          setTimeout(function () { if (g.classList.contains('is-hiding')) { g.hidden = true; g.classList.remove('is-hiding'); } }, 340);
+        }
+      });
+    });
+  });
+
+  // Gallery: lightbox
+  var lb = document.getElementById('lb'), lbImg = document.getElementById('lbImg');
+  var lbTitle = document.getElementById('lbTitle'), lbCredit = document.getElementById('lbCredit'), lbCount = document.getElementById('lbCount');
+  var lbList = [], lbIdx = 0, lbReturn = null;
+  function lbShow(i) {
+    lbIdx = (i + lbList.length) % lbList.length;
+    var g = lbList[lbIdx];
+    lbImg.classList.remove('is-loaded');
+    lbImg.onload = function () { lbImg.classList.add('is-loaded'); };
+    lbImg.src = g.dataset.src;
+    lbImg.alt = g.dataset.title + ' (zdjęcie poglądowe)';
+    lbTitle.textContent = g.dataset.title;
+    lbCredit.textContent = 'Zdjęcie poglądowe · ' + g.dataset.credit;
+    lbCount.textContent = (lbIdx + 1) + ' / ' + lbList.length;
+    if (lbImg.complete) lbImg.classList.add('is-loaded');
+  }
+  function lbOpen(g) {
+    lbList = gitems.filter(function (x) { return !x.hidden; });
+    lbReturn = g;
+    lb.classList.add('is-open'); lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    lbShow(lbList.indexOf(g));
+    document.getElementById('lbClose').focus();
+  }
+  function lbClose() {
+    lb.classList.remove('is-open'); lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (lbReturn) lbReturn.focus();
+  }
+  gitems.forEach(function (g) { g.addEventListener('click', function () { lbOpen(g); }); });
+  document.getElementById('lbClose').addEventListener('click', lbClose);
+  document.getElementById('lbPrev').addEventListener('click', function () { lbShow(lbIdx - 1); });
+  document.getElementById('lbNext').addEventListener('click', function () { lbShow(lbIdx + 1); });
+  lb.addEventListener('click', function (e) { if (e.target === lb) lbClose(); });
+  document.addEventListener('keydown', function (e) {
+    if (!lb.classList.contains('is-open')) return;
+    if (e.key === 'Escape') lbClose();
+    if (e.key === 'ArrowLeft') lbShow(lbIdx - 1);
+    if (e.key === 'ArrowRight') lbShow(lbIdx + 1);
+    if (e.key === 'Tab') {
+      var f = lb.querySelectorAll('button'), first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+  var touchX = null;
+  lb.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', function (e) {
+    if (touchX === null) return;
+    var dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) lbShow(lbIdx + (dx < 0 ? 1 : -1));
+    touchX = null;
+  });
+
+  // Before / after slider
+  var compare = document.getElementById('compare');
+  var cInput = compare.querySelector('input');
+  function setPos(v) { compare.style.setProperty('--pos', v + '%'); }
+  cInput.addEventListener('input', function () { setPos(cInput.value); });
+  if (!reduce && 'IntersectionObserver' in window) {
+    var cio = new IntersectionObserver(function (en) {
+      if (!en[0].isIntersecting) return;
+      cio.disconnect();
+      var t0 = null;
+      (function anim(t) {
+        if (!t0) t0 = t;
+        var p = Math.min((t - t0) / 2200, 1);
+        var v = 50 + Math.sin(p * Math.PI * 2) * 28 * (1 - p);
+        setPos(v); cInput.value = v;
+        if (p < 1) requestAnimationFrame(anim);
+      })(performance.now());
+    }, { threshold: 0.6 });
+    cio.observe(compare);
   }
 
   // Hero parallax
