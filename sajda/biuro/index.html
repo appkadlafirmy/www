@@ -1,0 +1,906 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Biuro AI · Daniel Sajda</title>
+<meta name="theme-color" content="#06142B">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2306142B'/%3E%3Cpath d='M32 12c8 11 14 19 14 27a14 14 0 0 1-28 0c0-8 6-16 14-27z' fill='%2338BDF8'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  /* Panel biura z zakładkami modułów; każdy moduł = formularz po lewej, wynik/podgląd po prawej */
+  :root {
+    color-scheme: light;
+    --ink: #06142B;
+    --ink-2: #0B1F3F;
+    --ink-3: #12305C;
+    --water: #38BDF8;
+    --water-2: #0EA5E9;
+    --water-3: #0369A1;
+    --foam: #E0F2FE;
+    --copper: #F97316;
+    --copper-2: #EA580C;
+    --copper-soft: #FFEDD5;
+    --paper: #FFFFFF;
+    --bg: #F2F6FA;
+    --ok: #15803D;
+    --ok-soft: #DCFCE7;
+    --warn: #A16207;
+    --warn-soft: #FEF3C7;
+    --err: #B91C1C;
+    --err-soft: #FEE2E2;
+    --text: #0F1B2D;
+    --muted: #5B6B82;
+    --line: rgba(15, 27, 45, .12);
+    --font-display: "Unbounded", system-ui, sans-serif;
+    --font-sans: "Manrope", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  button, textarea, input, select { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--copper); outline-offset: 2px; border-radius: 6px; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+  h1, h2, h3 { text-wrap: balance; }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 56px; display: grid; gap: 18px; }
+  @media (min-width: 640px) { .wrap { padding-inline: 28px; } }
+
+  /* Nagłówek */
+  .top {
+    position: relative; overflow: hidden; border-radius: 24px; color: #fff; padding: 20px 22px;
+    background: radial-gradient(600px 300px at 90% 0%, rgba(14,165,233,.45), transparent 60%), linear-gradient(135deg, var(--ink), var(--ink-3));
+    display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; justify-content: space-between;
+  }
+  .top::after { content: ""; position: absolute; inset: auto 0 0 0; height: 26px; opacity: .35; pointer-events: none;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 26' preserveAspectRatio='none'%3E%3Cpath fill='%2338BDF8' d='M0 13 C150 0 300 26 450 13 S750 0 900 13 S1050 26 1200 13 V26 H0z'/%3E%3C/svg%3E") repeat-x 0 0 / 600px 26px;
+    animation: waveX 12s linear infinite; }
+  @keyframes waveX { to { background-position: -600px 0; } }
+  .brand { display: flex; align-items: center; gap: 14px; position: relative; z-index: 1; }
+  .mark { width: 48px; height: 48px; border-radius: 15px; background: linear-gradient(145deg, var(--water-2), var(--water-3)); display: grid; place-items: center; flex: none; box-shadow: inset 0 1px 0 rgba(255,255,255,.35); }
+  .mark svg { width: 24px; height: 24px; }
+  .brand h1 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(1.2rem, 3vw, 1.6rem); letter-spacing: -.02em; line-height: 1.1; }
+  .brand p { margin: 4px 0 0; font-size: .9rem; color: rgba(255,255,255,.72); }
+  .top-right { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; position: relative; z-index: 1; }
+  .pill { display: inline-flex; align-items: center; gap: 8px; font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; padding: .4rem .8rem; border-radius: 999px; }
+  .pill-demo { background: var(--copper); color: #fff; }
+  .pill-live { background: rgba(34,197,94,.2); color: #86EFAC; }
+  .pill-live::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #22C55E; }
+  .pill-ghost { background: rgba(255,255,255,.1); color: #fff; text-transform: none; letter-spacing: 0; font-weight: 700; text-decoration: none; }
+  .pill-ghost:hover { background: rgba(255,255,255,.18); }
+
+  .mode-note { display: flex; gap: 12px; align-items: flex-start; background: var(--copper-soft); border: 1.5px dashed var(--copper); color: #7C2D12; border-radius: 16px; padding: 12px 16px; font-size: .9rem; }
+  .mode-note b { color: #7C2D12; }
+  .mode-note svg { width: 20px; height: 20px; flex: none; margin-top: 2px; color: var(--copper-2); }
+  .mode-note[hidden] { display: none; }
+
+  .tabs { display: flex; gap: 6px; overflow-x: auto; padding: 6px; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { flex: none; display: inline-flex; align-items: center; gap: 8px; border: 0; background: transparent; border-radius: 999px; padding: .65rem 1.05rem; font-weight: 700; cursor: pointer; color: var(--muted); transition: background .25s, color .25s; }
+  .tab:hover { color: var(--ink); background: var(--bg); }
+  .tab[aria-selected="true"] { background: var(--ink); color: #fff; }
+  .tab svg { width: 18px; height: 18px; }
+  .panel[hidden] { display: none; }
+  .panel { animation: panelIn .45s var(--ease); }
+  @keyframes panelIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  .mod { display: grid; gap: 18px; align-items: start; }
+  @media (min-width: 1000px) { .mod { grid-template-columns: minmax(0, 430px) minmax(0, 1fr); } }
+  .card { background: var(--paper); border: 1px solid var(--line); border-radius: 20px; padding: 18px; display: grid; gap: 14px; min-width: 0; }
+  .card h2 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; letter-spacing: -.01em; color: var(--ink); }
+  .card .sub { margin: -6px 0 0; font-size: .9rem; color: var(--muted); }
+  .field { display: grid; gap: 5px; min-width: 0; }
+  .field label, .field .lbl { font-size: .82rem; font-weight: 700; }
+  .field input, .field textarea, .field select { width: 100%; border: 1.5px solid var(--line); border-radius: 10px; padding: .55rem .7rem; background: #fff; min-height: 42px; }
+  .field textarea { min-height: 100px; resize: vertical; }
+  .field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--water-2); box-shadow: 0 0 0 3px rgba(14,165,233,.15); }
+  .row2 { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+  .btn { border: 0; border-radius: 999px; padding: .65rem 1.15rem; font-weight: 700; cursor: pointer; min-height: 44px; display: inline-flex; align-items: center; gap: 8px; justify-content: center; transition: background .2s, transform .2s; }
+  .btn:active { transform: scale(.97); }
+  .btn-main { background: var(--copper); color: #fff; }
+  .btn-main:hover { background: var(--copper-2); }
+  .btn-dark { background: var(--ink); color: #fff; }
+  .btn-dark:hover { background: var(--ink-3); }
+  .btn-ghost { background: transparent; border: 1.5px solid var(--line); color: var(--ink); }
+  .btn-ghost:hover { background: var(--bg); }
+  .btn-sm { min-height: 34px; padding: .35rem .8rem; font-size: .85rem; }
+  .btn:disabled { opacity: .5; cursor: default; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .hint { font-size: .82rem; color: var(--muted); margin: 0; }
+  .status { font-size: .88rem; font-weight: 700; color: var(--water-3); min-height: 1.3em; margin: 0; }
+  .status.err { color: var(--err); }
+  .ai-badge { display: inline-flex; align-items: center; gap: 6px; font-size: .74rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--copper-2); }
+  .ai-badge::before { content: "✦"; }
+  details summary { cursor: pointer; font-weight: 700; font-size: .9rem; }
+
+  /* Skrzynka */
+  .pilot { background: var(--ink); color: #fff; border-radius: 20px; padding: 14px 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; }
+  .pilot .state { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #64748B; flex: none; }
+  .pilot.on .dot { background: #22C55E; box-shadow: 0 0 0 4px rgba(34,197,94,.25); animation: pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 8px rgba(34,197,94,.08); } }
+  .stats { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: .9rem; color: var(--water); }
+  .stats b { color: #fff; font-variant-numeric: tabular-nums; }
+  .pilot .btn { margin-left: auto; }
+  .mailgrid { display: grid; gap: 18px; align-items: start; }
+  @media (min-width: 920px) { .mailgrid { grid-template-columns: minmax(0, 370px) minmax(0, 1fr); } }
+  .inbox { background: var(--paper); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; min-width: 0; }
+  .inbox-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+  .inbox-head h2 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; }
+  .inbox-head small { color: var(--muted); }
+  .item { width: 100%; min-width: 0; text-align: left; background: transparent; border: 0; border-bottom: 1px solid var(--line); padding: 12px 16px; cursor: pointer; display: grid; gap: 3px; transition: background .2s; }
+  .item:hover { background: var(--bg); }
+  .item[aria-current="true"] { background: var(--foam); box-shadow: inset 4px 0 0 var(--water-2); }
+  .item .r { display: flex; justify-content: space-between; gap: 8px; min-width: 0; }
+  .item .from { font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .item .subj { font-size: .9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .item time { font-size: .78rem; color: var(--muted); flex: none; }
+  .badge { justify-self: start; font-size: .72rem; font-weight: 800; padding: .15rem .55rem; border-radius: 999px; }
+  .b-new { background: #E2E8F0; color: var(--muted); }
+  .b-work { background: var(--foam); color: var(--water-3); }
+  .b-sent { background: var(--ok-soft); color: var(--ok); }
+  .b-human { background: var(--warn-soft); color: var(--warn); }
+  .b-err { background: var(--err-soft); color: var(--err); }
+  .b-urgent { background: var(--err-soft); color: var(--err); }
+  .orig { background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
+  .orig .meta { font-size: .84rem; color: var(--muted); display: grid; gap: 2px; margin-bottom: 8px; }
+  .orig p { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .aibox { border-radius: 14px; padding: 14px 16px; background: #fff; border: 1.5px solid var(--foam); display: grid; gap: 10px; }
+  .aibox textarea { width: 100%; min-height: 220px; border: 1.5px solid var(--line); border-radius: 12px; padding: .8rem .9rem; background: #fff; resize: vertical; }
+  .thinking { color: var(--muted); font-style: italic; margin: 0; display: flex; align-items: center; gap: 10px; }
+  .typing { display: inline-flex; gap: 4px; }
+  .typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--water-2); animation: bounce 1s infinite; }
+  .typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+  @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); opacity: .4; } 40% { transform: translateY(-5px); opacity: 1; } }
+
+  /* Dokumenty A4 */
+  .docwrap { background: #DCE4EC; border-radius: 20px; padding: 16px; overflow-x: auto; min-width: 0; }
+  .doc { width: 794px; min-height: 1123px; margin: 0 auto; background: #fff; color: #142033; padding: 56px 60px; font-family: var(--font-sans); font-size: 12.5px; line-height: 1.5; box-shadow: 0 12px 30px -16px rgba(0,0,0,.35); }
+  .doc h3 { font-family: var(--font-display); font-weight: 700; color: var(--ink); margin: 0; letter-spacing: -.01em; }
+  .doc .dh { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; border-bottom: 3px solid var(--water-2); padding-bottom: 16px; }
+  .doc .dh .logo { display: flex; align-items: center; gap: 10px; }
+  .doc .dh .logo .mark { width: 40px; height: 40px; border-radius: 12px; }
+  .doc .dh .logo .mark svg { width: 20px; height: 20px; }
+  .doc .dh .logo b { font-family: var(--font-display); font-size: 17px; color: var(--ink); display: block; line-height: 1.1; }
+  .doc .dh .logo small { font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--water-3); font-weight: 700; }
+  .doc .title { text-align: right; }
+  .doc .title h3 { font-size: 20px; }
+  .doc .title div { color: #5B6B82; }
+  .parties { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 22px 0; }
+  .parties h4 { margin: 0 0 4px; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--copper-2); }
+  .parties p { margin: 0; white-space: pre-line; }
+  table.items { width: 100%; border-collapse: collapse; margin-top: 8px; font-variant-numeric: tabular-nums; }
+  table.items th { background: var(--ink); color: #fff; font-weight: 700; text-align: left; padding: 7px 8px; font-size: 11px; }
+  table.items td { padding: 7px 8px; border-bottom: 1px solid #e3e8ee; vertical-align: top; }
+  table.items .n { text-align: right; white-space: nowrap; }
+  .sum { display: grid; justify-content: end; margin-top: 14px; }
+  .sum table { border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  .sum td { padding: 4px 10px; text-align: right; }
+  .sum tr.total td { font-weight: 800; font-size: 15px; color: var(--ink); border-top: 2px solid var(--water-2); }
+  .docnote { margin-top: 22px; padding: 12px 14px; background: #F2F6FA; border-radius: 8px; white-space: pre-line; }
+  .docnote h4 { margin: 0 0 4px; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--copper-2); }
+  .docfoot { margin-top: 30px; font-size: 10.5px; color: #5B6B82; display: grid; gap: 4px; }
+  .doc .body p { margin: 0 0 8px; white-space: pre-wrap; text-align: justify; }
+  .doc .body .par { font-weight: 800; text-align: center; margin: 14px 0 6px; color: var(--ink); }
+  .signs { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 60px; text-align: center; font-size: 11px; color: #5B6B82; }
+  .signs div { white-space: pre-line; border-top: 1px dotted #888; padding-top: 6px; }
+  .stamp-demo { margin-top: 16px; font-size: 10px; color: var(--copper-2); text-align: center; }
+
+  /* Pozycje */
+  .lines { display: grid; gap: 8px; }
+  .line, .lines-head { display: grid; grid-template-columns: minmax(0, 1fr) 58px 84px 66px 30px; gap: 6px; align-items: center; }
+  .lines-head { font-size: .74rem; font-weight: 700; color: var(--muted); }
+  .line input, .line select { width: 100%; min-width: 0; border: 1.5px solid var(--line); border-radius: 8px; padding: .4rem .5rem; background: #fff; min-height: 38px; }
+  .line .del { border: 0; background: transparent; color: var(--err); font-size: 1.2rem; cursor: pointer; min-height: 38px; }
+
+  /* Opinie */
+  .reviews { display: grid; gap: 10px; }
+  .rev { text-align: left; border: 1.5px solid var(--line); background: #fff; border-radius: 14px; padding: 12px 14px; cursor: pointer; display: grid; gap: 4px; transition: border-color .2s, box-shadow .2s; }
+  .rev[aria-pressed="true"] { border-color: var(--water-2); box-shadow: 0 0 0 3px rgba(14,165,233,.15); }
+  .stars { color: #F59E0B; letter-spacing: 2px; }
+  .rev small { color: var(--muted); }
+  .reply { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; display: grid; gap: 8px; }
+  .reply .who { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: .9rem; }
+  .reply .who .mark { width: 28px; height: 28px; border-radius: 9px; }
+  .reply .who .mark svg { width: 14px; height: 14px; }
+  .reply textarea { width: 100%; min-height: 160px; border: 1.5px solid var(--line); border-radius: 10px; padding: .7rem; resize: vertical; }
+  .empty { border: 1.5px dashed var(--line); border-radius: 14px; padding: 16px; font-size: .92rem; color: var(--muted); }
+
+  /* Podsumowanie dnia */
+  .kpis { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+  .kpi { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px; display: grid; gap: 2px; }
+  .kpi b { font-family: var(--font-display); font-size: 1.6rem; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .kpi span { font-size: .85rem; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-drop" viewBox="0 0 24 24"><path fill="#fff" d="M12 2.5c3.6 4.9 6.5 8.7 6.5 12a6.5 6.5 0 0 1-13 0c0-3.3 2.9-7.1 6.5-12z"/></symbol>
+</svg>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="mark" aria-hidden="true"><svg><use href="#i-drop"/></svg></div>
+      <div>
+        <h1>Biuro AI · Daniel Sajda</h1>
+        <p>Cyfrowy pracownik: maile, wyceny, faktury, umowy i opinie Google</p>
+      </div>
+    </div>
+    <div class="top-right">
+      <span class="pill pill-demo" id="mode-pill">Tryb pokazowy</span>
+      <a class="pill pill-ghost" href="../">← Strona firmy</a>
+    </div>
+  </header>
+
+  <div class="mode-note" id="mode-note">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+    <span><b>Tryb pokazowy.</b> Wszystkie maile, klienci, opinie i ceny są przykładowe. Odpowiedzi AI na te przykłady są przygotowane wcześniej, żeby pokazać, jak działa biuro. Po wdrożeniu AI odpowiada na żywo na prawdziwe maile, opinie i zlecenia, według cennika i zasad Daniela.</span>
+  </div>
+
+  <nav class="tabs" role="tablist" aria-label="Moduły">
+    <button class="tab" role="tab" id="t-mail" aria-controls="p-mail" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Skrzynka</button>
+    <button class="tab" role="tab" id="t-quo" aria-controls="p-quo" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9z"/></svg>Wyceny</button>
+    <button class="tab" role="tab" id="t-inv" aria-controls="p-inv" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h9l4 4v16H6z"/><path d="M9 12h7M9 16h7M9 8h3"/></svg>Faktury</button>
+    <button class="tab" role="tab" id="t-con" aria-controls="p-con" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M8 17c2-2 3 1 5-1"/></svg>Umowy</button>
+    <button class="tab" role="tab" id="t-rev" aria-controls="p-rev" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>Opinie Google</button>
+  </nav>
+
+  <!-- ============ SKRZYNKA ============ -->
+  <section class="panel" role="tabpanel" id="p-mail" aria-labelledby="t-mail">
+    <div style="display:grid;gap:18px">
+      <div class="pilot" id="pilot">
+        <div class="state"><span class="dot" aria-hidden="true"></span><span id="pilot-state">Autopilot wyłączony</span></div>
+        <div class="stats"><span>Odpisane automatycznie: <b id="s-auto">0</b></span><span>Czeka na Daniela: <b id="s-human">0</b></span><span>Nowe: <b id="s-new">0</b></span></div>
+        <button class="btn btn-main" id="pilot-btn" type="button">Włącz autopilota</button>
+      </div>
+      <div class="mailgrid">
+        <div class="inbox">
+          <div class="inbox-head"><h2>Odebrane</h2><small>przykładowe maile</small></div>
+          <div id="mlist"></div>
+        </div>
+        <div class="card" id="mdetail" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WYCENY ============ -->
+  <section class="panel" role="tabpanel" id="p-quo" aria-labelledby="t-quo" hidden>
+    <div class="mod">
+      <div class="card">
+        <h2>Wycena / kosztorys</h2>
+        <p class="sub">Opisz zlecenie zwykłymi słowami, np. po rozmowie z klientem. AI rozpisze prace na pozycje z cennika Daniela i przygotuje ofertę w PDF.</p>
+        <div class="field"><label for="quo-text">Opis zlecenia</label>
+          <textarea id="quo-text" style="min-height:130px">Pan Marek Nowak, ul. Przykładowa 12/4, Łódź (Widzew), marek.nowak@example.com. Remont łazienki ok. 5 m² w bloku: demontaż starej wanny, prysznic walk-in z odpływem liniowym, WC podwieszane na stelażu, umywalka z szafką, bateria podtynkowa z deszczownicą. Nowe podejścia wod-kan pod umywalkę, prysznic i WC. Materiały kupuje klient. Start w drugiej połowie miesiąca.</textarea></div>
+        <p class="hint">Klient i opis są zmyślone na potrzeby demo.</p>
+        <div class="actions"><button class="btn btn-main" id="quo-ai" type="button">Przygotuj wycenę z AI</button></div>
+        <p class="status" id="quo-status" role="status"></p>
+        <div class="row2">
+          <div class="field"><label for="quo-client">Klient</label><input id="quo-client"></div>
+          <div class="field"><label for="quo-email">E-mail klienta</label><input id="quo-email" type="email"></div>
+        </div>
+        <div class="field"><label for="quo-addr">Adres prac</label><input id="quo-addr"></div>
+        <div class="field"><span class="lbl">Pozycje (robocizna)</span>
+          <div class="lines-head"><span>Nazwa</span><span>Ilość</span><span>Cena netto</span><span>VAT</span><span></span></div>
+          <div class="lines" id="quo-lines"></div>
+          <div class="actions"><button class="btn btn-ghost btn-sm" type="button" id="quo-add">+ Dodaj pozycję</button></div>
+        </div>
+        <div class="field"><label for="quo-notes">Uwagi do oferty</label><textarea id="quo-notes"></textarea></div>
+        <details>
+          <summary>Cennik Daniela (przykładowy)</summary>
+          <div class="field" style="margin-top:10px"><label for="pricelist">Jedna usługa w linii: nazwa – cena netto</label>
+            <textarea id="pricelist" style="min-height:220px">Demontaż wanny lub brodzika – 200
+Podejście wod-kan (1 punkt) – 180
+Odpływ liniowy pod prysznic – montaż – 450
+Stelaż WC z miską podwieszaną – montaż – 450
+Umywalka z szafką i syfonem – montaż – 250
+Bateria podtynkowa z deszczownicą – montaż – 500
+Bateria stojąca lub ścienna – montaż – 150
+Próba szczelności i uruchomienie instalacji – 150
+Udrożnienie odpływu – 120
+Wymiana grzejnika – 350
+Wymiana zaworu – 120
+Dojazd poza Łódź – 50</textarea></div>
+          <p class="hint">AI wycenia tylko według tego cennika. Pozycji spoza cennika nie wycenia, tylko oznacza „do wyceny”.</p>
+        </details>
+        <div class="actions">
+          <button class="btn btn-dark" id="quo-pdf" type="button">Pobierz PDF</button>
+          <button class="btn btn-ghost" id="quo-send" type="button">Wyślij klientowi</button>
+        </div>
+      </div>
+      <div class="docwrap"><div class="doc" id="quo-doc"></div></div>
+    </div>
+  </section>
+
+  <!-- ============ FAKTURY ============ -->
+  <section class="panel" role="tabpanel" id="p-inv" aria-labelledby="t-inv" hidden>
+    <div class="mod">
+      <div class="card">
+        <h2>Generator faktur</h2>
+        <p class="sub">Opisz wykonaną usługę zwykłymi słowami. AI wypełni nabywcę i pozycje, a Ty pobierzesz gotowy PDF.</p>
+        <div class="field"><label for="inv-text">Opis usługi</label>
+          <textarea id="inv-text">Jan Kowalski, ul. Przykładowa 3/5, 90-001 Łódź, jan.kowalski@example.com. Wymiana baterii umywalkowej – bateria 280 zł netto, robocizna 150 zł netto. Do tego udrożnienie odpływu w wannie za 120 zł netto. Mieszkanie w bloku. Płatność przelewem w 7 dni.</textarea></div>
+        <p class="hint">Klient i ceny są zmyślone na potrzeby demo.</p>
+        <div class="actions"><button class="btn btn-main" id="inv-ai" type="button">Wypełnij z AI</button></div>
+        <p class="status" id="inv-status" role="status"></p>
+        <div class="row2">
+          <div class="field"><label for="inv-buyer">Nabywca</label><input id="inv-buyer"></div>
+          <div class="field"><label for="inv-nip">NIP nabywcy</label><input id="inv-nip"></div>
+        </div>
+        <div class="field"><label for="inv-addr">Adres nabywcy</label><input id="inv-addr"></div>
+        <div class="row2">
+          <div class="field"><label for="inv-email">E-mail nabywcy</label><input id="inv-email" type="email"></div>
+          <div class="field"><label for="inv-days">Termin płatności (dni)</label><input id="inv-days" type="number" min="0" value="7"></div>
+        </div>
+        <div class="field"><span class="lbl">Pozycje</span>
+          <div class="lines-head"><span>Nazwa</span><span>Ilość</span><span>Cena netto</span><span>VAT</span><span></span></div>
+          <div class="lines" id="inv-lines"></div>
+          <div class="actions"><button class="btn btn-ghost btn-sm" type="button" id="inv-add">+ Dodaj pozycję</button></div>
+        </div>
+        <details>
+          <summary>Dane sprzedawcy</summary>
+          <div style="display:grid;gap:10px;margin-top:10px">
+            <div class="field"><label for="sel-name">Nazwa</label><input id="sel-name" value="Daniel Sajda"></div>
+            <div class="field"><label for="sel-addr">Adres</label><input id="sel-addr" value="ul. Traugutta 8 lok. 11, 90-107 Łódź"></div>
+            <div class="row2">
+              <div class="field"><label for="sel-nip">NIP</label><input id="sel-nip" value="7251988372"></div>
+              <div class="field"><label for="sel-regon">REGON</label><input id="sel-regon" value="101658780"></div>
+            </div>
+            <div class="field"><label for="sel-bank">Konto bankowe</label><input id="sel-bank" placeholder="uzupełnij numer konta"></div>
+          </div>
+        </details>
+        <div class="actions">
+          <button class="btn btn-dark" id="inv-pdf" type="button">Pobierz PDF</button>
+          <button class="btn btn-ghost" id="inv-send" type="button">Wyślij klientowi</button>
+        </div>
+        <p class="hint">Faktury VAT w Polsce wystawia się w KSeF. Ten generator robi fakturę pro forma do wysłania klientowi. Po wdrożeniu można go połączyć z KSeF albo programem księgowym. Stawkę VAT (8% przy remontach w budynkach mieszkalnych, 23% w lokalach usługowych, „zw” przy zwolnieniu) potwierdź z księgową.</p>
+      </div>
+      <div class="docwrap"><div class="doc" id="inv-doc"></div></div>
+    </div>
+  </section>
+
+  <!-- ============ UMOWY ============ -->
+  <section class="panel" role="tabpanel" id="p-con" aria-labelledby="t-con" hidden>
+    <div class="mod">
+      <div class="card">
+        <h2>Generator umów</h2>
+        <p class="sub">Wybierz rodzaj umowy i wpisz ustalenia. AI przygotuje projekt umowy do pobrania jako PDF.</p>
+        <div class="field"><label for="con-type">Rodzaj umowy</label>
+          <select id="con-type">
+            <option>Umowa o wykonanie instalacji wodno-kanalizacyjnej w remontowanej łazience</option>
+            <option>Umowa o wymianę pionów wodno-kanalizacyjnych dla wspólnoty mieszkaniowej</option>
+            <option>Umowa serwisowa na obsługę hydrauliczną lokalu usługowego</option>
+          </select></div>
+        <div class="row2">
+          <div class="field"><label for="con-client">Zamawiający</label><input id="con-client" value="Marek Nowak"></div>
+          <div class="field"><label for="con-caddr">Adres zamawiającego</label><input id="con-caddr" value="ul. Przykładowa 12/4, Łódź"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="con-start">Rozpoczęcie prac</label><input id="con-start" type="date"></div>
+          <div class="field"><label for="con-end">Zakończenie prac</label><input id="con-end" type="date"></div>
+        </div>
+        <div class="field"><label for="con-place">Miejsce wykonania prac</label><input id="con-place" value="ul. Przykładowa 12/4, Łódź – łazienka"></div>
+        <div class="row2">
+          <div class="field"><label for="con-price">Wynagrodzenie brutto (zł)</label><input id="con-price" type="number" min="0" value="3132"></div>
+          <div class="field"><label for="con-dep">Zaliczka (zł)</label><input id="con-dep" type="number" min="0" value="500"></div>
+        </div>
+        <div class="field"><label for="con-scope">Ustalenia</label>
+          <textarea id="con-scope">Zakres wg wyceny: demontaż wanny, 5 podejść wod-kan, odpływ liniowy, stelaż WC, umywalka z szafką, bateria podtynkowa z deszczownicą, próba szczelności. Materiały i armaturę kupuje Zamawiający. Gwarancja na wykonane prace 24 miesiące.</textarea></div>
+        <p class="hint">Klient, adres i kwoty są zmyślone na potrzeby demo.</p>
+        <div class="actions">
+          <button class="btn btn-main" id="con-ai" type="button">Generuj umowę z AI</button>
+          <button class="btn btn-dark" id="con-pdf" type="button" disabled>Pobierz PDF</button>
+        </div>
+        <p class="status" id="con-status" role="status"></p>
+        <p class="hint">Projekt umowy przygotowany przez AI. Przed pierwszym użyciem wzór powinien sprawdzić prawnik.</p>
+      </div>
+      <div class="docwrap"><div class="doc" id="con-doc"></div></div>
+    </div>
+  </section>
+
+  <!-- ============ OPINIE ============ -->
+  <section class="panel" role="tabpanel" id="p-rev" aria-labelledby="t-rev" hidden>
+    <div class="mod">
+      <div class="card">
+        <h2>Odpowiedzi na opinie Google</h2>
+        <p class="sub">Wybierz opinię albo wklej własną. AI napisze uprzejmą odpowiedź w imieniu Daniela.</p>
+        <div class="reviews" id="reviews"></div>
+        <div class="field"><label for="rev-own">Albo wklej opinię</label><textarea id="rev-own" placeholder="Treść opinii klienta…"></textarea></div>
+        <div class="field"><label for="rev-stars">Ocena</label><select id="rev-stars"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></div>
+        <div class="actions"><button class="btn btn-main" id="rev-ai" type="button">Napisz odpowiedź</button></div>
+        <p class="status" id="rev-status" role="status"></p>
+      </div>
+      <div class="card">
+        <h2>Odpowiedź</h2>
+        <div id="rev-out"><div class="empty">Wybierz opinię po lewej i kliknij „Napisz odpowiedź”.</div></div>
+        <p class="hint">Przy złych opiniach AI przeprasza i zaprasza do kontaktu, ale niczego nie obiecuje. Odpowiedź publikuje Daniel.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+const KNOWLEDGE = `FIRMA: Daniel Sajda – jednoosobowa firma hydrauliczna z Łodzi, działa od 2013 r. NIP 7251988372, REGON 101658780.
+KONTAKT: tel. 531 146 252, e-mail ds.sajda@gmail.com, adres ul. Traugutta 8 lok. 11, 90-107 Łódź.
+USŁUGI: instalacje wodno-kanalizacyjne (nowe, wymiana rur i pionów), instalacje grzewcze i c.o. (grzejniki, podłogówka, płukanie), instalacje gazowe (podłączenie kuchenek, próby szczelności), klimatyzacja (montaż split), łazienki i biały montaż (stelaże WC, prysznice walk-in, baterie), awarie i naprawy (przecieki, zatory, zawory).
+OBSZAR: cała Łódź (Śródmieście, Bałuty, Widzew, Polesie, Górna) i okolice: Zgierz, Pabianice, Konstantynów Łódzki, Aleksandrów Łódzki, Rzgów.
+ZASADY: cena ustalana przed rozpoczęciem prac (przy większych zleceniach po oględzinach); rachunek lub faktura VAT, także dla firm i wspólnot; materiały może kupić Daniel albo klient.
+GAZ: przy zapachu gazu – zakręcić zawór, wywietrzyć, wyjść, dzwonić na pogotowie gazowe 992 lub 112.
+NIEZNANE: konkretne ceny (tylko z cennika), wolne terminy, godziny pracy.`;
+
+const $ = (id) => document.getElementById(id);
+const el = (tag, attrs = {}, ...kids) => {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === 'class') e.className = v; else if (k === 'text') e.textContent = v;
+    else if (k.startsWith('on')) e.addEventListener(k.slice(2), v); else e.setAttribute(k, v);
+  }
+  for (const k of kids) if (k != null) e.append(k);
+  return e;
+};
+const svgDrop = () => { const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); const u = document.createElementNS('http://www.w3.org/2000/svg', 'use'); u.setAttribute('href', '#i-drop'); s.append(u); return s; };
+const zl = (n) => (Number(n) || 0).toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' zł';
+const plDate = (d) => d.toLocaleDateString('pl-PL', { day: '2-digit', month: '2-digit', year: 'numeric' });
+const sleep = (ms, signal) => new Promise((res, rej) => { const t = setTimeout(res, ms); signal?.addEventListener('abort', () => { clearTimeout(t); rej({ code: 'cancelled' }); }); });
+
+/* ---------- AI: na żywo (window.claude) albo tryb pokazowy ---------- */
+let sample = null, downloads = null, capsReady = false;
+const live = () => !!sample;
+(async () => {
+  try { sample = window.claude ? await window.claude.use('sample') : null; } catch (_) { sample = null; }
+  try { downloads = window.claude ? await window.claude.use('downloads') : null; } catch (_) { downloads = null; }
+  capsReady = true;
+  if (live()) {
+    $('mode-pill').textContent = 'AI na żywo'; $('mode-pill').className = 'pill pill-live';
+    $('mode-note').hidden = true;
+  }
+})();
+/* W trybie pokazowym tekst „pisze się” na oczach widza */
+async function typeOut(text, onText, signal) {
+  let i = 0;
+  while (i < text.length) {
+    if (signal?.aborted) throw { code: 'cancelled' };
+    i = Math.min(text.length, i + 3 + Math.floor(Math.random() * 6));
+    onText(text.slice(0, i));
+    await sleep(14);
+  }
+}
+const ERR = {
+  not_granted: 'Potrzebna jest zgoda na użycie Claude. Odśwież stronę i zezwól.',
+  sampling_disabled: 'Na tym koncie AI jest niedostępne.',
+  rate_limited: 'Za dużo zapytań naraz. Spróbuj ponownie za chwilę.',
+  session_expired: 'Sesja wygasła. Zaloguj się ponownie do Claude.',
+  invalid_json: 'AI odpowiedziało w złym formacie. Kliknij jeszcze raz.',
+  refused: 'AI nie wykona tego polecenia. Zmień treść i spróbuj ponownie.',
+};
+const errText = (e) => ERR[e?.code] || 'Połączenie z AI nie powiodło się. Spróbuj ponownie.';
+const DEMO_ONLY = 'W trybie pokazowym AI działa na przykładowych danych. Przywróć przykładowy tekst albo zobacz, jak to działa, na przykładzie. Po wdrożeniu AI przetworzy dowolny opis.';
+function setStatus(elm, msg, err = false) { elm.textContent = msg; elm.classList.toggle('err', err); }
+function ready(statusEl) {
+  if (!capsReady) { setStatus(statusEl, 'AI jeszcze się uruchamia, spróbuj za kilka sekund.', true); return false; }
+  return true;
+}
+
+/* ---------- Zakładki ---------- */
+const tabs = [...document.querySelectorAll('[role="tab"]')];
+function selectTab(tab) {
+  for (const t of tabs) { const on = t === tab; t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1; $(t.getAttribute('aria-controls')).hidden = !on; }
+  requestAnimationFrame(fitDocs);
+}
+tabs.forEach((t, i) => {
+  t.addEventListener('click', () => selectTab(t));
+  t.addEventListener('keydown', (e) => { const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (!d) return; const n = tabs[(i + d + tabs.length) % tabs.length]; selectTab(n); n.focus(); });
+});
+
+/* ---------- PDF ---------- */
+async function savePdf(docEl, filename, statusEl) {
+  if (!window.jspdf || !window.html2canvas) { setStatus(statusEl, 'Nie udało się wczytać generatora PDF. Odśwież stronę.', true); return null; }
+  setStatus(statusEl, 'Tworzę PDF…');
+  const holder = el('div', { style: 'position:fixed;left:-10000px;top:0;width:794px;background:#fff' });
+  const clone = docEl.cloneNode(true); clone.removeAttribute('id'); clone.style.boxShadow = 'none'; clone.style.margin = '0'; clone.style.zoom = '1';
+  holder.append(clone); document.body.append(holder);
+  try {
+    if (document.fonts?.ready) await document.fonts.ready;
+    const canvas = await window.html2canvas(clone, { scale: 2, backgroundColor: '#ffffff', useCORS: true, logging: false });
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ unit: 'pt', format: 'a4' });
+    const pw = pdf.internal.pageSize.getWidth(), ph = pdf.internal.pageSize.getHeight();
+    const pageHpx = Math.floor(canvas.width * ph / pw);
+    for (let y = 0, page = 0; y < canvas.height; y += pageHpx, page++) {
+      const h = Math.min(pageHpx, canvas.height - y);
+      const c = document.createElement('canvas'); c.width = canvas.width; c.height = h;
+      const ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, h); ctx.drawImage(canvas, 0, y, canvas.width, h, 0, 0, canvas.width, h);
+      if (page) pdf.addPage();
+      pdf.addImage(c.toDataURL('image/jpeg', 0.92), 'JPEG', 0, 0, pw, h * pw / canvas.width);
+    }
+    const blob = pdf.output('blob');
+    if (!downloads) {
+      const url = URL.createObjectURL(blob);
+      const a = el('a', { href: url, download: filename }); document.body.append(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 30000);
+      setStatus(statusEl, 'Pobrano ' + filename); return blob;
+    }
+    try { await downloads.save({ filename, data: blob }); setStatus(statusEl, 'Zapisano ' + filename); }
+    catch (e) { setStatus(statusEl, e?.code === 'declined' ? 'Pobieranie anulowane.' : 'Nie udało się zapisać pliku.', e?.code !== 'declined'); }
+    return blob;
+  } catch (e) {
+    setStatus(statusEl, 'Nie udało się utworzyć PDF.', true); return null;
+  } finally { holder.remove(); }
+}
+function docHeader(title, sub) {
+  return el('div', { class: 'dh' },
+    el('div', { class: 'logo' }, el('div', { class: 'mark' }, svgDrop()), el('div', {}, el('b', {}, 'Daniel Sajda'), el('small', {}, 'Hydraulik · Łódź · od 2013'))),
+    el('div', { class: 'title' }, el('h3', {}, title), el('div', {}, sub)));
+}
+function fitDocs() { document.querySelectorAll('.docwrap').forEach(w => { const d = w.querySelector('.doc'); if (!d || !w.clientWidth) return; const s = Math.min(1, (w.clientWidth - 32) / 794); d.style.zoom = String(s); }); }
+new ResizeObserver(fitDocs).observe(document.body);
+
+/* ---------- Edytowalne pozycje (wycena i faktura) ---------- */
+const VAT_OPTS = [['8', '8%'], ['23', '23%'], ['zw', 'zw']];
+const vatRate = (v) => v === 'zw' ? 0 : Number(v) || 0;
+function lineEditor(boxId, list, onChange) {
+  const box = $(boxId); box.textContent = '';
+  list.forEach((l, i) => {
+    const n = el('input', { 'aria-label': 'Nazwa pozycji ' + (i + 1) }); n.value = l.nazwa; n.oninput = () => { l.nazwa = n.value; onChange(); };
+    const q = el('input', { type: 'number', min: '0', step: 'any', 'aria-label': 'Ilość' }); q.value = l.ilosc; q.oninput = () => { l.ilosc = parseFloat(q.value) || 0; onChange(); };
+    const c = el('input', { type: 'number', min: '0', step: '0.01', 'aria-label': 'Cena netto' }); c.value = l.cena; c.oninput = () => { l.cena = parseFloat(c.value) || 0; onChange(); };
+    const v = el('select', { 'aria-label': 'Stawka VAT' }); for (const [val, lab] of VAT_OPTS) { const o = el('option', { value: val }, lab); if (String(l.vat) === val) o.selected = true; v.append(o); } v.onchange = () => { l.vat = v.value; onChange(); };
+    const del = el('button', { class: 'del', type: 'button', 'aria-label': 'Usuń pozycję', onclick: () => { list.splice(i, 1); lineEditor(boxId, list, onChange); } }, '×');
+    box.append(el('div', { class: 'line' }, n, q, c, v, del));
+  });
+  onChange();
+}
+function itemsTable(list) {
+  const tb = el('tbody'); const byVat = {}; let sn = 0, sv = 0;
+  list.forEach((l, i) => {
+    const net = (l.ilosc || 0) * (l.cena || 0), vat = net * vatRate(l.vat) / 100;
+    sn += net; sv += vat; const key = l.vat === 'zw' ? 'zw' : l.vat + '%'; byVat[key] = byVat[key] || { n: 0, v: 0 }; byVat[key].n += net; byVat[key].v += vat;
+    tb.append(el('tr', {}, el('td', {}, String(i + 1)), el('td', {}, l.nazwa || '—'), el('td', { class: 'n' }, String(l.ilosc)), el('td', { class: 'n' }, l.cena ? zl(l.cena) : 'do wyceny'), el('td', { class: 'n' }, key), el('td', { class: 'n' }, zl(net)), el('td', { class: 'n' }, zl(net + vat))));
+  });
+  const table = el('table', { class: 'items' }, el('thead', {}, el('tr', {}, ...['Lp.', 'Nazwa', 'Ilość', 'Cena netto', 'VAT', 'Netto', 'Brutto'].map((h, i) => el('th', { class: i > 1 ? 'n' : '' }, h)))), tb);
+  const st = el('tbody');
+  for (const [r, s] of Object.entries(byVat)) st.append(el('tr', {}, el('td', {}, 'w tym ' + (r === 'zw' ? 'zwolnione z VAT' : 'VAT ' + r) + ':'), el('td', {}, zl(s.n) + ' netto + ' + zl(s.v))));
+  st.append(el('tr', {}, el('td', {}, 'Razem netto:'), el('td', {}, zl(sn))), el('tr', {}, el('td', {}, 'Razem VAT:'), el('td', {}, zl(sv))), el('tr', { class: 'total' }, el('td', {}, 'Razem brutto:'), el('td', {}, zl(sn + sv))));
+  return [table, el('div', { class: 'sum' }, el('table', {}, st))];
+}
+
+/* ============ SKRZYNKA ============ */
+const now = new Date();
+const ago = (m) => new Date(now - m * 60000).toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' });
+const SIGN = 'Pozdrawiam\nDaniel Sajda\nHydraulik · tel. 531 146 252';
+let mails = [
+  { id: 1, from: 'Ewa Kowalska', email: 'ewa.kowalska@example.com', time: ago(3), subj: 'PILNE – cieknie pod zlewem', body: 'Dzień dobry,\nod rana kapie spod zlewu w kuchni, pod szafką robi się kałuża. Mieszkam na Bałutach. Da radę dziś albo jutro?\nEwa Kowalska, tel. 600 123 456',
+    demo: { kategoria: 'awaria', decyzja: 'do_akceptacji', powod: 'Zgłoszenie awarii – termin przyjazdu ustala Daniel. AI przygotowało odpowiedź z instrukcją, co zrobić od razu.', odpowiedz: 'Dzień dobry Pani Ewo,\n\ndziękuję za wiadomość. Na teraz proszę zakręcić zawory pod zlewem (a jeśli nie da się ich zakręcić – główny zawór wody), podstawić miskę i wytrzeć szafkę, żeby płyta nie nasiąkła.\n\nZadzwonię do Pani dziś pod numer 600 123 456, żeby ustalić godzinę przyjazdu. Jeśli to możliwe, proszę przesłać zdjęcie syfonu i podłączeń pod zlewem – łatwiej będzie zabrać właściwe części.\n\n' + SIGN } },
+  { id: 2, from: 'Paweł Zieliński', email: 'p.zielinski@example.com', time: ago(17), subj: 'Zgierz + faktura VAT', body: 'Dzień dobry,\nczy dojeżdża Pan do Zgierza? I czy wystawia Pan fakturę VAT na firmę? Chodzi o wymianę podgrzewacza wody w lokalu usługowym.\nPaweł Zieliński',
+    demo: { kategoria: 'informacja', decyzja: 'wyslij_automatycznie', powod: 'Proste pytanie o obszar działania i faktury – odpowiedź jest w wiedzy o firmie, bez cen i terminów.', odpowiedz: 'Dzień dobry Panie Pawle,\n\ntak – dojeżdżam do Zgierza i wystawiam faktury VAT, także na firmy.\n\nWymianę podgrzewacza chętnie wykonam. Żeby ustalić termin i koszt, proszę napisać, jaki to podgrzewacz (elektryczny czy gazowy, najlepiej z modelem) i podać numer telefonu – oddzwonię. Może Pan też zadzwonić bezpośrednio: 531 146 252.\n\n' + SIGN } },
+  { id: 3, from: 'Marek Nowak', email: 'marek.nowak@example.com', time: ago(42), subj: 'Remont łazienki – wycena', body: 'Dzień dobry,\nw przyszłym miesiącu robimy remont łazienki (ok. 5 m², blok na Widzewie). Chcemy prysznic walk-in zamiast wanny, WC podwieszane i nową umywalkę. Ile mniej więcej by to kosztowało i kiedy miałby Pan termin?\nMarek Nowak',
+    demo: { kategoria: 'wycena', decyzja: 'do_akceptacji', powod: 'Klient pyta o cenę i termin – AI nie podaje ich bez Daniela, prosi o brakujące informacje.', odpowiedz: 'Dzień dobry Panie Marku,\n\ndziękuję za zapytanie. Taki zakres – odpływ pod prysznic walk-in, stelaż WC i podejścia pod umywalkę – wykonuję regularnie.\n\nŻeby podać rzetelną cenę, najlepiej obejrzeć łazienkę na miejscu – koszt ustalamy przed rozpoczęciem prac. Proszę o kilka informacji:\n– czy w bloku są stare piony stalowe, czy już wymienione,\n– czy materiały i armaturę kupują Państwo sami,\n– od kiedy chcą Państwo zacząć remont.\n\nProszę też o numer telefonu – oddzwonię i ustalimy termin oględzin.\n\n' + SIGN } },
+  { id: 4, from: 'Anna Wójcik (Wspólnota „Pod Lipami”)', email: 'administracja@example.com', time: ago(68), subj: 'Wymiana pionów – zapytanie ofertowe', body: 'Dzień dobry,\njako administrator wspólnoty proszę o ofertę na wymianę dwóch pionów wodno-kanalizacyjnych w kamienicy (4 kondygnacje, 8 lokali). Potrzebujemy też informacji o terminie i fakturze na wspólnotę.\nAnna Wójcik',
+    demo: { kategoria: 'wspolnota', decyzja: 'do_akceptacji', powod: 'Zapytanie ofertowe od wspólnoty – oferta i termin wymagają oględzin i decyzji Daniela.', odpowiedz: 'Dzień dobry Pani Anno,\n\ndziękuję za zapytanie. Wymianę pionów wodno-kanalizacyjnych w kamienicach wykonuję, a fakturę wystawiam na wspólnotę.\n\nŻeby przygotować ofertę, potrzebuję obejrzeć piony i piwnicę. Proszę o informacje:\n– z jakiego materiału są obecne piony (stal, żeliwo),\n– czy wymiana obejmuje wodę i kanalizację,\n– czy będzie dostęp do wszystkich 8 lokali w ustalonym terminie,\n– jaki termin prac jest dla wspólnoty dogodny.\n\nZadzwonię, żeby umówić oględziny – proszę o numer telefonu, ewentualnie zapraszam do kontaktu: 531 146 252.\n\n' + SIGN } },
+  { id: 5, from: 'Joanna Mazur', email: 'j.mazur@example.com', time: ago(95), subj: 'Bateria znowu cieknie', body: 'Dzień dobry,\n2 tygodnie temu wymieniał Pan baterię w łazience. Od wczoraj znowu kapie spod wylewki. Proszę o kontakt.\nJoanna Mazur',
+    demo: { kategoria: 'reklamacja', decyzja: 'do_akceptacji', powod: 'Reklamacja po wykonanej usłudze – decyzję i termin podejmuje Daniel. AI niczego nie obiecuje.', odpowiedz: 'Dzień dobry Pani Joanno,\n\nprzepraszam za kłopot i dziękuję, że Pani od razu dała znać. Do czasu wizyty proszę zakręcić zawory pod umywalką, żeby woda nie kapała.\n\nZadzwonię do Pani, żeby ustalić termin – przyjadę sprawdzić, co jest przyczyną wycieku. Proszę o numer telefonu albo kontakt pod 531 146 252.\n\n' + SIGN } },
+].map(m => ({ ...m, status: 'new', ai: null }));
+let msel = 1, pilot = false, mrunning = false, mctl = null;
+const BADGE = { new: ['b-new', 'Nowy'], work: ['b-work', 'AI pisze…'], sent: ['b-sent', 'Wysłano automatycznie'], sent_h: ['b-sent', 'Wysłano po akceptacji'], human: ['b-human', 'Czeka na Daniela'], err: ['b-err', 'Błąd'] };
+const CAT = { informacja: 'Informacja', awaria: 'Awaria', wycena: 'Wycena', wspolnota: 'Wspólnota / firma', reklamacja: 'Reklamacja', inne: 'Inne' };
+
+const MAIL_PROMPT = (m) => `Jesteś asystentem e-mail Daniela Sajdy, hydraulika z Łodzi. Odpowiadasz na mail klienta w jego imieniu, w pierwszej osobie.
+Zasady: po polsku, uprzejmie, konkretnie, zwrot z imieniem klienta, 3–8 zdań, podpis "${SIGN.replace(/\n/g, '\\n')}". Używaj tylko wiedzy poniżej; nie podawaj cen ani wolnych terminów – napisz, że ustalimy je po rozmowie/oględzinach. Przy awarii najpierw podaj, co klient może zrobić od razu (zakręcić zawór itp.), potem że Daniel zadzwoni. Przy zapachu gazu każ dzwonić na 992/112. Przy wycenie poproś o brakujące informacje i telefon. Przy reklamacji przeproś, nie obiecuj zwrotu ani darmowej naprawy.
+Decyzja: "wyslij_automatycznie" tylko dla prostych pytań informacyjnych w pełni opisanych w wiedzy; inaczej "do_akceptacji".
+Odpowiedz WYŁĄCZNIE JSON: {"kategoria":"informacja"|"awaria"|"wycena"|"wspolnota"|"reklamacja"|"inne","decyzja":"wyslij_automatycznie"|"do_akceptacji","powod":"jedno zdanie","odpowiedz":"pełna treść maila"}
+WIEDZA:
+${KNOWLEDGE}
+MAIL: Od: ${m.from}
+Temat: ${m.subj}
+${m.body}`;
+
+function renderMail() {
+  const list = $('mlist'); list.textContent = '';
+  for (const m of mails) {
+    const [cls, label] = BADGE[m.status];
+    list.append(el('button', { class: 'item', type: 'button', 'aria-current': String(m.id === msel), onclick: () => { msel = m.id; renderMail(); } },
+      el('span', { class: 'r' }, el('span', { class: 'from' }, m.from), el('time', {}, m.time)),
+      el('span', { class: 'subj' }, m.subj), el('span', { class: 'badge ' + cls }, label)));
+  }
+  $('s-auto').textContent = mails.filter(m => m.status === 'sent').length;
+  $('s-human').textContent = mails.filter(m => m.status === 'human').length;
+  $('s-new').textContent = mails.filter(m => m.status === 'new').length;
+
+  const d = $('mdetail'); d.textContent = '';
+  const m = mails.find(x => x.id === msel); if (!m) return;
+  d.append(el('h2', {}, m.subj), el('div', { class: 'orig' }, el('div', { class: 'meta' }, el('span', {}, 'Od: ' + m.from + ' <' + m.email + '>'), el('span', {}, 'Do: ds.sajda@gmail.com · ' + m.time)), el('p', {}, m.body)));
+  if (m.status === 'new') { d.append(el('div', { class: 'aibox' }, el('p', { class: 'hint' }, pilot ? 'Autopilot zaraz się tym zajmie.' : 'Wiadomość czeka na odpowiedź. Włącz autopilota albo odpisz tylko na ten mail.'), el('div', { class: 'actions' }, el('button', { class: 'btn btn-main', type: 'button', onclick: () => processMail(m, false) }, 'Odpisz z AI')))); return; }
+  if (m.status === 'work') { d.append(el('div', { class: 'aibox' }, el('p', { class: 'thinking' }, el('span', { class: 'typing', 'aria-hidden': 'true' }, el('i'), el('i'), el('i')), 'AI czyta wiadomość, ocenia sprawę i pisze odpowiedź…'), el('div', { class: 'actions' }, el('button', { class: 'btn btn-ghost btn-sm', type: 'button', onclick: () => mctl?.abort() }, 'Zatrzymaj')))); return; }
+  if (m.status === 'err') { d.append(el('div', { class: 'aibox' }, el('p', { class: 'hint' }, m.error), el('div', { class: 'actions' }, el('button', { class: 'btn btn-main', type: 'button', onclick: () => processMail(m, false) }, 'Spróbuj ponownie')))); return; }
+  const a = m.ai, [bc, bl] = BADGE[m.status];
+  const ta = el('textarea', { 'aria-label': 'Treść odpowiedzi' }); ta.value = a.odpowiedz; ta.readOnly = m.status !== 'human'; ta.addEventListener('input', () => { a.odpowiedz = ta.value; });
+  const box = el('div', { class: 'aibox' },
+    el('div', { class: 'actions', style: 'align-items:center' }, el('span', { class: 'ai-badge' }, 'Odpowiedź AI · ' + (CAT[a.kategoria] || 'Inne')), el('span', { class: 'badge ' + bc }, bl)),
+    el('p', { class: 'hint' }, (m.status === 'human' ? 'Dlaczego czeka na Daniela: ' : m.status === 'sent' ? 'Dlaczego wysłano od razu: ' : '') + a.powod), ta);
+  if (m.status === 'human') box.append(el('div', { class: 'actions' }, el('button', { class: 'btn btn-main', type: 'button', onclick: () => { m.status = 'sent_h'; renderMail(); } }, 'Zatwierdź i wyślij'), el('button', { class: 'btn btn-ghost', type: 'button', onclick: () => processMail(m, false) }, 'Napisz od nowa')));
+  box.append(el('p', { class: 'hint' }, 'W demo wysyłka jest symulowana.'));
+  d.append(box);
+}
+async function processMail(m, fromPilot) {
+  if (mrunning && !fromPilot) return;
+  if (!capsReady) { m.status = 'err'; m.error = 'AI jeszcze się uruchamia, spróbuj za kilka sekund.'; renderMail(); return; }
+  mrunning = true; m.status = 'work'; msel = m.id; renderMail(); mctl = new AbortController();
+  try {
+    let r;
+    if (live()) r = await sample.json(MAIL_PROMPT(m), { modelTier: 'quick', cache: false, signal: mctl.signal });
+    else { await sleep(1400 + Math.random() * 900, mctl.signal); r = m.demo; }
+    if (!r || typeof r.odpowiedz !== 'string' || !r.odpowiedz.trim()) throw { code: 'invalid_json' };
+    const auto = r.decyzja === 'wyslij_automatycznie' && !['reklamacja', 'awaria', 'wycena', 'wspolnota'].includes(r.kategoria);
+    m.ai = { kategoria: String(r.kategoria || 'inne'), powod: String(r.powod || ''), odpowiedz: r.odpowiedz.trim() };
+    m.status = auto ? 'sent' : 'human';
+  } catch (e) {
+    if (e?.code === 'cancelled') { m.status = 'new'; pilotOff(); }
+    else { m.status = 'err'; m.error = errText(e); if (['not_granted', 'sampling_disabled', 'rate_limited', 'session_expired'].includes(e?.code)) pilotOff(); }
+  } finally { mrunning = false; mctl = null; renderMail(); }
+}
+async function runPilot() {
+  while (pilot) {
+    const m = mails.find(x => x.status === 'new');
+    if (!m) { $('pilot-state').textContent = 'Autopilot włączony · skrzynka obsłużona'; return; }
+    $('pilot-state').textContent = 'Autopilot włączony · odpisuję: ' + m.from;
+    await processMail(m, true);
+  }
+}
+function pilotOff() { pilot = false; $('pilot').classList.remove('on'); $('pilot-state').textContent = 'Autopilot wyłączony'; $('pilot-btn').textContent = 'Włącz autopilota'; }
+$('pilot-btn').addEventListener('click', () => { if (pilot) return pilotOff(); if (mrunning) return; pilot = true; $('pilot').classList.add('on'); $('pilot-btn').textContent = 'Wyłącz autopilota'; runPilot(); });
+renderMail();
+
+/* ============ WYCENY ============ */
+const QUO_SAMPLE = $('quo-text').value;
+const quoNo = 'W/' + now.getFullYear() + '/' + String(now.getMonth() + 1).padStart(2, '0') + '/014';
+let qlines = [];
+const QUO_DEMO = {
+  klient: 'Marek Nowak', email: 'marek.nowak@example.com', adres: 'ul. Przykładowa 12/4, Łódź (Widzew)',
+  pozycje: [
+    { nazwa: 'Demontaż wanny lub brodzika', ilosc: 1, cena_netto: 200 },
+    { nazwa: 'Podejście wod-kan (1 punkt) – umywalka (2), prysznic (2), WC (1)', ilosc: 5, cena_netto: 180 },
+    { nazwa: 'Odpływ liniowy pod prysznic – montaż', ilosc: 1, cena_netto: 450 },
+    { nazwa: 'Stelaż WC z miską podwieszaną – montaż', ilosc: 1, cena_netto: 450 },
+    { nazwa: 'Umywalka z szafką i syfonem – montaż', ilosc: 1, cena_netto: 250 },
+    { nazwa: 'Bateria podtynkowa z deszczownicą – montaż', ilosc: 1, cena_netto: 500 },
+    { nazwa: 'Próba szczelności i uruchomienie instalacji', ilosc: 1, cena_netto: 150 },
+  ],
+  uwagi: 'Wycena obejmuje robociznę. Materiały i armaturę kupuje Klient – chętnie doradzę przy wyborze.\nOrientacyjny termin: druga połowa miesiąca, po potwierdzeniu.\nStawka VAT 8% dotyczy remontu w lokalu mieszkalnym.\nOferta ważna 30 dni. Ostateczny zakres potwierdzam po oględzinach.',
+};
+function renderQuote() {
+  const d = $('quo-doc'); d.textContent = '';
+  d.append(docHeader('Wycena prac', 'nr ' + quoNo));
+  d.append(el('div', { style: 'display:flex;justify-content:space-between;margin-top:10px;color:#5B6B82' }, el('span', {}, 'Data: ' + plDate(new Date()) + ', Łódź'), el('span', {}, 'Ważna do: ' + plDate(new Date(Date.now() + 30 * 864e5)))));
+  const seller = ['Daniel Sajda', 'ul. Traugutta 8 lok. 11, 90-107 Łódź', 'NIP 7251988372', 'tel. 531 146 252 · ds.sajda@gmail.com'].join('\n');
+  const client = [$('quo-client').value || '—', $('quo-addr').value, $('quo-email').value].filter(Boolean).join('\n');
+  d.append(el('div', { class: 'parties' }, el('div', {}, el('h4', {}, 'Wykonawca'), el('p', {}, seller)), el('div', {}, el('h4', {}, 'Klient / miejsce prac'), el('p', {}, client))));
+  if (!qlines.length) d.append(el('p', { style: 'color:#888;text-align:center;margin-top:40px' }, 'Kliknij „Przygotuj wycenę z AI”. Pozycje z cennika pojawią się tutaj.'));
+  else d.append(...itemsTable(qlines));
+  if ($('quo-notes').value.trim()) d.append(el('div', { class: 'docnote' }, el('h4', {}, 'Uwagi'), $('quo-notes').value));
+  d.append(el('div', { class: 'docfoot' }, el('span', {}, 'Wycena przygotowana na podstawie opisu zlecenia. Ostateczny zakres i cena po oględzinach.'), el('span', {}, 'Daniel Sajda · Hydraulik · tel. 531 146 252 · ds.sajda@gmail.com')));
+}
+const qChange = () => renderQuote();
+['quo-client', 'quo-email', 'quo-addr', 'quo-notes'].forEach(id => $(id).addEventListener('input', renderQuote));
+$('quo-add').addEventListener('click', () => { qlines.push({ nazwa: '', ilosc: 1, cena: 0, vat: '8' }); lineEditor('quo-lines', qlines, qChange); });
+renderQuote();
+function applyQuote(r) {
+  $('quo-client').value = String(r.klient || ''); $('quo-email').value = String(r.email || ''); $('quo-addr').value = String(r.adres || '');
+  $('quo-notes').value = String(r.uwagi || '');
+  qlines.length = 0;
+  for (const p of (Array.isArray(r.pozycje) ? r.pozycje : [])) qlines.push({ nazwa: String(p.nazwa || ''), ilosc: Number(p.ilosc) || 0, cena: Number(p.cena_netto) || 0, vat: '8' });
+}
+$('quo-ai').addEventListener('click', async () => {
+  const st = $('quo-status'); if (!ready(st)) return;
+  if (!live() && $('quo-text').value.trim() !== QUO_SAMPLE.trim()) { setStatus(st, DEMO_ONLY, true); return; }
+  const btn = $('quo-ai'); btn.disabled = true; setStatus(st, 'AI czyta opis i dobiera pozycje z cennika…');
+  try {
+    let r;
+    if (live()) r = await sample.json(`Przygotuj wycenę robocizny hydraulika na podstawie opisu zlecenia. Rozpisz prace na pozycje i dobierz ceny WYŁĄCZNIE z cennika poniżej (cena_netto za jednostkę). Jeśli pracy nie ma w cenniku, dodaj ją z cena_netto 0 (Daniel wyceni ręcznie). Nie wymyślaj danych klienta, których nie ma w opisie. "uwagi" to 3–5 krótkich linii dla klienta (kto kupuje materiały, termin z opisu, ważność 30 dni, że ostateczny zakres po oględzinach).
+Odpowiedz tylko JSON: {"klient":"","email":"","adres":"","pozycje":[{"nazwa":"","ilosc":1,"cena_netto":0}],"uwagi":""}
+CENNIK:
+${$('pricelist').value}
+OPIS: ${$('quo-text').value}`, { modelTier: 'quick', cache: false });
+    else { await sleep(1600); r = QUO_DEMO; }
+    applyQuote(r);
+    // pozycje „pojawiają się” jedna po drugiej
+    const all = qlines.splice(0);
+    for (const l of all) { qlines.push(l); lineEditor('quo-lines', qlines, qChange); if (!live()) await sleep(220); }
+    setStatus(st, 'Gotowe. Sprawdź pozycje i pobierz PDF.');
+  } catch (e) { setStatus(st, errText(e), true); } finally { btn.disabled = false; }
+});
+$('quo-pdf').addEventListener('click', () => savePdf($('quo-doc'), 'Wycena ' + quoNo.replace(/\//g, '-') + '.pdf', $('quo-status')));
+$('quo-send').addEventListener('click', () => {
+  const to = $('quo-email').value.trim();
+  setStatus($('quo-status'), to ? 'W demo wysyłka jest symulowana. Po wdrożeniu PDF poszedłby e-mailem na ' + to + ' z krótką wiadomością od Daniela.' : 'Uzupełnij e-mail klienta.', !to);
+});
+
+/* ============ FAKTURY ============ */
+const INV_SAMPLE = $('inv-text').value;
+let ilines = [];
+const invNo = 'PF/' + now.getFullYear() + '/' + String(now.getMonth() + 1).padStart(2, '0') + '/027';
+const INV_DEMO = { nabywca: 'Jan Kowalski', nip: '', adres: 'ul. Przykładowa 3/5, 90-001 Łódź', email: 'jan.kowalski@example.com', termin_dni: 7,
+  pozycje: [
+    { nazwa: 'Bateria umywalkowa (materiał)', ilosc: 1, cena_netto: 280, vat: '8' },
+    { nazwa: 'Wymiana baterii umywalkowej – robocizna', ilosc: 1, cena_netto: 150, vat: '8' },
+    { nazwa: 'Udrożnienie odpływu wanny', ilosc: 1, cena_netto: 120, vat: '8' },
+  ] };
+function renderInvoice() {
+  const d = $('inv-doc'); d.textContent = '';
+  const issue = new Date(), days = parseInt($('inv-days').value) || 0, due = new Date(issue.getTime() + days * 864e5);
+  d.append(docHeader('Faktura pro forma', 'nr ' + invNo));
+  d.append(el('div', { style: 'display:flex;justify-content:space-between;margin-top:10px;color:#5B6B82' }, el('span', {}, 'Data wystawienia: ' + plDate(issue) + ', Łódź'), el('span', {}, 'Termin płatności: ' + plDate(due) + ' (przelew)')));
+  const seller = [$('sel-name').value, $('sel-addr').value, 'NIP: ' + ($('sel-nip').value || '—'), 'REGON: ' + ($('sel-regon').value || '—')].join('\n');
+  const buyer = [$('inv-buyer').value || '—', $('inv-addr').value, $('inv-nip').value ? 'NIP: ' + $('inv-nip').value : '', $('inv-email').value].filter(Boolean).join('\n');
+  d.append(el('div', { class: 'parties' }, el('div', {}, el('h4', {}, 'Sprzedawca'), el('p', {}, seller)), el('div', {}, el('h4', {}, 'Nabywca'), el('p', {}, buyer))));
+  d.append(...itemsTable(ilines));
+  d.append(el('div', { class: 'docfoot' }, el('span', {}, 'Numer konta: ' + ($('sel-bank').value || '—')), el('span', {}, 'W tytule przelewu prosimy wpisać numer dokumentu: ' + invNo), el('span', {}, 'Dokument pro forma nie jest fakturą VAT. Faktura VAT zostanie wystawiona w KSeF po zapłacie.'), el('span', {}, 'Daniel Sajda · Hydraulik · tel. 531 146 252 · ds.sajda@gmail.com')));
+}
+const iChange = () => renderInvoice();
+['inv-buyer', 'inv-nip', 'inv-addr', 'inv-email', 'inv-days', 'sel-name', 'sel-addr', 'sel-nip', 'sel-regon', 'sel-bank'].forEach(id => $(id).addEventListener('input', renderInvoice));
+$('inv-add').addEventListener('click', () => { ilines.push({ nazwa: '', ilosc: 1, cena: 0, vat: '8' }); lineEditor('inv-lines', ilines, iChange); });
+ilines.push({ nazwa: 'Usługa hydrauliczna', ilosc: 1, cena: 0, vat: '8' });
+lineEditor('inv-lines', ilines, iChange);
+$('inv-ai').addEventListener('click', async () => {
+  const st = $('inv-status'); if (!ready(st)) return;
+  if (!live() && $('inv-text').value.trim() !== INV_SAMPLE.trim()) { setStatus(st, DEMO_ONLY, true); return; }
+  const btn = $('inv-ai'); btn.disabled = true; setStatus(st, 'AI czyta opis i wypełnia fakturę…');
+  try {
+    let r;
+    if (live()) r = await sample.json(`Z opisu usługi hydraulicznej wyciągnij dane do faktury. Nie wymyślaj niczego, czego nie ma w opisie (brak = pusty tekst lub 0). Materiał i robociznę rozdziel na osobne pozycje, jeśli opis je rozdziela. Stawka VAT: "8" dla usług remontowych i instalacyjnych w budynkach/lokalach mieszkalnych (z materiałem), "23" dla lokali użytkowych/usługowych i firm poza budownictwem mieszkaniowym, chyba że opis podaje inaczej. Cena to cena NETTO za jednostkę.
+Odpowiedz tylko JSON: {"nabywca":"","nip":"","adres":"","email":"","termin_dni":7,"pozycje":[{"nazwa":"","ilosc":1,"cena_netto":0,"vat":"8"}]}
+OPIS: ${$('inv-text').value}`, { modelTier: 'quick', cache: false });
+    else { await sleep(1300); r = INV_DEMO; }
+    $('inv-buyer').value = String(r.nabywca || ''); $('inv-nip').value = String(r.nip || ''); $('inv-addr').value = String(r.adres || ''); $('inv-email').value = String(r.email || '');
+    if (Number(r.termin_dni) >= 0) $('inv-days').value = Number(r.termin_dni);
+    ilines.length = 0;
+    const src = (Array.isArray(r.pozycje) ? r.pozycje : []).map(p => ({ nazwa: String(p.nazwa || ''), ilosc: Number(p.ilosc) || 0, cena: Number(p.cena_netto) || 0, vat: ['8', '23', 'zw'].includes(String(p.vat)) ? String(p.vat) : '8' }));
+    if (!src.length) src.push({ nazwa: '', ilosc: 1, cena: 0, vat: '8' });
+    for (const l of src) { ilines.push(l); lineEditor('inv-lines', ilines, iChange); if (!live()) await sleep(220); }
+    setStatus(st, 'Gotowe. Sprawdź dane i pobierz PDF.');
+  } catch (e) { setStatus(st, errText(e), true); } finally { btn.disabled = false; }
+});
+$('inv-pdf').addEventListener('click', () => savePdf($('inv-doc'), 'Proforma ' + invNo.replace(/\//g, '-') + '.pdf', $('inv-status')));
+$('inv-send').addEventListener('click', () => {
+  const to = $('inv-email').value.trim();
+  setStatus($('inv-status'), to ? 'W demo wysyłka jest symulowana. Po wdrożeniu PDF poszedłby e-mailem na ' + to + ' z krótką wiadomością od Daniela.' : 'Uzupełnij e-mail nabywcy.', !to);
+});
+
+/* ============ UMOWY ============ */
+const iso = (d) => d.toISOString().slice(0, 10);
+$('con-start').value = iso(new Date(now.getTime() + 14 * 864e5));
+$('con-end').value = iso(new Date(now.getTime() + 19 * 864e5));
+let contractText = '';
+function renderContract() {
+  const d = $('con-doc'); d.textContent = '';
+  d.append(docHeader('Umowa', 'zawarta w Łodzi, ' + plDate(new Date())));
+  d.append(el('h3', { style: 'text-align:center;font-size:16px;margin:24px 0 6px' }, $('con-type').value));
+  const body = el('div', { class: 'body' });
+  if (!contractText) body.append(el('p', { style: 'color:#888;text-align:center;margin-top:40px' }, 'Wypełnij formularz i kliknij „Generuj umowę z AI”. Projekt umowy pojawi się tutaj.'));
+  else for (const line of contractText.split('\n')) { const t = line.trim(); if (!t) continue; body.append(el('p', { class: /^§\s*\d+/.test(t) ? 'par' : '' }, t)); }
+  d.append(body);
+  if (contractText) d.append(el('div', { class: 'signs' }, el('div', {}, 'Wykonawca\nDaniel Sajda'), el('div', {}, 'Zamawiający\n' + $('con-client').value)), el('p', { class: 'stamp-demo' }, 'Projekt wygenerowany automatycznie – do weryfikacji przed podpisaniem.'));
+}
+renderContract();
+$('con-type').addEventListener('change', renderContract);
+const fmtD = (v) => v ? plDate(new Date(v + 'T12:00:00')) : '—';
+/* Projekt umowy w trybie pokazowym: składany z danych formularza i rodzaju umowy */
+function demoContract() {
+  const t = $('con-type').selectedIndex, c = $('con-client').value || 'Zamawiający', price = Number($('con-price').value) || 0, dep = Number($('con-dep').value) || 0;
+  const przedmiot = [
+    'Zamawiający zleca, a Wykonawca zobowiązuje się wykonać instalację wodno-kanalizacyjną w remontowanej łazience w lokalu: ' + $('con-place').value + '.',
+    'Zamawiający zleca, a Wykonawca zobowiązuje się wykonać wymianę pionów wodno-kanalizacyjnych w budynku: ' + $('con-place').value + '.',
+    'Zamawiający zleca, a Wykonawca zobowiązuje się świadczyć obsługę hydrauliczną (przeglądy, naprawy i usuwanie awarii) lokalu: ' + $('con-place').value + '.',
+  ][t];
+  const extra = [
+    'Zamawiający zapewni dostęp do lokalu, wody i energii elektrycznej w godzinach 8:00–18:00 w dni robocze.',
+    'Zamawiający zawiadomi mieszkańców o terminie prac i przerwach w dostawie wody co najmniej 7 dni wcześniej oraz zapewni dostęp do wszystkich lokali, piwnicy i pionów.',
+    'Zgłoszenia awarii Zamawiający przekazuje telefonicznie pod numer 531 146 252 lub e-mailem na ds.sajda@gmail.com. Przeglądy instalacji odbywają się w terminach uzgodnionych przez Strony.',
+  ][t];
+  return [
+    '§ 1. Strony umowy',
+    '1. Wykonawca: Daniel Sajda, ul. Traugutta 8 lok. 11, 90-107 Łódź, NIP 7251988372, REGON 101658780.',
+    '2. Zamawiający: ' + c + ', ' + $('con-caddr').value + '.',
+    '§ 2. Przedmiot umowy',
+    '1. ' + przedmiot,
+    '2. Szczegółowy zakres prac: ' + $('con-scope').value,
+    '3. Wykonawca wykona prace z należytą starannością, zgodnie z zasadami sztuki budowlanej i obowiązującymi przepisami.',
+    '§ 3. Termin wykonania',
+    '1. Rozpoczęcie prac: ' + fmtD($('con-start').value) + '. Zakończenie prac: ' + fmtD($('con-end').value) + '.',
+    '2. Termin może ulec zmianie z przyczyn niezależnych od Wykonawcy, w szczególności z powodu braku dostępu do miejsca prac lub opóźnienia w dostawie materiałów przez Zamawiającego. Strony ustalą wtedy nowy termin.',
+    '§ 4. Obowiązki Zamawiającego',
+    '1. ' + extra,
+    '2. Zamawiający dostarczy materiały i armaturę uzgodnione w zakresie prac, chyba że Strony ustalą inaczej na piśmie.',
+    '§ 5. Wynagrodzenie',
+    '1. Za wykonanie przedmiotu umowy Zamawiający zapłaci Wykonawcy wynagrodzenie w wysokości ' + zl(price) + ' brutto.',
+    '2. Zamawiający wpłaci zaliczkę w wysokości ' + zl(dep) + ' przy zawarciu umowy. Pozostała kwota, ' + zl(Math.max(0, price - dep)) + ', płatna jest w terminie 7 dni od odbioru prac, na podstawie faktury.',
+    '3. Prace dodatkowe, nieobjęte zakresem z § 2, wymagają uzgodnienia ich zakresu i ceny przed wykonaniem.',
+    '§ 6. Odbiór prac',
+    '1. Po zakończeniu prac Wykonawca przeprowadzi próbę szczelności instalacji w obecności Zamawiającego.',
+    '2. Odbiór potwierdza protokół podpisany przez obie Strony. Drobne usterki nie wstrzymują odbioru – Wykonawca usunie je w uzgodnionym terminie.',
+    '§ 7. Gwarancja i rękojmia',
+    '1. Wykonawca udziela gwarancji na wykonane prace na okres 24 miesięcy od dnia odbioru, chyba że w § 2 Strony ustaliły inny okres. Gwarancja nie obejmuje materiałów i urządzeń dostarczonych przez Zamawiającego – na nie obowiązuje gwarancja producenta.',
+    '2. Uprawnienia Zamawiającego z tytułu rękojmi oraz, jeśli Zamawiający jest konsumentem, z przepisów o prawach konsumenta, nie są ograniczone.',
+    '§ 8. Dane osobowe',
+    '1. Dane osobowe Zamawiającego są przetwarzane wyłącznie w celu wykonania umowy i rozliczeń, zgodnie z RODO. Administratorem danych jest Wykonawca.',
+    '§ 9. Postanowienia końcowe',
+    '1. Zmiany umowy wymagają formy pisemnej pod rygorem nieważności.',
+    '2. W sprawach nieuregulowanych stosuje się przepisy Kodeksu cywilnego.',
+    '3. Umowę sporządzono w dwóch jednobrzmiących egzemplarzach, po jednym dla każdej ze Stron.',
+  ].join('\n');
+}
+$('con-ai').addEventListener('click', async () => {
+  const st = $('con-status'); if (!ready(st)) return;
+  const btn = $('con-ai'); btn.disabled = true; $('con-pdf').disabled = true; setStatus(st, 'AI pisze projekt umowy…');
+  contractText = ''; renderContract();
+  try {
+    if (live()) {
+      const { text } = await sample(`Napisz projekt umowy po polsku: "${$('con-type').value}".
+Strony: Wykonawca – Daniel Sajda, ul. Traugutta 8 lok. 11, 90-107 Łódź, NIP 7251988372, REGON 101658780. Zamawiający – ${$('con-client').value}, ${$('con-caddr').value}.
+Miejsce prac: ${$('con-place').value}. Rozpoczęcie: ${$('con-start').value}, zakończenie: ${$('con-end').value}. Wynagrodzenie brutto: ${$('con-price').value} zł, zaliczka: ${$('con-dep').value} zł (przy zawarciu umowy, reszta po odbiorze, na fakturę).
+Ustalenia: ${$('con-scope').value}
+Wymagania: krótka, zrozumiała umowa (8–10 paragrafów): strony, przedmiot i zakres, termin, obowiązki zamawiającego (dostęp, materiały), wynagrodzenie i zaliczka, prace dodatkowe, odbiór z próbą szczelności, gwarancja i rękojmia (bez ograniczania praw konsumenta), RODO krótko, postanowienia końcowe (Kodeks cywilny, dwa egzemplarze). Każdy paragraf zaczynaj od osobnej linii "§ N. Tytuł", treść w kolejnych liniach, punkty jako "1.", "2.". Bez markdown, bez gwiazdek, bez podpisów, bez wstępu ani komentarza.`, {
+        cache: false, onText: ({ text }) => { contractText = text.replace(/\*\*/g, ''); renderContract(); },
+      });
+      contractText = text.replace(/\*\*/g, '');
+    } else {
+      await sleep(900);
+      await typeOut(demoContract(), (t) => { contractText = t; renderContract(); });
+    }
+    renderContract();
+    $('con-pdf').disabled = false; setStatus(st, 'Projekt gotowy. Możesz pobrać PDF.');
+  } catch (e) { if (e?.text) { contractText = e.text; renderContract(); } setStatus(st, errText(e), true); } finally { btn.disabled = false; }
+});
+$('con-pdf').addEventListener('click', () => savePdf($('con-doc'), 'Umowa ' + $('con-client').value.replace(/[^\p{L}\p{N} ]/gu, '') + '.pdf', $('con-status')));
+
+/* ============ OPINIE ============ */
+const REVIEWS = [
+  { who: 'Agnieszka R.', stars: 5, text: 'Pan Daniel przyjechał tego samego dnia do cieknącego węża pod zlewem. Szybko, czysto i w uczciwej cenie. Polecam!',
+    demo: 'Pani Agnieszko, bardzo dziękuję za miłe słowa! Cieszę się, że udało się szybko opanować przeciek i że wszystko działa. Gdyby w przyszłości coś się działo z instalacją – zapraszam, jestem pod telefonem.\nDaniel Sajda' },
+  { who: 'Robert K.', stars: 3, text: 'Robota zrobiona dobrze, ale fachowiec przyjechał godzinę później niż się umawialiśmy i nie dał znać.',
+    demo: 'Panie Robercie, dziękuję za opinię i przepraszam za spóźnienie bez uprzedzenia – powinienem był zadzwonić. Cieszę się, że sama praca jest w porządku, a uwagę biorę sobie do serca. Gdyby chciał Pan porozmawiać, zapraszam do kontaktu: 531 146 252.\nDaniel Sajda' },
+  { who: 'Kamil', stars: 5, text: 'Wymiana grzejników w całym mieszkaniu, wszystko szczelne i posprzątane. Na pewno skorzystam ponownie.',
+    demo: 'Panie Kamilu, dziękuję! Miło mi, że wymiana grzejników poszła sprawnie i że zostało czysto. Ciepłej zimy i do usłyszenia przy kolejnych pracach.\nDaniel Sajda' },
+];
+let revSel = 0;
+function renderReviews() {
+  const box = $('reviews'); box.textContent = '';
+  REVIEWS.forEach((r, i) => box.append(el('button', { class: 'rev', type: 'button', 'aria-pressed': String(i === revSel), onclick: () => { revSel = i; $('rev-own').value = ''; renderReviews(); } }, el('span', { class: 'stars', 'aria-label': r.stars + ' na 5' }, '★'.repeat(r.stars) + '☆'.repeat(5 - r.stars)), el('span', {}, r.text), el('small', {}, r.who + ' · przykładowa opinia'))));
+}
+renderReviews();
+$('rev-own').addEventListener('input', () => { if ($('rev-own').value.trim()) { revSel = -1; renderReviews(); } });
+function copyBtn(getText) {
+  const b = el('button', { class: 'btn btn-ghost btn-sm', type: 'button' }, 'Kopiuj');
+  b.addEventListener('click', () => { const ok = () => { b.textContent = 'Skopiowano'; setTimeout(() => b.textContent = 'Kopiuj', 1500); }; try { navigator.clipboard.writeText(getText()).then(ok, () => { b.textContent = 'Zaznacz i skopiuj ręcznie'; }); } catch (_) { b.textContent = 'Zaznacz i skopiuj ręcznie'; } });
+  return b;
+}
+$('rev-ai').addEventListener('click', async () => {
+  const st = $('rev-status'); if (!ready(st)) return;
+  const own = $('rev-own').value.trim();
+  const r = own ? { who: 'Klient', stars: Number($('rev-stars').value), text: own } : REVIEWS[revSel];
+  if (!r) { setStatus(st, 'Wybierz albo wklej opinię.', true); return; }
+  if (!live() && own) { setStatus(st, 'W trybie pokazowym AI odpowiada na trzy przykładowe opinie. Po wdrożeniu odpowie na każdą opinię z Google.', true); return; }
+  const btn = $('rev-ai'); btn.disabled = true; setStatus(st, 'AI pisze odpowiedź…');
+  const out = $('rev-out'); out.textContent = '';
+  const ta = el('textarea', { 'aria-label': 'Odpowiedź na opinię' });
+  const head = el('div', { class: 'who' }, el('div', { class: 'mark' }, svgDrop()), 'Odpowiedź właściciela · Daniel Sajda – Hydraulik');
+  out.append(el('div', { class: 'reply' }, head, ta, el('div', { class: 'actions' }, copyBtn(() => ta.value))));
+  try {
+    if (live()) {
+      const { text } = await sample(`Napisz odpowiedź właściciela firmy hydraulicznej Daniel Sajda (Łódź) na opinię w Google, w pierwszej osobie. Opinia (${r.stars}/5) od ${r.who}: "${r.text}"
+Zasady: po polsku, 2–4 zdania, ciepło i konkretnie, zwrot do autora po imieniu jeśli jest. Przy pozytywnej podziękuj za konkret z opinii. Przy negatywnej przeproś bez tłumaczenia się i zaproś do kontaktu (tel. 531 146 252). Niczego nie obiecuj (rabatów, darmowych napraw), nie wymyślaj faktów. Podpis: "Daniel Sajda". Bez markdown.
+WIEDZA: ${KNOWLEDGE}`, { modelTier: 'quick', cache: false, onText: ({ text }) => { ta.value = text; } });
+      ta.value = text;
+    } else { await sleep(800); await typeOut(r.demo, (t) => { ta.value = t; }); }
+    setStatus(st, 'Gotowe. Popraw, jeśli chcesz, i skopiuj do Google.');
+  } catch (e) { if (e?.text) ta.value = e.text; setStatus(st, errText(e), true); } finally { btn.disabled = false; }
+});
+</script>
+
+</body>
+</html>
