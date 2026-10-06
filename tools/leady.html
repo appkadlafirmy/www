@@ -829,6 +829,17 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
     if (!r || typeof r.subject !== "string" || typeof r.body !== "string" || !r.body.trim()) throw { code: "invalid_json" };
     return { subject: r.subject.slice(0, 200), body: r.body };
   }
+  // Returns {id, threadId} if a mail to `email` with `subject` is in Sent today, null if not, false if the check itself failed.
+  async function findSent(email, subject) {
+    try {
+      const r = await mcp.callTool(GMAIL, "search_threads", { query: `in:sent to:${email} newer_than:1d`, pageSize: 5, view: "THREAD_VIEW_MINIMAL" }, { cache: false });
+      const ts = (r && r.payload && r.payload.threads) || [];
+      for (const t of ts) for (const m of t.messages || []) {
+        if ((m.labelIds || []).includes("SENT") && (!subject || String(m.subject || "").trim() === subject.trim())) return { id: m.id, threadId: m.threadId || t.id };
+      }
+      return null;
+    } catch (_) { return false; }
+  }
   async function runSend(kind, list) {
     if (S.busy) return;
     S.busy = true; S.stop = false;
@@ -836,7 +847,7 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
     const cancel = $("#send-cancel"); cancel.textContent = "Zatrzymaj";
     const log = (t) => { const el = $("#send-log"); el.textContent += t + "\n"; el.scrollTop = el.scrollHeight; };
     const delay = Math.max(2, Number(S.settings.delaySec) || 10);
-    let ok = 0, fail = 0;
+    let ok = 0, fail = 0, unsure = 0;
     for (let i = 0; i < list.length; i++) {
       if (S.stop) { log("Zatrzymano."); break; }
       const lead = S.leads.find((l) => l.id === list[i].id) || list[i];
@@ -858,8 +869,31 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
         const upd = { status: "sent", lastError: "", sends: [...sends(lead), { at, kind, id: m.id || "" }] };
         if (kind === "first") { upd.threadId = m.threadId || m.id || ""; upd.subject = msg.subject; upd.firstSentAt = at; }
         await db.doc("leads/" + lead.id).update(upd).catch(() => log("  (nie zapisano statusu w bazie)"));
-        ok++; log("✓ " + lead.email + ": wysłano");
+        ok++; unsure = 0; log("✓ " + lead.email + ": wysłano");
       } catch (e) {
+        // Gmail sometimes times out after the mail actually left: check Sent before deciding.
+        if (e && ["server_unavailable", "upstream_error"].includes(e.code)) {
+          log("… " + lead.email + ": Gmail nie odpowiedział, sprawdzam folder Wysłane");
+          await sleep(4000);
+          const found = await findSent(lead.email, msg.subject);
+          if (found) {
+            const at = nowIso();
+            const upd = { status: "sent", lastError: "", sends: [...sends(lead), { at, kind, id: found.id }] };
+            if (kind === "first") { upd.threadId = found.threadId; upd.subject = msg.subject; upd.firstSentAt = at; }
+            await db.doc("leads/" + lead.id).update(upd).catch(() => log("  (nie zapisano statusu w bazie)"));
+            ok++; unsure = 0; log("✓ " + lead.email + ": wysłano (potwierdzone w Wysłanych)");
+            $("#send-prog").style.width = ((i + 1) / list.length) * 100 + "%";
+            continue;
+          }
+          if (found === null) {
+            fail++; unsure++;
+            await db.doc("leads/" + lead.id).update({ status: "check", lastError: "Niepewny wynik wysyłki. Sprawdź folder Wysłane." }).catch(() => {});
+            log("? " + lead.email + ": nie widać go w Wysłanych, oznaczam do sprawdzenia");
+            if (unsure >= 3) { log("Gmail nie odpowiada. Wysyłka przerwana, spróbuj za kilka minut."); break; }
+            await sleep(5000);
+            continue;
+          }
+        }
         fail++;
         log("✗ " + lead.email + ": " + mcpMsg(e));
         if (e && e.code === "tool_error") {
