@@ -177,6 +177,7 @@
   .mobile-menu.is-open a:nth-child(4) { transition-delay: .15s; }
   .mobile-menu.is-open a:nth-child(5) { transition-delay: .2s; }
   .mobile-menu.is-open a:nth-child(6) { transition-delay: .25s; }
+  .mobile-menu.is-open a:nth-child(7) { transition-delay: .3s; }
   .mobile-menu .btn { margin-top: 1.5rem; align-self: flex-start; font-family: var(--font-sans); font-size: 1.05rem; }
 
   /* ============ HERO ============ */
@@ -448,6 +449,56 @@
   .tile--copper p { color: rgba(255,255,255,.88); }
   .tile--copper .tile__ic { background: rgba(255,255,255,.2); color: #fff; }
 
+  /* ============ REVIEWS ============ */
+  .reviews { background: var(--white); overflow: hidden; }
+  .reviews__head { display: grid; gap: 1.5rem; align-items: end; }
+  @media (min-width: 900px) { .reviews__head { grid-template-columns: 1fr auto; } }
+  .demo-note {
+    display: inline-flex; align-items: center; gap: .5rem; margin-top: 1.2rem; padding: .45rem .85rem; border-radius: 999px;
+    background: #FFF7ED; border: 1px dashed var(--copper); color: var(--copper-2); font-size: .82rem; font-weight: 700;
+  }
+  .reviews__rows { display: grid; gap: 1.1rem; margin-top: 3rem; }
+  .rrow { overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+  .rrow__track { display: flex; gap: 1.1rem; width: max-content; padding: .6rem 0 1rem; animation: tick 60s linear infinite; }
+  .rrow--rev .rrow__track { animation-direction: reverse; animation-duration: 70s; }
+  .rrow:hover .rrow__track, .rrow:focus-within .rrow__track { animation-play-state: paused; }
+  .review {
+    width: min(380px, 82vw); flex: none; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 1.5rem 1.5rem 1.3rem; display: flex; flex-direction: column; gap: 1rem; position: relative;
+    transition: transform .5s var(--ease), box-shadow .5s var(--ease), background .4s, border-color .4s;
+  }
+  .review:hover { transform: translateY(-8px) rotate(-.6deg); box-shadow: var(--shadow); background: #fff; border-color: rgba(14,165,233,.3); }
+  .review::after {
+    content: "\201D"; position: absolute; right: 1.2rem; top: .2rem; font-family: var(--font-display); font-size: 5rem; line-height: 1;
+    color: var(--foam); pointer-events: none; transition: color .4s, transform .5s var(--ease);
+  }
+  .review:hover::after { color: rgba(56,189,248,.35); transform: translateY(-4px) scale(1.1); }
+  .stars { display: flex; gap: 2px; color: #F59E0B; }
+  .stars svg { width: 18px; height: 18px; }
+  .review blockquote { margin: 0; color: var(--text); font-size: .98rem; position: relative; z-index: 1; }
+  .review footer { display: flex; align-items: center; gap: .8rem; margin-top: auto; }
+  .avatar { width: 42px; height: 42px; flex: none; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 800; font-family: var(--font-display); font-size: .95rem; }
+  .review footer b { display: block; font-size: .95rem; }
+  .review footer small { color: var(--muted); font-size: .82rem; }
+  .review__tag { margin-left: auto; font-size: .72rem; font-weight: 800; padding: .25rem .6rem; border-radius: 999px; background: var(--foam); color: var(--water-3); white-space: nowrap; }
+
+  .review-cta {
+    margin-top: 2.6rem; display: grid; gap: 1.4rem; align-items: center; border-radius: 26px; padding: clamp(1.4rem, 4vw, 2.2rem);
+    background: linear-gradient(120deg, var(--ink), var(--ink-3)); color: #fff; position: relative; overflow: hidden;
+  }
+  @media (min-width: 860px) { .review-cta { grid-template-columns: auto 1fr auto; } }
+  .review-cta::before { content: ""; position: absolute; width: 380px; height: 380px; left: -120px; top: -180px; border-radius: 50%; background: radial-gradient(circle, rgba(56,189,248,.35), transparent 65%); pointer-events: none; }
+  .review-cta__stars { display: flex; gap: 4px; color: #F59E0B; position: relative; }
+  .review-cta__stars svg { width: 30px; height: 30px; opacity: 0; transform: scale(.3) rotate(-40deg); transition: opacity .5s, transform .7s var(--ease); }
+  .review-cta.is-visible .review-cta__stars svg { opacity: 1; transform: none; }
+  .review-cta.is-visible .review-cta__stars svg:nth-child(2) { transition-delay: .1s; }
+  .review-cta.is-visible .review-cta__stars svg:nth-child(3) { transition-delay: .2s; }
+  .review-cta.is-visible .review-cta__stars svg:nth-child(4) { transition-delay: .3s; }
+  .review-cta.is-visible .review-cta__stars svg:nth-child(5) { transition-delay: .4s; }
+  .review-cta h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; letter-spacing: -.01em; position: relative; }
+  .review-cta p { color: rgba(255,255,255,.7); margin-top: .3rem; position: relative; }
+  .review-cta .btn { position: relative; }
+
   /* ============ AREA ============ */
   .area { background: var(--white); }
   .area__grid { display: grid; gap: 2.5rem; align-items: center; }
@@ -637,6 +688,7 @@
     <symbol id="i-user" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></g></symbol>
     <symbol id="i-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></g></symbol>
     <symbol id="i-broom" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 3-7 7"/><path d="M10 9 4 15l5 5 6-6zM6 17l-3 3M9 13l2 2"/></g></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z"/></symbol>
     <symbol id="i-receipt" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l3-2 3 2 2-2 2 2 3-2 3 2V2l-3 2-3-2-2 2-2-2-3 2z"/><path d="M8 9h8M8 13h6"/></g></symbol>
   </defs>
 </svg>
@@ -655,6 +707,7 @@
       <a href="#uslugi">Usługi</a>
       <a href="#awaria">Awaria?</a>
       <a href="#jak">Jak działam</a>
+      <a href="#opinie">Opinie</a>
       <a href="#obszar">Obszar</a>
       <a href="#faq">FAQ</a>
       <a href="#kontakt">Kontakt</a>
@@ -667,6 +720,7 @@
   <a href="#uslugi">Usługi</a>
   <a href="#awaria">Awaria?</a>
   <a href="#jak">Jak działam</a>
+  <a href="#opinie">Opinie</a>
   <a href="#obszar">Obszar</a>
   <a href="#kontakt">Kontakt</a>
   <a href="tel:+48531146252" class="btn btn--copper"><svg aria-hidden="true"><use href="#i-phone"/></svg>Zadzwoń: 531 146 252</a>
@@ -1021,6 +1075,122 @@
           <h3>Na miejscu w Łodzi</h3>
           <p>Lokalna firma z adresem w Łodzi — nie anonimowy numer z ogłoszenia.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <!-- UWAGA: poniższe opinie są PRZYKŁADOWE (demo). Przed publikacją zastąp je prawdziwymi opiniami klientów (np. z Google) i usuń .demo-note. -->
+  <section class="section reviews" id="opinie">
+    <div class="container">
+      <div class="reviews__head">
+        <div class="reveal">
+          <span class="eyebrow">Opinie klientów</span>
+          <h2 class="h2" data-split>Mówią za mnie szczelne instalacje.</h2>
+          <p class="lead">Najlepsza reklama to zadowoleni sąsiedzi. Oto, co mówią klienci z Łodzi i okolic.</p>
+          <span class="demo-note">Przykładowe opinie — wersja demonstracyjna</span>
+        </div>
+        <a href="#kontakt" class="btn btn--dark reveal">Dołącz do zadowolonych<svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+    <div class="reviews__rows reveal">
+      <div class="rrow">
+        <div class="rrow__track">
+          <figure class="review">
+            <div class="stars" role="img" aria-label="5 na 5 gwiazdek"><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg></div>
+            <blockquote>Pękł wężyk pod zlewem w sobotę rano. Zadzwoniłam, pan Daniel od razu powiedział, jak zakręcić wodę, a po kilku godzinach było po sprawie. Konkretnie i bez nerwów.</blockquote>
+            <footer><span class="avatar" style="background:#0EA5E9">AK</span><span><b>Anna K.</b><small>Bałuty</small></span><span class="review__tag">Awaria</span></footer>
+          </figure>
+          <figure class="review">
+            <div class="stars" role="img" aria-label="5 na 5 gwiazdek"><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg></div>
+            <blockquote>Cała hydraulika do remontu łazienki — stelaż WC, prysznic walk-in, nowe podejścia. Wszystko równo, szczelnie i zgodnie z tym, co ustaliliśmy. Polecam.</blockquote>
+            <footer><span class="avatar" style="background:#F97316">MW</span><span><b>Marek W.</b><small>Widzew</small></span><span class="review__tag">Łazienka</span></footer>
+          </figure>
+          <figure class="review">
+            <div class="stars" role="img" aria-label="5 na 5 gwiazdek"><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg></div>
+            <blockquote>Stara kamienica, grzejniki grzały do połowy. Płukanie instalacji i wymiana zaworów — w końcu ciepło w całym mieszkaniu. Cena taka, jak w wycenie.</blockquote>
+            <footer><span class="avatar" style="background:#0369A1">KP</span><span><b>Katarzyna P.</b><small>Śródmieście</small></span><span class="review__tag">C.O.</span></footer>
+          </figure>
+          <figure class="review">
+            <div class="stars" role="img" aria-label="5 na 5 gwiazdek"><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg></div>
+            <blockquote>Wymiana starych rur stalowych na nowe w całym mieszkaniu. Fachowo, czysto, podłogi zabezpieczone. Widać doświadczenie.</blockquote>
+            <footer><span class="avatar" style="background:#22A06B">TR</span><span><b>Tomasz R.</b><small>Polesie</small></span><span class="review__tag">Wod-kan</span></footer>
+          </figure>
+          <figure class="review" aria-hidden="true">
+            <div class="stars" role="img" aria-label="5 na 5 gwiazdek"><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg></div>
+            <blockquote>Pękł wężyk pod zlewem w sobotę rano. Zadzwoniłam, pan Daniel od razu powiedział, jak zakręcić wodę, a po kilku godzinach było po sprawie. Konkretnie i bez nerwów.</blockquote>
+            <footer><span class="avatar" style="background:#0EA5E9">AK</span><span><b>Anna K.</b><small>Bałuty</small></span><span class="review__tag">Awaria</span></footer>
+          </figure>
+          <figure class="review" aria-hidden="true">
+            <div class="stars" role="img" aria-label="5 na 5 gwiazdek"><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg></div>
+            <blockquote>Cała hydraulika do remontu łazienki — stelaż WC, prysznic walk-in, nowe podejścia. Wszystko równo, szczelnie i zgodnie z tym, co ustaliliśmy. Polecam.</blockquote>
+            <footer><span class="avatar" style="background:#F97316">MW</span><span><b>Marek W.</b><small>Widzew</small></span><span class="review__tag">Łazienka</span></footer>
+          </figure>
+          <figure class="review" aria-hidden="true">
+            <div class="stars" role="img" aria-label="5 na 5 gwiazdek"><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg></div>
+            <blockquote>Stara kamienica, grzejniki grzały do połowy. Płukanie instalacji i wymiana zaworów — w końcu ciepło w całym mieszkaniu. Cena taka, jak w wycenie.</blockquote>
+            <footer><span class="avatar" style="background:#0369A1">KP</span><span><b>Katarzyna P.</b><small>Śródmieście</small></span><span class="review__tag">C.O.</span></footer>
+          </figure>
+          <figure class="review" aria-hidden="true">
+            <div class="stars" role="img" aria-label="5 na 5 gwiazdek"><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg></div>
+            <blockquote>Wymiana starych rur stalowych na nowe w całym mieszkaniu. Fachowo, czysto, podłogi zabezpieczone. Widać doświadczenie.</blockquote>
+            <footer><span class="avatar" style="background:#22A06B">TR</span><span><b>Tomasz R.</b><small>Polesie</small></span><span class="review__tag">Wod-kan</span></footer>
+          </figure>
+        </div>
+      </div>
+      <div class="rrow rrow--rev">
+        <div class="rrow__track">
+          <figure class="review">
+            <div class="stars" role="img" aria-label="5 na 5 gwiazdek"><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg></div>
+            <blockquote>Podłączenie nowej kuchenki gazowej z próbą szczelności. Szybki termin, wszystko wytłumaczone, faktura od ręki.</blockquote>
+            <footer><span class="avatar" style="background:#8B5CF6">JM</span><span><b>Joanna M.</b><small>Górna</small></span><span class="review__tag">Gaz</span></footer>
+          </figure>
+          <figure class="review">
+            <div class="stars" role="img" aria-label="5 na 5 gwiazdek"><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg></div>
+            <blockquote>Montaż klimatyzacji w sypialni. Doradził miejsce na jednostkę, instalacja schowana porządnie. Działa cicho i chłodzi jak trzeba.</blockquote>
+            <footer><span class="avatar" style="background:#E11D48">PS</span><span><b>Piotr S.</b><small>Zgierz</small></span><span class="review__tag">Klima</span></footer>
+          </figure>
+          <figure class="review">
+            <div class="stars" role="img" aria-label="5 na 5 gwiazdek"><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg></div>
+            <blockquote>Zapchany pion — woda cofała się do wanny. Problem znaleziony i usunięty tego samego dnia. Bardzo kulturalny i punktualny.</blockquote>
+            <footer><span class="avatar" style="background:#0EA5E9">ED</span><span><b>Ewa D.</b><small>Bałuty</small></span><span class="review__tag">Awaria</span></footer>
+          </figure>
+          <figure class="review">
+            <div class="stars" role="img" aria-label="5 na 5 gwiazdek"><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg></div>
+            <blockquote>Współpracujemy przy naprawach w częściach wspólnych budynku. Terminowo, z jasnymi rozliczeniami i dokumentacją.</blockquote>
+            <footer><span class="avatar" style="background:#F59E0B">WM</span><span><b>Wspólnota mieszk.</b><small>Śródmieście</small></span><span class="review__tag">Wod-kan</span></footer>
+          </figure>
+          <figure class="review" aria-hidden="true">
+            <div class="stars" role="img" aria-label="5 na 5 gwiazdek"><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg></div>
+            <blockquote>Podłączenie nowej kuchenki gazowej z próbą szczelności. Szybki termin, wszystko wytłumaczone, faktura od ręki.</blockquote>
+            <footer><span class="avatar" style="background:#8B5CF6">JM</span><span><b>Joanna M.</b><small>Górna</small></span><span class="review__tag">Gaz</span></footer>
+          </figure>
+          <figure class="review" aria-hidden="true">
+            <div class="stars" role="img" aria-label="5 na 5 gwiazdek"><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg></div>
+            <blockquote>Montaż klimatyzacji w sypialni. Doradził miejsce na jednostkę, instalacja schowana porządnie. Działa cicho i chłodzi jak trzeba.</blockquote>
+            <footer><span class="avatar" style="background:#E11D48">PS</span><span><b>Piotr S.</b><small>Zgierz</small></span><span class="review__tag">Klima</span></footer>
+          </figure>
+          <figure class="review" aria-hidden="true">
+            <div class="stars" role="img" aria-label="5 na 5 gwiazdek"><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg></div>
+            <blockquote>Zapchany pion — woda cofała się do wanny. Problem znaleziony i usunięty tego samego dnia. Bardzo kulturalny i punktualny.</blockquote>
+            <footer><span class="avatar" style="background:#0EA5E9">ED</span><span><b>Ewa D.</b><small>Bałuty</small></span><span class="review__tag">Awaria</span></footer>
+          </figure>
+          <figure class="review" aria-hidden="true">
+            <div class="stars" role="img" aria-label="5 na 5 gwiazdek"><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg></div>
+            <blockquote>Współpracujemy przy naprawach w częściach wspólnych budynku. Terminowo, z jasnymi rozliczeniami i dokumentacją.</blockquote>
+            <footer><span class="avatar" style="background:#F59E0B">WM</span><span><b>Wspólnota mieszk.</b><small>Śródmieście</small></span><span class="review__tag">Wod-kan</span></footer>
+          </figure>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="review-cta reveal" id="reviewCta">
+        <div class="review-cta__stars" aria-hidden="true"><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg></div>
+        <div>
+          <h3>Byłeś zadowolony z usługi?</h3>
+          <p>Zostaw opinię — pomaga innym znaleźć sprawdzonego hydraulika, a mnie rozwijać firmę.</p>
+        </div>
+        <a href="https://www.google.com/search?q=Daniel+Sajda+hydraulik+%C5%81%C3%B3d%C5%BA" target="_blank" rel="noopener" class="btn btn--copper">Wystaw opinię w Google<svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
       </div>
     </div>
   </section>
