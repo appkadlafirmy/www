@@ -918,37 +918,53 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
   }
 
   // ---------- reply check ----------
+  // Scans the inbox (one search, a few pages) and matches messages to leads by thread or sender, instead of opening every thread.
   $("#btn-check").onclick = async () => {
     const btn = $("#btn-check"), note = $("#check-note");
     if (!mcp) { note.innerHTML = `<div class="note err">Gmail jest niedostępny w tym widoku.</div>`; return; }
-    const targets = S.leads.filter((l) => l.threadId && !l.repliedAt && !["bounced", "not_interested", "unsubscribed"].includes(l.status))
-      .sort((a, b) => String(lastSend(b)).localeCompare(String(lastSend(a)))).slice(0, 80);
-    if (!targets.length) { note.innerHTML = `<div class="note">Nie ma wysłanych maili, na które czekasz na odpowiedź.</div>`; return; }
-    btn.disabled = true; let found = 0, bounces = 0, done = 0;
     const self = String(S.settings.senderEmail || "").toLowerCase();
-    for (const l of targets) {
-      note.innerHTML = `<div class="note">Sprawdzam ${++done} z ${targets.length}…</div>`;
-      try {
-        const res = await mcp.callTool(GMAIL, "get_thread", { threadId: l.threadId, messageFormat: "MINIMAL" }, { cache: false });
-        const p = (res && res.payload) || {}; const msgs = Array.isArray(p.messages) ? p.messages : [];
-        const others = msgs.filter((m) => !(m.labelIds || []).includes("SENT") && !(self && String(m.sender || "").toLowerCase().includes(self)));
-        const upd = {}; if (p.viewUrl) upd.threadUrl = p.viewUrl;
-        const bounce = others.find((m) => /mailer-daemon|postmaster/i.test(String(m.sender || "")));
-        const human = others.filter((m) => m !== bounce && !/mailer-daemon|postmaster/i.test(String(m.sender || "")));
-        if (human.length) {
-          const m = human[0];
-          Object.assign(upd, { repliedAt: m.date || nowIso(), replySnippet: String(m.snippet || m.subject || "").slice(0, 400), replyFrom: m.sender || "", status: "replied" });
-          found++;
-        } else if (bounce) { Object.assign(upd, { status: "bounced", lastError: "Adres odrzucił wiadomość" }); bounces++; }
-        if (Object.keys(upd).length) await db.doc("leads/" + l.id).update(upd).catch(() => {});
-      } catch (e) {
-        if (e && e.code === "tool_error") continue;
-        note.innerHTML = `<div class="note err">${esc(mcpMsg(e))}</div>`; btn.disabled = false; return;
-      }
+    const open = (l) => sends(l).length && !l.repliedAt && !["bounced", "not_interested", "unsubscribed"].includes(l.status);
+    const byThread = new Map(), byEmail = new Map();
+    for (const l of S.leads) { if (!open(l)) continue; if (l.threadId) byThread.set(l.threadId, l); byEmail.set(String(l.email).toLowerCase(), l); }
+    if (!byEmail.size) { note.innerHTML = `<div class="note">Nie ma wysłanych maili, na które czekasz na odpowiedź.</div>`; return; }
+    btn.disabled = true;
+    let found = 0, refused = 0, bounces = 0, seen = 0, page = 0, token = "";
+    const done = new Set();
+    const AUTO = /autorespond|wygenerowan\w* automatycznie|nie odpowiadaj na ni|nieobecn|urlop|out of office|automatic reply|auto-reply|autoreply/i;
+    const NO = /^\s*(nie|stop)(\s|[,.!]|$)|nie (jeste[sś]my|jestem) zainteresowan|nie dzi[eę]kuj|prosz[eę] nie pisa|rezygnuj|wypisz/i;
+    try {
+      do {
+        note.innerHTML = `<div class="note">Przeglądam skrzynkę (strona ${++page})…</div>`;
+        const input = { query: `in:inbox newer_than:45d -from:me`, pageSize: 50, view: "THREAD_VIEW_MINIMAL" };
+        if (token) input.pageToken = token;
+        const r = await mcp.callTool(GMAIL, "search_threads", input, { cache: false });
+        const p = (r && r.payload) || {};
+        token = p.nextPageToken || "";
+        for (const t of p.threads || []) for (const m of t.messages || []) {
+          seen++;
+          const sender = String(m.sender || "").toLowerCase();
+          if ((m.labelIds || []).includes("SENT") || (self && sender.includes(self))) continue;
+          const addr = (sender.match(/[^\s<>"]+@[^\s<>"]+/) || [""])[0];
+          const lead = byThread.get(t.id) || byThread.get(m.threadId) || byEmail.get(addr);
+          if (!lead || done.has(lead.id)) continue;
+          const text = String(m.snippet || "") + " " + String(m.subject || "");
+          let upd = null;
+          if (/mailer-daemon|postmaster/.test(sender)) { if (byThread.get(t.id) === lead || byThread.get(m.threadId) === lead) { upd = { status: "bounced", lastError: "Adres odrzucił wiadomość" }; bounces++; } }
+          else if (AUTO.test(text)) continue;
+          else {
+            const no = NO.test(String(m.snippet || ""));
+            upd = { repliedAt: m.date || nowIso(), replySnippet: String(m.snippet || m.subject || "").slice(0, 400), replyFrom: m.sender || "", status: no ? "not_interested" : "replied" };
+            found++; if (no) refused++;
+          }
+          if (upd) { done.add(lead.id); await db.doc("leads/" + lead.id).update(upd).catch(() => {}); }
+        }
+      } while (token && page < 20);
+    } catch (e) {
+      note.innerHTML = `<div class="note err">${esc(mcpMsg(e))}</div>`; btn.disabled = false; return;
     }
     try { await saveSettings({ lastCheckAt: nowIso() }); } catch (_) {}
     btn.disabled = false;
-    note.innerHTML = `<div class="note ${found ? "ok" : ""}">Sprawdzono ${targets.length} wątków: ${found} nowych odpowiedzi${bounces ? `, ${bounces} odbitych` : ""}.</div>`;
+    note.innerHTML = `<div class="note ${found ? "ok" : ""}">Sprawdzono wszystkie ${byEmail.size} firm czekających na odpowiedź (${seen} wiadomości w skrzynce z ostatnich 45 dni): ${found} nowych odpowiedzi${refused ? `, w tym ${refused} odmów` : ""}${bounces ? `, ${bounces} odbitych` : ""}.</div>`;
   };
 
   // ---------- template editor ----------
