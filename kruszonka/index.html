@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kruszonka Cukiernia</title>
+<meta name="description" content="Kruszonka — rzemieślnicza cukiernia we Wrocławiu. Torty na zamówienie, makaroniki, serniki i croissanty pieczone codziennie od 5:00.">
+<meta name="theme-color" content="#E2456B">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23E2456B'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-weight='700' font-size='34' text-anchor='middle' fill='%23FFF6EA'%3EK%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Layout: candy-shop maximalism — raspberry hero, vanilla page, cocoa "shop window" band; soft wonky serif carries the personality. */
+  :root {
+    --rasp: #E2456B;
+    --rasp-deep: #B9284D;
+    --cocoa: #3B1F18;
+    --cocoa-2: #52302A;
+    --vanilla: #FFF6EA;
+    --cream: #F6E6D3;
+    --pist: #C9D79E;
+    --pist-deep: #6F8040;
+    --mute: #8A6A60;
+    --line: rgba(59, 31, 24, 0.14);
+
+    --f-display: "Fraunces", "Cooper Black", Georgia, serif;
+    --f-body: Figtree, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+    --step--1: clamp(0.78rem, 0.75rem + 0.15vw, 0.86rem);
+    --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.12rem);
+    --step-1: clamp(1.2rem, 1.08rem + 0.55vw, 1.55rem);
+    --step-2: clamp(1.7rem, 1.3rem + 1.7vw, 2.9rem);
+    --step-3: clamp(2.4rem, 1.5rem + 4vw, 5.4rem);
+    --step-4: clamp(3.2rem, 1.2rem + 9vw, 11rem);
+
+    --gutter: clamp(16px, 4vw, 56px);
+    --max: 1400px;
+    --r: clamp(22px, 3vw, 40px);
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    color-scheme: light;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  body {
+    margin: 0; background: var(--vanilla); color: var(--cocoa);
+    font-family: var(--f-body); font-size: var(--step-0); line-height: 1.55;
+    -webkit-font-smoothing: antialiased; overflow-x: clip;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button, input, select { font: inherit; color: inherit; }
+  button { background: none; border: 0; padding: 0; cursor: pointer; }
+  h1, h2, h3, p, figure, ul, ol, dl, dd { margin: 0; }
+  ul, ol { padding: 0; list-style: none; }
+  h1, h2, h3 {
+    font-family: var(--f-display); font-weight: 800; text-wrap: balance;
+    font-variation-settings: "SOFT" 100, "WONK" 1; letter-spacing: -0.025em;
+  }
+  em { font-style: italic; font-weight: 400; font-variation-settings: "SOFT" 100, "WONK" 1; }
+  :focus-visible { outline: 3px solid var(--pist-deep); outline-offset: 3px; border-radius: 6px; }
+  ::selection { background: var(--rasp); color: var(--vanilla); }
+  .wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+  .eyebrow { font-size: var(--step--1); font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: .6rem; padding: 1rem 1.5rem; border-radius: 999px;
+    font-weight: 600; background: var(--cocoa); color: var(--vanilla); position: relative; overflow: hidden; isolation: isolate;
+    transition: color .35s;
+  }
+  .btn::before {
+    content: ""; position: absolute; inset: 0; background: var(--pist); z-index: -1; border-radius: inherit;
+    transform: scale(0); transition: transform .5s var(--ease);
+  }
+  .btn:hover { color: var(--cocoa); }
+  .btn:hover::before { transform: scale(1.05); }
+  .btn svg { width: 18px; height: 18px; flex: none; }
+  .btn--light { background: var(--vanilla); color: var(--cocoa); }
+
+  /* sprinkles canvas */
+  #sprinkles { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 120; }
+
+  /* ---------- loader ---------- */
+  .loader {
+    position: fixed; inset: 0; z-index: 130; background: var(--rasp); color: var(--vanilla);
+    display: grid; place-items: center; animation: loaderOut .6s var(--ease) 2.6s forwards;
+  }
+  @keyframes loaderOut { to { transform: translateY(-100%); visibility: hidden; } }
+  .loader__word { font-family: var(--f-display); font-weight: 900; font-size: clamp(3rem, 14vw, 9rem); letter-spacing: -0.04em; display: flex; overflow: hidden; font-variation-settings: "SOFT" 100, "WONK" 1; }
+  .loader__word span { display: inline-block; }
+
+  /* ---------- nav ---------- */
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 80; padding-top: env(safe-area-inset-top, 0px); transition: transform .5s var(--ease); }
+  .nav.is-hidden { transform: translateY(-120%); }
+  .nav__bar {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    margin-top: .8rem; padding: .55rem .55rem .55rem 1.2rem; border-radius: 999px;
+    transition: background .4s, box-shadow .4s;
+  }
+  .nav.is-solid .nav__bar { background: rgba(255, 246, 234, 0.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 10px 30px -18px rgba(59,31,24,.5); }
+  .logo { font-family: var(--f-display); font-weight: 900; font-size: 1.5rem; letter-spacing: -0.03em; color: var(--vanilla); transition: color .4s; font-variation-settings: "SOFT" 100, "WONK" 1; }
+  .nav.is-solid .logo, .nav.is-solid .nav__links { color: var(--cocoa); }
+  .nav__links { display: none; gap: 1.8rem; color: var(--vanilla); font-weight: 500; transition: color .4s; }
+  .nav__links a { position: relative; }
+  .nav__links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -3px; height: 2px; border-radius: 2px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .4s var(--ease); }
+  .nav__links a:hover::after { transform: scaleX(1); transform-origin: left; }
+  .nav .btn { padding: .75rem 1.2rem; font-size: .95rem; }
+  .nav:not(.is-solid) .btn { background: var(--vanilla); color: var(--cocoa); }
+  @media (min-width: 960px) { .nav__links { display: flex; } }
+
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative; background: var(--rasp); color: var(--vanilla); overflow: hidden;
+    border-radius: 0 0 var(--r) var(--r);
+    padding-top: calc(7.5rem + env(safe-area-inset-top, 0px)); padding-bottom: clamp(3rem, 6vw, 5rem);
+  }
+  .hero__grid { display: grid; gap: 2.5rem; align-items: center; }
+  @media (min-width: 960px) { .hero__grid { grid-template-columns: 1.15fr 1fr; } }
+  .status {
+    display: inline-flex; align-items: center; gap: .55rem; padding: .45rem .9rem; border-radius: 999px;
+    background: rgba(255, 246, 234, 0.16); font-size: .9rem; font-weight: 500; margin-bottom: 1.4rem;
+  }
+  .status i { width: 9px; height: 9px; border-radius: 50%; background: var(--pist); box-shadow: 0 0 0 0 var(--pist); animation: pulse 2s infinite; }
+  .status.is-closed i { background: var(--cream); animation: none; }
+  @keyframes pulse { 70% { box-shadow: 0 0 0 9px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+  .hero h1 { font-size: clamp(3.2rem, 1.2rem + 6.6vw, 8.4rem); line-height: .88; letter-spacing: -0.045em; }
+  .hero h1 em { color: var(--cocoa); }
+  .line { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
+  .line > span { display: inline-block; }
+  .hero__lead { max-width: 36ch; margin-top: 1.8rem; font-size: var(--step-1); line-height: 1.4; }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2.2rem; }
+  .hero__cta .ghost { display: inline-flex; align-items: center; padding: 1rem 1.4rem; border-radius: 999px; border: 1.5px solid rgba(255,246,234,.5); font-weight: 600; transition: background .3s, color .3s; }
+  .hero__cta .ghost:hover { background: var(--vanilla); color: var(--rasp-deep); }
+
+  .disc { position: relative; width: min(100%, 520px); aspect-ratio: 1; justify-self: center; }
+  .disc__img { position: absolute; inset: 9%; border-radius: 50%; overflow: hidden; box-shadow: 0 40px 80px -30px rgba(59,31,24,.65); }
+  .disc__img img { width: 100%; height: 100%; object-fit: cover; }
+  .disc__ring { position: absolute; inset: 0; animation: spin 22s linear infinite; }
+  .disc__ring text { font-family: var(--f-body); font-weight: 600; font-size: 7.4px; letter-spacing: 2.6px; fill: var(--vanilla); text-transform: uppercase; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .mini { position: absolute; width: 24%; aspect-ratio: 1; border-radius: 50%; overflow: hidden; border: 5px solid var(--vanilla); box-shadow: 0 18px 30px -12px rgba(59,31,24,.5); animation: float 5s ease-in-out infinite; }
+  .mini img { width: 100%; height: 100%; object-fit: cover; }
+  .mini--a { left: -4%; top: 8%; }
+  .mini--b { right: -5%; top: 40%; animation-delay: -1.6s; width: 20%; }
+  .mini--c { left: 6%; bottom: -2%; animation-delay: -3.2s; width: 21%; }
+  @keyframes float { 50% { translate: 0 -12px; } }
+  .price-tag {
+    position: absolute; right: 4%; bottom: 6%; background: var(--pist); color: var(--cocoa); border-radius: 50%;
+    width: 27%; aspect-ratio: 1; display: grid; place-content: center; text-align: center; rotate: 12deg;
+    font-weight: 700; line-height: 1.05; box-shadow: 0 14px 24px -12px rgba(59,31,24,.5);
+  }
+  .price-tag b { display: block; font-family: var(--f-display); font-size: clamp(1.4rem, 3vw, 2.2rem); font-weight: 900; }
+  .price-tag span { font-size: clamp(.62rem, 1.1vw, .8rem); text-transform: uppercase; letter-spacing: .08em; }
+  @media (max-width: 959px) { .disc { width: min(86vw, 420px); } }
+
+  /* ---------- marquee ---------- */
+  .marquee { padding-block: 1.4rem; overflow: hidden; }
+  .marquee__track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
+  .marquee__track > div { display: flex; align-items: center; gap: 1.6rem; padding-right: 1.6rem; }
+  .marquee span { font-family: var(--f-display); font-size: var(--step-2); font-weight: 800; white-space: nowrap; letter-spacing: -0.02em; font-variation-settings: "SOFT" 100, "WONK" 1; }
+  .marquee span:nth-child(4n+3) { font-style: italic; font-weight: 400; color: var(--rasp); }
+  .marquee svg { width: 1.8rem; height: 1.8rem; flex: none; color: var(--pist-deep); }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+
+  /* ---------- sections ---------- */
+  .sec { padding-block: clamp(4.5rem, 10vw, 8.5rem); }
+  .sec-head { display: grid; gap: 1.1rem; margin-bottom: clamp(2rem, 5vw, 3.6rem); }
+  @media (min-width: 960px) { .sec-head { grid-template-columns: 1.2fr 1fr; align-items: end; } }
+  .sec-title { font-size: var(--step-3); line-height: .95; letter-spacing: -0.035em; }
+  .sec-title em { color: var(--rasp); }
+  .sec-note { max-width: 42ch; color: var(--mute); }
+
+  /* ---------- witryna (horizontal) ---------- */
+  .shop { background: var(--cocoa); color: var(--vanilla); border-radius: var(--r); margin-inline: clamp(8px, 1.4vw, 20px); overflow: hidden; }
+  .shop .sec-title em { color: var(--pist); }
+  .shop .sec-note { color: rgba(255,246,234,.7); }
+  .shop__pin { padding-block: clamp(4rem, 9vw, 6rem) 3rem; }
+  .shop__track { display: flex; gap: clamp(14px, 2vw, 26px); padding-inline: var(--gutter); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 8px; }
+  .shop__track::-webkit-scrollbar { display: none; }
+  .pcard { flex: none; width: min(74vw, 340px); scroll-snap-align: center; display: grid; gap: .9rem; }
+  .pcard__img { position: relative; aspect-ratio: 4 / 5; border-radius: 24px; overflow: hidden; background: var(--cocoa-2); max-width: 100%; }
+  .pcard__img img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease); }
+  .pcard:hover .pcard__img img { transform: scale(1.07) rotate(1deg); }
+  .tag { position: absolute; top: 14px; left: 14px; padding: .35rem .75rem; border-radius: 999px; font-size: .78rem; font-weight: 700; background: var(--vanilla); color: var(--cocoa); }
+  .tag--new { background: var(--pist); }
+  .tag--hot { background: var(--rasp); color: var(--vanilla); }
+  .pcard.is-out .pcard__img img { filter: grayscale(.85) brightness(.75); }
+  .pcard.is-out .pcard__img::after {
+    content: "Wyprzedane"; position: absolute; left: 50%; top: 50%; translate: -50% -50%; rotate: -12deg;
+    padding: .5rem 1.1rem; border: 3px solid var(--vanilla); border-radius: 12px; color: var(--vanilla);
+    font-family: var(--f-display); font-weight: 900; font-size: 1.6rem; text-transform: uppercase; letter-spacing: .02em;
+  }
+  .pcard__row { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+  .pcard h3 { font-size: 1.45rem; letter-spacing: -0.02em; line-height: 1.1; }
+  .pcard__price { font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .pcard__price small { font-weight: 500; opacity: .7; }
+  .pcard p { color: rgba(255,246,234,.7); font-size: .95rem; line-height: 1.45; }
+  .shop__intro { display: none; }
+  .shop__bar { display: none; }
+  @media (min-width: 960px) {
+    .shop__pin { height: 100vh; display: flex; flex-direction: column; justify-content: center; padding-block: 4rem 2.5rem; }
+    .shop__track { overflow: visible; scroll-snap-type: none; align-items: center; will-change: transform; }
+    .pcard { width: min(24vw, 330px); }
+    .pcard:nth-child(odd) { translate: 0 5vh; }
+    .shop__intro { display: block; flex: none; width: min(30vw, 400px); padding-right: 2rem; }
+    .shop .sec-head { display: none; }
+    .shop__bar { display: block; height: 3px; border-radius: 3px; background: rgba(255,246,234,.15); margin-top: 3rem; overflow: hidden; }
+    .shop__bar span { display: block; height: 100%; background: var(--pist); transform-origin: left; transform: scaleX(0); }
+  }
+
+  /* ---------- menu grid ---------- */
+  .tabs { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .tab { padding: .6rem 1.1rem; border-radius: 999px; border: 1.5px solid var(--line); font-weight: 600; font-size: .95rem; transition: background .3s, color .3s, border-color .3s; }
+  .tab:hover { border-color: var(--cocoa); }
+  .tab[aria-pressed="true"] { background: var(--cocoa); color: var(--vanilla); border-color: var(--cocoa); }
+  .menu-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(12px, 2vw, 24px); }
+  @media (min-width: 760px) { .menu-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (min-width: 1100px) { .menu-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .item { display: grid; gap: .7rem; min-width: 0; }
+  .item__img { position: relative; aspect-ratio: 1; border-radius: 50% 50% 22px 22px; overflow: hidden; background: var(--cream); max-width: 100%; }
+  .item__img img { width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease); }
+  .item:hover .item__img img { transform: scale(1.08); }
+  .item__img .tag { top: auto; bottom: 12px; left: 12px; }
+  .item h3 { font-size: clamp(1.05rem, 1rem + .4vw, 1.3rem); letter-spacing: -0.015em; line-height: 1.15; }
+  .item__meta { display: flex; justify-content: space-between; gap: .6rem; color: var(--mute); font-size: .92rem; }
+  .item__meta b { color: var(--cocoa); font-variant-numeric: tabular-nums; }
+
+  /* ---------- configurator ---------- */
+  .cfg { display: grid; gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
+  @media (min-width: 960px) { .cfg { grid-template-columns: 1fr 1.05fr; } }
+  .cfg__preview { position: relative; border-radius: var(--r); overflow: hidden; aspect-ratio: 4 / 5; background: var(--cream); max-width: 100%; }
+  @media (min-width: 960px) { .cfg__preview { position: sticky; top: 6rem; } }
+  .cfg__preview img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .cfg__badge { position: absolute; left: 1rem; right: 1rem; bottom: 1rem; display: flex; flex-wrap: wrap; gap: .4rem; }
+  .cfg__badge span { padding: .4rem .8rem; border-radius: 999px; background: rgba(255,246,234,.92); font-size: .85rem; font-weight: 600; backdrop-filter: blur(6px); }
+  .cfg__form { display: grid; gap: 1.8rem; background: var(--cream); border-radius: var(--r); padding: clamp(1.2rem, 3vw, 2.4rem); }
+  .fs { border: 0; padding: 0; margin: 0; display: grid; gap: .8rem; min-width: 0; }
+  .fs legend { font-family: var(--f-display); font-weight: 700; font-size: 1.3rem; padding: 0; margin-bottom: .8rem; font-variation-settings: "SOFT" 100, "WONK" 1; }
+  .opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; }
+  @media (min-width: 560px) { .opts--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .opt { position: relative; }
+  .opt input { position: absolute; opacity: 0; inset: 0; cursor: pointer; margin: 0; }
+  .opt label {
+    display: grid; gap: .1rem; height: 100%; padding: .8rem .9rem; border-radius: 16px; background: var(--vanilla);
+    border: 2px solid transparent; cursor: pointer; transition: border-color .25s, transform .25s var(--ease), background .25s;
+  }
+  .opt label b { font-weight: 700; line-height: 1.2; }
+  .opt label small { color: var(--mute); font-size: .82rem; }
+  .opt input:checked + label { border-color: var(--rasp); background: #fff; transform: translateY(-2px); }
+  .opt input:focus-visible + label { outline: 3px solid var(--pist-deep); outline-offset: 2px; }
+  .opt label:hover { border-color: rgba(226,69,107,.4); }
+  .swatch { width: 18px; height: 18px; border-radius: 50%; margin-bottom: .3rem; box-shadow: inset 0 0 0 2px rgba(59,31,24,.12); }
+  .field { display: grid; gap: .4rem; }
+  .field label { font-weight: 600; font-size: .95rem; }
+  .field input[type="text"], .field input[type="date"] {
+    width: 100%; padding: .85rem 1rem; border-radius: 14px; border: 2px solid transparent; background: var(--vanilla); outline: none;
+    transition: border-color .25s;
+  }
+  .field input:focus { border-color: var(--rasp); }
+  .field small { color: var(--mute); font-size: .82rem; }
+  .row2 { display: grid; gap: 1rem; }
+  @media (min-width: 560px) { .row2 { grid-template-columns: 1fr 1fr; } }
+  .check { display: flex; align-items: center; gap: .7rem; font-weight: 600; cursor: pointer; }
+  .check input { width: 22px; height: 22px; accent-color: var(--rasp); }
+  .total {
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;
+    padding-top: 1.4rem; border-top: 2px dashed var(--line);
+  }
+  .total__sum { font-family: var(--f-display); font-size: var(--step-3); font-weight: 900; line-height: 1; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; font-variation-settings: "SOFT" 100, "WONK" 1; }
+  .total__sum small { font-size: .4em; letter-spacing: 0; font-weight: 600; }
+  .total__note { color: var(--mute); font-size: .85rem; }
+  .summary { display: grid; gap: .8rem; padding: 1.2rem; border-radius: 18px; background: var(--vanilla); border: 2px solid var(--pist); }
+  .summary pre { margin: 0; white-space: pre-wrap; font-family: var(--f-body); font-size: .95rem; line-height: 1.5; user-select: all; }
+  .summary__row { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
+  .summary__row .btn { padding: .7rem 1.1rem; font-size: .92rem; }
+
+  /* ---------- process ---------- */
+  .proc { display: grid; gap: 2rem; }
+  @media (min-width: 960px) { .proc { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+  .proc__media { display: none; }
+  @media (min-width: 960px) {
+    .proc__media { display: block; position: sticky; top: 10vh; height: 80vh; border-radius: var(--r); overflow: hidden; background: var(--cream); }
+    .proc__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .7s var(--ease), transform 1.2s var(--ease); transform: scale(1.08); }
+    .proc__media img.is-on { opacity: 1; transform: none; }
+  }
+  .steps { display: grid; gap: clamp(1.5rem, 4vw, 2rem); }
+  @media (min-width: 960px) { .steps { padding-block: 20vh; gap: 30vh; } }
+  .step { display: grid; gap: .8rem; padding: 1.6rem; border-radius: 24px; background: var(--cream); transition: background .4s, color .4s; }
+  .step.is-on { background: var(--rasp); color: var(--vanilla); }
+  .step__n { font-family: var(--f-display); font-weight: 900; font-size: 3.4rem; line-height: 1; color: var(--rasp); transition: color .4s; }
+  .step.is-on .step__n { color: var(--vanilla); }
+  .step h3 { font-size: var(--step-2); line-height: 1; }
+  .step p { max-width: 44ch; }
+  .step__img { border-radius: 18px; overflow: hidden; aspect-ratio: 16 / 10; max-width: 100%; }
+  .step__img img { width: 100%; height: 100%; object-fit: cover; }
+  @media (min-width: 960px) { .step__img { display: none; } .step { background: transparent; } .step.is-on { background: var(--rasp); } }
+
+  /* ---------- reviews ---------- */
+  .reviews { background: var(--pist); border-radius: var(--r); margin-inline: clamp(8px, 1.4vw, 20px); overflow: hidden; }
+  .rating { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .rating__num { font-family: var(--f-display); font-weight: 900; font-size: var(--step-3); line-height: 1; letter-spacing: -0.04em; }
+  .stars { display: flex; gap: 3px; color: var(--cocoa); }
+  .stars svg { width: 22px; height: 22px; }
+  .quotes { display: flex; width: max-content; gap: 1rem; animation: marquee 50s linear infinite; padding-block: .5rem; }
+  .quotes:hover { animation-play-state: paused; }
+  .quote { width: min(80vw, 380px); flex: none; background: var(--vanilla); border-radius: 24px; padding: 1.5rem; display: grid; gap: 1rem; align-content: space-between; }
+  .quote p { font-family: var(--f-display); font-size: 1.2rem; line-height: 1.35; font-weight: 500; font-variation-settings: "SOFT" 100; }
+  .quote footer { display: flex; justify-content: space-between; gap: 1rem; color: var(--mute); font-size: .9rem; }
+  .quote footer b { color: var(--cocoa); }
+
+  /* ---------- visit ---------- */
+  .visit { display: grid; gap: 2rem; }
+  @media (min-width: 960px) { .visit { grid-template-columns: 1.1fr 1fr; gap: 4rem; align-items: center; } }
+  .visit__img { position: relative; border-radius: var(--r); overflow: hidden; aspect-ratio: 16 / 11; max-width: 100%; }
+  .visit__img img { width: 100%; height: 120%; object-fit: cover; }
+  .visit__addr { font-family: var(--f-display); font-size: var(--step-2); font-weight: 700; line-height: 1.05; margin-block: 1rem 1.6rem; font-variation-settings: "SOFT" 100, "WONK" 1; }
+  .hours { display: grid; border-top: 1.5px solid var(--line); }
+  .hours div { display: flex; justify-content: space-between; gap: 1rem; padding: .8rem .2rem; border-bottom: 1.5px solid var(--line); font-variant-numeric: tabular-nums; }
+  .hours div.is-today { background: var(--cream); border-radius: 10px; padding-inline: .8rem; font-weight: 700; border-bottom-color: transparent; }
+  .hours div.is-today dt::after { content: " · dziś"; color: var(--rasp); }
+  .visit .status { background: var(--cream); margin-bottom: 0; }
+  .contact-row { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.6rem; align-items: center; }
+  .copy-chip { display: inline-flex; align-items: center; gap: .5rem; padding: .7rem 1rem; border-radius: 999px; background: var(--cream); font-weight: 600; }
+  .copy-chip span { user-select: all; }
+  .copy-chip button { font-size: .8rem; padding: .25rem .65rem; border-radius: 999px; background: var(--vanilla); }
+
+  /* ---------- footer ---------- */
+  .foot { background: var(--rasp); color: var(--vanilla); border-radius: var(--r) var(--r) 0 0; margin-top: clamp(3rem, 8vw, 6rem); padding-block: 3rem calc(2rem + env(safe-area-inset-bottom, 0px)); overflow: hidden; }
+  .foot__word { font-family: var(--f-display); font-weight: 900; font-size: clamp(3.4rem, 19vw, 17rem); line-height: .8; letter-spacing: -0.06em; display: flex; overflow: hidden; padding-bottom: .06em; font-variation-settings: "SOFT" 100, "WONK" 1; }
+  .foot__word span { display: inline-block; }
+  .foot__row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem; margin-top: 2rem; }
+  .foot__row ul { display: flex; flex-wrap: wrap; gap: 1.2rem; font-weight: 600; }
+  .foot__note { margin-top: 1.4rem; font-size: .82rem; opacity: .8; max-width: 70ch; }
+  .foot__note a { text-decoration: underline; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+    .loader { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__word" id="loaderWord"><span>K</span><span>r</span><span>u</span><span>s</span><span>z</span><span>o</span><span>n</span><span>k</span><span>a</span></div>
+</div>
+<canvas id="sprinkles" aria-hidden="true"></canvas>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <div class="nav__bar">
+      <a href="#top" class="logo">Kruszonka</a>
+      <nav class="nav__links" aria-label="Główna">
+        <a href="#witryna">Dziś w witrynie</a>
+        <a href="#menu">Menu</a>
+        <a href="#tort">Tort na zamówienie</a>
+        <a href="#odwiedz">Odwiedź nas</a>
+      </nav>
+      <a class="btn" href="#tort" data-magnetic>Zamów tort</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero__grid">
+      <div>
+        <p class="status" id="heroStatus"><i></i><span>Sprawdzam godziny…</span></p>
+        <h1>
+          <span class="line"><span>Ciasta,</span></span>
+          <span class="line"><span>które znikają</span></span>
+          <span class="line"><span><em>przed</em> południem.</span></span>
+        </h1>
+        <p class="hero__lead">Rzemieślnicza cukiernia z Wrocławia. Pieczemy codziennie od 5:00, na prawdziwym maśle i bez gotowych mieszanek.</p>
+        <div class="hero__cta">
+          <a class="btn btn--light" href="#tort" data-magnetic>Zaprojektuj tort
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="ghost" href="#witryna">Co dziś upiekliśmy?</a>
+        </div>
+      </div>
+      <div class="disc" id="disc">
+        <div class="disc__img"><img src="img/hero-tort.jpg" alt="Tort czekoladowy polany ganache, z kremem na wierzchu" width="1100" height="1100"></div>
+        <svg class="disc__ring" viewBox="0 0 200 200" aria-hidden="true">
+          <defs><path id="ringPath" d="M100,100 m-93,0 a93,93 0 1,1 186,0 a93,93 0 1,1 -186,0"/></defs>
+          <text><textPath href="#ringPath">pieczemy od 5:00 · prawdziwe masło · Wrocław · Kruszonka · </textPath></text>
+        </svg>
+        <div class="mini mini--a" data-depth="1.4"><img src="img/mini-makaroniki.jpg" alt="" width="400" height="400"></div>
+        <div class="mini mini--b" data-depth="0.8"><img src="img/mini-babeczka.jpg" alt="" width="400" height="400"></div>
+        <div class="mini mini--c" data-depth="1.1"><img src="img/mini-croissant.jpg" alt="" width="400" height="400"></div>
+        <div class="price-tag" aria-label="Kawałek tortu od 16 złotych"><span>kawałek od</span><b>16 zł</b></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track" id="marquee">
+      <div><span>Torty na zamówienie</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2H22l-6 4.6 2.3 7.2-6.3-4.5-6.3 4.5 2.3-7.2-6-4.6h7.6z"/></svg><span>Makaroniki</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2H22l-6 4.6 2.3 7.2-6.3-4.5-6.3 4.5 2.3-7.2-6-4.6h7.6z"/></svg><span>z prawdziwym masłem</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2H22l-6 4.6 2.3 7.2-6.3-4.5-6.3 4.5 2.3-7.2-6-4.6h7.6z"/></svg><span>Sernik jagodowy</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2H22l-6 4.6 2.3 7.2-6.3-4.5-6.3 4.5 2.3-7.2-6-4.6h7.6z"/></svg><span>Croissanty</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2H22l-6 4.6 2.3 7.2-6.3-4.5-6.3 4.5 2.3-7.2-6-4.6h7.6z"/></svg><span>Donuty w czwartki</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2H22l-6 4.6 2.3 7.2-6.3-4.5-6.3 4.5 2.3-7.2-6-4.6h7.6z"/></svg><span>od 5:00 rano</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2H22l-6 4.6 2.3 7.2-6.3-4.5-6.3 4.5 2.3-7.2-6-4.6h7.6z"/></svg><span>Tarta bezowa</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2H22l-6 4.6 2.3 7.2-6.3-4.5-6.3 4.5 2.3-7.2-6-4.6h7.6z"/></svg></div>
+    </div>
+  </div>
+
+  <!-- WITRYNA -->
+  <section class="shop" id="witryna">
+    <div class="shop__pin" id="shopPin">
+      <div class="wrap sec-head">
+        <h2 class="sec-title">Dziś w <em>witrynie</em></h2>
+        <p class="sec-note">Lista zmienia się codziennie. Co się sprzeda, tego już nie dopiekamy, więc lepiej wpaść rano.</p>
+      </div>
+      <div class="shop__track" id="shopTrack">
+        <div class="shop__intro">
+          <p class="eyebrow" style="color:var(--pist);margin-bottom:1rem" id="todayLabel">Dziś</p>
+          <h2 class="sec-title">Dziś w <em>witrynie</em></h2>
+          <p class="sec-note" style="margin-top:1.2rem">Lista zmienia się codziennie. Co się sprzeda, tego już nie dopiekamy, więc lepiej wpaść rano.</p>
+        </div>
+      </div>
+      <div class="wrap"><div class="shop__bar"><span id="shopBar"></span></div></div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section class="sec" id="menu">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="sec-title reveal">Pełne <em>menu</em></h2>
+        <div class="tabs" id="tabs" role="group" aria-label="Kategorie menu">
+          <button class="tab" aria-pressed="true" data-cat="all">Wszystko</button>
+          <button class="tab" aria-pressed="false" data-cat="torty">Torty</button>
+          <button class="tab" aria-pressed="false" data-cat="ciasta">Ciasta</button>
+          <button class="tab" aria-pressed="false" data-cat="drobne">Drobne</button>
+          <button class="tab" aria-pressed="false" data-cat="wypieki">Wypieki</button>
+        </div>
+      </div>
+      <div class="menu-grid" id="menuGrid"></div>
+    </div>
+  </section>
+
+  <!-- CONFIGURATOR -->
+  <section class="sec" id="tort" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="sec-title reveal">Zaprojektuj <em>swój</em> tort</h2>
+        <p class="sec-note">Wybierz wielkość, smak i dekorację. Cenę widzisz od razu, a gotowe zapytanie wyślesz nam jednym kliknięciem.</p>
+      </div>
+      <div class="cfg">
+        <div class="cfg__preview" id="cfgPreview">
+          <img src="img/tort-czekoladowy.jpg" alt="Podgląd tortu" id="cfgImg" width="900" height="1125">
+          <div class="cfg__badge" id="cfgBadge"></div>
+        </div>
+        <form class="cfg__form" id="cfgForm" novalidate>
+          <fieldset class="fs">
+            <legend>Ile osób?</legend>
+            <div class="opts opts--4" id="optSize"></div>
+          </fieldset>
+          <fieldset class="fs">
+            <legend>Smak</legend>
+            <div class="opts" id="optFlavor"></div>
+          </fieldset>
+          <fieldset class="fs">
+            <legend>Dekoracja</legend>
+            <div class="opts" id="optDecor"></div>
+          </fieldset>
+          <fieldset class="fs">
+            <legend>Dodatki</legend>
+            <label class="check"><input type="checkbox" id="addMacarons"> Wianek z makaroników <span style="color:var(--mute);font-weight:500">+30 zł</span></label>
+            <div class="row2">
+              <div class="field">
+                <label for="cakeText">Napis na torcie <span style="color:var(--mute);font-weight:500">+15 zł</span></label>
+                <input type="text" id="cakeText" maxlength="30" placeholder="np. Sto lat, Zosia!">
+                <small>Do 30 znaków, pusty = bez napisu.</small>
+              </div>
+              <div class="field">
+                <label for="cakeDate">Dzień odbioru</label>
+                <input type="date" id="cakeDate" required>
+                <small>Przyjmujemy zamówienia min. 3 dni wcześniej.</small>
+              </div>
+            </div>
+          </fieldset>
+          <div class="total">
+            <div>
+              <p class="eyebrow" style="color:var(--mute)">Szacowana cena</p>
+              <p class="total__sum"><span id="sum">0</span> <small>zł</small></p>
+              <p class="total__note" id="perPortion"></p>
+            </div>
+            <button class="btn" type="submit" data-magnetic>Przygotuj zapytanie
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          </div>
+          <div class="summary" id="summary" hidden>
+            <p class="eyebrow" style="color:var(--pist-deep)">Gotowe! Skopiuj i wyślij nam na Instagramie lub mailem</p>
+            <pre id="summaryText"></pre>
+            <div class="summary__row">
+              <button class="btn" type="button" id="copySummary">Kopiuj treść</button>
+              <a class="btn btn--light" style="background:var(--cream)" href="https://www.instagram.com/" target="_blank" rel="noopener">Otwórz Instagram</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="sec" id="jak" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="sec-title reveal">Jak powstaje <em>tort</em></h2>
+        <p class="sec-note">Od pierwszej wiadomości do odbioru mijają zwykle 3–7 dni. Tak to wygląda krok po kroku.</p>
+      </div>
+      <div class="proc">
+        <div class="proc__media" id="procMedia" aria-hidden="true">
+          <img src="img/desery.jpg" alt="" class="is-on">
+          <img src="img/ciasto-reczne.jpg" alt="">
+          <img src="img/dekorowanie.jpg" alt="">
+          <img src="img/tort-zloty.jpg" alt="">
+        </div>
+        <ol class="steps" id="steps">
+          <li class="step is-on">
+            <span class="step__n">1</span>
+            <h3>Rozmowa</h3>
+            <p>Piszesz, na ile osób i na jaką okazję. Podsyłamy propozycje smaków i szkic dekoracji.</p>
+            <div class="step__img"><img src="img/desery.jpg" alt="Deserki z truskawkami w słoiczkach" loading="lazy"></div>
+          </li>
+          <li class="step">
+            <span class="step__n">2</span>
+            <h3>Degustacja</h3>
+            <p>Przy torcie od 24 porcji zapraszamy na darmową degustację trzech kremów. Wybierasz ulubiony.</p>
+            <div class="step__img"><img src="img/ciasto-reczne.jpg" alt="Ręczne wyrabianie ciasta" loading="lazy"></div>
+          </li>
+          <li class="step">
+            <span class="step__n">3</span>
+            <h3>Pieczenie</h3>
+            <p>Biszkopt pieczemy dzień wcześniej, żeby dobrze przeszedł kremem. Dekorujemy rano w dniu odbioru.</p>
+            <div class="step__img"><img src="img/dekorowanie.jpg" alt="Dekorowanie tortu kremem" loading="lazy"></div>
+          </li>
+          <li class="step">
+            <span class="step__n">4</span>
+            <h3>Odbiór</h3>
+            <p>Odbierasz tort w chłodzącym pudełku. Na terenie Wrocławia dowozimy za 25 zł.</p>
+            <div class="step__img"><img src="img/tort-zloty.jpg" alt="Gotowy tort ze złotą dekoracją" loading="lazy"></div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="sec reviews" aria-label="Opinie klientów">
+    <div class="wrap sec-head">
+      <h2 class="sec-title reveal">Mówią o nas <em style="color:var(--cocoa)">słodko</em></h2>
+      <div class="rating">
+        <span class="rating__num">4,9</span>
+        <div>
+          <div class="stars" aria-label="5 na 5 gwiazdek">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg>
+          </div>
+          <p style="font-weight:600">812 opinii w Google</p>
+        </div>
+      </div>
+    </div>
+    <div style="overflow:hidden">
+      <div class="quotes" id="quotes"></div>
+    </div>
+  </section>
+
+  <!-- VISIT -->
+  <section class="sec" id="odwiedz">
+    <div class="wrap visit">
+      <div class="visit__img" id="visitImg"><img src="img/pracownia.jpg" alt="Witryna cukierni pełna świeżych wypieków" loading="lazy" width="1600" height="1000"></div>
+      <div>
+        <p class="status" id="visitStatus"><i></i><span>Sprawdzam godziny…</span></p>
+        <p class="visit__addr">ul. Lukrowa 7<br>Wrocław, Nadodrze</p>
+        <dl class="hours" id="hours"></dl>
+        <div class="contact-row">
+          <span class="copy-chip"><span id="mail">tort@kruszonka-demo.pl</span><button type="button" data-copy="mail">Kopiuj</button></span>
+          <span class="copy-chip"><span id="phone">+48 71 000 00 00</span><button type="button" data-copy="phone">Kopiuj</button></span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="foot__word" aria-hidden="true"><span>K</span><span>r</span><span>u</span><span>s</span><span>z</span><span>o</span><span>n</span><span>k</span><span>a</span></p>
+    <div class="foot__row">
+      <ul>
+        <li><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+        <li><a href="#tort">Zamów tort</a></li>
+      </ul>
+      <p>© 2026 Kruszonka · Wrocław</p>
+    </div>
+    <p class="foot__note">Przykładowy projekt strony. Cukiernia, adres, ceny i opinie są fikcyjne. Zdjęcia: autorzy z <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a>.</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(() => {
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const hasGsap = !!window.gsap;
+  const zl = (n) => n.toLocaleString('pl-PL');
+
+  /* ---------------- opening hours (Europe/Warsaw) ---------------- */
+  const DAYS = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
+  const HOURS = { 1: [7, 19], 2: [7, 19], 3: [7, 19], 4: [7, 19], 5: [7, 19], 6: [8, 16], 0: [9, 14] };
+  const now = (() => {
+    try {
+      const parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Warsaw', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(new Date());
+      const g = (t) => parts.find((p) => p.type === t).value;
+      const wd = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(g('weekday'));
+      return { day: wd, h: +g('hour') + +g('minute') / 60 };
+    } catch (e) { const d = new Date(); return { day: d.getDay(), h: d.getHours() + d.getMinutes() / 60 }; }
+  })();
+  const fmt = (h) => `${h}:00`;
+  const statusText = () => {
+    const [o, c] = HOURS[now.day];
+    if (now.h >= o && now.h < c) return [true, `Otwarte teraz · do ${fmt(c)}`];
+    if (now.h < o) return [false, `Zamknięte · otwieramy o ${fmt(o)}`];
+    const nd = (now.day + 1) % 7;
+    return [false, `Zamknięte · jutro od ${fmt(HOURS[nd][0])}`];
+  };
+  const [open, txt] = statusText();
+  ['#heroStatus', '#visitStatus'].forEach((s) => { const el = $(s); el.classList.toggle('is-closed', !open); $('span', el).textContent = txt; });
+  $('#hours').innerHTML = [1, 2, 3, 4, 5, 6, 0].map((d) =>
+    `<div class="${d === now.day ? 'is-today' : ''}"><dt>${DAYS[d]}</dt><dd>${fmt(HOURS[d][0])}–${fmt(HOURS[d][1])}</dd></div>`).join('');
+  $('#todayLabel').textContent = DAYS[now.day] + ' · świeże od 5:00';
+
+  /* ---------------- witryna ---------------- */
+  const SHOP = [
+    ['tort-malinowy', 'Tort malinowy', 'Biszkopt waniliowy, mus z malin, krem mascarpone.', '16 zł', '/ kawałek', 'Bestseller', 'hot'],
+    ['makaroniki', 'Makaroniki', 'Pistacja, malina, słony karmel, lawenda i cytryna.', '7 zł', '/ szt.', '', ''],
+    ['croissant', 'Croissant maślany', '27 warstw francuskiego ciasta na maśle 82%.', '9 zł', '/ szt.', '', ''],
+    ['sernik-jagodowy', 'Sernik z jagodami', 'Z twarogu z Sudetów, na kruchym spodzie.', '68 zł', '/ kg', 'Nowość', 'new'],
+    ['donuty', 'Donuty', 'Tylko w czwartki. Dziś już ich nie ma.', '8 zł', '/ szt.', '', '', true],
+    ['tarta-bezowa', 'Tarta cytrynowa', 'Lemon curd i opalana beza włoska.', '15 zł', '/ kawałek', '', ''],
+    ['kawowiec', 'Kawowiec', 'Pięć warstw biszkoptu i krem z espresso.', '14 zł', '/ kawałek', '', ''],
+    ['ciastka', 'Ciastka z czekoladą', 'Belgijska czekolada 70% i płatki soli.', '6 zł', '/ szt.', '', '']
+  ];
+  const track = $('#shopTrack');
+  SHOP.forEach(([img, name, desc, price, unit, tag, tagCls, out]) => {
+    const a = document.createElement('article');
+    a.className = 'pcard' + (out ? ' is-out' : '');
+    a.innerHTML = `<div class="pcard__img"><img src="img/${img}.jpg" alt="${name}" loading="lazy" width="900" height="1125">${tag ? `<span class="tag tag--${tagCls}">${tag}</span>` : ''}</div>
+      <div class="pcard__row"><h3>${name}</h3><span class="pcard__price">${price} <small>${unit}</small></span></div><p>${desc}</p>`;
+    track.appendChild(a);
+  });
+
+  /* ---------------- menu ---------------- */
+  const MENU = [
+    ['torty', 'tort-czekoladowy', 'Tort czekoladowy z ganache', 'od 160 zł', '8–24 os.', 'Klasyk'],
+    ['torty', 'tort-rozowy', 'Tort urodzinowy z dripem', 'od 190 zł', '8–24 os.', ''],
+    ['torty', 'tort-jezynowy', 'Tort jeżyna i mascarpone', 'od 175 zł', '8–24 os.', 'Nowość'],
+    ['torty', 'tort-weselny', 'Tort weselny piętrowy', 'od 620 zł', '40–120 os.', ''],
+    ['torty', 'tort-teczowy', 'Tort tęczowy z posypką', 'od 180 zł', '12–24 os.', ''],
+    ['ciasta', 'sernik', 'Sernik baskijski', '72 zł', 'za kg', ''],
+    ['ciasta', 'tarta-czekoladowa', 'Tarta czekoladowa z pistacją', '15 zł', 'kawałek', ''],
+    ['ciasta', 'brownie', 'Brownie z solonym karmelem', '11 zł', 'kawałek', ''],
+    ['ciasta', 'kawowiec', 'Kawowiec', '14 zł', 'kawałek', ''],
+    ['drobne', 'makaroniki', 'Makaroniki, 6 smaków', '7 zł', 'szt.', ''],
+    ['drobne', 'babeczki', 'Babeczka truskawkowa', '12 zł', 'szt.', ''],
+    ['drobne', 'red-velvet', 'Red velvet z malinami', '13 zł', 'szt.', 'Bestseller'],
+    ['drobne', 'babeczka-orzechowa', 'Babeczka orzechowa', '13 zł', 'szt.', ''],
+    ['wypieki', 'croissanty', 'Croissant maślany', '9 zł', 'szt.', ''],
+    ['wypieki', 'cookies', 'Cookie z czekoladą', '6 zł', 'szt.', ''],
+    ['wypieki', 'donuty', 'Donuty (czwartek)', '8 zł', 'szt.', '']
+  ];
+  const grid = $('#menuGrid');
+  MENU.forEach(([cat, img, name, price, unit, tag]) => {
+    const el = document.createElement('article');
+    el.className = 'item'; el.dataset.cat = cat;
+    el.innerHTML = `<div class="item__img"><img src="img/${img}.jpg" alt="${name}" loading="lazy" width="900" height="1125">${tag ? `<span class="tag ${tag === 'Nowość' ? 'tag--new' : 'tag--hot'}">${tag}</span>` : ''}</div>
+      <h3>${name}</h3><p class="item__meta"><span>${unit}</span><b>${price}</b></p>`;
+    grid.appendChild(el);
+  });
+  const items = $$('.item', grid);
+  $$('.tab').forEach((t) => t.addEventListener('click', () => {
+    $$('.tab').forEach((x) => x.setAttribute('aria-pressed', String(x === t)));
+    const c = t.dataset.cat;
+    const show = items.filter((i) => c === 'all' || i.dataset.cat === c);
+    const apply = () => {
+      items.forEach((i) => { i.hidden = !show.includes(i); });
+      if (hasGsap && !reduce) { gsap.fromTo(show, { opacity: 0, y: 30, scale: .94 }, { opacity: 1, y: 0, scale: 1, duration: .6, stagger: .04, ease: 'back.out(1.6)', clearProps: 'transform' }); ScrollTrigger.refresh(); }
+    };
+    if (hasGsap && !reduce) gsap.to(items.filter((i) => !i.hidden), { opacity: 0, scale: .94, duration: .2, onComplete: apply }); else apply();
+  }));
+
+  /* ---------------- reviews ---------------- */
+  const Q = [
+    ['Tort na roczek córki był piękny i jeszcze lepszy w smaku. Goście pytali, skąd jest.', 'Kasia M.', 'tort urodzinowy'],
+    ['Najlepsze croissanty we Wrocławiu. Przychodzę o 7:15, bo o 10 już ich nie ma.', 'Tomek R.', 'croissant'],
+    ['Sernik baskijski jak w San Sebastián. Kremowy w środku, przypieczony z wierzchu.', 'Agnieszka P.', 'sernik'],
+    ['Degustacja przed weselem to super sprawa. Wybraliśmy malinę z pistacją i był hit.', 'Ola i Michał', 'tort weselny'],
+    ['Makaroniki pistacjowe to mój codzienny grzech. Obsługa przemiła.', 'Natalia W.', 'makaroniki']
+  ];
+  const quotesHTML = Q.map(([q, who, what]) => `<blockquote class="quote" style="margin:0"><p>„${q}”</p><footer><b>${who}</b><span>${what}</span></footer></blockquote>`).join('');
+  $('#quotes').innerHTML = quotesHTML + quotesHTML.replace(/<blockquote/g, '<blockquote aria-hidden="true"');
+
+  /* ---------------- configurator ---------------- */
+  const SIZES = [[8, 160], [12, 220], [16, 290], [24, 420]];
+  const FLAVORS = [
+    ['czekolada', 'Czekolada i wiśnia', 'ganache 70%', '#4A2A20', 'tort-czekoladowy', 1],
+    ['malina', 'Malina i pistacja', 'mus malinowy', '#E2456B', 'tort-malinowy', 1.1],
+    ['truskawka', 'Wanilia i truskawka', 'krem mascarpone', '#F6C9CF', 'tort-weselny', 1],
+    ['jezyna', 'Jeżyna i fiołek', 'krem z jeżyn', '#6B4E8A', 'tort-jezynowy', 1.1]
+  ];
+  const DECOR = [['klasyczna', 'Klasyczna', 'gładki krem', 0], ['drip', 'Drip', 'polewa ściekająca', 35], ['kwiaty', 'Kwiaty jadalne', 'sezonowe', 45], ['zloto', 'Złote płatki', 'płatki 24k', 60]];
+  const mkOpt = (name, val, html, checked) => `<div class="opt"><input type="radio" name="${name}" id="${name}-${val}" value="${val}" ${checked ? 'checked' : ''}><label for="${name}-${val}">${html}</label></div>`;
+  $('#optSize').innerHTML = SIZES.map(([n, p], i) => mkOpt('size', n, `<b>${n} osób</b><small>od ${p} zł</small>`, i === 1)).join('');
+  $('#optFlavor').innerHTML = FLAVORS.map(([v, n, d, c], i) => mkOpt('flavor', v, `<span class="swatch" style="background:${c}"></span><b>${n}</b><small>${d}</small>`, i === 0)).join('');
+  $('#optDecor').innerHTML = DECOR.map(([v, n, d, p], i) => mkOpt('decor', v, `<b>${n}</b><small>${d}${p ? ` · +${p} zł` : ''}</small>`, i === 0)).join('');
+
+  const dateIn = $('#cakeDate');
+  const minDate = new Date(); minDate.setDate(minDate.getDate() + 3);
+  const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  dateIn.min = iso(minDate); dateIn.value = iso(minDate);
+
+  const form = $('#cfgForm');
+  const cfgImg = $('#cfgImg');
+  let lastFlavor = 'czekolada', shownSum = 0;
+  function calc() {
+    const size = +form.size.value;
+    const fl = FLAVORS.find((f) => f[0] === form.flavor.value);
+    const dc = DECOR.find((d) => d[0] === form.decor.value);
+    const base = SIZES.find((s) => s[0] === size)[1];
+    let total = Math.round(base * fl[5] / 5) * 5 + dc[3];
+    if ($('#addMacarons').checked) total += 30;
+    const text = $('#cakeText').value.trim();
+    if (text) total += 15;
+    return { size, fl, dc, total, text, macarons: $('#addMacarons').checked };
+  }
+  function render() {
+    const c = calc();
+    // number tween
+    if (hasGsap && !reduce) {
+      const o = { v: shownSum };
+      gsap.to(o, { v: c.total, duration: .6, ease: 'power3.out', onUpdate: () => { $('#sum').textContent = zl(Math.round(o.v)); } });
+    } else $('#sum').textContent = zl(c.total);
+    shownSum = c.total;
+    $('#perPortion').textContent = `ok. ${zl(Math.round(c.total / c.size))} zł za porcję`;
+    $('#cfgBadge').innerHTML = [`${c.size} osób`, c.fl[1], c.dc[1], c.macarons ? 'makaroniki' : '', c.text ? `„${c.text}”` : ''].filter(Boolean).map((t) => `<span>${t.replace(/</g, '&lt;')}</span>`).join('');
+    if (c.fl[0] !== lastFlavor) {
+      lastFlavor = c.fl[0];
+      const next = `img/${c.fl[4]}.jpg`;
+      if (hasGsap && !reduce) {
+        gsap.to(cfgImg, { opacity: 0, scale: 1.05, duration: .25, onComplete: () => { cfgImg.src = next; gsap.to(cfgImg, { opacity: 1, scale: 1, duration: .6, ease: 'power3.out' }); } });
+      } else cfgImg.src = next;
+      cfgImg.alt = `Podgląd tortu: ${c.fl[1]}`;
+    }
+    if (hasGsap && !reduce) gsap.fromTo('#cfgBadge span', { y: 8, opacity: 0 }, { y: 0, opacity: 1, duration: .35, stagger: .03, overwrite: true });
+  }
+  form.addEventListener('input', render);
+  form.addEventListener('change', render);
+  render();
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const c = calc();
+    const d = dateIn.value ? new Date(dateIn.value + 'T12:00:00') : null;
+    if (!d || dateIn.value < dateIn.min) { dateIn.focus(); dateIn.setCustomValidity('Wybierz datę co najmniej 3 dni od dziś.'); dateIn.reportValidity(); return; }
+    dateIn.setCustomValidity('');
+    const when = d.toLocaleDateString('pl-PL', { weekday: 'long', day: 'numeric', month: 'long' });
+    $('#summaryText').textContent =
+`Dzień dobry! Chcę zamówić tort:
+• ${c.size} osób, smak: ${c.fl[1]}
+• dekoracja: ${c.dc[1]}${c.macarons ? '\n• wianek z makaroników' : ''}${c.text ? `\n• napis: „${c.text}”` : ''}
+• odbiór: ${when}
+Szacowana cena z Waszej strony: ${zl(c.total)} zł.`;
+    const box = $('#summary');
+    box.hidden = false;
+    if (hasGsap && !reduce) gsap.fromTo(box, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: .6, ease: 'back.out(1.6)' });
+    const r = e.submitter ? e.submitter.getBoundingClientRect() : box.getBoundingClientRect();
+    burst(r.left + r.width / 2, r.top + r.height / 2, 90);
+  });
+
+  /* copy helpers */
+  const copy = (btn, text, label) => {
+    const done = (msg) => { const old = btn.textContent; btn.textContent = msg; setTimeout(() => (btn.textContent = label || old), 1800); };
+    try { navigator.clipboard.writeText(text).then(() => done('Skopiowano'), () => done('Zaznacz i skopiuj')); } catch (e) { done('Zaznacz i skopiuj'); }
+  };
+  $('#copySummary').addEventListener('click', (e) => copy(e.currentTarget, $('#summaryText').textContent, 'Kopiuj treść'));
+  $$('[data-copy]').forEach((b) => b.addEventListener('click', () => copy(b, $('#' + b.dataset.copy).textContent, 'Kopiuj')));
+
+  /* ---------------- sprinkles ---------------- */
+  const cv = $('#sprinkles'), ctx = cv.getContext('2d');
+  const COLORS = ['#E2456B', '#C9D79E', '#FFF6EA', '#3B1F18', '#F6C9CF', '#F2B84B'];
+  let parts = [], raf = 0;
+  const size = () => { const dpr = Math.min(devicePixelRatio || 1, 2); cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); };
+  size(); addEventListener('resize', size);
+  function burst(x, y, n = 60) {
+    if (reduce) return;
+    for (let i = 0; i < n; i++) {
+      const a = Math.random() * Math.PI * 2, s = 4 + Math.random() * 9;
+      parts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 6, r: Math.random() * Math.PI, vr: (Math.random() - .5) * .4, w: 3 + Math.random() * 2.5, h: 10 + Math.random() * 6, c: COLORS[i % COLORS.length], life: 0 });
+    }
+    if (!raf) raf = requestAnimationFrame(step);
+  }
+  function step() {
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    parts = parts.filter((p) => p.y < innerHeight + 40 && p.life < 260);
+    parts.forEach((p) => {
+      p.vy += .32; p.vx *= .985; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.life++;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.c;
+      ctx.beginPath(); ctx.roundRect ? ctx.roundRect(-p.w / 2, -p.h / 2, p.w, p.h, p.w / 2) : ctx.rect(-p.w / 2, -p.h / 2, p.w, p.h); ctx.fill(); ctx.restore();
+    });
+    raf = parts.length ? requestAnimationFrame(step) : 0;
+    if (!raf) ctx.clearRect(0, 0, innerWidth, innerHeight);
+  }
+  $('.price-tag').addEventListener('click', (e) => burst(e.clientX, e.clientY, 40));
+
+  /* nav */
+  const nav = $('#nav'); let lastY = 0;
+  addEventListener('scroll', () => {
+    const y = scrollY;
+    nav.classList.toggle('is-solid', y > 60);
+    nav.classList.toggle('is-hidden', y > lastY && y > 400);
+    lastY = y;
+  }, { passive: true });
+
+  /* anchors */
+  $$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {
+    const id = a.getAttribute('href'); const t = id === '#top' ? 0 : $(id);
+    if (t === null) return;
+    e.preventDefault();
+    if (window.__lenis) window.__lenis.scrollTo(t, { offset: t === 0 ? 0 : -10, duration: 1.4 });
+    else if (t === 0) scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+    else t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+  }));
+
+  const loader = $('#loader');
+  if (!hasGsap || reduce) { loader.remove(); return; }
+
+  /* ================= GSAP ================= */
+  gsap.registerPlugin(ScrollTrigger);
+  if (fine && window.Lenis) {
+    const lenis = new Lenis({ lerp: .1 });
+    window.__lenis = lenis;
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((t) => lenis.raf(t * 1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  // magnetic
+  if (fine) {
+    $$('[data-magnetic]').forEach((el) => {
+      const mx = gsap.quickTo(el, 'x', { duration: .5, ease: 'elastic.out(1,.4)' });
+      const my = gsap.quickTo(el, 'y', { duration: .5, ease: 'elastic.out(1,.4)' });
+      el.addEventListener('pointermove', (e) => { const r = el.getBoundingClientRect(); mx((e.clientX - r.left - r.width / 2) * .3); my((e.clientY - r.top - r.height / 2) * .3); });
+      el.addEventListener('pointerleave', () => { mx(0); my(0); });
+    });
+  }
+
+  // intro
+  loader.style.animation = 'none';
+  gsap.set('.hero .line > span', { yPercent: 115 });
+  gsap.set(['.status', '.hero__lead', '.hero__cta'], { opacity: 0, y: 24 });
+  gsap.set('.disc__img', { scale: 0, rotation: -40 });
+  gsap.set(['.mini', '.price-tag'], { scale: 0 });
+  gsap.set('.disc__ring', { opacity: 0 });
+  let introDone = false;
+  gsap.timeline({ defaults: { ease: 'expo.out' }, onComplete: () => { introDone = true; } })
+    .from('#loaderWord span', { yPercent: 120, rotation: 12, duration: .8, stagger: .045, ease: 'back.out(1.8)' })
+    .to('#loaderWord span', { yPercent: -120, duration: .5, stagger: .03, ease: 'power3.in' }, '+=.25')
+    .to(loader, { yPercent: -100, duration: .85, ease: 'expo.inOut', onComplete: () => loader.remove() }, '-=.25')
+    .to('.hero .line > span', { yPercent: 0, duration: 1.1, stagger: .1 }, '-=.45')
+    .to('.disc__img', { scale: 1, rotation: 0, duration: 1.4 }, '<')
+    .to('.status', { opacity: 1, y: 0, duration: .7 }, '<.1')
+    .to(['.hero__lead', '.hero__cta'], { opacity: 1, y: 0, duration: .9, stagger: .1 }, '-=1')
+    .to('.mini', { scale: 1, duration: .9, stagger: .1, ease: 'back.out(2)' }, '-=1')
+    .to('.disc__ring', { opacity: 1, duration: .8 }, '-=.8')
+    .to('.price-tag', { scale: 1, duration: .8, ease: 'back.out(2.5)', onStart: () => {
+      const r = $('.price-tag').getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, 50);
+    } }, '-=.6');
+
+  // hero mouse parallax
+  if (fine) {
+    $('.hero').addEventListener('pointermove', (e) => {
+      if (!introDone) return;
+      const nx = e.clientX / innerWidth - .5, ny = e.clientY / innerHeight - .5;
+      $$('.mini').forEach((m) => gsap.to(m, { x: nx * 40 * m.dataset.depth, y: ny * 40 * m.dataset.depth, duration: 1, ease: 'power3.out', overwrite: 'auto' }));
+      gsap.to('.disc__img', { x: nx * -14, y: ny * -14, duration: 1.2, ease: 'power3.out', overwrite: 'auto' });
+    });
+  }
+  // hero scroll: disc spins and sinks
+  gsap.to('.disc__img img', { rotation: 50, scale: 1.15, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  gsap.to('.hero h1', { yPercent: 25, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+
+  // marquee skew
+  const skewTo = gsap.quickTo('#marquee', 'skewX', { duration: .4, ease: 'power3' });
+  ScrollTrigger.create({ onUpdate: (self) => skewTo(gsap.utils.clamp(-10, 10, self.getVelocity() / -260)) });
+
+  // shop horizontal
+  const mm = gsap.matchMedia();
+  mm.add('(min-width: 960px)', () => {
+    const dist = () => track.scrollWidth - innerWidth;
+    const tween = gsap.to(track, { x: () => -dist(), ease: 'none', scrollTrigger: {
+      trigger: '#shopPin', pin: true, scrub: 1, start: 'top top', end: () => '+=' + dist(), invalidateOnRefresh: true,
+      onUpdate: (s) => gsap.set('#shopBar', { scaleX: s.progress }) } });
+    $$('.pcard', track).forEach((c) => {
+      gsap.from(c, { rotation: 6, y: 80, scale: .9, ease: 'none', scrollTrigger: { trigger: c, containerAnimation: tween, start: 'left 105%', end: 'left 65%', scrub: true } });
+    });
+  });
+  mm.add('(max-width: 959px)', () => {
+    gsap.from('.pcard', { y: 60, opacity: 0, duration: 1, stagger: .08, ease: 'expo.out', scrollTrigger: { trigger: '#shopTrack', start: 'top 85%' } });
+  });
+
+  // reveals
+  $$('.reveal').forEach((el) => gsap.from(el, { y: 60, opacity: 0, rotation: 2, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 88%' } }));
+  gsap.set('.item', { opacity: 0 });
+  ScrollTrigger.batch('.item', { start: 'top 92%', once: true,
+    onEnter: (els) => gsap.fromTo(els, { y: 60, opacity: 0, scale: .92 }, { y: 0, opacity: 1, scale: 1, duration: .9, stagger: .07, ease: 'back.out(1.4)', overwrite: true }) });
+  gsap.from('.cfg__preview', { clipPath: 'inset(20% 20% 20% 20% round 40px)', duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: '.cfg', start: 'top 80%' } });
+  gsap.from('.cfg__form > *', { y: 40, opacity: 0, duration: .9, stagger: .08, ease: 'expo.out', scrollTrigger: { trigger: '.cfg__form', start: 'top 85%' } });
+
+  // process: sticky image swap
+  const procImgs = $$('#procMedia img');
+  $$('.step').forEach((s, i) => {
+    ScrollTrigger.create({ trigger: s, start: 'top 60%', end: 'bottom 40%',
+      onToggle: (self) => { if (!self.isActive) return;
+        $$('.step').forEach((x, j) => x.classList.toggle('is-on', j === i));
+        procImgs.forEach((im, j) => im.classList.toggle('is-on', j === i)); } });
+  });
+
+  // visit image parallax
+  gsap.fromTo('#visitImg img', { yPercent: -15 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '#visitImg', start: 'top bottom', end: 'bottom top', scrub: true } });
+  gsap.from('.hours div', { x: -30, opacity: 0, duration: .7, stagger: .05, ease: 'power3.out', scrollTrigger: { trigger: '#hours', start: 'top 85%' } });
+
+  // footer word bounce
+  gsap.from('.foot__word span', { yPercent: 110, rotation: 10, duration: 1, stagger: .05, ease: 'back.out(1.7)', scrollTrigger: { trigger: '.foot', start: 'top 90%' } });
+
+  addEventListener('load', () => ScrollTrigger.refresh());
+})();
+</script>
+</body>
+</html>
