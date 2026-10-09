@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Skórka Piekarnia</title>
+<meta name="description" content="Skórka — piekarnia na zakwasie w Gdańsku-Wrzeszczu. Chleb żytni, pszenny, orkiszowy i bagietki pieczone kilka razy dziennie. Sprawdź, co jest teraz w piecu, i zarezerwuj bochenek.">
+<meta name="theme-color" content="#F0B93A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23F0B93A'/%3E%3Cpath d='M12 40c0-12 9-20 20-20s20 8 20 20v4H12z' fill='%23A4501F'/%3E%3Cpath d='M22 30l6 6M30 26l6 8M38 28l5 6' stroke='%23F0B93A' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Work+Sans:wght@400;500;600;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /* Layout: bakery crate labels — wheat-yellow hero, flour-white page, a green chalkboard for the live oven schedule; condensed stamp type, chalk handwriting for times. */
+  :root {
+    --wheat: #F0B93A;
+    --wheat-soft: #F7D788;
+    --rye: #2E1D14;
+    --rye-2: #4A3226;
+    --crust: #A4501F;
+    --flour: #FBF7EF;
+    --oat: #EFE6D3;
+    --board: #22302A;
+    --board-2: #2D3D35;
+    --chalk: #F1EEE4;
+    --fresh: #9DC08B;
+    --mute: #7A685C;
+    --line: rgba(46, 29, 20, 0.15);
+
+    --f-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+    --f-body: "Work Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --f-chalk: Caveat, "Comic Sans MS", cursive;
+
+    --step--1: clamp(0.78rem, 0.75rem + 0.15vw, 0.86rem);
+    --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.12rem);
+    --step-1: clamp(1.2rem, 1.08rem + 0.55vw, 1.55rem);
+    --step-2: clamp(1.9rem, 1.4rem + 2vw, 3.3rem);
+    --step-3: clamp(2.8rem, 1.6rem + 5vw, 6.6rem);
+    --step-4: clamp(3.6rem, 1.2rem + 10.5vw, 12.5rem);
+
+    --gutter: clamp(16px, 4vw, 56px);
+    --max: 1400px;
+    --r: clamp(18px, 2.4vw, 32px);
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    color-scheme: light;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  body { margin: 0; background: var(--flour); color: var(--rye); font-family: var(--f-body); font-size: var(--step-0); line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button, input { font: inherit; color: inherit; }
+  button { background: none; border: 0; padding: 0; cursor: pointer; }
+  h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; }
+  ul, ol { padding: 0; list-style: none; }
+  h1, h2, h3 { font-family: var(--f-display); font-weight: 900; text-transform: uppercase; line-height: .9; letter-spacing: -0.005em; text-wrap: balance; }
+  :focus-visible { outline: 3px solid var(--crust); outline-offset: 3px; border-radius: 6px; }
+  ::selection { background: var(--wheat); color: var(--rye); }
+  .wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+  .eyebrow { font-size: var(--step--1); font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
+  .chalk { font-family: var(--f-chalk); font-weight: 700; text-transform: none; letter-spacing: 0; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: .6rem; padding: 1rem 1.5rem; border-radius: 12px;
+    font-weight: 600; background: var(--rye); color: var(--flour); border: 2px solid var(--rye);
+    box-shadow: 4px 4px 0 var(--crust); transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+  }
+  .btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--crust); }
+  .btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--crust); }
+  .btn svg { width: 18px; height: 18px; }
+  .btn--line { background: transparent; color: var(--rye); box-shadow: 4px 4px 0 var(--rye); }
+  .btn--line:hover { box-shadow: 6px 6px 0 var(--rye); }
+
+  /* loader */
+  .loader { position: fixed; inset: 0; z-index: 130; background: var(--wheat); display: grid; place-items: center; animation: lo .6s var(--ease) 2.6s forwards; }
+  @keyframes lo { to { transform: translateY(-100%); visibility: hidden; } }
+  .loader__inner { display: grid; justify-items: center; gap: 1rem; }
+  .loader svg { width: 120px; height: 90px; overflow: visible; }
+  .loader__word { font-family: var(--f-display); font-weight: 900; font-size: clamp(3rem, 12vw, 7rem); text-transform: uppercase; line-height: .9; overflow: hidden; }
+  .loader__word span { display: inline-block; }
+
+  /* nav */
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 80; padding-top: env(safe-area-inset-top, 0px); transition: transform .5s var(--ease), background .4s, box-shadow .4s; }
+  .nav.is-hidden { transform: translateY(-110%); }
+  .nav.is-solid { background: rgba(251, 247, 239, 0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 1px 0 var(--line); }
+  .nav__bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: .9rem; }
+  .logo { display: flex; align-items: center; gap: .55rem; font-family: var(--f-display); font-weight: 900; font-size: 1.7rem; text-transform: uppercase; letter-spacing: .01em; }
+  .logo svg { width: 34px; height: 26px; }
+  .nav__links { display: none; gap: 1.8rem; font-weight: 600; font-size: .95rem; }
+  .nav__links a { position: relative; }
+  .nav__links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 2px; background: var(--crust); transform: scaleX(0); transform-origin: right; transition: transform .4s var(--ease); }
+  .nav__links a:hover::after { transform: scaleX(1); transform-origin: left; }
+  .nav .btn { padding: .65rem 1rem; font-size: .92rem; box-shadow: 3px 3px 0 var(--crust); }
+  @media (min-width: 960px) { .nav__links { display: flex; } }
+
+  /* hero */
+  .hero { position: relative; background: var(--wheat); overflow: hidden; padding-top: calc(7rem + env(safe-area-inset-top, 0px)); padding-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .hero__grid { display: grid; gap: 2rem; align-items: center; }
+  @media (min-width: 960px) { .hero__grid { grid-template-columns: 1.2fr 1fr; } }
+  .hero__tag { display: inline-flex; align-items: center; gap: .5rem; padding: .45rem .85rem; border: 2px solid var(--rye); border-radius: 999px; font-weight: 600; font-size: .9rem; margin-bottom: 1.4rem; background: var(--wheat-soft); }
+  .hero__tag i { width: 9px; height: 9px; border-radius: 50%; background: var(--crust); animation: pulse 2s infinite; }
+  .hero__tag.is-closed i { animation: none; background: var(--mute); }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(164,80,31,.6); } 70% { box-shadow: 0 0 0 10px rgba(164,80,31,0); } 100% { box-shadow: 0 0 0 0 rgba(164,80,31,0); } }
+  .hero h1 { font-size: clamp(3.4rem, 1.2rem + 7.6vw, 9.6rem); line-height: .84; }
+  .hero h1 .line > span { white-space: nowrap; }
+  .hero h1 .num { color: var(--crust); position: relative; display: inline-block; }
+  .hero h1 .num svg { position: absolute; left: -12%; top: -10%; width: 124%; height: 120%; overflow: visible; pointer-events: none; }
+  .hero h1 .num path { fill: none; stroke: var(--rye); stroke-width: 3; stroke-linecap: round; }
+  .line { display: block; overflow: hidden; padding-top: .16em; margin-top: -.12em; }
+  .line > span { display: inline-block; }
+  .hero__lead { max-width: 38ch; margin-top: 1.6rem; font-size: var(--step-1); line-height: 1.4; }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+
+  .loaf { position: relative; width: min(100%, 500px); aspect-ratio: 1; justify-self: center; }
+  .loaf__img { position: absolute; inset: 8%; border-radius: 50%; overflow: hidden; box-shadow: 0 40px 70px -30px rgba(46,29,20,.7); }
+  .loaf__img img { width: 100%; height: 100%; object-fit: cover; }
+  .loaf__stamp { position: absolute; inset: 0; animation: spin 26s linear infinite; }
+  .loaf__stamp text { font-family: var(--f-display); font-weight: 800; font-size: 11px; letter-spacing: 3.4px; fill: var(--rye); text-transform: uppercase; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #steam { position: absolute; left: 10%; right: 10%; top: -30%; height: 70%; width: 80%; pointer-events: none; }
+  .temp { position: absolute; right: 0; bottom: 8%; background: var(--rye); color: var(--wheat); border-radius: 14px; padding: .6rem .9rem; transform: rotate(6deg); box-shadow: 0 14px 24px -12px rgba(46,29,20,.6); }
+  .temp b { display: block; font-family: var(--f-display); font-size: 2.2rem; line-height: 1; }
+  .temp span { font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; }
+  @media (max-width: 959px) { .loaf { width: min(80vw, 380px); } }
+
+  .facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 2px solid var(--rye); margin-top: clamp(2.5rem, 5vw, 4rem); }
+  @media (min-width: 960px) { .facts { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .fact { padding: 1.2rem 1rem 0 0; display: grid; gap: .2rem; }
+  .fact b { font-family: var(--f-display); font-size: var(--step-2); font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
+  .fact span { font-size: .92rem; font-weight: 500; }
+
+  /* marquee */
+  .marquee { background: var(--rye); color: var(--wheat); padding-block: 1rem; overflow: hidden; }
+  .marquee__track { display: flex; width: max-content; animation: mq 28s linear infinite; }
+  .marquee__track > div { display: flex; gap: 1.6rem; padding-right: 1.6rem; align-items: center; }
+  .marquee span { font-family: var(--f-display); font-weight: 900; font-size: var(--step-2); text-transform: uppercase; white-space: nowrap; line-height: 1; }
+  .marquee span.chalk { font-size: calc(var(--step-2) * .85); color: var(--flour); }
+  .marquee svg { width: 1.6rem; height: 1.6rem; flex: none; }
+  @keyframes mq { to { transform: translateX(-50%); } }
+
+  /* sections */
+  .sec { padding-block: clamp(4.5rem, 10vw, 8rem); }
+  .sec-head { display: grid; gap: 1rem; margin-bottom: clamp(2rem, 5vw, 3.4rem); }
+  @media (min-width: 960px) { .sec-head { grid-template-columns: 1.2fr 1fr; align-items: end; } }
+  .sec-title { font-size: var(--step-3); }
+  .sec-title .chalk { color: var(--crust); font-size: .78em; }
+  .sec-note { max-width: 42ch; color: var(--mute); }
+
+  /* oven board */
+  .board { background: var(--board); color: var(--chalk); border-radius: var(--r); margin-inline: clamp(8px, 1.4vw, 20px); position: relative; overflow: hidden; }
+  .board::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .35;
+    background: radial-gradient(ellipse at 20% 0%, rgba(255,255,255,.08), transparent 50%), radial-gradient(ellipse at 90% 100%, rgba(255,255,255,.06), transparent 50%); }
+  .board .sec-title .chalk { color: var(--wheat); }
+  .board .sec-note { color: rgba(241,238,228,.7); }
+  .board__clock { font-family: var(--f-chalk); font-size: clamp(2.4rem, 6vw, 4rem); line-height: 1; font-variant-numeric: tabular-nums; }
+  .board__grid { display: grid; gap: 2rem; }
+  @media (min-width: 960px) { .board__grid { grid-template-columns: 1fr 1.4fr; gap: 3rem; align-items: start; } }
+  .next { background: var(--board-2); border-radius: 22px; padding: 1.5rem; display: grid; gap: 1rem; border: 2px dashed rgba(241,238,228,.25); }
+  @media (min-width: 960px) { .next { position: sticky; top: 6rem; } }
+  .next__label { font-weight: 600; text-transform: uppercase; letter-spacing: .14em; font-size: .78rem; color: var(--wheat); }
+  .next__name { font-family: var(--f-display); font-weight: 900; font-size: var(--step-2); text-transform: uppercase; line-height: .95; }
+  .next__count { font-family: var(--f-chalk); font-size: clamp(3.2rem, 8vw, 5.4rem); line-height: .9; font-variant-numeric: tabular-nums; color: var(--wheat); }
+  .bar { height: 10px; border-radius: 10px; background: rgba(241,238,228,.15); overflow: hidden; }
+  .bar span { display: block; height: 100%; width: 0; border-radius: inherit; background: linear-gradient(90deg, var(--wheat), var(--crust)); transition: width 1s linear; }
+  .next__img { border-radius: 16px; overflow: hidden; aspect-ratio: 16 / 10; max-width: 100%; }
+  .next__img img { width: 100%; height: 100%; object-fit: cover; }
+  .rows { display: grid; }
+  .row { display: grid; grid-template-columns: 4.6rem 1fr auto; gap: .8rem; align-items: center; padding: .9rem .2rem; border-bottom: 1.5px dashed rgba(241,238,228,.22); }
+  .row__time { font-family: var(--f-chalk); font-size: 1.9rem; line-height: 1; font-variant-numeric: tabular-nums; }
+  .row__name { font-weight: 600; font-size: 1.05rem; min-width: 0; }
+  .row__name small { display: block; font-weight: 400; color: rgba(241,238,228,.6); font-size: .85rem; }
+  .row__st { font-size: .8rem; font-weight: 600; padding: .3rem .65rem; border-radius: 999px; white-space: nowrap; border: 1.5px solid rgba(241,238,228,.3); }
+  .row.is-done { color: rgba(241,238,228,.5); }
+  .row.is-done .row__st { opacity: .6; }
+  .row.is-done .row__name { text-decoration: line-through; text-decoration-color: rgba(241,238,228,.5); }
+  .row.is-fresh .row__st { background: var(--fresh); color: var(--board); border-color: var(--fresh); }
+  .row.is-next { background: rgba(240,185,58,.12); border-radius: 12px; padding-inline: .7rem; border-bottom-color: transparent; }
+  .row.is-next .row__st { background: var(--wheat); color: var(--rye); border-color: var(--wheat); }
+  .board__note { margin-top: 1.4rem; font-family: var(--f-chalk); font-size: 1.5rem; color: rgba(241,238,228,.8); }
+
+  /* flip cards */
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: clamp(14px, 2vw, 24px); }
+  .flip { perspective: 1400px; aspect-ratio: 4 / 5.4; max-width: 100%; }
+  .flip__in { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .8s var(--ease); }
+  .flip.is-flipped .flip__in { transform: rotateY(180deg); }
+  @media (hover: hover) { .flip:hover .flip__in { transform: rotateY(180deg); } }
+  .face { position: absolute; inset: 0; border-radius: 22px; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .face--front { background: var(--oat); }
+  .face--front img { width: 100%; height: 100%; object-fit: cover; }
+  .face--front::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 45%, rgba(46,29,20,.85)); }
+  .face__label { position: absolute; left: 1.1rem; right: 1.1rem; bottom: 1rem; z-index: 1; color: var(--flour); display: flex; justify-content: space-between; align-items: end; gap: .8rem; }
+  .face__label h3 { font-size: 2rem; }
+  .face__price { font-family: var(--f-chalk); font-size: 1.9rem; line-height: 1; white-space: nowrap; color: var(--wheat); }
+  .face__hint { position: absolute; top: .9rem; right: .9rem; z-index: 1; background: var(--flour); color: var(--rye); border-radius: 999px; padding: .3rem .7rem; font-size: .75rem; font-weight: 600; display: flex; gap: .3rem; align-items: center; }
+  .face__hint svg { width: 14px; height: 14px; }
+  .face--back { transform: rotateY(180deg); background: var(--rye); color: var(--flour); padding: 1.3rem; display: grid; align-content: space-between; gap: .8rem; }
+  .face--back h3 { font-size: 1.8rem; color: var(--wheat); }
+  .specs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
+  .spec { background: var(--rye-2); border-radius: 12px; padding: .6rem .7rem; }
+  .spec b { display: block; font-family: var(--f-display); font-size: 1.7rem; line-height: 1; font-variant-numeric: tabular-nums; }
+  .spec span { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; opacity: .75; }
+  .face--back p { font-size: .9rem; line-height: 1.45; opacity: .85; }
+  .face--back .tag { font-size: .78rem; font-weight: 600; color: var(--fresh); }
+
+  /* process */
+  .proc { background: var(--oat); border-radius: var(--r); margin-inline: clamp(8px, 1.4vw, 20px); overflow: hidden; }
+  .proc__pin { padding-block: clamp(4.5rem, 9vw, 6rem); }
+  .proc__grid { display: grid; gap: 2rem; }
+  .proc__clock { font-family: var(--f-display); font-weight: 900; font-size: clamp(5rem, 18vw, 15rem); line-height: .8; color: var(--crust); font-variant-numeric: tabular-nums; }
+  .proc__clock small { font-size: .35em; color: var(--rye); margin-left: .1em; }
+  .proc__track { position: relative; height: 6px; border-radius: 6px; background: var(--line); margin-top: 1.4rem; }
+  .proc__track span { position: absolute; inset: 0; border-radius: inherit; background: var(--crust); transform-origin: left; transform: scaleX(0); }
+  .stages { display: grid; gap: 1rem; }
+  .stage { display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: start; padding: 1.2rem; border-radius: 18px; background: var(--flour); transition: background .4s, color .4s, transform .4s var(--ease); }
+  .stage__h { font-family: var(--f-display); font-weight: 900; font-size: 2.2rem; line-height: 1; min-width: 3.6ch; color: var(--crust); transition: color .4s; }
+  .stage h3 { font-size: 1.7rem; }
+  .stage p { color: var(--mute); margin-top: .3rem; transition: color .4s; }
+  .stage.is-on { background: var(--rye); color: var(--flour); transform: translateX(6px); }
+  .stage.is-on .stage__h { color: var(--wheat); }
+  .stage.is-on p { color: rgba(251,247,239,.75); }
+  .proc__img { display: none; }
+  @media (min-width: 960px) {
+    .proc__pin { min-height: 100vh; display: flex; align-items: center; }
+    .proc__grid { grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; width: 100%; }
+    .proc__img { display: block; position: relative; border-radius: 22px; overflow: hidden; aspect-ratio: 16 / 10; margin-top: 2rem; }
+    .proc__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .6s; }
+    .proc__img img.is-on { opacity: 1; }
+  }
+
+  /* reservation */
+  .res { display: grid; gap: clamp(1.5rem, 4vw, 3rem); }
+  @media (min-width: 960px) { .res { grid-template-columns: 1.3fr 1fr; align-items: start; } }
+  .res__list { display: grid; border-top: 2px solid var(--rye); }
+  .ri { display: grid; grid-template-columns: 64px 1fr auto; gap: 1rem; align-items: center; padding-block: .9rem; border-bottom: 1.5px solid var(--line); }
+  .ri img { width: 64px; height: 64px; border-radius: 12px; object-fit: cover; }
+  .ri__name { font-weight: 600; min-width: 0; }
+  .ri__name small { display: block; color: var(--mute); font-weight: 400; }
+  .stepper { display: flex; align-items: center; gap: .3rem; background: var(--oat); border-radius: 999px; padding: .25rem; }
+  .stepper button { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-size: 1.2rem; font-weight: 700; background: var(--flour); transition: background .2s, color .2s; }
+  .stepper button:hover { background: var(--rye); color: var(--flour); }
+  .stepper button:disabled { opacity: .35; pointer-events: none; }
+  .stepper output { min-width: 1.6ch; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .res__side { background: var(--wheat); border-radius: var(--r); padding: clamp(1.2rem, 3vw, 2rem); display: grid; gap: 1.3rem; border: 2px solid var(--rye); box-shadow: 8px 8px 0 var(--rye); }
+  @media (min-width: 960px) { .res__side { position: sticky; top: 6rem; } }
+  .res__side h3 { font-size: 2rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: .45rem; }
+  .chip { padding: .55rem .95rem; border-radius: 10px; border: 2px solid var(--rye); font-weight: 600; font-size: .92rem; background: var(--wheat-soft); transition: background .2s, color .2s; }
+  .chip[aria-pressed="true"] { background: var(--rye); color: var(--wheat); }
+  .chip:disabled { opacity: .35; text-decoration: line-through; pointer-events: none; }
+  .fld { display: grid; gap: .35rem; }
+  .fld label, .fld .lab { font-weight: 600; font-size: .92rem; }
+  .fld input { padding: .8rem 1rem; border-radius: 10px; border: 2px solid var(--rye); background: var(--flour); outline: none; }
+  .fld input:focus { box-shadow: 0 0 0 3px var(--crust); }
+  .res__total { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; border-top: 2px dashed var(--rye); padding-top: 1rem; }
+  .res__total b { font-family: var(--f-display); font-size: var(--step-2); line-height: 1; font-variant-numeric: tabular-nums; }
+  .res__msg { min-height: 1.4em; font-size: .9rem; font-weight: 600; color: var(--crust); }
+  .ticket { background: var(--flour); border-radius: 14px; padding: 1rem; border: 2px dashed var(--rye); display: grid; gap: .8rem; }
+  .ticket pre { margin: 0; white-space: pre-wrap; font-family: var(--f-body); font-size: .92rem; line-height: 1.5; user-select: all; }
+  .ticket .btn { justify-self: start; padding: .6rem 1rem; font-size: .9rem; }
+
+  /* visit */
+  .visit { display: grid; gap: 2rem; }
+  @media (min-width: 960px) { .visit { grid-template-columns: 1.1fr 1fr; gap: 4rem; align-items: center; } }
+  .visit__img { border-radius: var(--r); overflow: hidden; aspect-ratio: 16 / 11; max-width: 100%; }
+  .visit__img img { width: 100%; height: 120%; object-fit: cover; }
+  .visit__addr { font-family: var(--f-display); font-weight: 900; font-size: var(--step-2); text-transform: uppercase; line-height: .95; margin-block: 1rem 1.5rem; }
+  .hours { display: grid; border-top: 2px solid var(--rye); }
+  .hours div { display: flex; justify-content: space-between; padding: .75rem .2rem; border-bottom: 1.5px solid var(--line); font-variant-numeric: tabular-nums; }
+  .hours div.is-today { background: var(--wheat); border-radius: 10px; padding-inline: .8rem; font-weight: 700; border-bottom-color: transparent; }
+  .hours div.is-today dt::after { content: " · dziś"; color: var(--crust); }
+  .copyrow { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.4rem; }
+  .copy { display: inline-flex; gap: .5rem; align-items: center; padding: .6rem .9rem; border-radius: 10px; background: var(--oat); font-weight: 600; }
+  .copy span { user-select: all; }
+  .copy button { font-size: .8rem; padding: .2rem .6rem; border-radius: 8px; background: var(--flour); }
+
+  /* footer */
+  .foot { background: var(--rye); color: var(--flour); padding-block: 3rem calc(2rem + env(safe-area-inset-bottom, 0px)); margin-top: clamp(3rem, 7vw, 5rem); overflow: hidden; }
+  .foot__word { font-family: var(--f-display); font-weight: 900; text-transform: uppercase; color: var(--wheat); font-size: clamp(5rem, 30vw, 26rem); line-height: .78; letter-spacing: -0.01em; display: flex; overflow: hidden; }
+  .foot__word span { display: inline-block; }
+  .foot__row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem; margin-top: 2rem; }
+  .foot__row ul { display: flex; flex-wrap: wrap; gap: 1.2rem; font-weight: 600; }
+  .foot__note { margin-top: 1.2rem; font-size: .82rem; opacity: .7; max-width: 70ch; }
+  .foot__note a { text-decoration: underline; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+    .loader { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__inner">
+    <svg viewBox="0 0 120 90"><path id="loaderLoaf" d="M8 78c0-30 22-52 52-52s52 22 52 52v4H8z" fill="#A4501F"/><path d="M38 52l10 10M58 44l10 14M80 48l9 10" stroke="#F0B93A" stroke-width="5" stroke-linecap="round"/></svg>
+    <div class="loader__word" id="loaderWord"><span>S</span><span>k</span><span>ó</span><span>r</span><span>k</span><span>a</span></div>
+  </div>
+</div>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__bar">
+    <a href="#top" class="logo"><svg viewBox="0 0 34 26" aria-hidden="true"><path d="M2 22c0-10 6.7-17 15-17s15 7 15 17v2H2z" fill="#A4501F"/><path d="M11 14l3 3M17 11l3 4M23 13l3 3" stroke="#F0B93A" stroke-width="2" stroke-linecap="round"/></svg>Skórka</a>
+    <nav class="nav__links" aria-label="Główna">
+      <a href="#piec">Teraz w piecu</a>
+      <a href="#chleby">Chleby</a>
+      <a href="#proces">36 godzin</a>
+      <a href="#odwiedz">Odwiedź nas</a>
+    </nav>
+    <a class="btn" href="#rezerwacja">Zarezerwuj</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero__grid">
+        <div>
+          <p class="hero__tag" id="heroTag"><i></i><span>Sprawdzam piec…</span></p>
+          <h1>
+            <span class="line"><span>Ten chleb</span></span>
+            <span class="line"><span>rośnie</span></span>
+            <span class="line"><span><span class="num">36<svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path id="circle" d="M50 6C20 4 4 22 6 50s22 46 48 44 42-20 40-46S72 2 40 8"/></svg></span> godzin.</span></span>
+          </h1>
+          <p class="hero__lead">Piekarnia na zakwasie w Gdańsku-Wrzeszczu. Mąka z kaszubskiego młyna, woda, sól i czas. Drożdży w chlebach nie używamy wcale.</p>
+          <div class="hero__cta">
+            <a class="btn" href="#piec">Co teraz w piecu?
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
+            <a class="btn btn--line" href="#rezerwacja">Zarezerwuj bochenek</a>
+          </div>
+        </div>
+        <div class="loaf" id="loaf">
+          <canvas id="steam" aria-hidden="true"></canvas>
+          <div class="loaf__img"><img src="img/hero-bochenek.jpg" alt="Okrągły bochenek chleba na zakwasie z chrupiącą, naciętą skórką" width="1100" height="1100"></div>
+          <svg class="loaf__stamp" viewBox="0 0 200 200" aria-hidden="true">
+            <defs><path id="sp" d="M100,100 m-92,0 a92,92 0 1,1 184,0 a92,92 0 1,1 -184,0"/></defs>
+            <text><textPath href="#sp">Piekarnia Skórka · Gdańsk · na zakwasie · od 2014 · </textPath></text>
+          </svg>
+          <div class="temp"><b>250°C</b><span>w piecu teraz</span></div>
+        </div>
+      </div>
+      <div class="facts">
+        <div class="fact"><b id="starterDays">4 500</b><span>dni ma nasz zakwas Zenek</span></div>
+        <div class="fact"><b>0 g</b><span>drożdży w chlebach</span></div>
+        <div class="fact"><b>12</b><span>wypieków dziennie</span></div>
+        <div class="fact"><b>5:30</b><span>pierwsza partia z pieca</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track" id="marquee">
+      <div><span>Żytni na zakwasie</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1.5 3 1.5 5 0 7-1.5-2-1.5-4 0-7zm-4 5c2.6 1.4 3.6 3.2 3 5.6C8.7 11.4 7.8 9.6 8 7zm8 0c.2 2.6-.7 4.4-3 5.6-.6-2.4.4-4.2 3-5.6zM7.5 12.5c2.6 1.2 3.7 3 3.2 5.5-2.4-1.1-3.4-2.9-3.2-5.5zm9 0c.2 2.6-.8 4.4-3.2 5.5-.5-2.5.6-4.3 3.2-5.5zM11.3 18h1.4v4h-1.4z"/></svg><span class="chalk">prosto z pieca</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1.5 3 1.5 5 0 7-1.5-2-1.5-4 0-7zm-4 5c2.6 1.4 3.6 3.2 3 5.6C8.7 11.4 7.8 9.6 8 7zm8 0c.2 2.6-.7 4.4-3 5.6-.6-2.4.4-4.2 3-5.6zM7.5 12.5c2.6 1.2 3.7 3 3.2 5.5-2.4-1.1-3.4-2.9-3.2-5.5zm9 0c.2 2.6-.8 4.4-3.2 5.5-.5-2.5.6-4.3 3.2-5.5zM11.3 18h1.4v4h-1.4z"/></svg><span>Bagietka</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1.5 3 1.5 5 0 7-1.5-2-1.5-4 0-7zm-4 5c2.6 1.4 3.6 3.2 3 5.6C8.7 11.4 7.8 9.6 8 7zm8 0c.2 2.6-.7 4.4-3 5.6-.6-2.4.4-4.2 3-5.6zM7.5 12.5c2.6 1.2 3.7 3 3.2 5.5-2.4-1.1-3.4-2.9-3.2-5.5zm9 0c.2 2.6-.8 4.4-3.2 5.5-.5-2.5.6-4.3 3.2-5.5zM11.3 18h1.4v4h-1.4z"/></svg><span>Orkiszowy</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1.5 3 1.5 5 0 7-1.5-2-1.5-4 0-7zm-4 5c2.6 1.4 3.6 3.2 3 5.6C8.7 11.4 7.8 9.6 8 7zm8 0c.2 2.6-.7 4.4-3 5.6-.6-2.4.4-4.2 3-5.6zM7.5 12.5c2.6 1.2 3.7 3 3.2 5.5-2.4-1.1-3.4-2.9-3.2-5.5zm9 0c.2 2.6-.8 4.4-3.2 5.5-.5-2.5.6-4.3 3.2-5.5zM11.3 18h1.4v4h-1.4z"/></svg><span class="chalk">chrupiąca skórka</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1.5 3 1.5 5 0 7-1.5-2-1.5-4 0-7zm-4 5c2.6 1.4 3.6 3.2 3 5.6C8.7 11.4 7.8 9.6 8 7zm8 0c.2 2.6-.7 4.4-3 5.6-.6-2.4.4-4.2 3-5.6zM7.5 12.5c2.6 1.2 3.7 3 3.2 5.5-2.4-1.1-3.4-2.9-3.2-5.5zm9 0c.2 2.6-.8 4.4-3.2 5.5-.5-2.5.6-4.3 3.2-5.5zM11.3 18h1.4v4h-1.4z"/></svg><span>Cynamonki</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1.5 3 1.5 5 0 7-1.5-2-1.5-4 0-7zm-4 5c2.6 1.4 3.6 3.2 3 5.6C8.7 11.4 7.8 9.6 8 7zm8 0c.2 2.6-.7 4.4-3 5.6-.6-2.4.4-4.2 3-5.6zM7.5 12.5c2.6 1.2 3.7 3 3.2 5.5-2.4-1.1-3.4-2.9-3.2-5.5zm9 0c.2 2.6-.8 4.4-3.2 5.5-.5-2.5.6-4.3 3.2-5.5zM11.3 18h1.4v4h-1.4z"/></svg></div>
+    </div>
+  </div>
+
+  <!-- OVEN BOARD -->
+  <section class="sec board" id="piec">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow" style="color:var(--wheat);margin-bottom:.8rem">Rozkład z pieca · <span id="boardDay">dziś</span></p>
+          <h2 class="sec-title">Teraz <span class="chalk">w piecu</span></h2>
+        </div>
+        <div>
+          <p class="board__clock" id="clock">--:--</p>
+          <p class="sec-note">Godzina w Gdańsku. Tablica sama się aktualizuje, więc wiesz, kiedy przyjść po ciepły chleb.</p>
+        </div>
+      </div>
+      <div class="board__grid">
+        <div class="next" id="next">
+          <p class="next__label" id="nextLabel">Następna partia</p>
+          <p class="next__name" id="nextName">—</p>
+          <p class="next__count" id="nextCount">--:--</p>
+          <div class="bar" aria-hidden="true"><span id="nextBar"></span></div>
+          <div class="next__img"><img id="nextImg" src="img/bagietka.jpg" alt="" width="900" height="1125"></div>
+        </div>
+        <div>
+          <ol class="rows" id="rows"></ol>
+          <p class="board__note" id="boardNote"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BREADS -->
+  <section class="sec" id="chleby">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="sec-title reveal">Nasze <span class="chalk">chleby</span></h2>
+        <p class="sec-note">Obróć kartę, żeby zobaczyć skład, hydratację i czas fermentacji. Na telefonie wystarczy dotknąć.</p>
+      </div>
+      <div class="cards" id="cards"></div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="proc" id="proces">
+    <div class="proc__pin" id="procPin">
+      <div class="wrap proc__grid">
+        <div>
+          <p class="eyebrow" style="color:var(--crust);margin-bottom:.8rem">Jeden bochenek żytni</p>
+          <p class="proc__clock" aria-live="off"><span id="procH">0</span><small>h</small></p>
+          <div class="proc__track"><span id="procTrack"></span></div>
+          <div class="proc__img" aria-hidden="true">
+            <img src="img/maka.jpg" alt="" class="is-on"><img src="img/ciasto.jpg" alt=""><img src="img/okruchy.jpg" alt=""><img src="img/polki.jpg" alt=""><img src="img/piec.jpg" alt="">
+          </div>
+        </div>
+        <ol class="stages" id="stages">
+          <li class="stage is-on" data-h="0"><span class="stage__h">0 h</span><div><h3>Mieszanie</h3><p>Mąka żytnia typ 2000, woda o temperaturze 28°C i 20% dojrzałego zakwasu.</p></div></li>
+          <li class="stage" data-h="3"><span class="stage__h">3 h</span><div><h3>Składanie</h3><p>Cztery razy co 45 minut składamy ciasto ręcznie, żeby nabrało siły.</p></div></li>
+          <li class="stage" data-h="5"><span class="stage__h">5 h</span><div><h3>Formowanie</h3><p>Każdy bochenek ląduje w koszyku z trzciny wysypanym mąką.</p></div></li>
+          <li class="stage" data-h="20"><span class="stage__h">20 h</span><div><h3>Noc w chłodni</h3><p>15 godzin w 4°C. Tu rodzi się kwaskowy smak i dziurki w miąższu.</p></div></li>
+          <li class="stage" data-h="36"><span class="stage__h">36 h</span><div><h3>Wypiek</h3><p>Nacięcie, para i 50 minut w 250°C. Skórka trzeszczy jeszcze przez godzinę po wyjęciu.</p></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESERVATION -->
+  <section class="sec" id="rezerwacja">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="sec-title reveal">Odłożymy <span class="chalk">dla ciebie</span></h2>
+        <p class="sec-note">Wybierz chleby i godzinę odbioru. Odkładamy je na półkę z Twoim imieniem i trzymamy do godziny po wybranym czasie.</p>
+      </div>
+      <div class="res">
+        <ul class="res__list" id="resList"></ul>
+        <form class="res__side" id="resForm" novalidate>
+          <h3>Twój koszyk</h3>
+          <div class="fld">
+            <span class="lab" id="dayLab">Dzień odbioru</span>
+            <div class="chips" role="group" aria-labelledby="dayLab" id="dayChips">
+              <button type="button" class="chip" data-day="0" aria-pressed="true">Dziś</button>
+              <button type="button" class="chip" data-day="1" aria-pressed="false">Jutro</button>
+            </div>
+          </div>
+          <div class="fld">
+            <span class="lab" id="slotLab">Godzina</span>
+            <div class="chips" role="group" aria-labelledby="slotLab" id="slotChips"></div>
+          </div>
+          <div class="fld">
+            <label for="resName">Imię na karteczce</label>
+            <input type="text" id="resName" maxlength="30" placeholder="np. Marta" autocomplete="given-name">
+          </div>
+          <div class="res__total"><span>Razem</span><b><span id="resSum">0</span> zł</b></div>
+          <p class="res__msg" id="resMsg" role="status"></p>
+          <button class="btn" type="submit">Przygotuj rezerwację</button>
+          <div class="ticket" id="ticket" hidden>
+            <pre id="ticketText"></pre>
+            <button type="button" class="btn" id="copyTicket">Kopiuj i wyślij nam na Instagramie</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISIT -->
+  <section class="sec" id="odwiedz" style="padding-top:0">
+    <div class="wrap visit">
+      <div class="visit__img" id="visitImg"><img src="img/sklep.jpg" alt="Wnętrze piekarni z półkami pełnymi pieczywa" loading="lazy" width="1600" height="1000"></div>
+      <div>
+        <p class="hero__tag" id="visitTag" style="margin-bottom:0"><i></i><span>…</span></p>
+        <p class="visit__addr">ul. Zakwasowa 3<br>Gdańsk-Wrzeszcz</p>
+        <dl class="hours" id="hours"></dl>
+        <div class="copyrow">
+          <span class="copy"><span id="mail">chleb@skorka-demo.pl</span><button type="button" data-copy="mail">Kopiuj</button></span>
+          <span class="copy"><span id="phone">+48 58 000 00 00</span><button type="button" data-copy="phone">Kopiuj</button></span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="foot__word" aria-hidden="true"><span>S</span><span>k</span><span>ó</span><span>r</span><span>k</span><span>a</span></p>
+    <div class="foot__row">
+      <ul>
+        <li><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+        <li><a href="#rezerwacja">Rezerwacja</a></li>
+      </ul>
+      <p>© 2026 Piekarnia Skórka · Gdańsk</p>
+    </div>
+    <p class="foot__note">Przykładowy projekt strony. Piekarnia, adres i ceny są fikcyjne. Zdjęcia: autorzy z <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a>.</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(() => {
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const hasGsap = !!window.gsap;
+  const pad = (n) => String(n).padStart(2, '0');
+  const zl = (n) => n.toLocaleString('pl-PL');
+
+  /* ---------- time in Gdańsk ---------- */
+  function nowPL() {
+    try {
+      const p = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Warsaw', weekday: 'short', hour: 'numeric', minute: 'numeric', second: 'numeric', hourCycle: 'h23' }).formatToParts(new Date());
+      const g = (t) => p.find((x) => x.type === t).value;
+      return { day: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(g('weekday')), min: +g('hour') * 60 + +g('minute') + +g('second') / 60, h: +g('hour'), m: +g('minute'), s: +g('second') };
+    } catch (e) { const d = new Date(); return { day: d.getDay(), min: d.getHours() * 60 + d.getMinutes() + d.getSeconds() / 60, h: d.getHours(), m: d.getMinutes(), s: d.getSeconds() }; }
+  }
+  const DAYS = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
+  const HOURS = { 1: [6, 19], 2: [6, 19], 3: [6, 19], 4: [6, 19], 5: [6, 19], 6: [6, 15], 0: [7, 13] };
+  const t2m = (t) => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
+
+  /* ---------- breads ---------- */
+  const BREADS = {
+    zytni: { name: 'Żytni na zakwasie', img: 'zytni', price: 16, w: '1000 g', hyd: '80%', ferm: '36 h', desc: 'Mąka żytnia typ 2000, woda, zakwas, sól. Tyle.', tag: 'Najdłużej świeży, do tygodnia' },
+    pszenny: { name: 'Pszenny na zakwasie', img: 'pszenny', price: 18, w: '800 g', hyd: '75%', ferm: '30 h', desc: 'Mąka pszenna typ 750 z kaszubskiego młyna, zakwas, woda, sól.', tag: 'Duże dziury, cienka skórka' },
+    bagietka: { name: 'Bagietka', img: 'bagietka', price: 7, w: '280 g', hyd: '72%', ferm: '18 h', desc: 'Mąka pszenna T65, poolish, woda, sól. Najlepsza do 4 godzin od wypieku.', tag: 'Pieczona 3 razy dziennie' },
+    razowy: { name: 'Razowy z ziarnami', img: 'ziarnisty', price: 17, w: '900 g', hyd: '78%', ferm: '24 h', desc: 'Razowa żytnia, słonecznik, siemię lniane, pestki dyni, zakwas.', tag: 'Dużo błonnika' },
+    orkisz: { name: 'Orkiszowy', img: 'orkiszowy', price: 19, w: '750 g', hyd: '74%', ferm: '28 h', desc: 'Mąka orkiszowa jasna i pełnoziarnista, zakwas, woda, sól.', tag: 'Delikatny, lekko orzechowy' },
+    maslany: { name: 'Maślany tostowy', img: 'maslany', price: 14, w: '600 g', hyd: '65%', ferm: '12 h', desc: 'Mąka pszenna, mleko, masło 82%, odrobina miodu, zakwas.', tag: 'Najlepszy na tosty i grzanki' },
+    orzech: { name: 'Z orzechami i żurawiną', img: 'orzechowy', price: 22, w: '700 g', hyd: '76%', ferm: '30 h', desc: 'Pszenno-żytni, orzechy włoskie, suszona żurawina, zakwas.', tag: 'Do serów' },
+    cynamonka: { name: 'Cynamonka', img: 'cynamonki', price: 7, w: '110 g', hyd: '—', ferm: '14 h', desc: 'Ciasto maślane na zakwasie, cynamon cejloński, brązowy cukier.', tag: 'Wyjątek: słodka' },
+    croissant: { name: 'Croissant', img: 'croissant', price: 8, w: '80 g', hyd: '—', ferm: '20 h', desc: 'Francuskie ciasto na maśle 82%, 27 warstw, laminowane ręcznie.', tag: 'Tylko rano' }
+  };
+
+  /* ---------- oven schedule ---------- */
+  const SCHED = [
+    ['5:30', 'bagietka', 'pierwsza partia'], ['5:45', 'zytni', ''], ['6:00', 'pszenny', ''], ['6:30', 'croissant', ''],
+    ['7:00', 'cynamonka', 'jeszcze ciepłe'], ['8:00', 'razowy', ''], ['9:30', 'orkisz', ''], ['11:00', 'bagietka', 'druga partia'],
+    ['12:30', 'maslany', ''], ['14:00', 'orzech', ''], ['15:30', 'bagietka', 'trzecia partia'], ['17:00', 'pszenny', 'wieczorny']
+  ];
+  const rowsEl = $('#rows');
+  let todaySched = [];
+  function buildBoard(n) {
+    const close = HOURS[n.day][1] * 60;
+    todaySched = SCHED.filter(([t]) => t2m(t) < close - 30);
+    rowsEl.innerHTML = todaySched.map(([t, k, note]) => `<li class="row" data-t="${t2m(t)}"><span class="row__time">${t}</span><span class="row__name">${BREADS[k].name}${note ? `<small>${note}</small>` : ''}</span><span class="row__st">później</span></li>`).join('');
+    $('#boardDay').textContent = DAYS[n.day].toLowerCase();
+  }
+  let lastNextKey = '';
+  function tickBoard() {
+    const n = nowPL();
+    if (n.day !== currentDay) { currentDay = n.day; buildBoard(n); renderHours(n); }
+    $('#clock').textContent = `${pad(n.h)}:${pad(n.m)}`;
+    const rows = $$('.row', rowsEl);
+    const nextIdx = todaySched.findIndex(([t]) => t2m(t) > n.min);
+    rows.forEach((r, i) => {
+      const t = +r.dataset.t, st = $('.row__st', r);
+      r.classList.remove('is-done', 'is-fresh', 'is-next');
+      if (t <= n.min) {
+        const ago = n.min - t;
+        if (ago < 60) { r.classList.add('is-fresh'); st.textContent = `ciepłe · ${Math.floor(ago)} min temu`; }
+        else { r.classList.add('is-done'); st.textContent = 'wyjęte'; }
+      } else if (i === nextIdx) { r.classList.add('is-next'); st.textContent = 'w piecu'; }
+      else st.textContent = 'później';
+    });
+    const nextEl = $('#next');
+    if (nextIdx === -1) {
+      const tomorrow = (n.day + 1) % 7;
+      $('#nextLabel').textContent = 'Na dziś koniec pieczenia';
+      $('#nextName').textContent = `Jutro od ${SCHED[0][0]}: ${BREADS[SCHED[0][1]].name}`;
+      const left = (24 * 60 - n.min) + t2m(SCHED[0][0]);
+      $('#nextCount').textContent = `za ${Math.floor(left / 60)} h ${pad(Math.floor(left % 60))} min`;
+      $('#nextBar').style.width = '0%';
+      setNextImg(SCHED[0][1]);
+      $('#boardNote').textContent = `${DAYS[tomorrow]}: piec rusza o 4:00, pierwsza bagietka o 5:30.`;
+    } else {
+      const [t, k] = todaySched[nextIdx];
+      const left = t2m(t) - n.min;
+      const prevT = nextIdx > 0 ? t2m(todaySched[nextIdx - 1][0]) : t2m(t) - 60;
+      $('#nextLabel').textContent = 'Następna partia z pieca';
+      $('#nextName').textContent = BREADS[k].name;
+      const sec = Math.max(0, Math.round(left * 60));
+      $('#nextCount').textContent = sec >= 3600 ? `${Math.floor(sec / 3600)}:${pad(Math.floor(sec % 3600 / 60))}:${pad(sec % 60)}` : `${pad(Math.floor(sec / 60))}:${pad(sec % 60)}`;
+      $('#nextBar').style.width = `${Math.min(100, Math.max(0, (1 - left / (t2m(t) - prevT)) * 100))}%`;
+      setNextImg(k);
+      const fresh = todaySched.filter(([tt]) => t2m(tt) <= n.min && n.min - t2m(tt) < 60).map(([, kk]) => BREADS[kk].name);
+      $('#boardNote').textContent = fresh.length ? `Ciepłe teraz: ${fresh.join(', ')}.` : 'Przyjdź na kwadrans po wyjęciu, wtedy skórka jeszcze trzeszczy.';
+    }
+    const [o, c] = HOURS[n.day];
+    const open = n.h >= o && n.h < c;
+    const label = open ? (nextIdx > -1 ? `Otwarte · w piecu: ${BREADS[todaySched[nextIdx][1]].name.toLowerCase()}` : `Otwarte do ${c}:00`) : (n.h < o ? `Zamknięte · otwieramy o ${o}:00` : `Zamknięte · jutro od ${HOURS[(n.day + 1) % 7][0]}:00`);
+    ['#heroTag', '#visitTag'].forEach((s) => { $(s).classList.toggle('is-closed', !open); $('span', $(s)).textContent = label; });
+  }
+  function setNextImg(k) {
+    if (lastNextKey === k) return;
+    lastNextKey = k;
+    const img = $('#nextImg');
+    const go = () => { img.src = `img/${BREADS[k].img}.jpg`; img.alt = BREADS[k].name; };
+    if (hasGsap && !reduce && img.complete && img.naturalWidth) gsap.to(img, { opacity: 0, duration: .2, onComplete: () => { go(); gsap.to(img, { opacity: 1, duration: .5 }); } });
+    else go();
+  }
+  function renderHours(n) {
+    $('#hours').innerHTML = [1, 2, 3, 4, 5, 6, 0].map((d) => `<div class="${d === n.day ? 'is-today' : ''}"><dt>${DAYS[d]}</dt><dd>${HOURS[d][0]}:00–${HOURS[d][1]}:00</dd></div>`).join('');
+  }
+  let currentDay = -1;
+  tickBoard();
+  setInterval(tickBoard, 1000);
+
+  /* starter age */
+  const born = Date.UTC(2014, 4, 6);
+  const days = Math.floor((Date.now() - born) / 864e5);
+  $('#starterDays').textContent = zl(days);
+  $('#starterDays').dataset.count = days;
+
+  /* ---------- flip cards ---------- */
+  const order = ['zytni', 'pszenny', 'bagietka', 'razowy', 'orkisz', 'maslany', 'orzech', 'cynamonka'];
+  $('#cards').innerHTML = order.map((k) => {
+    const b = BREADS[k];
+    return `<article class="flip" tabindex="0" aria-label="${b.name}, ${b.price} zł. Dotknij, aby zobaczyć skład.">
+      <div class="flip__in">
+        <div class="face face--front"><img src="img/${b.img}.jpg" alt="${b.name}" loading="lazy" width="900" height="1125">
+          <span class="face__hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4"/></svg>skład</span>
+          <div class="face__label"><h3>${b.name}</h3><span class="face__price">${b.price} zł</span></div></div>
+        <div class="face face--back">
+          <h3>${b.name}</h3>
+          <div class="specs"><div class="spec"><b>${b.hyd}</b><span>hydratacja</span></div><div class="spec"><b>${b.ferm}</b><span>fermentacja</span></div><div class="spec"><b>${b.w}</b><span>waga</span></div><div class="spec"><b>${b.price} zł</b><span>cena</span></div></div>
+          <p>${b.desc}</p><span class="tag">${b.tag}</span>
+        </div>
+      </div></article>`;
+  }).join('');
+  $$('.flip').forEach((f) => {
+    const t = () => f.classList.toggle('is-flipped');
+    f.addEventListener('click', () => { if (!fine) t(); });
+    f.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); t(); } });
+  });
+
+  /* ---------- reservation ---------- */
+  const RES = ['zytni', 'pszenny', 'bagietka', 'razowy', 'orkisz', 'orzech', 'cynamonka', 'croissant'];
+  const qty = Object.fromEntries(RES.map((k) => [k, 0]));
+  qty.zytni = 1;
+  $('#resList').innerHTML = RES.map((k) => `<li class="ri"><img src="img/${BREADS[k].img}.jpg" alt="" loading="lazy" width="64" height="64">
+    <span class="ri__name">${BREADS[k].name}<small>${BREADS[k].w} · ${BREADS[k].price} zł</small></span>
+    <span class="stepper"><button type="button" data-k="${k}" data-d="-1" aria-label="Mniej: ${BREADS[k].name}">−</button><output id="q-${k}">${qty[k]}</output><button type="button" data-k="${k}" data-d="1" aria-label="Więcej: ${BREADS[k].name}">+</button></span></li>`).join('');
+  const SLOTS = ['7:00', '9:00', '12:00', '15:00', '17:00'];
+  let day = 0, slot = null;
+  function renderSlots() {
+    const n = nowPL();
+    const d = (n.day + day) % 7;
+    const [o, c] = HOURS[d];
+    const avail = SLOTS.filter((s) => t2m(s) >= o * 60 && t2m(s) <= (c - 1) * 60);
+    $('#slotChips').innerHTML = avail.map((s) => {
+      const past = day === 0 && t2m(s) < n.min + 60;
+      return `<button type="button" class="chip" data-slot="${s}" aria-pressed="${s === slot}" ${past ? 'disabled' : ''}>${s}</button>`;
+    }).join('') || '<span>Brak godzin tego dnia</span>';
+    if (slot && !$$('#slotChips .chip:not(:disabled)').some((b) => b.dataset.slot === slot)) slot = null;
+    if (!slot) { const first = $('#slotChips .chip:not(:disabled)'); if (first) { slot = first.dataset.slot; first.setAttribute('aria-pressed', 'true'); } }
+    if (!slot && day === 0) { day = 1; $$('#dayChips .chip').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.day === '1'))); renderSlots(); }
+  }
+  function renderRes() {
+    let sum = 0;
+    RES.forEach((k) => { $('#q-' + k).textContent = qty[k]; sum += qty[k] * BREADS[k].price; $(`[data-k="${k}"][data-d="-1"]`).disabled = qty[k] === 0; });
+    if (hasGsap && !reduce) { const o = { v: +$('#resSum').textContent.replace(/\s/g, '') || 0 }; gsap.to(o, { v: sum, duration: .4, onUpdate: () => { $('#resSum').textContent = zl(Math.round(o.v)); } }); }
+    else $('#resSum').textContent = zl(sum);
+    return sum;
+  }
+  $('#resList').addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-k]'); if (!b) return;
+    const k = b.dataset.k; qty[k] = Math.max(0, Math.min(20, qty[k] + +b.dataset.d));
+    renderRes();
+    if (hasGsap && !reduce) gsap.fromTo('#q-' + k, { scale: 1.6 }, { scale: 1, duration: .4, ease: 'back.out(3)' });
+  });
+  $('#dayChips').addEventListener('click', (e) => {
+    const b = e.target.closest('.chip'); if (!b) return;
+    day = +b.dataset.day; slot = null;
+    $$('#dayChips .chip').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    renderSlots();
+  });
+  $('#slotChips').addEventListener('click', (e) => {
+    const b = e.target.closest('.chip'); if (!b || b.disabled) return;
+    slot = b.dataset.slot; $$('#slotChips .chip').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+  });
+  renderSlots(); renderRes();
+  $('#resForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const sum = RES.reduce((a, k) => a + qty[k] * BREADS[k].price, 0);
+    const name = $('#resName').value.trim();
+    const msg = $('#resMsg');
+    if (!sum) { msg.textContent = 'Dodaj przynajmniej jeden chleb.'; return; }
+    if (!slot) { msg.textContent = 'Wybierz godzinę odbioru.'; return; }
+    if (!name) { msg.textContent = 'Wpisz imię, żebyśmy wiedzieli, czyja to półka.'; $('#resName').focus(); return; }
+    msg.textContent = '';
+    const list = RES.filter((k) => qty[k]).map((k) => `• ${BREADS[k].name} × ${qty[k]}`).join('\n');
+    $('#ticketText').textContent = `Cześć! Proszę o odłożenie na ${day ? 'jutro' : 'dziś'}, ${slot}:\n${list}\nRazem: ${zl(sum)} zł\nImię: ${name}`;
+    const t = $('#ticket'); t.hidden = false;
+    if (hasGsap && !reduce) gsap.fromTo(t, { y: 20, opacity: 0, rotation: -2 }, { y: 0, opacity: 1, rotation: 0, duration: .6, ease: 'back.out(1.7)' });
+  });
+  const copy = (btn, text, label) => {
+    const done = (m) => { btn.textContent = m; setTimeout(() => (btn.textContent = label), 1800); };
+    try { navigator.clipboard.writeText(text).then(() => done('Skopiowano'), () => done('Zaznacz i skopiuj')); } catch (e) { done('Zaznacz i skopiuj'); }
+  };
+  $('#copyTicket').addEventListener('click', (e) => copy(e.currentTarget, $('#ticketText').textContent, 'Kopiuj i wyślij nam na Instagramie'));
+  $$('[data-copy]').forEach((b) => b.addEventListener('click', () => copy(b, $('#' + b.dataset.copy).textContent, 'Kopiuj')));
+
+  /* ---------- steam ---------- */
+  const cv = $('#steam'), ctx = cv.getContext('2d');
+  let wisps = [];
+  function sizeSteam() { const r = cv.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2); cv.width = r.width * d; cv.height = r.height * d; ctx.setTransform(d, 0, 0, d, 0, 0); }
+  sizeSteam(); addEventListener('resize', sizeSteam);
+  let steamOn = true;
+  function steam() {
+    const w = cv.clientWidth, h = cv.clientHeight;
+    ctx.clearRect(0, 0, w, h);
+    if (steamOn && wisps.length < 28 && Math.random() < .25) wisps.push({ x: w * (.3 + Math.random() * .4), y: h, r: 10 + Math.random() * 14, a: 0, vy: .5 + Math.random() * .6, ph: Math.random() * 6 });
+    wisps.forEach((p) => {
+      p.y -= p.vy; p.ph += .02; p.r += .12;
+      const life = 1 - p.y / h;
+      p.a = Math.sin(Math.min(1, life) * Math.PI) * .22;
+      const x = p.x + Math.sin(p.ph) * 14;
+      const g = ctx.createRadialGradient(x, p.y, 0, x, p.y, p.r);
+      g.addColorStop(0, `rgba(255,252,245,${p.a})`); g.addColorStop(1, 'rgba(255,252,245,0)');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+    });
+    wisps = wisps.filter((p) => p.y > -p.r);
+    requestAnimationFrame(steam);
+  }
+  if (!reduce) requestAnimationFrame(steam);
+
+  /* nav */
+  const nav = $('#nav'); let lastY = 0;
+  addEventListener('scroll', () => { const y = scrollY; nav.classList.toggle('is-solid', y > 40); nav.classList.toggle('is-hidden', y > lastY && y > 400); lastY = y; steamOn = y < innerHeight; }, { passive: true });
+  $$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {
+    const id = a.getAttribute('href'); const t = id === '#top' ? 0 : $(id);
+    if (t === null) return; e.preventDefault();
+    if (window.__lenis) window.__lenis.scrollTo(t, { offset: t === 0 ? 0 : -10, duration: 1.4 });
+    else if (t === 0) scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); else t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+  }));
+
+  const loader = $('#loader');
+  if (!hasGsap || reduce) { loader.remove(); return; }
+
+  /* ================= GSAP ================= */
+  gsap.registerPlugin(ScrollTrigger);
+  if (fine && window.Lenis) {
+    const lenis = new Lenis({ lerp: .1 }); window.__lenis = lenis;
+    lenis.on('scroll', ScrollTrigger.update); gsap.ticker.add((t) => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0);
+  }
+
+  // intro: the loaf rises, then the page
+  loader.style.animation = 'none';
+  gsap.set('.hero .line > span', { yPercent: 110 });
+  gsap.set(['.hero__tag', '.hero__lead', '.hero__cta', '.fact'], { opacity: 0, y: 24 });
+  gsap.set('.loaf__img', { scale: .4, opacity: 0 });
+  gsap.set(['.loaf__stamp', '.temp'], { opacity: 0 });
+  const starter = { v: 0 };
+  const circ = $('#circle'); const len = circ.getTotalLength(); gsap.set(circ, { strokeDasharray: len, strokeDashoffset: len });
+  gsap.timeline({ defaults: { ease: 'expo.out' } })
+    .fromTo('#loaderLoaf', { scaleY: .45, transformOrigin: '50% 100%' }, { scaleY: 1, duration: 1, ease: 'elastic.out(1, .5)' })
+    .from('#loaderWord span', { yPercent: 110, duration: .6, stagger: .05 }, '<.1')
+    .to('.loader__inner', { y: -40, opacity: 0, duration: .4, ease: 'power2.in' }, '+=.2')
+    .to(loader, { yPercent: -100, duration: .8, ease: 'expo.inOut', onComplete: () => loader.remove() }, '-=.1')
+    .to('.hero .line > span', { yPercent: 0, duration: 1.1, stagger: .1 }, '-=.4')
+    .to('.loaf__img', { scale: 1, opacity: 1, duration: 1.3, ease: 'elastic.out(1, .6)' }, '<')
+    .to('.hero__tag', { opacity: 1, y: 0, duration: .7 }, '<.1')
+    .to(circ, { strokeDashoffset: 0, duration: .9, ease: 'power2.inOut' }, '-=.6')
+    .to(['.hero__lead', '.hero__cta'], { opacity: 1, y: 0, duration: .8, stagger: .1 }, '-=.8')
+    .to(['.loaf__stamp', '.temp'], { opacity: 1, duration: .6 }, '-=.6')
+    .from('.temp', { rotation: -30, scale: .5, duration: .8, ease: 'back.out(2.5)' }, '<')
+    .to('.fact', { opacity: 1, y: 0, duration: .7, stagger: .08 }, '-=.6')
+    .fromTo(starter, { v: 0 }, { v: days, duration: 1.4, ease: 'power2.out', onUpdate: () => { $('#starterDays').textContent = zl(Math.round(starter.v)); } }, '<');
+
+  gsap.to('.loaf__img img', { rotation: 25, scale: 1.12, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  if (fine) $('.hero').addEventListener('pointermove', (e) => {
+    const nx = e.clientX / innerWidth - .5, ny = e.clientY / innerHeight - .5;
+    gsap.to('.loaf__img', { x: nx * 24, y: ny * 24, duration: 1, ease: 'power3.out' });
+    gsap.to('.temp', { x: nx * -30, y: ny * -30, duration: 1, ease: 'power3.out' });
+  });
+
+  const skewTo = gsap.quickTo('#marquee', 'skewX', { duration: .4, ease: 'power3' });
+  ScrollTrigger.create({ onUpdate: (s) => skewTo(gsap.utils.clamp(-10, 10, s.getVelocity() / -260)) });
+
+  $$('.reveal').forEach((el) => gsap.from(el, { y: 60, opacity: 0, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 88%' } }));
+
+  // board: rows chalked in
+  gsap.from('.row', { x: -40, opacity: 0, duration: .6, stagger: .05, ease: 'power3.out', clearProps: 'all', scrollTrigger: { trigger: '#rows', start: 'top 85%' } });
+  gsap.from('#next', { y: 60, rotation: -3, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: '#next', start: 'top 85%' } });
+
+  // cards: dealt like from a basket
+  gsap.set('.flip', { opacity: 0 });
+  ScrollTrigger.batch('.flip', { start: 'top 90%', once: true,
+    onEnter: (els) => gsap.fromTo(els, { y: 100, rotation: (i) => (i % 2 ? 6 : -6), opacity: 0 }, { y: 0, rotation: 0, opacity: 1, duration: 1, stagger: .08, ease: 'back.out(1.4)' }) });
+  if (fine) $$('.flip').forEach((f) => {
+    f.addEventListener('pointermove', (e) => { const r = f.getBoundingClientRect(); gsap.to(f, { rotationX: ((e.clientY - r.top) / r.height - .5) * -8, rotationY: ((e.clientX - r.left) / r.width - .5) * 8, transformPerspective: 900, duration: .4 }); });
+    f.addEventListener('pointerleave', () => gsap.to(f, { rotationX: 0, rotationY: 0, duration: .6 }));
+  });
+
+  // process: pinned on desktop with hour counter; plain list on phones
+  const stages = $$('.stage'), pimgs = $$('.proc__img img');
+  const setStage = (h) => {
+    $('#procH').textContent = Math.round(h);
+    let idx = 0; stages.forEach((s, i) => { if (h >= +s.dataset.h - .01) idx = i; });
+    stages.forEach((s, i) => s.classList.toggle('is-on', i === idx));
+    pimgs.forEach((im, i) => im.classList.toggle('is-on', i === idx));
+  };
+  const mm = gsap.matchMedia();
+  mm.add('(min-width: 960px)', () => {
+    const o = { h: 0 };
+    gsap.timeline({ scrollTrigger: { trigger: '#procPin', pin: true, start: 'top top', end: '+=180%', scrub: .6 } })
+      .to(o, { h: 36, ease: 'none', onUpdate: () => setStage(o.h) })
+      .fromTo('#procTrack', { scaleX: 0 }, { scaleX: 1, ease: 'none' }, 0);
+  });
+  mm.add('(max-width: 959px)', () => {
+    stages.forEach((s) => ScrollTrigger.create({ trigger: s, start: 'top 65%', end: 'bottom 35%', onToggle: (self) => { if (self.isActive) { setStage(+s.dataset.h); gsap.set('#procTrack', { scaleX: +s.dataset.h / 36 }); } } }));
+  });
+
+  // reservation
+  gsap.from('.ri', { x: -40, opacity: 0, duration: .7, stagger: .05, ease: 'power3.out', scrollTrigger: { trigger: '#resList', start: 'top 85%' } });
+  gsap.from('.res__side', { y: 60, rotation: 2, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: '.res__side', start: 'top 90%' } });
+
+  gsap.fromTo('#visitImg img', { yPercent: -15 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '#visitImg', start: 'top bottom', end: 'bottom top', scrub: true } });
+  gsap.from('.hours div', { x: -30, opacity: 0, duration: .6, stagger: .05, ease: 'power3.out', scrollTrigger: { trigger: '#hours', start: 'top 85%' } });
+  gsap.from('.foot__word span', { yPercent: 100, duration: 1, stagger: .06, ease: 'back.out(1.6)', scrollTrigger: { trigger: '.foot', start: 'top 90%' } });
+
+  addEventListener('load', () => ScrollTrigger.refresh());
+})();
+</script>
+</body>
+</html>
