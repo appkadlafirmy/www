@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Szałwia Restauracja</title>
 <meta name="description" content="Szałwia — restauracja z kuchnią sezonową w Gdańsku-Oliwie. Menu degustacyjne, ryby z Bałtyku i warzywa od lokalnych rolników. Zarezerwuj stolik online.">
-<meta name="theme-color" content="#F3EDE4">
+<meta name="theme-color" content="#1A0E11">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23F3EDE4'/%3E%3Cpath d='M32 50C18 40 20 20 32 12c12 8 14 28 0 38z' fill='%2377804F'/%3E%3Cpath d='M32 48V18' stroke='%23F3EDE4' stroke-width='2'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -85,31 +85,49 @@
   .nav .btn { padding: .7rem 1.2rem; font-size: .88rem; }
   @media (min-width: 960px) { .nav__links { display: flex; } }
 
-  .hero { padding-top: calc(7rem + env(safe-area-inset-top, 0px)); padding-bottom: clamp(3rem, 6vw, 5rem); }
-  .hero__grid { display: grid; gap: 3rem; align-items: center; }
-  @media (min-width: 960px) { .hero__grid { grid-template-columns: 1fr 1.05fr; } }
-  .hero .eyebrow { color: var(--sage); margin-bottom: 1.6rem; }
-  .hero h1 { font-size: var(--step-4); line-height: .95; }
+  .hero { position: relative; min-height: min(100svh, 960px); display: flex; align-items: flex-end; color: var(--paper); background: #1A0E11; overflow: hidden; border-radius: 0 0 var(--r) var(--r); padding-top: calc(7rem + env(safe-area-inset-top, 0px)); padding-bottom: clamp(2.5rem, 6vw, 4.5rem); }
+  .hero__bg { position: absolute; inset: 0; z-index: 0; }
+  .hero__bg img { width: 100%; height: 110%; object-fit: cover; object-position: 60% 50%; }
+  .hero__bg::after { content: ""; position: absolute; inset: 0; background:
+      linear-gradient(90deg, rgba(26,14,17,.92) 0%, rgba(26,14,17,.72) 38%, rgba(26,14,17,.25) 70%, rgba(26,14,17,.45) 100%),
+      linear-gradient(0deg, rgba(26,14,17,.95) 0%, rgba(26,14,17,0) 45%),
+      linear-gradient(180deg, rgba(26,14,17,.7) 0%, rgba(26,14,17,0) 25%); }
+  @media (max-width: 959px) { .hero__bg::after { background: linear-gradient(0deg, rgba(26,14,17,.96) 0%, rgba(26,14,17,.78) 45%, rgba(26,14,17,.35) 75%, rgba(26,14,17,.6) 100%); } }
+  #embers { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+  .hero__in { position: relative; z-index: 2; width: 100%; display: grid; gap: 2.4rem; align-items: end; }
+  @media (min-width: 960px) { .hero__in { grid-template-columns: 1.25fr .75fr; } }
+  .hero .eyebrow { color: var(--gold); margin-bottom: 1.4rem; display: flex; align-items: center; gap: .8rem; }
+  .hero .eyebrow::before { content: ""; width: 38px; height: 1px; background: var(--gold); }
+  .hero h1 { font-size: clamp(3.4rem, 1.2rem + 9vw, 10.5rem); line-height: .92; }
+  .hero h1 em { color: var(--sage-soft); }
   .line { display: block; overflow: hidden; padding-block: .1em; margin-block: -.1em; }
   .line > span { display: inline-block; }
-  .hero__lead { max-width: 37ch; margin-top: 1.8rem; font-size: var(--step-1); line-height: 1.5; color: var(--wine-2); }
-  .hero__cta { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2.2rem; }
-  .hero__facts { display: flex; flex-wrap: wrap; gap: 1.4rem 2.4rem; margin-top: 2.6rem; }
+  .hero__lead { max-width: 40ch; margin-top: 1.6rem; font-size: var(--step-1); line-height: 1.5; color: rgba(251,248,243,.82); }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
+  .hero .btn { background: var(--paper); color: var(--wine); }
+  .hero .btn:hover { color: var(--paper); }
+  .hero .btn--ghost { background: transparent; color: var(--paper); box-shadow: inset 0 0 0 1px rgba(251,248,243,.45); }
+  .hero__card { justify-self: end; width: min(100%, 360px); padding: 1.4rem; border-radius: 22px; background: rgba(26,14,17,.45); border: 1px solid rgba(251,248,243,.18); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); display: grid; gap: .9rem; }
+  .hero__card .eyebrow { margin: 0; font-size: .7rem; }
+  .hero__card .eyebrow::before { width: 18px; }
+  .hero__card h2 { font-size: 1.9rem; line-height: 1.05; }
+  .hero__card p { color: rgba(251,248,243,.75); font-size: .95rem; }
+  .hero__card .row { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-top: .9rem; border-top: 1px solid rgba(251,248,243,.18); }
+  .hero__card .row b { font-family: var(--f-display); font-weight: 400; font-size: 1.7rem; }
+  .hero__card a { font-size: .9rem; text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 959px) { .hero__card { justify-self: start; } }
+  .hero__facts { display: flex; flex-wrap: wrap; gap: 1.2rem 2.4rem; margin-top: 2.4rem; }
   .hero__facts div { display: grid; }
-  .hero__facts b { font-family: var(--f-display); font-weight: 400; font-size: 1.9rem; line-height: 1; }
-  .hero__facts span { font-size: .85rem; color: var(--mute); }
-  .arches { position: relative; aspect-ratio: 1 / 1; width: min(100%, 600px); justify-self: center; }
-  .arch { position: absolute; overflow: hidden; border-radius: 999px 999px 18px 18px; box-shadow: 0 30px 60px -30px rgba(42,26,29,.5); }
-  .arch img { width: 100%; height: 115%; object-fit: cover; }
-  .arch--1 { left: 22%; top: 0; width: 52%; aspect-ratio: 3 / 4; z-index: 2; }
-  .arch--2 { left: 0; top: 36%; width: 33%; aspect-ratio: 3 / 4; }
-  .arch--3 { right: 0; top: 44%; width: 32%; aspect-ratio: 3 / 4; z-index: 3; }
-  .leaf { position: absolute; left: 7%; top: 6%; width: 15%; z-index: 4; }
-  .leaf svg { width: 100%; height: auto; }
-  .badge { position: absolute; right: 3%; top: 7%; width: 122px; aspect-ratio: 1; z-index: 4; animation: spin 24s linear infinite; }
-  .badge text { font-family: var(--f-body); font-size: 9.2px; letter-spacing: 3px; fill: var(--wine); text-transform: uppercase; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @media (max-width: 959px) { .arches { width: min(92vw, 460px); } .badge { width: 90px; } }
+  .hero__facts b { font-family: var(--f-display); font-weight: 400; font-size: 1.8rem; line-height: 1; }
+  .hero__facts span { font-size: .82rem; color: rgba(251,248,243,.65); }
+  .scroll { position: absolute; z-index: 2; left: 50%; bottom: 1.2rem; translate: -50% 0; width: 1px; height: 46px; background: rgba(251,248,243,.25); overflow: hidden; display: none; }
+  .scroll::after { content: ""; position: absolute; left: 0; top: -40%; width: 100%; height: 40%; background: var(--gold); animation: drip 1.8s var(--ease) infinite; }
+  @keyframes drip { to { top: 100%; } }
+  @media (min-width: 960px) { .scroll { display: block; } }
+  .nav:not(.is-solid) { color: var(--paper); }
+  .nav:not(.is-solid) .logo small { color: rgba(251,248,243,.65); }
+  .nav:not(.is-solid) .btn { background: var(--paper); color: var(--wine); }
+  .nav:not(.is-solid) .btn:hover { color: var(--paper); }
 
   .marquee { border-block: 1px solid var(--line); padding-block: 1.1rem; overflow: hidden; }
   .marquee__track { display: flex; width: max-content; animation: mq 38s linear infinite; }
@@ -287,18 +305,20 @@
 
 <main id="top">
   <section class="hero">
-    <div class="wrap hero__grid">
+    <div class="hero__bg" aria-hidden="true"><img src="img/hero-bg.jpg" alt="" width="2400" height="1500"></div>
+    <canvas id="embers" aria-hidden="true"></canvas>
+    <div class="wrap hero__in">
       <div>
         <p class="eyebrow">Restauracja · Gdańsk-Oliwa · menu jesień 2026</p>
         <h1>
           <span class="line"><span>Sezon</span></span>
           <span class="line"><span><em>na talerzu.</em></span></span>
         </h1>
-        <p class="hero__lead">Ryby z porannego połowu w Jastarni, warzywa od rolników z Kaszub i menu, które zmienia się cztery razy w roku. Gotujemy tym, co akurat rośnie.</p>
+        <p class="hero__lead">Ryby z porannego połowu w Jastarni, warzywa od rolników z Kaszub i polskie wina. Menu zmieniamy cztery razy w roku, gotujemy tym, co akurat rośnie.</p>
         <div class="hero__cta">
           <a class="btn" href="#rezerwacja">Zarezerwuj stolik
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a class="btn btn--soft" href="#degustacja">Menu degustacyjne</a>
+          <a class="btn btn--ghost" href="#degustacja">Menu degustacyjne</a>
         </div>
         <div class="hero__facts">
           <div><b>4,9</b><span>1 430 opinii w Google</span></div>
@@ -306,14 +326,14 @@
           <div id="heroOpen"><b>—</b><span>…</span></div>
         </div>
       </div>
-      <div class="arches" id="arches">
-        <div class="arch arch--1" data-depth="1"><img src="img/hero.jpg" alt="Elegancko podane danie na stole z kieliszkami" width="1000" height="1250"></div>
-        <div class="arch arch--2" data-depth="1.6"><img src="img/szef.jpg" alt="Szef kuchni przygotowuje danie pod miedzianymi lampami" width="900" height="1125"></div>
-        <div class="arch arch--3" data-depth="2.2"><img src="img/wino.jpg" alt="Toast czerwonym winem" width="900" height="1125"></div>
-        <div class="leaf" data-depth="2.8" aria-hidden="true"><svg viewBox="0 0 46 70"><path d="M23 66C4 52 6 22 23 4c17 18 19 48 0 62z" fill="#77804F"/><path d="M23 64V12M23 26l-8-6M23 36l9-7M23 46l-10-6" stroke="#F3EDE4" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg></div>
-        <svg class="badge" viewBox="0 0 120 120" aria-hidden="true"><defs><path id="bp" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs><text><textPath href="#bp">kuchnia sezonowa · Szałwia · </textPath></text><circle cx="60" cy="60" r="5" fill="#77804F"/></svg>
-      </div>
+      <aside class="hero__card">
+        <p class="eyebrow">Dziś polecamy</p>
+        <h2>Dorsz z Jastarni</h2>
+        <p>Beurre blanc z cydrem, grillowany por, olej szczypiorkowy. Do kieliszka Solaris ze Srebrnej Góry.</p>
+        <div class="row"><b>94 zł</b><a href="#karta">Cała karta</a></div>
+      </aside>
     </div>
+    <span class="scroll" aria-hidden="true"></span>
   </section>
 
   <div class="marquee" aria-hidden="true">
@@ -583,6 +603,20 @@
     else if (t === 0) scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); else t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
   }));
 
+  /* candle-light dust over the hero photo */
+  const ec = $('#embers'), ex = ec.getContext('2d'); let motes = [], heroOn = true;
+  function sizeE() { const r = ec.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2); ec.width = r.width * d; ec.height = r.height * d; ex.setTransform(d, 0, 0, d, 0, 0);
+    motes = Array.from({ length: Math.round(r.width / 30) }, () => ({ x: Math.random() * r.width, y: Math.random() * r.height, r: .6 + Math.random() * 1.8, vy: -.12 - Math.random() * .3, ph: Math.random() * 6, a: .2 + Math.random() * .5 })); }
+  sizeE(); addEventListener('resize', sizeE);
+  addEventListener('scroll', () => { heroOn = scrollY < innerHeight * 1.1; }, { passive: true });
+  (function ember() {
+    const w = ec.clientWidth, h = ec.clientHeight;
+    if (heroOn) { ex.clearRect(0, 0, w, h);
+      motes.forEach((m) => { m.y += m.vy; m.ph += .02; if (m.y < -5) { m.y = h + 5; m.x = Math.random() * w; }
+        const tw = .6 + Math.sin(m.ph * 2) * .4; ex.fillStyle = `rgba(232,196,140,${m.a * tw})`; ex.beginPath(); ex.arc(m.x + Math.sin(m.ph) * 8, m.y, m.r, 0, 7); ex.fill(); }); }
+    if (!reduce) requestAnimationFrame(ember);
+  })();
+
   const loader = $('#loader');
   if (!anim) { loader.remove(); return; }
 
@@ -592,8 +626,8 @@
   loader.style.animation = 'none';
   gsap.set('.hero .line > span', { yPercent: 110 });
   gsap.set(['.hero .eyebrow', '.hero__lead', '.hero__cta', '.hero__facts'], { opacity: 0, y: 24 });
-  gsap.set('.arch', { clipPath: 'inset(100% 0 0 0 round 999px 999px 18px 18px)' });
-  gsap.set(['.leaf', '.badge'], { scale: 0 });
+  gsap.set('.hero__card', { opacity: 0, y: 40 });
+  gsap.set('.hero__bg img', { scale: 1.18 });
   const lp = $('#leafPath'), ll = lp.getTotalLength(); gsap.set(lp, { strokeDasharray: ll, strokeDashoffset: ll });
   gsap.timeline({ defaults: { ease: 'expo.out' } })
     .to(lp, { strokeDashoffset: 0, duration: 1.2, ease: 'power2.inOut' })
@@ -601,17 +635,19 @@
     .from('.loader small', { opacity: 0, duration: 1 }, .4)
     .to('.loader__in', { opacity: 0, filter: 'blur(8px)', duration: .5, ease: 'power2.in' }, '+=.1')
     .to(loader, { opacity: 0, duration: .6, onComplete: () => loader.remove() }, '-=.2')
-    .to('.hero .line > span', { yPercent: 0, duration: 1.2, stagger: .12 }, '-=.4')
-    .to('.arch--1', { clipPath: 'inset(0% 0 0 0 round 999px 999px 18px 18px)', duration: 1.4 }, '<')
-    .to('.arch--2', { clipPath: 'inset(0% 0 0 0 round 999px 999px 18px 18px)', duration: 1.4 }, '<.15')
-    .to('.arch--3', { clipPath: 'inset(0% 0 0 0 round 999px 999px 18px 18px)', duration: 1.4 }, '<.15')
-    .to('.hero .eyebrow', { opacity: 1, y: 0, duration: .8 }, '<-.2')
-    .to(['.hero__lead', '.hero__cta', '.hero__facts'], { opacity: 1, y: 0, duration: .9, stagger: .1 }, '-=1')
-    .to(['.leaf', '.badge'], { scale: 1, duration: 1, ease: 'back.out(1.8)', stagger: .1 }, '-=.9');
+    .to('.hero__bg img', { scale: 1.04, duration: 2.6, ease: 'power3.out' }, '<')
+    .to('.hero .line > span', { yPercent: 0, duration: 1.2, stagger: .12 }, '-=2.1')
+    .to('.hero .eyebrow', { opacity: 1, y: 0, duration: .8 }, '<.1')
+    .to(['.hero__lead', '.hero__cta', '.hero__facts'], { opacity: 1, y: 0, duration: .9, stagger: .1 }, '-=.9')
+    .to('.hero__card', { opacity: 1, y: 0, duration: 1.1 }, '-=.8');
 
-  $$('.arch, .leaf').forEach((el) => gsap.to(el, { yPercent: -12 * +el.dataset.depth, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } }));
-  gsap.to('.leaf', { rotation: 25, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-  if (fine) $('.hero').addEventListener('pointermove', (e) => { const nx = e.clientX / innerWidth - .5; $$('.arch, .leaf').forEach((el) => gsap.to(el, { x: nx * 14 * el.dataset.depth, duration: 1.2, ease: 'power3.out' })); });
+  gsap.to('.hero__bg img', { yPercent: 12, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  gsap.to('.hero__in', { yPercent: -10, opacity: .2, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'center center', end: 'bottom top', scrub: true } });
+  if (fine) $('.hero').addEventListener('pointermove', (e) => {
+    const nx = e.clientX / innerWidth - .5, ny = e.clientY / innerHeight - .5;
+    gsap.to('.hero__bg', { x: nx * -24, y: ny * -16, duration: 1.4, ease: 'power3.out' });
+    gsap.to('.hero__card', { x: nx * 14, y: ny * 10, duration: 1.4, ease: 'power3.out' });
+  });
   const skewTo = gsap.quickTo('#marquee', 'skewX', { duration: .4, ease: 'power3' });
   ScrollTrigger.create({ onUpdate: (s) => skewTo(gsap.utils.clamp(-8, 8, s.getVelocity() / -300)) });
   $$('.reveal').forEach((el) => gsap.from(el, { y: 50, opacity: 0, filter: 'blur(8px)', duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 88%' } }));
