@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Szałwia Restauracja</title>
+<meta name="description" content="Szałwia — restauracja z kuchnią sezonową w Gdańsku-Oliwie. Menu degustacyjne, ryby z Bałtyku i warzywa od lokalnych rolników. Zarezerwuj stolik online.">
+<meta name="theme-color" content="#F3EDE4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23F3EDE4'/%3E%3Cpath d='M32 50C18 40 20 20 32 12c12 8 14 28 0 38z' fill='%2377804F'/%3E%3Cpath d='M32 48V18' stroke='%23F3EDE4' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..600&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Layout: linen tablecloth paper, wine-dark ink, a sage-olive accent; dishes in arched frames, the tasting menu reads like a printed card. */
+  :root {
+    --linen: #F3EDE4;
+    --paper: #FBF8F3;
+    --wine: #4B1D26;
+    --wine-2: #63303A;
+    --sage: #77804F;
+    --sage-soft: #C9CDB0;
+    --gold: #B7925E;
+    --ink: #2A1A1D;
+    --mute: #7E6C6A;
+    --line: rgba(42, 26, 29, 0.14);
+    --line-w: rgba(251, 248, 243, 0.2);
+    --f-display: "Bodoni Moda", "Didot", Georgia, serif;
+    --f-body: Figtree, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --step--1: clamp(0.76rem, 0.74rem + 0.12vw, 0.84rem);
+    --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.1rem);
+    --step-1: clamp(1.2rem, 1.08rem + 0.55vw, 1.5rem);
+    --step-2: clamp(1.7rem, 1.3rem + 1.8vw, 2.9rem);
+    --step-3: clamp(2.5rem, 1.5rem + 4.2vw, 5.6rem);
+    --step-4: clamp(3rem, 1.2rem + 7.6vw, 9rem);
+    --gutter: clamp(16px, 4vw, 56px);
+    --max: 1400px;
+    --r: clamp(20px, 2.6vw, 34px);
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    color-scheme: light;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { -webkit-text-size-adjust: 100%; }
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  body { margin: 0; background: var(--linen); color: var(--ink); font-family: var(--f-body); font-size: var(--step-0); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button, input, textarea { font: inherit; color: inherit; }
+  button { background: none; border: 0; padding: 0; cursor: pointer; }
+  h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; }
+  ul, ol { padding: 0; list-style: none; }
+  h1, h2, h3 { font-family: var(--f-display); font-weight: 400; line-height: 1; letter-spacing: -0.02em; text-wrap: balance; }
+  em { font-style: italic; color: var(--sage); }
+  :focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; border-radius: 6px; }
+  ::selection { background: var(--wine); color: var(--paper); }
+  .wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+  .eyebrow { font-size: var(--step--1); font-weight: 500; letter-spacing: .24em; text-transform: uppercase; }
+
+  .btn { display: inline-flex; align-items: center; gap: .6rem; padding: 1rem 1.6rem; border-radius: 999px; font-weight: 500; letter-spacing: .04em; background: var(--wine); color: var(--paper); position: relative; overflow: hidden; isolation: isolate; transition: color .35s; }
+  .btn::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--sage); z-index: -1; clip-path: circle(0 at 50% 50%); transition: clip-path .6s var(--ease); }
+  .btn:hover::before { clip-path: circle(75% at 50% 50%); }
+  .btn svg { width: 18px; height: 18px; }
+  .btn--soft { background: var(--paper); color: var(--wine); }
+  .btn--soft:hover { color: var(--paper); }
+
+  .loader { position: fixed; inset: 0; z-index: 130; background: var(--wine); color: var(--paper); display: grid; place-items: center; animation: lo .6s var(--ease) 2.6s forwards; }
+  @keyframes lo { to { opacity: 0; visibility: hidden; } }
+  .loader__in { display: grid; justify-items: center; gap: .8rem; }
+  .loader svg { width: 46px; height: 70px; }
+  .loader__word { font-family: var(--f-display); font-size: clamp(3.2rem, 12vw, 7.6rem); line-height: 1; display: flex; }
+  .loader__word span { display: inline-block; }
+  .loader small { font-size: .72rem; letter-spacing: .4em; text-transform: uppercase; color: var(--sage-soft); }
+
+  .nav { position: fixed; inset: 0 0 auto; z-index: 80; padding-top: env(safe-area-inset-top, 0px); transition: transform .5s var(--ease), background .4s; }
+  .nav.is-hidden { transform: translateY(-110%); }
+  .nav.is-solid { background: rgba(243, 237, 228, .92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 1px 0 var(--line); }
+  .nav__bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1rem; }
+  .logo { font-family: var(--f-display); font-size: 1.9rem; line-height: 1; }
+  .logo small { display: block; font-family: var(--f-body); font-size: .56rem; letter-spacing: .36em; text-transform: uppercase; color: var(--mute); margin-top: .25rem; }
+  .nav__links { display: none; gap: 2rem; font-size: .86rem; letter-spacing: .16em; text-transform: uppercase; }
+  .nav__links a { position: relative; }
+  .nav__links a::after { content: ""; position: absolute; left: 50%; right: 50%; bottom: -4px; height: 1px; background: var(--sage); transition: left .4s var(--ease), right .4s var(--ease); }
+  .nav__links a:hover::after { left: 0; right: 0; }
+  .nav .btn { padding: .7rem 1.2rem; font-size: .88rem; }
+  @media (min-width: 960px) { .nav__links { display: flex; } }
+
+  .hero { padding-top: calc(7rem + env(safe-area-inset-top, 0px)); padding-bottom: clamp(3rem, 6vw, 5rem); }
+  .hero__grid { display: grid; gap: 3rem; align-items: center; }
+  @media (min-width: 960px) { .hero__grid { grid-template-columns: 1fr 1.05fr; } }
+  .hero .eyebrow { color: var(--sage); margin-bottom: 1.6rem; }
+  .hero h1 { font-size: var(--step-4); line-height: .95; }
+  .line { display: block; overflow: hidden; padding-block: .1em; margin-block: -.1em; }
+  .line > span { display: inline-block; }
+  .hero__lead { max-width: 37ch; margin-top: 1.8rem; font-size: var(--step-1); line-height: 1.5; color: var(--wine-2); }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2.2rem; }
+  .hero__facts { display: flex; flex-wrap: wrap; gap: 1.4rem 2.4rem; margin-top: 2.6rem; }
+  .hero__facts div { display: grid; }
+  .hero__facts b { font-family: var(--f-display); font-weight: 400; font-size: 1.9rem; line-height: 1; }
+  .hero__facts span { font-size: .85rem; color: var(--mute); }
+  .arches { position: relative; aspect-ratio: 1 / 1; width: min(100%, 600px); justify-self: center; }
+  .arch { position: absolute; overflow: hidden; border-radius: 999px 999px 18px 18px; box-shadow: 0 30px 60px -30px rgba(42,26,29,.5); }
+  .arch img { width: 100%; height: 115%; object-fit: cover; }
+  .arch--1 { left: 22%; top: 0; width: 52%; aspect-ratio: 3 / 4; z-index: 2; }
+  .arch--2 { left: 0; top: 36%; width: 33%; aspect-ratio: 3 / 4; }
+  .arch--3 { right: 0; top: 44%; width: 32%; aspect-ratio: 3 / 4; z-index: 3; }
+  .leaf { position: absolute; left: 7%; top: 6%; width: 15%; z-index: 4; }
+  .leaf svg { width: 100%; height: auto; }
+  .badge { position: absolute; right: 3%; top: 7%; width: 122px; aspect-ratio: 1; z-index: 4; animation: spin 24s linear infinite; }
+  .badge text { font-family: var(--f-body); font-size: 9.2px; letter-spacing: 3px; fill: var(--wine); text-transform: uppercase; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (max-width: 959px) { .arches { width: min(92vw, 460px); } .badge { width: 90px; } }
+
+  .marquee { border-block: 1px solid var(--line); padding-block: 1.1rem; overflow: hidden; }
+  .marquee__track { display: flex; width: max-content; animation: mq 38s linear infinite; }
+  .marquee__track > div { display: flex; gap: 2rem; padding-right: 2rem; align-items: center; }
+  .marquee span { font-family: var(--f-display); font-size: var(--step-2); white-space: nowrap; line-height: 1.15; }
+  .marquee span:nth-child(4n+3) { font-style: italic; color: var(--sage); }
+  .marquee i { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex: none; }
+  @keyframes mq { to { transform: translateX(-50%); } }
+
+  .sec { padding-block: clamp(4.5rem, 10vw, 8rem); }
+  .sec-head { display: grid; gap: 1rem; margin-bottom: clamp(2rem, 5vw, 3.4rem); }
+  @media (min-width: 960px) { .sec-head { grid-template-columns: 1.2fr 1fr; align-items: end; } }
+  .sec-title { font-size: var(--step-3); }
+  .sec-note { max-width: 42ch; color: var(--mute); }
+
+  /* tasting menu */
+  .taste { background: var(--wine); color: var(--paper); border-radius: var(--r); margin-inline: clamp(8px, 1.4vw, 20px); }
+  .taste .sec-note { color: rgba(251,248,243,.72); }
+  .taste em { color: var(--sage-soft); }
+  .taste__grid { display: grid; gap: clamp(2rem, 4vw, 4rem); align-items: start; }
+  @media (min-width: 960px) { .taste__grid { grid-template-columns: .85fr 1.15fr; } }
+  .taste__img { position: relative; aspect-ratio: 4 / 5; border-radius: 999px 999px 24px 24px; overflow: hidden; max-width: 100%; background: var(--wine-2); }
+  @media (min-width: 960px) { .taste__img { position: sticky; top: 6rem; } }
+  .taste__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity .6s, transform 1s var(--ease); }
+  .taste__img figcaption { position: absolute; left: 50%; bottom: 1.2rem; translate: -50% 0; background: var(--paper); color: var(--wine); padding: .4rem 1rem; border-radius: 999px; font-size: .85rem; white-space: nowrap; }
+  .taste__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding-bottom: 1.4rem; margin-bottom: .4rem; border-bottom: 1px solid var(--line-w); }
+  .switch { display: inline-flex; align-items: center; gap: .8rem; cursor: pointer; font-weight: 500; }
+  .switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .switch__track { width: 52px; height: 30px; border-radius: 999px; background: var(--wine-2); position: relative; transition: background .3s; box-shadow: inset 0 0 0 1px var(--line-w); }
+  .switch__track::after { content: ""; position: absolute; left: 4px; top: 4px; width: 22px; height: 22px; border-radius: 50%; background: var(--paper); transition: transform .4s var(--ease); }
+  .switch input:checked + .switch__track { background: var(--sage); }
+  .switch input:checked + .switch__track::after { transform: translateX(22px); }
+  .switch input:focus-visible + .switch__track { outline: 2px solid var(--sage-soft); outline-offset: 3px; }
+  .taste__price { font-family: var(--f-display); font-size: var(--step-2); line-height: 1; font-variant-numeric: tabular-nums; }
+  .taste__price small { font-family: var(--f-body); font-size: .85rem; color: rgba(251,248,243,.7); margin-left: .3rem; }
+  .course { display: grid; grid-template-columns: 3rem 1fr; gap: 0 1rem; padding: 1.4rem 0; border-bottom: 1px solid var(--line-w); transition: opacity .4s; }
+  .course__n { font-family: var(--f-display); font-style: italic; font-size: 1.6rem; color: var(--sage-soft); line-height: 1.1; }
+  .course h3 { font-size: clamp(1.4rem, 1.15rem + .8vw, 1.9rem); line-height: 1.15; }
+  .course p { color: rgba(251,248,243,.72); margin-top: .3rem; }
+  .course .pair { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .5s var(--ease), opacity .4s; opacity: 0; }
+  .course .pair > span { overflow: hidden; color: var(--gold); font-size: .92rem; }
+  .with-wine .course .pair { grid-template-rows: 1fr; opacity: 1; }
+  .course.is-on { opacity: 1; }
+  @media (min-width: 960px) { .course { opacity: .45; } .course.is-on { opacity: 1; } }
+
+  /* a la carte */
+  .tabs { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1.6rem; }
+  .tab { padding: .6rem 1.1rem; border-radius: 999px; border: 1px solid var(--line); font-size: .92rem; transition: background .3s, color .3s, border-color .3s; }
+  .tab:hover { border-color: var(--wine); }
+  .tab[aria-selected="true"] { background: var(--wine); color: var(--paper); border-color: var(--wine); }
+  .carte { display: grid; gap: 0 4rem; }
+  @media (min-width: 960px) { .carte { grid-template-columns: 1fr 1fr; } }
+  .dish { display: grid; grid-template-columns: auto 1fr auto; gap: .2rem .8rem; align-items: baseline; padding: 1.2rem 0; border-bottom: 1px solid var(--line); }
+  .dish h3 { font-size: clamp(1.2rem, 1.05rem + .6vw, 1.6rem); }
+  .dish .dots { border-bottom: 1px dotted rgba(42,26,29,.35); transform: translateY(-5px); min-width: 1rem; }
+  .dish b { font-weight: 500; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .dish p { grid-column: 1 / -1; color: var(--mute); font-size: .95rem; }
+  .dish .tag { color: var(--sage); font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; }
+
+  /* chef */
+  .chef { display: grid; gap: clamp(2rem, 4vw, 4rem); align-items: center; }
+  @media (min-width: 960px) { .chef { grid-template-columns: .9fr 1.1fr; } }
+  .chef__img { aspect-ratio: 4 / 5; border-radius: 999px 999px 24px 24px; overflow: hidden; max-width: 100%; }
+  .chef__img img { width: 100%; height: 115%; object-fit: cover; }
+  .chef blockquote { margin: 0; font-family: var(--f-display); font-size: var(--step-2); line-height: 1.2; }
+  .chef cite { display: block; margin-top: 1.4rem; font-style: normal; color: var(--mute); }
+  .chef cite b { color: var(--ink); font-weight: 500; }
+  .suppliers { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.8rem; }
+  .suppliers span { padding: .5rem 1rem; border-radius: 999px; border: 1px solid var(--line); font-size: .9rem; }
+
+  /* reservation */
+  .rsec { background: var(--paper); border-radius: var(--r); margin-inline: clamp(8px, 1.4vw, 20px); }
+  .book { display: grid; gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
+  @media (min-width: 1040px) { .book { grid-template-columns: 1.5fr 1fr; } }
+  .step { display: grid; gap: .9rem; padding-block: 1.3rem; border-top: 1px solid var(--line); }
+  .step__h { font-family: var(--f-display); font-size: 1.35rem; }
+  .step__h em { margin-right: .4rem; }
+  .days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .35rem; }
+  .day { padding: .55rem .2rem; border-radius: 12px; border: 1px solid var(--line); text-align: center; display: grid; gap: .05rem; transition: background .25s, color .25s; }
+  .day small { font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); }
+  .day b { font-family: var(--f-display); font-weight: 400; font-size: 1.35rem; }
+  .day[aria-pressed="true"] { background: var(--wine); border-color: var(--wine); color: var(--paper); }
+  .day[aria-pressed="true"] small { color: var(--sage-soft); }
+  .day:disabled { opacity: .3; cursor: not-allowed; }
+  .slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: .35rem; }
+  .slot { padding: .6rem 0; border-radius: 10px; border: 1px solid var(--line); font-variant-numeric: tabular-nums; transition: background .2s, color .2s, border-color .2s; }
+  .slot:hover { border-color: var(--wine); }
+  .slot[aria-pressed="true"] { background: var(--wine); color: var(--paper); border-color: var(--wine); }
+  .slot:disabled { opacity: .25; text-decoration: line-through; cursor: not-allowed; }
+  .guests { display: flex; align-items: center; gap: 1rem; }
+  .guests button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); font-size: 1.3rem; transition: background .2s, color .2s; }
+  .guests button:hover { background: var(--wine); color: var(--paper); }
+  .guests output { font-family: var(--f-display); font-size: 2rem; min-width: 2ch; text-align: center; font-variant-numeric: tabular-nums; }
+  .chips { display: flex; flex-wrap: wrap; gap: .45rem; }
+  .chip { padding: .55rem 1rem; border-radius: 999px; border: 1px solid var(--line); font-size: .92rem; transition: background .25s, color .25s, border-color .25s; }
+  .chip[aria-pressed="true"] { background: var(--sage); color: var(--paper); border-color: var(--sage); }
+  .fld input { width: 100%; padding: .85rem 1rem; border-radius: 12px; background: var(--linen); border: 1px solid transparent; outline: none; }
+  .fld input:focus { border-color: var(--wine); }
+  .summary { background: var(--wine); color: var(--paper); border-radius: 22px; padding: 1.6rem; display: grid; gap: 1rem; }
+  @media (min-width: 1040px) { .summary { position: sticky; top: 6rem; } }
+  .summary h3 { font-size: 1.8rem; }
+  .sum__rows { display: grid; font-size: .95rem; }
+  .sum__rows div { display: flex; justify-content: space-between; gap: 1rem; padding: .6rem 0; border-bottom: 1px solid var(--line-w); }
+  .sum__rows dt { color: rgba(251,248,243,.7); }
+  .sum__rows dd { text-align: right; font-weight: 500; }
+  .summary .btn { justify-content: center; background: var(--paper); color: var(--wine); }
+  .summary .btn:hover { color: var(--paper); }
+  .sum__msg { min-height: 1.3em; font-size: .88rem; color: var(--sage-soft); }
+  .confirm { border: 1px solid var(--line-w); border-radius: 14px; padding: 1rem; display: grid; gap: .5rem; }
+  .confirm__code { font-family: var(--f-display); font-size: 1.7rem; letter-spacing: .06em; }
+  .confirm pre { margin: 0; white-space: pre-wrap; font-family: var(--f-body); font-size: .9rem; user-select: all; }
+  .confirm button { justify-self: start; font-size: .88rem; text-decoration: underline; }
+
+  .revs { display: grid; gap: clamp(14px, 2vw, 22px); grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+  .rev { background: var(--paper); border-radius: 24px; padding: 1.6rem; display: grid; gap: 1rem; align-content: space-between; margin: 0; }
+  .rev p { font-family: var(--f-display); font-size: 1.3rem; line-height: 1.35; }
+  .rev footer { display: flex; justify-content: space-between; gap: 1rem; font-size: .88rem; color: var(--mute); }
+  .rev footer b { color: var(--ink); font-weight: 500; }
+
+  .strip { display: flex; gap: clamp(10px, 1.5vw, 18px); width: max-content; }
+  .strip figure { width: clamp(200px, 22vw, 320px); aspect-ratio: 3 / 4; border-radius: 999px 999px 16px 16px; overflow: hidden; flex: none; }
+  .strip figure:nth-child(even) { margin-top: 3rem; }
+  .strip img { width: 100%; height: 100%; object-fit: cover; }
+
+  .visit { display: grid; gap: 2rem; }
+  @media (min-width: 960px) { .visit { grid-template-columns: 1.1fr 1fr; gap: 4rem; align-items: center; } }
+  .visit__img { border-radius: var(--r); overflow: hidden; aspect-ratio: 16 / 11; max-width: 100%; }
+  .visit__img img { width: 100%; height: 120%; object-fit: cover; }
+  .status { display: inline-flex; align-items: center; gap: .5rem; padding: .45rem .9rem; border-radius: 999px; background: var(--paper); font-size: .9rem; }
+  .status i { width: 8px; height: 8px; border-radius: 50%; background: var(--sage); }
+  .status.is-closed i { background: var(--mute); }
+  .visit__addr { font-family: var(--f-display); font-size: var(--step-2); line-height: 1.05; margin-block: 1rem 1.5rem; }
+  .hours { display: grid; border-top: 1px solid var(--ink); font-variant-numeric: tabular-nums; }
+  .hours div { display: flex; justify-content: space-between; padding: .7rem .2rem; border-bottom: 1px solid var(--line); }
+  .hours .is-today { background: var(--paper); border-radius: 12px; padding-inline: .9rem; border-bottom-color: transparent; font-weight: 500; }
+  .hours .is-today dt::after { content: " · dziś"; color: var(--sage); }
+  .copyrow { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.4rem; }
+  .copy { display: inline-flex; gap: .5rem; align-items: center; padding: .6rem 1rem; border-radius: 999px; background: var(--paper); }
+  .copy span { user-select: all; }
+  .copy button { font-size: .78rem; padding: .2rem .65rem; border-radius: 999px; background: var(--linen); }
+
+  .foot { background: var(--wine); color: var(--paper); padding-block: 3rem calc(2rem + env(safe-area-inset-bottom, 0px)); margin-top: clamp(3rem, 7vw, 5rem); border-radius: var(--r) var(--r) 0 0; overflow: hidden; }
+  .foot__word { font-family: var(--f-display); font-size: clamp(4rem, 22vw, 20rem); line-height: .85; color: var(--sage-soft); display: flex; overflow: hidden; padding-bottom: .06em; }
+  .foot__word span { display: inline-block; }
+  .foot__row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem; margin-top: 2rem; }
+  .foot__row ul { display: flex; flex-wrap: wrap; gap: 1.4rem; letter-spacing: .06em; }
+  .foot__note { margin-top: 1.2rem; font-size: .82rem; opacity: .7; max-width: 70ch; }
+  .foot__note a { text-decoration: underline; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+    .loader { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__in">
+    <svg viewBox="0 0 46 70" fill="none" stroke="#C9CDB0" stroke-width="1.5" stroke-linecap="round"><path id="leafPath" d="M23 66C4 52 6 22 23 4c17 18 19 48 0 62zM23 64V12M23 26l-8-6M23 36l9-7M23 46l-10-6"/></svg>
+    <div class="loader__word" id="loaderWord"><span>S</span><span>z</span><span>a</span><span>ł</span><span>w</span><span>i</span><span>a</span></div>
+    <small>kuchnia sezonowa · Gdańsk</small>
+  </div>
+</div>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__bar">
+    <a href="#top" class="logo">Szałwia<small>kuchnia sezonowa</small></a>
+    <nav class="nav__links" aria-label="Główna">
+      <a href="#degustacja">Degustacja</a><a href="#karta">Karta</a><a href="#rezerwacja">Rezerwacja</a><a href="#odwiedz">Kontakt</a>
+    </nav>
+    <a class="btn" href="#rezerwacja">Zarezerwuj stolik</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero__grid">
+      <div>
+        <p class="eyebrow">Restauracja · Gdańsk-Oliwa · menu jesień 2026</p>
+        <h1>
+          <span class="line"><span>Sezon</span></span>
+          <span class="line"><span><em>na talerzu.</em></span></span>
+        </h1>
+        <p class="hero__lead">Ryby z porannego połowu w Jastarni, warzywa od rolników z Kaszub i menu, które zmienia się cztery razy w roku. Gotujemy tym, co akurat rośnie.</p>
+        <div class="hero__cta">
+          <a class="btn" href="#rezerwacja">Zarezerwuj stolik
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn--soft" href="#degustacja">Menu degustacyjne</a>
+        </div>
+        <div class="hero__facts">
+          <div><b>4,9</b><span>1 430 opinii w Google</span></div>
+          <div><b>7 dań</b><span>w menu degustacyjnym</span></div>
+          <div id="heroOpen"><b>—</b><span>…</span></div>
+        </div>
+      </div>
+      <div class="arches" id="arches">
+        <div class="arch arch--1" data-depth="1"><img src="img/hero.jpg" alt="Elegancko podane danie na stole z kieliszkami" width="1000" height="1250"></div>
+        <div class="arch arch--2" data-depth="1.6"><img src="img/szef.jpg" alt="Szef kuchni przygotowuje danie pod miedzianymi lampami" width="900" height="1125"></div>
+        <div class="arch arch--3" data-depth="2.2"><img src="img/wino.jpg" alt="Toast czerwonym winem" width="900" height="1125"></div>
+        <div class="leaf" data-depth="2.8" aria-hidden="true"><svg viewBox="0 0 46 70"><path d="M23 66C4 52 6 22 23 4c17 18 19 48 0 62z" fill="#77804F"/><path d="M23 64V12M23 26l-8-6M23 36l9-7M23 46l-10-6" stroke="#F3EDE4" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg></div>
+        <svg class="badge" viewBox="0 0 120 120" aria-hidden="true"><defs><path id="bp" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs><text><textPath href="#bp">kuchnia sezonowa · Szałwia · </textPath></text><circle cx="60" cy="60" r="5" fill="#77804F"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track" id="marquee">
+      <div><span>Dorsz z Jastarni</span><i></i><span>Buraki z kozim serem</span><i></i><span>z dobraniem win</span><i></i><span>Kaczka z gruszką</span><i></i><span>Risotto z kurkami</span><i></i><span>Szarlotka z lodami szałwiowymi</span><i></i><span>kuchnia sezonowa</span><i></i><span>Tatar z jelenia</span><i></i></div>
+      <div><span>Dorsz z Jastarni</span><i></i><span>Buraki z kozim serem</span><i></i><span>z dobraniem win</span><i></i><span>Kaczka z gruszką</span><i></i><span>Risotto z kurkami</span><i></i><span>Szarlotka z lodami szałwiowymi</span><i></i><span>kuchnia sezonowa</span><i></i><span>Tatar z jelenia</span><i></i></div>
+    </div>
+  </div>
+
+  <section class="sec taste" id="degustacja">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="sec-title reveal">Menu <em>degustacyjne</em></h2>
+        <p class="sec-note">Siedem dań, około dwóch i pół godziny. Podajemy od wtorku do soboty, przy rezerwacji do 20:00. Uwzględnimy alergie i dietę wegetariańską.</p>
+      </div>
+      <div class="taste__grid" id="tasteGrid">
+        <figure class="taste__img" aria-hidden="true"><img src="img/buraki.jpg" alt="" id="tasteImg"><figcaption id="tasteCap">Buraki</figcaption></figure>
+        <div>
+          <div class="taste__bar">
+            <label class="switch"><input type="checkbox" id="wine"><span class="switch__track"></span>Z dobraniem win</label>
+            <p class="taste__price"><span id="tastePrice">340 zł</span><small>za osobę</small></p>
+          </div>
+          <ol id="courses"></ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="karta">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="sec-title reveal">Karta <em>à la carte</em></h2>
+        <p class="sec-note">Pieczywo na zakwasie i masło z solą morską podajemy do każdego stolika.</p>
+      </div>
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <div class="carte" id="carte" role="tabpanel"></div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap chef">
+      <div class="chef__img" id="chefImg"><img src="img/kuchnia.jpg" alt="Szef kuchni przy pracy w kuchni restauracji" loading="lazy" width="900" height="1125"></div>
+      <div>
+        <p class="eyebrow" style="color:var(--sage);margin-bottom:1.4rem">Szef kuchni</p>
+        <blockquote class="reveal">„Nie wymyślam dań przy biurku. Dzwonię do rybaka i rolnika, pytam, co mają, i dopiero wtedy piszę menu.”</blockquote>
+        <cite><b>Tomasz Wierzbicki</b> · wcześniej kuchnie w Kopenhadze i Lyonie</cite>
+        <div class="suppliers"><span>ryby: kuter JAS-12, Jastarnia</span><span>warzywa: gospodarstwo w Chmielnie</span><span>sery: kozia farma w Mojuszu</span><span>wina: winnica spod Zielonej Góry</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec rsec" id="rezerwacja">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="sec-title reveal">Zarezerwuj <em>stolik</em></h2>
+        <p class="sec-note">Wybierz dzień, godzinę i liczbę osób. Większe grupy (powyżej 8 osób) zapraszamy do kontaktu telefonicznego.</p>
+      </div>
+      <div class="book">
+        <div>
+          <div class="step"><p class="step__h"><em>i.</em>Dzień</p><div class="days" id="bkDay" role="group" aria-label="Dzień"></div></div>
+          <div class="step"><p class="step__h"><em>ii.</em>Godzina</p><div class="slots" id="bkSlot" role="group" aria-label="Godzina"></div></div>
+          <div class="step"><p class="step__h"><em>iii.</em>Liczba osób</p><div class="guests"><button type="button" id="gMinus" aria-label="Mniej osób">−</button><output id="guests" aria-live="polite">2</output><button type="button" id="gPlus" aria-label="Więcej osób">+</button></div></div>
+          <div class="step"><p class="step__h"><em>iv.</em>Okazja</p><div class="chips" id="occ" role="group" aria-label="Okazja"></div></div>
+          <div class="step fld"><label class="step__h" for="bkName"><em>v.</em>Nazwisko</label><input type="text" id="bkName" maxlength="40" placeholder="np. Kowalska" autocomplete="family-name"></div>
+        </div>
+        <aside class="summary" aria-live="polite">
+          <h3>Twoja rezerwacja</h3>
+          <dl class="sum__rows" id="sumRows"></dl>
+          <p class="sum__msg" id="sumMsg"></p>
+          <button class="btn" type="button" id="bkGo">Rezerwuję stolik</button>
+          <div class="confirm" id="confirm" hidden>
+            <span class="eyebrow" style="color:var(--sage-soft)">Numer rezerwacji</span>
+            <span class="confirm__code" id="code">—</span>
+            <pre id="confirmText"></pre>
+            <button type="button" id="copyConfirm">Kopiuj i wyślij nam w wiadomości</button>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head"><h2 class="sec-title reveal">Goście <em>wracają</em></h2><p class="sec-note">Fragmenty opinii z Google. Średnia 4,9 z 1 430 ocen.</p></div>
+      <div class="revs">
+        <blockquote class="rev"><p>„Dorsz z Jastarni był najlepszą rybą, jaką jadłam w Polsce. Do tego obsługa, która wie, co podaje.”</p><footer><b>Magdalena</b><span>kolacja we dwoje</span></footer></blockquote>
+        <blockquote class="rev"><p>„Menu degustacyjne z winami to trzy godziny, które minęły jak kwadrans. Wrócimy na zimowe.”</p><footer><b>Paweł i Ola</b><span>rocznica</span></footer></blockquote>
+        <blockquote class="rev"><p>„Byliśmy z klientami z Niemiec. Kelner sam zaproponował wersje dań bez glutenu.”</p><footer><b>Krzysztof</b><span>kolacja biznesowa</span></footer></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0;overflow:hidden" aria-label="Wnętrze i dania">
+    <div class="strip" id="strip">
+      <figure><img src="img/wnetrze.jpg" alt="Sala restauracji z drewnianymi stołami" loading="lazy"></figure>
+      <figure><img src="img/losos.jpg" alt="Łosoś na ciemnym talerzu" loading="lazy"></figure>
+      <figure><img src="img/bar.jpg" alt="Bar restauracji" loading="lazy"></figure>
+      <figure><img src="img/risotto.jpg" alt="Risotto z krewetkami" loading="lazy"></figure>
+      <figure><img src="img/krojenie.jpg" alt="Krojenie ziół na desce" loading="lazy"></figure>
+      <figure><img src="img/goscie.jpg" alt="Goście przy kolacji" loading="lazy"></figure>
+      <figure><img src="img/winnica.jpg" alt="Kieliszek wina na tle winnicy" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <section class="sec" id="odwiedz" style="padding-top:0">
+    <div class="wrap visit">
+      <div class="visit__img" id="visitImg"><img src="img/taras.jpg" alt="Taras restauracji z widokiem na wodę" loading="lazy" width="1600" height="1000"></div>
+      <div>
+        <p class="status" id="visitStatus"><i></i><span>…</span></p>
+        <p class="visit__addr">ul. Opacka 9<br>Gdańsk-Oliwa</p>
+        <dl class="hours" id="hours"></dl>
+        <div class="copyrow">
+          <span class="copy"><span id="phone">+48 58 000 00 00</span><button type="button" data-copy="phone">Kopiuj</button></span>
+          <span class="copy"><span id="mail">stolik@szalwia-demo.pl</span><button type="button" data-copy="mail">Kopiuj</button></span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="foot__word" aria-hidden="true"><span>S</span><span>z</span><span>a</span><span>ł</span><span>w</span><span>i</span><span>a</span></p>
+    <div class="foot__row">
+      <ul><li><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a></li><li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li><li><a href="#rezerwacja">Rezerwacja</a></li></ul>
+      <p>© 2026 Szałwia · Gdańsk</p>
+    </div>
+    <p class="foot__note">Przykładowy projekt strony. Restauracja, szef kuchni, dostawcy, adres, ceny i opinie są fikcyjne. Zdjęcia: autorzy z <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a>.</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(() => {
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const anim = !!window.gsap && !reduce;
+  const pad = (n) => String(n).padStart(2, '0');
+  const hm = (m) => `${Math.floor(m / 60)}:${pad(m % 60)}`;
+
+  function nowPL() {
+    try {
+      const p = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Warsaw', year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(new Date());
+      const g = (t) => p.find((x) => x.type === t).value;
+      return { y: +g('year'), mo: +g('month'), d: +g('day'), day: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(g('weekday')), min: +g('hour') * 60 + +g('minute') };
+    } catch (e) { const d = new Date(); return { y: d.getFullYear(), mo: d.getMonth() + 1, d: d.getDate(), day: d.getDay(), min: d.getHours() * 60 + d.getMinutes() }; }
+  }
+  const DAYS = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
+  const DSH = ['nd', 'pn', 'wt', 'śr', 'cz', 'pt', 'sb'];
+  const HOURS = { 1: null, 2: [1020, 1380], 3: [1020, 1380], 4: [1020, 1380], 5: [780, 1440], 6: [780, 1440], 0: [780, 1260] };
+  const hash = (s) => { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0) / 4294967295; };
+  const N = nowPL();
+  const H = HOURS[N.day], open = !!H && N.min >= H[0] && N.min < H[1];
+  const nextOpen = () => { for (let i = 1; i < 8; i++) { const d = (N.day + i) % 7; if (HOURS[d]) return `${i === 1 ? 'jutro' : DAYS[d].toLowerCase()} od ${hm(HOURS[d][0])}`; } };
+  $('#visitStatus').classList.toggle('is-closed', !open);
+  $('#visitStatus span').textContent = open ? `Otwarte do ${H[1] === 1440 ? 'północy' : hm(H[1])}` : (H && N.min < H[0] ? `Zamknięte · otwieramy o ${hm(H[0])}` : `Zamknięte · ${nextOpen()}`);
+  $('#heroOpen').innerHTML = open ? `<b>Otwarte</b><span>dziś do ${H[1] === 1440 ? 'północy' : hm(H[1])}</span>` : (H && N.min < H[0] ? `<b>${hm(H[0])}</b><span>otwieramy dziś</span>` : `<b>Zamknięte</b><span>${nextOpen()}</span>`);
+  $('#hours').innerHTML = [1, 2, 3, 4, 5, 6, 0].map((d) => `<div class="${d === N.day ? 'is-today' : ''}"><dt>${DAYS[d]}</dt><dd>${HOURS[d] ? `${hm(HOURS[d][0])}–${HOURS[d][1] === 1440 ? '24:00' : hm(HOURS[d][1])}` : 'zamknięte'}</dd></div>`).join('');
+
+  /* tasting menu */
+  const COURSES = [
+    ['Buraki', 'buraki', 'pieczone buraki, kozi ser z Mojusza, palone orzechy laskowe', 'Riesling, Winnica Turnau 2024'],
+    ['Tatar z jelenia', 'wolowina', 'żółtko wędzone sianem, kapary z nasturcji, chips z topinamburu', 'Pinot Noir, Mołdawia 2022'],
+    ['Risotto z kurkami', 'risotto', 'jęczmień perłowy, kurki z Borów Tucholskich, stary oscypek', 'Chardonnay, Saint Vincent 2023'],
+    ['Dorsz z Jastarni', 'dorsz', 'beurre blanc z cydrem, por grillowany, olej szczypiorkowy', 'Solaris, Winnica Srebrna Góra 2024'],
+    ['Schab z ogniska', 'karkowka', 'schab ze złotnicy pstrej, pieczone ziemniaki, sos z czarnego bzu', 'Zweigelt, Winnica Jakubów 2021'],
+    ['Ogród w Chmielnie', 'salatka', 'młode sałaty, rzodkiewki, ogórek kiszony, sos z maślanki', 'Rosé, Winnica Saint Vincent 2024'],
+    ['Tarta czekoladowa', 'deser', 'czekolada 70%, pistacje, sól morska, lody szałwiowe', 'Tokaj Szamorodni 2019']
+  ].map(([n, img, d, w], i) => ({ n, img, d, w, i }));
+  $('#courses').innerHTML = COURSES.map((c) => `<li class="course${c.i === 0 ? ' is-on' : ''}" data-i="${c.i}"><span class="course__n">${['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii'][c.i]}.</span><div><h3>${c.n}</h3><p>${c.d}</p><div class="pair"><span>do kieliszka: ${c.w}</span></div></div></li>`).join('');
+  const timg = $('#tasteImg'), tcap = $('#tasteCap');
+  const setCourse = (i) => {
+    const c = COURSES[i]; $$('.course').forEach((x, j) => x.classList.toggle('is-on', j === i)); tcap.textContent = c.n;
+    const src = `img/${c.img}.jpg`; if (timg.getAttribute('src') === src) return;
+    if (anim) gsap.to(timg, { opacity: 0, scale: 1.05, duration: .25, onComplete: () => { timg.src = src; gsap.to(timg, { opacity: 1, scale: 1, duration: .7, ease: 'power3.out' }); } }); else timg.src = src;
+  };
+  $$('.course').forEach((c) => { c.addEventListener('pointerenter', () => setCourse(+c.dataset.i)); c.addEventListener('click', () => setCourse(+c.dataset.i)); });
+  $('#wine').addEventListener('change', (e) => {
+    $('#tasteGrid').classList.toggle('with-wine', e.target.checked);
+    const target = e.target.checked ? 530 : 340;
+    if (anim) { const o = { v: parseInt($('#tastePrice').textContent, 10) }; gsap.to(o, { v: target, duration: .6, ease: 'power3.out', onUpdate: () => { $('#tastePrice').textContent = `${Math.round(o.v)} zł`; } }); }
+    else $('#tastePrice').textContent = `${target} zł`;
+    if (anim) ScrollTrigger.refresh();
+  });
+
+  /* a la carte */
+  const CARTE = {
+    'Przystawki': [['Tatar z jelenia', 62, 'żółtko wędzone sianem, kapary z nasturcji'], ['Buraki z kozim serem', 44, 'palone orzechy, miód gryczany', 'wege'], ['Śledź bałtycki', 38, 'kwaśna śmietana, jabłko, ziemniak puree'], ['Zupa z pieczonej dyni', 34, 'olej z pestek, grzanki na zakwasie', 'wege']],
+    'Dania główne': [['Dorsz z Jastarni', 94, 'beurre blanc z cydrem, por grillowany'], ['Kaczka z gruszką', 98, 'sos z czarnego bzu, kopytka z dynią'], ['Risotto z kurkami', 72, 'jęczmień perłowy, stary oscypek', 'wege'], ['Polędwica wołowa', 128, 'sos z zielonego pieprzu, frytki z topinamburu'], ['Pappardelle z ragù z dzika', 76, 'makaron robiony na miejscu, parmezan']],
+    'Desery': [['Szarlotka', 36, 'kruszonka gryczana, lody szałwiowe'], ['Sernik z twarogu kaszubskiego', 34, 'konfitura z rokitnika'], ['Czekolada 70%', 38, 'mus, sól morska, oliwa z rozmarynem']],
+    'Wina': [['Solaris, Srebrna Góra', 39, 'kieliszek 150 ml · Polska'], ['Riesling, Turnau', 42, 'kieliszek 150 ml · Polska'], ['Pinot Noir, Mołdawia', 36, 'kieliszek 150 ml'], ['Wino domu, karafka 500 ml', 89, 'biało albo czerwono, zmienia się co tydzień']]
+  };
+  let cur = 'Przystawki';
+  $('#tabs').innerHTML = Object.keys(CARTE).map((k) => `<button class="tab" role="tab" aria-selected="${k === cur}" data-k="${k}">${k}</button>`).join('');
+  function renderCarte() {
+    $('#carte').innerHTML = CARTE[cur].map(([n, p, d, t]) => `<div class="dish"><h3>${n}</h3><span class="dots"></span><b>${p} zł</b><p>${d}${t ? ` · <span class="tag">${t}</span>` : ''}</p></div>`).join('');
+    if (anim) gsap.from('#carte .dish', { y: 20, opacity: 0, duration: .5, stagger: .05, ease: 'power3.out' });
+  }
+  $('#tabs').addEventListener('click', (e) => { const b = e.target.closest('.tab'); if (!b) return; cur = b.dataset.k; $$('#tabs .tab').forEach((x) => x.setAttribute('aria-selected', String(x === b))); renderCarte(); });
+  renderCarte();
+
+  /* reservation */
+  const OCC = ['Bez okazji', 'Randka', 'Urodziny', 'Rocznica', 'Biznes'];
+  const state = { dayIdx: 0, slot: null, guests: 2, occ: 'Bez okazji' };
+  const days = [];
+  for (let i = 0; i < 8; i++) { const dt = new Date(Date.UTC(N.y, N.mo - 1, N.d + i)); days.push({ key: dt.toISOString().slice(0, 10), wd: dt.getUTCDay(), d: dt.getUTCDate(), mo: dt.getUTCMonth() + 1, i }); }
+  const lastSeat = (d) => HOURS[d.wd][1] - 120;
+  const dayOpen = (d) => HOURS[d.wd] && (d.i > 0 || N.min < lastSeat(d) - 60);
+  state.dayIdx = days.findIndex(dayOpen);
+  function slots(day) {
+    const h = HOURS[day.wd]; if (!h) return [];
+    const out = [];
+    for (let m = Math.max(h[0], 1020); m <= lastSeat(day); m += 30) {
+      const past = day.i === 0 && m < N.min + 60;
+      const big = state.guests >= 6 ? 0.55 : 0.4;
+      const ok = !past && hash(`${day.key}|${m}`) > big - (m < 1110 ? .2 : 0);
+      out.push([m, ok]);
+    }
+    return out;
+  }
+  const renderDays = () => { $('#bkDay').innerHTML = days.slice(0, 7).map((d) => `<button type="button" class="day" data-i="${d.i}" aria-pressed="${d.i === state.dayIdx}" ${dayOpen(d) ? '' : 'disabled'} aria-label="${DAYS[d.wd]} ${d.d}${dayOpen(d) ? '' : ', zamknięte'}"><small>${d.i === 0 ? 'dziś' : DSH[d.wd]}</small><b>${d.d}</b></button>`).join(''); };
+  function renderSlots() {
+    const sl = slots(days[state.dayIdx]);
+    if (state.slot && !sl.some(([m, ok]) => ok && m === state.slot)) state.slot = null;
+    $('#bkSlot').innerHTML = sl.map(([m, ok]) => `<button type="button" class="slot" data-m="${m}" aria-pressed="${state.slot === m}" ${ok ? '' : 'disabled'}>${hm(m)}</button>`).join('');
+    if (!sl.some(([, ok]) => ok)) $('#bkSlot').insertAdjacentHTML('beforeend', '<p style="grid-column:1/-1;color:var(--mute)">Brak wolnych stolików. Wybierz inny dzień.</p>');
+    if (anim) gsap.from('#bkSlot .slot', { opacity: 0, y: 8, duration: .3, stagger: .015 });
+  }
+  const renderOcc = () => { $('#occ').innerHTML = OCC.map((o) => `<button type="button" class="chip" aria-pressed="${o === state.occ}" data-o="${o}">${o}</button>`).join(''); };
+  function renderSum() {
+    const day = days[state.dayIdx];
+    const rows = [['Dzień', `${DAYS[day.wd]} ${day.d}.${pad(day.mo)}`], ['Godzina', state.slot ? hm(state.slot) : 'wybierz'], ['Osoby', String(state.guests)], ['Okazja', state.occ]];
+    $('#sumRows').innerHTML = rows.map(([a, b]) => `<div><dt>${a}</dt><dd>${b}</dd></div>`).join('');
+  }
+  renderDays(); renderSlots(); renderOcc(); renderSum();
+  $('#bkDay').addEventListener('click', (e) => { const b = e.target.closest('.day'); if (!b || b.disabled) return; state.dayIdx = +b.dataset.i; state.slot = null; renderDays(); renderSlots(); renderSum(); });
+  $('#bkSlot').addEventListener('click', (e) => { const b = e.target.closest('.slot'); if (!b || b.disabled) return; state.slot = +b.dataset.m; $$('#bkSlot .slot').forEach((x) => x.setAttribute('aria-pressed', String(x === b))); renderSum(); });
+  const setGuests = (g) => { state.guests = Math.max(1, Math.min(8, g)); $('#guests').textContent = state.guests; renderSlots(); renderSum(); if (anim) gsap.fromTo('#guests', { scale: 1.4 }, { scale: 1, duration: .4, ease: 'back.out(3)' }); };
+  $('#gMinus').addEventListener('click', () => setGuests(state.guests - 1));
+  $('#gPlus').addEventListener('click', () => setGuests(state.guests + 1));
+  $('#occ').addEventListener('click', (e) => { const b = e.target.closest('.chip'); if (!b) return; state.occ = b.dataset.o; renderOcc(); renderSum(); });
+  $('#bkGo').addEventListener('click', () => {
+    const msg = $('#sumMsg'), name = $('#bkName').value.trim();
+    if (!state.slot) { msg.textContent = 'Wybierz godzinę.'; return; }
+    if (!name) { msg.textContent = 'Wpisz nazwisko, na które zarezerwujemy stolik.'; $('#bkName').focus(); return; }
+    msg.textContent = '';
+    const day = days[state.dayIdx];
+    const code = 'SZ-' + String(Math.floor(hash(name + day.key + state.slot) * 9000) + 1000);
+    $('#code').textContent = code;
+    $('#confirmText').textContent = `Rezerwacja ${code}\n${DAYS[day.wd]} ${day.d}.${pad(day.mo)}, ${hm(state.slot)}\n${state.guests} ${state.guests === 1 ? 'osoba' : state.guests < 5 ? 'osoby' : 'osób'} · ${state.occ}\nNa nazwisko: ${name}`;
+    const c = $('#confirm'); c.hidden = false;
+    if (anim) gsap.fromTo(c, { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: .6, ease: 'expo.out' });
+  });
+  const copy = (btn, text, label) => { const done = (m) => { btn.textContent = m; setTimeout(() => (btn.textContent = label), 1800); }; try { navigator.clipboard.writeText(text).then(() => done('Skopiowano'), () => done('Zaznacz i skopiuj')); } catch (e) { done('Zaznacz i skopiuj'); } };
+  $('#copyConfirm').addEventListener('click', (e) => copy(e.currentTarget, $('#confirmText').textContent, 'Kopiuj i wyślij nam w wiadomości'));
+  $$('[data-copy]').forEach((b) => b.addEventListener('click', () => copy(b, $('#' + b.dataset.copy).textContent, 'Kopiuj')));
+
+  const nav = $('#nav'); let lastY = 0;
+  addEventListener('scroll', () => { const y = scrollY; nav.classList.toggle('is-solid', y > 40); nav.classList.toggle('is-hidden', y > lastY && y > 400); lastY = y; }, { passive: true });
+  $$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {
+    const id = a.getAttribute('href'); const t = id === '#top' ? 0 : $(id); if (t === null) return; e.preventDefault();
+    if (window.__lenis) window.__lenis.scrollTo(t, { offset: t === 0 ? 0 : -10, duration: 1.4 });
+    else if (t === 0) scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); else t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+  }));
+
+  const loader = $('#loader');
+  if (!anim) { loader.remove(); return; }
+
+  gsap.registerPlugin(ScrollTrigger);
+  if (fine && window.Lenis) { const l = new Lenis({ lerp: .09 }); window.__lenis = l; l.on('scroll', ScrollTrigger.update); gsap.ticker.add((t) => l.raf(t * 1000)); gsap.ticker.lagSmoothing(0); }
+
+  loader.style.animation = 'none';
+  gsap.set('.hero .line > span', { yPercent: 110 });
+  gsap.set(['.hero .eyebrow', '.hero__lead', '.hero__cta', '.hero__facts'], { opacity: 0, y: 24 });
+  gsap.set('.arch', { clipPath: 'inset(100% 0 0 0 round 999px 999px 18px 18px)' });
+  gsap.set(['.leaf', '.badge'], { scale: 0 });
+  const lp = $('#leafPath'), ll = lp.getTotalLength(); gsap.set(lp, { strokeDasharray: ll, strokeDashoffset: ll });
+  gsap.timeline({ defaults: { ease: 'expo.out' } })
+    .to(lp, { strokeDashoffset: 0, duration: 1.2, ease: 'power2.inOut' })
+    .from('#loaderWord span', { opacity: 0, y: 18, filter: 'blur(12px)', duration: .9, stagger: .06 }, .1)
+    .from('.loader small', { opacity: 0, duration: 1 }, .4)
+    .to('.loader__in', { opacity: 0, filter: 'blur(8px)', duration: .5, ease: 'power2.in' }, '+=.1')
+    .to(loader, { opacity: 0, duration: .6, onComplete: () => loader.remove() }, '-=.2')
+    .to('.hero .line > span', { yPercent: 0, duration: 1.2, stagger: .12 }, '-=.4')
+    .to('.arch--1', { clipPath: 'inset(0% 0 0 0 round 999px 999px 18px 18px)', duration: 1.4 }, '<')
+    .to('.arch--2', { clipPath: 'inset(0% 0 0 0 round 999px 999px 18px 18px)', duration: 1.4 }, '<.15')
+    .to('.arch--3', { clipPath: 'inset(0% 0 0 0 round 999px 999px 18px 18px)', duration: 1.4 }, '<.15')
+    .to('.hero .eyebrow', { opacity: 1, y: 0, duration: .8 }, '<-.2')
+    .to(['.hero__lead', '.hero__cta', '.hero__facts'], { opacity: 1, y: 0, duration: .9, stagger: .1 }, '-=1')
+    .to(['.leaf', '.badge'], { scale: 1, duration: 1, ease: 'back.out(1.8)', stagger: .1 }, '-=.9');
+
+  $$('.arch, .leaf').forEach((el) => gsap.to(el, { yPercent: -12 * +el.dataset.depth, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } }));
+  gsap.to('.leaf', { rotation: 25, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  if (fine) $('.hero').addEventListener('pointermove', (e) => { const nx = e.clientX / innerWidth - .5; $$('.arch, .leaf').forEach((el) => gsap.to(el, { x: nx * 14 * el.dataset.depth, duration: 1.2, ease: 'power3.out' })); });
+  const skewTo = gsap.quickTo('#marquee', 'skewX', { duration: .4, ease: 'power3' });
+  ScrollTrigger.create({ onUpdate: (s) => skewTo(gsap.utils.clamp(-8, 8, s.getVelocity() / -300)) });
+  $$('.reveal').forEach((el) => gsap.from(el, { y: 50, opacity: 0, filter: 'blur(8px)', duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 88%' } }));
+  gsap.from('.taste__img', { clipPath: 'inset(30% 10% 30% 10% round 999px)', duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: '#tasteGrid', start: 'top 80%' } });
+  gsap.from('.course > *', { y: 30, opacity: 0, duration: .8, stagger: .05, ease: 'expo.out', scrollTrigger: { trigger: '#courses', start: 'top 85%' } });
+  if (matchMedia('(min-width: 960px)').matches) $$('.course').forEach((c) => ScrollTrigger.create({ trigger: c, start: 'top 55%', end: 'bottom 45%', onToggle: (s) => { if (s.isActive) setCourse(+c.dataset.i); } }));
+  gsap.fromTo('#chefImg img', { yPercent: -12 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '#chefImg', start: 'top bottom', end: 'bottom top', scrub: true } });
+  gsap.from('.suppliers span', { y: 20, opacity: 0, duration: .7, stagger: .07, ease: 'expo.out', scrollTrigger: { trigger: '.suppliers', start: 'top 92%' } });
+  gsap.from('.step', { y: 30, opacity: 0, duration: .8, stagger: .08, ease: 'expo.out', scrollTrigger: { trigger: '.book', start: 'top 80%' } });
+  gsap.from('.summary', { y: 60, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: '.summary', start: 'top 90%' } });
+  gsap.from('.rev', { y: 60, opacity: 0, duration: 1, stagger: .12, ease: 'expo.out', scrollTrigger: { trigger: '.revs', start: 'top 85%' } });
+  gsap.fromTo('#strip', { x: () => innerWidth * .15 }, { x: () => -($('#strip').scrollWidth - innerWidth * .85), ease: 'none', scrollTrigger: { trigger: '#strip', start: 'top bottom', end: 'bottom top', scrub: .6, invalidateOnRefresh: true } });
+  gsap.fromTo('#visitImg img', { yPercent: -15 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '#visitImg', start: 'top bottom', end: 'bottom top', scrub: true } });
+  gsap.from('.foot__word span', { yPercent: 100, duration: 1.1, stagger: .06, ease: 'expo.out', scrollTrigger: { trigger: '.foot', start: 'top 90%' } });
+  addEventListener('load', () => ScrollTrigger.refresh());
+})();
+</script>
+</body>
+</html>
