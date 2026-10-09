@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Puder Studio Urody</title>
+<meta name="description" content="Puder — studio urody na warszawskim Mokotowie. Zabiegi na twarz, manicure, brwi i rzęsy, fryzjer i masaże. Podaruj voucher zaprojektowany online.">
+<meta name="theme-color" content="#F4E1DD">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23F4E1DD'/%3E%3Ccircle cx='32' cy='32' r='16' fill='%23B4475A' opacity='.85'/%3E%3Ccircle cx='27' cy='27' r='6' fill='%23FFF8F5' opacity='.7'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Layout: powder-pink paper, plum ink, one rouge accent; arched photo frames echo a compact mirror. Soft drifting "powder" is the ambient motion. */
+  :root {
+    --powder: #F4E1DD;
+    --cream: #FFF8F5;
+    --nude: #E8CBC0;
+    --plum: #3B1E2B;
+    --plum-2: #55303F;
+    --rouge: #B4475A;
+    --mute: #8A6B71;
+    --line: rgba(59, 30, 43, 0.15);
+    --f-display: "Gilda Display", "Didot", Georgia, serif;
+    --f-body: Jost, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --step--1: clamp(0.78rem, 0.75rem + 0.15vw, 0.86rem);
+    --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.12rem);
+    --step-1: clamp(1.2rem, 1.08rem + 0.55vw, 1.55rem);
+    --step-2: clamp(1.8rem, 1.35rem + 1.9vw, 3.1rem);
+    --step-3: clamp(2.6rem, 1.6rem + 4.4vw, 5.8rem);
+    --step-4: clamp(3.2rem, 1.4rem + 7.6vw, 9.4rem);
+    --gutter: clamp(16px, 4vw, 56px);
+    --max: 1400px;
+    --r: clamp(20px, 2.6vw, 34px);
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    color-scheme: light;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  body { margin: 0; background: var(--powder); color: var(--plum); font-family: var(--f-body); font-weight: 400; font-size: var(--step-0); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button, input, textarea { font: inherit; color: inherit; }
+  button { background: none; border: 0; padding: 0; cursor: pointer; }
+  h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; }
+  ul, ol { padding: 0; list-style: none; }
+  h1, h2, h3 { font-family: var(--f-display); font-weight: 400; line-height: 1; letter-spacing: -0.01em; text-wrap: balance; }
+  em { font-style: italic; color: var(--rouge); }
+  :focus-visible { outline: 2px solid var(--rouge); outline-offset: 3px; border-radius: 6px; }
+  ::selection { background: var(--rouge); color: var(--cream); }
+  .wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+  .eyebrow { font-size: var(--step--1); font-weight: 500; letter-spacing: .22em; text-transform: uppercase; }
+
+  .btn { display: inline-flex; align-items: center; gap: .6rem; padding: 1rem 1.6rem; border-radius: 999px; font-weight: 500; letter-spacing: .04em; background: var(--plum); color: var(--cream); position: relative; overflow: hidden; isolation: isolate; transition: color .35s; }
+  .btn::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--rouge); z-index: -1; clip-path: circle(0 at 50% 50%); transition: clip-path .6s var(--ease); }
+  .btn:hover::before { clip-path: circle(75% at 50% 50%); }
+  .btn svg { width: 18px; height: 18px; }
+  .btn--soft { background: var(--cream); color: var(--plum); }
+  .btn--soft:hover { color: var(--cream); }
+
+  #powder { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+  main, .foot { position: relative; z-index: 2; }
+
+  /* loader */
+  .loader { position: fixed; inset: 0; z-index: 130; background: var(--powder); display: grid; place-items: center; animation: lo .6s var(--ease) 2.6s forwards; }
+  @keyframes lo { to { opacity: 0; visibility: hidden; } }
+  .loader__puff { position: absolute; width: 140px; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, var(--nude) 0%, rgba(232,203,192,.0) 70%); }
+  .loader__word { position: relative; font-family: var(--f-display); font-size: clamp(3.4rem, 13vw, 8rem); display: flex; }
+  .loader__word span { display: inline-block; }
+
+  /* nav */
+  .nav { position: fixed; inset: 0 0 auto; z-index: 80; padding-top: env(safe-area-inset-top, 0px); transition: transform .5s var(--ease), background .4s; }
+  .nav.is-hidden { transform: translateY(-110%); }
+  .nav.is-solid { background: rgba(244, 225, 221, .9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  .nav__bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1rem; }
+  .logo { font-family: var(--f-display); font-size: 1.9rem; line-height: 1; letter-spacing: .02em; }
+  .logo small { font-family: var(--f-body); font-size: .62rem; letter-spacing: .3em; text-transform: uppercase; display: block; margin-top: .15rem; color: var(--mute); }
+  .nav__links { display: none; gap: 2rem; font-size: .9rem; letter-spacing: .12em; text-transform: uppercase; }
+  .nav__links a { position: relative; }
+  .nav__links a::after { content: ""; position: absolute; left: 50%; right: 50%; bottom: -4px; height: 1px; background: var(--rouge); transition: left .4s var(--ease), right .4s var(--ease); }
+  .nav__links a:hover::after { left: 0; right: 0; }
+  .nav .btn { padding: .7rem 1.2rem; font-size: .9rem; }
+  @media (min-width: 960px) { .nav__links { display: flex; } }
+
+  /* hero */
+  .hero { padding-top: calc(7rem + env(safe-area-inset-top, 0px)); padding-bottom: clamp(3rem, 6vw, 5rem); }
+  .hero__grid { display: grid; gap: 3rem; align-items: center; }
+  @media (min-width: 960px) { .hero__grid { grid-template-columns: 1fr 1.05fr; } }
+  .hero .eyebrow { color: var(--rouge); margin-bottom: 1.6rem; }
+  .hero h1 { font-size: var(--step-4); line-height: .95; }
+  .line { display: block; overflow: hidden; padding-block: .08em; margin-block: -.08em; }
+  .line > span { display: inline-block; }
+  .hero__lead { max-width: 36ch; margin-top: 1.8rem; font-size: var(--step-1); font-weight: 300; line-height: 1.5; }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2.2rem; }
+  .hero__rating { display: flex; align-items: center; gap: .8rem; margin-top: 2.4rem; font-size: .92rem; }
+  .hero__rating b { font-family: var(--f-display); font-weight: 400; font-size: 2rem; line-height: 1; }
+  .stars { color: var(--rouge); letter-spacing: .1em; }
+  .arches { position: relative; aspect-ratio: 1 / 1; width: min(100%, 600px); justify-self: center; }
+  .arch { position: absolute; overflow: hidden; border-radius: 999px 999px 18px 18px; box-shadow: 0 30px 60px -30px rgba(59,30,43,.45); }
+  .arch img { width: 100%; height: 115%; object-fit: cover; }
+  .arch--1 { left: 22%; top: 0; width: 52%; aspect-ratio: 3 / 4; z-index: 2; }
+  .arch--2 { left: 0; top: 34%; width: 34%; aspect-ratio: 3 / 4; }
+  .arch--3 { right: 0; top: 44%; width: 32%; aspect-ratio: 3 / 4; z-index: 3; }
+  .mirror { position: absolute; left: 6%; top: 6%; width: 20%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff 0%, var(--nude) 45%, var(--rouge) 120%); box-shadow: inset 0 0 0 6px var(--cream), 0 14px 30px -12px rgba(59,30,43,.4); z-index: 4; }
+  .badge { position: absolute; right: 4%; top: 8%; width: 120px; aspect-ratio: 1; z-index: 4; animation: spin 20s linear infinite; }
+  .badge text { font-family: var(--f-body); font-size: 9.6px; letter-spacing: 3px; fill: var(--plum); text-transform: uppercase; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (max-width: 959px) { .arches { width: min(92vw, 460px); } .badge { width: 90px; } }
+
+  /* marquee */
+  .marquee { border-block: 1px solid var(--line); padding-block: 1.1rem; overflow: hidden; }
+  .marquee__track { display: flex; width: max-content; animation: mq 34s linear infinite; }
+  .marquee__track > div { display: flex; gap: 2rem; padding-right: 2rem; align-items: center; }
+  .marquee span { font-family: var(--f-display); font-size: var(--step-2); white-space: nowrap; line-height: 1.1; }
+  .marquee span:nth-child(4n+3) { font-style: italic; color: var(--rouge); }
+  .marquee i { width: 10px; height: 10px; border-radius: 50%; background: var(--rouge); flex: none; opacity: .6; }
+  @keyframes mq { to { transform: translateX(-50%); } }
+
+  .sec { padding-block: clamp(4.5rem, 10vw, 8rem); }
+  .sec-head { display: grid; gap: 1rem; margin-bottom: clamp(2rem, 5vw, 3.4rem); }
+  @media (min-width: 960px) { .sec-head { grid-template-columns: 1.2fr 1fr; align-items: end; } }
+  .sec-title { font-size: var(--step-3); }
+  .sec-note { max-width: 42ch; color: var(--mute); }
+
+  /* treatments */
+  .tabs { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1.6rem; }
+  .tab { padding: .6rem 1.1rem; border-radius: 999px; border: 1px solid var(--line); font-size: .92rem; letter-spacing: .04em; transition: background .3s, color .3s, border-color .3s; }
+  .tab:hover { border-color: var(--plum); }
+  .tab[aria-selected="true"] { background: var(--plum); color: var(--cream); border-color: var(--plum); }
+  .treat { display: grid; gap: clamp(2rem, 4vw, 4rem); align-items: start; }
+  @media (min-width: 960px) { .treat { grid-template-columns: .85fr 1.15fr; } }
+  .treat__img { position: relative; aspect-ratio: 4 / 5; border-radius: 999px 999px var(--r) var(--r); overflow: hidden; max-width: 100%; background: var(--nude); }
+  @media (min-width: 960px) { .treat__img { position: sticky; top: 6rem; } }
+  .treat__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .list { border-top: 1px solid var(--plum); }
+  .acc { border-bottom: 1px solid var(--line); }
+  .acc__btn { width: 100%; display: grid; grid-template-columns: 1fr auto auto; gap: 1rem; align-items: baseline; padding: 1.2rem 0; text-align: left; }
+  .acc__name { font-family: var(--f-display); font-size: clamp(1.3rem, 1.1rem + .8vw, 1.8rem); line-height: 1.15; transition: color .3s; }
+  .acc__btn:hover .acc__name { color: var(--rouge); }
+  .acc__time { font-size: .88rem; color: var(--mute); white-space: nowrap; }
+  .acc__price { font-weight: 500; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .acc__panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .5s var(--ease); }
+  .acc.is-open .acc__panel { grid-template-rows: 1fr; }
+  .acc__panel > div { overflow: hidden; }
+  .acc__panel p { padding-bottom: 1.3rem; max-width: 56ch; color: var(--mute); }
+  .acc__panel p b { color: var(--plum); font-weight: 500; }
+
+  /* voucher */
+  .vsec { background: var(--plum); color: var(--cream); border-radius: var(--r); margin-inline: clamp(8px, 1.4vw, 20px); overflow: hidden; }
+  .vsec .sec-note { color: rgba(255,248,245,.7); }
+  .vsec em { color: var(--nude); }
+  .vgrid { display: grid; gap: clamp(2rem, 4vw, 4rem); align-items: start; }
+  @media (min-width: 960px) { .vgrid { grid-template-columns: 1fr 1.1fr; } }
+  .vform { display: grid; gap: 1.4rem; }
+  .vf { display: grid; gap: .5rem; }
+  .vf > label, .vf > .lab { font-size: .82rem; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,248,245,.7); }
+  .vchips { display: flex; flex-wrap: wrap; gap: .45rem; }
+  .vchip { padding: .6rem 1rem; border-radius: 999px; border: 1px solid rgba(255,248,245,.25); font-size: .95rem; transition: background .25s, color .25s, border-color .25s; }
+  .vchip:hover { border-color: var(--cream); }
+  .vchip[aria-pressed="true"] { background: var(--cream); color: var(--plum); border-color: var(--cream); }
+  .vf input, .vf textarea { width: 100%; padding: .85rem 1rem; border-radius: 14px; background: var(--plum-2); border: 1px solid transparent; outline: none; resize: vertical; }
+  .vf input:focus, .vf textarea:focus { border-color: var(--nude); }
+  .themes { display: flex; gap: .7rem; }
+  .theme { width: 46px; height: 46px; border-radius: 50%; box-shadow: inset 0 0 0 3px var(--plum), 0 0 0 1px rgba(255,248,245,.3); transition: box-shadow .25s, transform .25s var(--ease); }
+  .theme[aria-pressed="true"] { box-shadow: inset 0 0 0 3px var(--plum), 0 0 0 3px var(--cream); transform: scale(1.08); }
+  .vprev { perspective: 1200px; position: sticky; top: 6rem; display: grid; gap: 1.2rem; }
+  .card {
+    position: relative; aspect-ratio: 1.6 / 1; border-radius: 22px; padding: clamp(1.1rem, 3vw, 2rem); overflow: hidden; display: grid; grid-template-rows: auto 1fr auto; gap: .5rem;
+    transform-style: preserve-3d; box-shadow: 0 40px 80px -30px rgba(0,0,0,.55); transition: background .5s, color .5s; max-width: 100%;
+  }
+  .card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.35) 45%, transparent 60%); transform: translateX(var(--shine, -60%)); pointer-events: none; }
+  .card[data-t="roz"] { background: radial-gradient(circle at 85% 15%, #FBEDEA 0%, #EBC3BC 60%, #D9A3A0 100%); color: var(--plum); }
+  .card[data-t="sliwka"] { background: radial-gradient(circle at 85% 15%, #6B3A50 0%, #3B1E2B 70%); color: #F6E3DE; }
+  .card[data-t="nude"] { background: radial-gradient(circle at 85% 15%, #FFF8F5 0%, #E8CBC0 70%, #D6B3A6 100%); color: var(--plum); }
+  .card__top { display: flex; justify-content: space-between; align-items: start; gap: 1rem; }
+  .card__logo { font-family: var(--f-display); font-size: clamp(1.4rem, 3vw, 2.1rem); line-height: 1; }
+  .card__logo small { display: block; font-family: var(--f-body); font-size: .55rem; letter-spacing: .3em; text-transform: uppercase; opacity: .7; margin-top: .2rem; }
+  .card__label { font-size: .62rem; letter-spacing: .3em; text-transform: uppercase; opacity: .7; text-align: right; }
+  .card__amount { font-family: var(--f-display); font-size: clamp(2.4rem, 7vw, 4.6rem); line-height: 1; align-self: center; }
+  .card__msg { font-size: clamp(.8rem, 1.6vw, .98rem); font-style: italic; opacity: .85; max-width: 32ch; overflow-wrap: anywhere; }
+  .card__bot { display: flex; justify-content: space-between; align-items: end; gap: 1rem; font-size: clamp(.7rem, 1.4vw, .85rem); }
+  .card__bot b { display: block; font-weight: 500; font-size: 1.1em; }
+  .card__code { font-variant-numeric: tabular-nums; letter-spacing: .12em; text-align: right; }
+  .card__circle { position: absolute; right: -14%; bottom: -40%; width: 60%; aspect-ratio: 1; border-radius: 50%; border: 1px solid currentColor; opacity: .18; }
+  .vactions { display: flex; flex-wrap: wrap; gap: .7rem; }
+  .vnote { font-size: .85rem; color: rgba(255,248,245,.65); min-height: 1.3em; }
+
+  /* reviews */
+  .revs { display: grid; gap: clamp(14px, 2vw, 22px); grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+  .rev { background: var(--cream); border-radius: 24px; padding: 1.6rem; display: grid; gap: 1rem; align-content: space-between; }
+  .rev p { font-family: var(--f-display); font-size: 1.3rem; line-height: 1.35; }
+  .rev footer { display: flex; justify-content: space-between; gap: 1rem; font-size: .88rem; color: var(--mute); }
+  .rev footer b { color: var(--plum); font-weight: 500; }
+
+  /* gallery strip */
+  .strip { display: flex; gap: clamp(10px, 1.5vw, 18px); width: max-content; }
+  .strip figure { width: clamp(200px, 22vw, 320px); aspect-ratio: 3 / 4; border-radius: 999px 999px 16px 16px; overflow: hidden; flex: none; }
+  .strip figure:nth-child(even) { margin-top: 3rem; }
+  .strip img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* visit */
+  .visit { display: grid; gap: 2rem; }
+  @media (min-width: 960px) { .visit { grid-template-columns: 1.1fr 1fr; gap: 4rem; align-items: center; } }
+  .visit__img { border-radius: var(--r); overflow: hidden; aspect-ratio: 16 / 11; max-width: 100%; }
+  .visit__img img { width: 100%; height: 120%; object-fit: cover; }
+  .status { display: inline-flex; align-items: center; gap: .5rem; padding: .45rem .9rem; border-radius: 999px; background: var(--cream); font-size: .9rem; }
+  .status i { width: 8px; height: 8px; border-radius: 50%; background: #6FA27A; }
+  .status.is-closed i { background: var(--mute); }
+  .visit__addr { font-family: var(--f-display); font-size: var(--step-2); line-height: 1.05; margin-block: 1rem 1.5rem; }
+  .hours { display: grid; border-top: 1px solid var(--plum); font-variant-numeric: tabular-nums; }
+  .hours div { display: flex; justify-content: space-between; padding: .7rem .2rem; border-bottom: 1px solid var(--line); }
+  .hours .is-today { background: var(--cream); border-radius: 12px; padding-inline: .9rem; border-bottom-color: transparent; font-weight: 500; }
+  .hours .is-today dt::after { content: " · dziś"; color: var(--rouge); }
+  .copyrow { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.4rem; }
+  .copy { display: inline-flex; gap: .5rem; align-items: center; padding: .6rem 1rem; border-radius: 999px; background: var(--cream); }
+  .copy span { user-select: all; }
+  .copy button { font-size: .78rem; padding: .2rem .65rem; border-radius: 999px; background: var(--powder); }
+
+  .foot { background: var(--plum); color: var(--cream); padding-block: 3rem calc(2rem + env(safe-area-inset-bottom, 0px)); margin-top: clamp(3rem, 7vw, 5rem); border-radius: var(--r) var(--r) 0 0; overflow: hidden; }
+  .foot__word { font-family: var(--f-display); font-size: clamp(5rem, 30vw, 25rem); line-height: .8; color: var(--nude); display: flex; overflow: hidden; padding-bottom: .05em; }
+  .foot__word span { display: inline-block; }
+  .foot__row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem; margin-top: 2rem; }
+  .foot__row ul { display: flex; flex-wrap: wrap; gap: 1.4rem; letter-spacing: .08em; }
+  .foot__note { margin-top: 1.2rem; font-size: .82rem; opacity: .7; max-width: 70ch; }
+  .foot__note a { text-decoration: underline; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+    .loader { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true"><div class="loader__puff" id="puff"></div><div class="loader__word" id="loaderWord"><span>P</span><span>u</span><span>d</span><span>e</span><span>r</span></div></div>
+<canvas id="powder" aria-hidden="true"></canvas>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__bar">
+    <a href="#top" class="logo">Puder<small>studio urody</small></a>
+    <nav class="nav__links" aria-label="Główna">
+      <a href="#zabiegi">Zabiegi</a><a href="#voucher">Voucher</a><a href="#opinie">Opinie</a><a href="#odwiedz">Kontakt</a>
+    </nav>
+    <a class="btn" href="#odwiedz">Umów wizytę</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero__grid">
+      <div>
+        <p class="eyebrow" id="heroStatus">Studio urody · Warszawa, Mokotów</p>
+        <h1>
+          <span class="line"><span>Piękno</span></span>
+          <span class="line"><span>w wersji <em>slow.</em></span></span>
+        </h1>
+        <p class="hero__lead">Zabiegi na twarz, dłonie i włosy bez pośpiechu. Godzina tylko dla Ciebie, herbata w cenie, telefon może poczekać.</p>
+        <div class="hero__cta">
+          <a class="btn" href="#zabiegi">Wybierz zabieg
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn--soft" href="#voucher">Podaruj voucher</a>
+        </div>
+        <p class="hero__rating"><b>4,9</b><span><span class="stars" aria-hidden="true">★★★★★</span><br>624 opinie na Booksy</span></p>
+      </div>
+      <div class="arches" id="arches">
+        <div class="arch arch--1" data-depth="1"><img src="img/hero-1.jpg" alt="Klientka z maseczką z glinki podczas zabiegu na twarz" width="900" height="1200"></div>
+        <div class="arch arch--2" data-depth="1.6"><img src="img/hero-2.jpg" alt="Dłonie podczas pielęgnacji w spa" width="700" height="900"></div>
+        <div class="arch arch--3" data-depth="2.2"><img src="img/hero-3.jpg" alt="Buteleczka serum z gałązką eukaliptusa" width="700" height="900"></div>
+        <div class="mirror" data-depth="2.8" aria-hidden="true"></div>
+        <svg class="badge" viewBox="0 0 120 120" aria-hidden="true"><defs><path id="bp" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs><text><textPath href="#bp">slow beauty · Mokotów · Puder · </textPath></text><circle cx="60" cy="60" r="5" fill="#B4475A"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track" id="marquee">
+      <div><span>Oczyszczanie wodorowe</span><i></i><span>Manicure hybrydowy</span><i></i><span>laminacja brwi</span><i></i><span>Masaż kobido</span><i></i><span>Mezoterapia</span><i></i><span>Koloryzacja</span><i></i><span>pedicure spa</span><i></i><span>Lifting rzęs</span><i></i></div>
+      <div><span>Oczyszczanie wodorowe</span><i></i><span>Manicure hybrydowy</span><i></i><span>laminacja brwi</span><i></i><span>Masaż kobido</span><i></i><span>Mezoterapia</span><i></i><span>Koloryzacja</span><i></i><span>pedicure spa</span><i></i><span>Lifting rzęs</span><i></i></div>
+    </div>
+  </div>
+
+  <section class="sec" id="zabiegi">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="sec-title reveal">Menu <em>zabiegów</em></h2>
+        <p class="sec-note">Kliknij zabieg, żeby zobaczyć, jak przebiega i dla kogo jest. Każda pierwsza wizyta zaczyna się od krótkiej konsultacji.</p>
+      </div>
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <div class="treat">
+        <div class="treat__img" id="treatImg" aria-hidden="true"><img src="img/maseczka.jpg" alt=""></div>
+        <div class="list" id="list" role="tabpanel"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec vsec" id="voucher">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="sec-title reveal">Podaruj <em>chwilę</em></h2>
+        <p class="sec-note">Zaprojektuj voucher, pobierz go jako obrazek i opłać przy odbiorze w studiu albo przelewem. Ważny 6 miesięcy.</p>
+      </div>
+      <div class="vgrid">
+        <form class="vform" id="vform" novalidate>
+          <div class="vf"><span class="lab" id="amtLab">Wartość</span>
+            <div class="vchips" id="amounts" role="group" aria-labelledby="amtLab"></div></div>
+          <div class="vf"><label for="vTo">Dla kogo</label><input id="vTo" maxlength="28" value="Dla Marty"></div>
+          <div class="vf"><label for="vFrom">Od kogo</label><input id="vFrom" maxlength="28" value="Od Kasi"></div>
+          <div class="vf"><label for="vMsg">Kilka słów</label><textarea id="vMsg" rows="2" maxlength="90">Na godzinę tylko dla siebie. Wszystkiego najlepszego!</textarea></div>
+          <div class="vf"><span class="lab" id="thLab">Kolor</span>
+            <div class="themes" role="group" aria-labelledby="thLab">
+              <button type="button" class="theme" data-t="roz" aria-pressed="true" aria-label="Pudrowy róż" style="background:#EBC3BC"></button>
+              <button type="button" class="theme" data-t="sliwka" aria-pressed="false" aria-label="Śliwka" style="background:#3B1E2B"></button>
+              <button type="button" class="theme" data-t="nude" aria-pressed="false" aria-label="Nude" style="background:#E8CBC0"></button>
+            </div></div>
+        </form>
+        <div class="vprev">
+          <div class="card" id="card" data-t="roz" aria-label="Podgląd vouchera">
+            <div class="card__top"><p class="card__logo">Puder<small>studio urody</small></p><p class="card__label">Voucher<br>podarunkowy</p></div>
+            <p class="card__amount" id="cAmt">300 zł</p>
+            <div class="card__bot"><div><b id="cTo">Dla Marty</b><span id="cFrom">Od Kasi</span><p class="card__msg" id="cMsg"></p></div><div class="card__code">NR <span id="cCode">PDR-0000</span><br>ważny do <span id="cDate">—</span></div></div>
+            <span class="card__circle" aria-hidden="true"></span>
+          </div>
+          <div class="vactions">
+            <button class="btn btn--soft" type="button" id="dl">Pobierz voucher (PNG)
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg></button>
+            <button class="btn" type="button" id="copyV" style="background:var(--rouge)">Kopiuj zamówienie</button>
+          </div>
+          <p class="vnote" id="vnote" role="status"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="opinie">
+    <div class="wrap">
+      <div class="sec-head"><h2 class="sec-title reveal">Wracają <em>co miesiąc</em></h2><p class="sec-note">Fragmenty opinii z Booksy. Średnia 4,9 z 624 ocen.</p></div>
+      <div class="revs">
+        <blockquote class="rev" style="margin:0"><p>„Oczyszczanie wodorowe u Pani Oli to jedyna godzina w miesiącu, kiedy naprawdę odpoczywam. Skóra jak po urlopie.”</p><footer><b>Agata, 34</b><span>zabiegi na twarz</span></footer></blockquote>
+        <blockquote class="rev" style="margin:0"><p>„Hybryda trzyma się trzy tygodnie i nic nie odpryskuje. Plus herbata z malin i zero pośpiechu.”</p><footer><b>Natalia, 27</b><span>manicure</span></footer></blockquote>
+        <blockquote class="rev" style="margin:0"><p>„Laminacja brwi zrobiona tak naturalnie, że koleżanki pytały, czy zmieniłam fryzurę.”</p><footer><b>Ewa, 41</b><span>brwi i rzęsy</span></footer></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0;overflow:hidden" aria-label="Wnętrze studia">
+    <div class="strip" id="strip">
+      <figure><img src="img/salon-ciemny.jpg" alt="Stanowiska fryzjerskie z lustrami" loading="lazy"></figure>
+      <figure><img src="img/manicure.jpg" alt="Manicure w odcieniach szarości" loading="lazy"></figure>
+      <figure><img src="img/brwi.jpg" alt="Stylizacja brwi" loading="lazy"></figure>
+      <figure><img src="img/kosmetyki.jpg" alt="Kosmetyki do makijażu na blacie" loading="lazy"></figure>
+      <figure><img src="img/mycie.jpg" alt="Mycie włosów w salonie" loading="lazy"></figure>
+      <figure><img src="img/krem.jpg" alt="Krem w białej tubce na tkaninie" loading="lazy"></figure>
+      <figure><img src="img/masaz.jpg" alt="Masaż relaksacyjny pleców" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <section class="sec" id="odwiedz" style="padding-top:0">
+    <div class="wrap visit">
+      <div class="visit__img" id="visitImg"><img src="img/salon.jpg" alt="Jasne wnętrze studia urody z lustrami" loading="lazy" width="1600" height="1000"></div>
+      <div>
+        <p class="status" id="visitStatus"><i></i><span>…</span></p>
+        <p class="visit__addr">ul. Różana 14<br>Warszawa, Mokotów</p>
+        <dl class="hours" id="hours"></dl>
+        <div class="copyrow">
+          <span class="copy"><span id="phone">+48 22 000 00 00</span><button type="button" data-copy="phone">Kopiuj</button></span>
+          <span class="copy"><span id="mail">hello@puder-demo.pl</span><button type="button" data-copy="mail">Kopiuj</button></span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="foot__word" aria-hidden="true"><span>P</span><span>u</span><span>d</span><span>e</span><span>r</span></p>
+    <div class="foot__row">
+      <ul><li><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a></li><li><a href="https://booksy.com/" target="_blank" rel="noopener">Booksy</a></li><li><a href="#voucher">Voucher</a></li></ul>
+      <p>© 2026 Puder studio urody · Warszawa</p>
+    </div>
+    <p class="foot__note">Przykładowy projekt strony. Studio, adres, ceny i opinie są fikcyjne. Zdjęcia: autorzy z <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a>.</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(() => {
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const anim = !!window.gsap && !reduce;
+
+  /* ---------- hours ---------- */
+  function nowPL() {
+    try {
+      const p = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Warsaw', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(new Date());
+      const g = (t) => p.find((x) => x.type === t).value;
+      return { day: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(g('weekday')), h: +g('hour') + +g('minute') / 60 };
+    } catch (e) { const d = new Date(); return { day: d.getDay(), h: d.getHours() + d.getMinutes() / 60 }; }
+  }
+  const DAYS = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
+  const HOURS = { 1: [10, 20], 2: [10, 20], 3: [10, 20], 4: [10, 20], 5: [10, 20], 6: [9, 15], 0: null };
+  const n = nowPL(), h = HOURS[n.day], open = !!h && n.h >= h[0] && n.h < h[1];
+  const nextOpen = () => { for (let i = 1; i < 8; i++) { const d = (n.day + i) % 7; if (HOURS[d]) return `${i === 1 ? 'jutro' : DAYS[d].toLowerCase()} od ${HOURS[d][0]}:00`; } };
+  $('#visitStatus').classList.toggle('is-closed', !open);
+  $('#visitStatus span').textContent = open ? `Otwarte do ${h[1]}:00` : (h && n.h < h[0] ? `Zamknięte · otwieramy o ${h[0]}:00` : `Zamknięte · ${nextOpen()}`);
+  $('#hours').innerHTML = [1, 2, 3, 4, 5, 6, 0].map((d) => `<div class="${d === n.day ? 'is-today' : ''}"><dt>${DAYS[d]}</dt><dd>${HOURS[d] ? `${HOURS[d][0]}:00–${HOURS[d][1]}:00` : 'zamknięte'}</dd></div>`).join('');
+
+  /* ---------- treatments ---------- */
+  const T = {
+    'Twarz': ['maseczka', [
+      ['Oczyszczanie wodorowe', 60, 230, 'Peeling wodą z wodorem, ultradźwięki i maska dobrana do skóry. <b>Dla każdego typu cery</b>, idealne na start.'],
+      ['Mezoterapia mikroigłowa', 75, 390, 'Stymulacja kolagenu i koktajl z kwasem hialuronowym. <b>Seria 3–4 zabiegów</b> co 4 tygodnie.'],
+      ['Peeling kwasami', 45, 260, 'Kwas migdałowy lub pirogronowy, dobierany po konsultacji. <b>Sezon: październik–marzec.</b>'],
+      ['Masaż twarzy kobido', 60, 220, 'Japoński masaż liftingujący, bez urządzeń. <b>Działa jak naturalny lifting</b> i pięknie relaksuje.']]],
+    'Dłonie i stopy': ['manicure', [
+      ['Manicure hybrydowy', 75, 140, 'Opracowanie skórek, kształt, hybryda w jednym kolorze. <b>Trwałość 3 tygodnie.</b>'],
+      ['Manicure japoński', 45, 110, 'Pasta z keratyną i polerowanie. <b>Naturalny połysk</b> bez lakieru.'],
+      ['Pedicure spa', 90, 190, 'Kąpiel z solą, peeling, maska parafinowa i masaż stóp. <b>Lakier w cenie.</b>']]],
+    'Brwi i rzęsy': ['brwi', [
+      ['Laminacja brwi', 45, 160, 'Ułożenie włosków, regulacja i koloryzacja henną. <b>Efekt utrzymuje się 6 tygodni.</b>'],
+      ['Lifting rzęs', 60, 170, 'Podkręcenie i odżywienie naturalnych rzęs. <b>Bez przedłużania i bez tuszu.</b>'],
+      ['Regulacja i henna', 30, 80, 'Szybka korekta kształtu i koloru. <b>Dobra przed ważnym wyjściem.</b>']]],
+    'Włosy': ['wlosy', [
+      ['Strzyżenie i modelowanie', 60, 180, 'Konsultacja, mycie z masażem głowy, strzyżenie, modelowanie. <b>Dla każdej długości.</b>'],
+      ['Koloryzacja globalna', 120, 'od 320', 'Jeden kolor od nasady po końce, z pielęgnacją Olaplex. <b>Cena zależy od długości.</b>'],
+      ['Rytuał nawilżający', 45, 150, 'Maska, para i masaż skóry głowy. <b>Ratunek dla suchych końcówek.</b>']]],
+    'Masaże': ['masaz-olejki', [
+      ['Masaż relaksacyjny', 60, 210, 'Ciepłe olejki, spokojne tempo, cały kręgosłup. <b>Najlepiej po pracy.</b>'],
+      ['Masaż gorącymi kamieniami', 75, 260, 'Bazaltowe kamienie i olej migdałowy. <b>Rozgrzewa w zimowe wieczory.</b>']]]
+  };
+  const tabs = $('#tabs'), list = $('#list'), timg = $('#treatImg img');
+  let cur = 'Twarz';
+  tabs.innerHTML = Object.keys(T).map((k) => `<button class="tab" role="tab" aria-selected="${k === cur}" data-k="${k}">${k}</button>`).join('');
+  function renderList() {
+    const [img, rows] = T[cur];
+    list.innerHTML = rows.map(([nm, min, pr, d], i) => `<div class="acc${i === 0 ? ' is-open' : ''}"><button class="acc__btn" aria-expanded="${i === 0}"><span class="acc__name">${nm}</span><span class="acc__time">${min} min</span><span class="acc__price">${pr} zł</span></button><div class="acc__panel"><div><p>${d}</p></div></div></div>`).join('');
+    $$('.acc__btn', list).forEach((b) => b.addEventListener('click', () => { const a = b.parentElement, o = !a.classList.contains('is-open'); a.classList.toggle('is-open', o); b.setAttribute('aria-expanded', String(o)); }));
+    const src = `img/${img}.jpg`;
+    if (timg.getAttribute('src') !== src) {
+      if (anim) gsap.to(timg, { opacity: 0, scale: 1.06, duration: .25, onComplete: () => { timg.src = src; gsap.to(timg, { opacity: 1, scale: 1, duration: .7, ease: 'power3.out' }); } });
+      else timg.src = src;
+    }
+    if (anim) gsap.from($$('.acc', list), { y: 20, opacity: 0, duration: .5, stagger: .06, ease: 'power3.out' });
+  }
+  tabs.addEventListener('click', (e) => { const b = e.target.closest('.tab'); if (!b) return; cur = b.dataset.k; $$('.tab', tabs).forEach((x) => x.setAttribute('aria-selected', String(x === b))); renderList(); });
+  renderList();
+
+  /* ---------- voucher ---------- */
+  const AMTS = ['200 zł', '300 zł', '500 zł', 'Oczyszczanie wodorowe', 'Manicure hybrydowy', 'Masaż relaksacyjny'];
+  let amt = '300 zł', theme = 'roz';
+  $('#amounts').innerHTML = AMTS.map((a) => `<button type="button" class="vchip" aria-pressed="${a === amt}" data-a="${a}">${a}</button>`).join('');
+  const until = new Date(); until.setMonth(until.getMonth() + 6);
+  $('#cDate').textContent = until.toLocaleDateString('pl-PL');
+  const code = () => { const s = amt + $('#vTo').value + $('#vFrom').value; let h = 7; for (const c of s) h = (h * 31 + c.charCodeAt(0)) % 9000; return 'PDR-' + (1000 + h); };
+  function renderCard(bump) {
+    const amtEl = $('#cAmt');
+    amtEl.textContent = amt;
+    amtEl.style.fontSize = amt.length > 8 ? 'clamp(1.6rem, 4.4vw, 2.8rem)' : '';
+    $('#cTo').textContent = $('#vTo').value || 'Dla …';
+    $('#cFrom').textContent = $('#vFrom').value || 'Od …';
+    $('#cMsg').textContent = $('#vMsg').value;
+    $('#cCode').textContent = code();
+    $('#card').dataset.t = theme;
+    if (bump && anim) gsap.fromTo('#card', { rotationY: -14, scale: .97 }, { rotationY: 0, scale: 1, duration: .8, ease: 'elastic.out(1, .5)' });
+  }
+  $('#amounts').addEventListener('click', (e) => { const b = e.target.closest('.vchip'); if (!b) return; amt = b.dataset.a; $$('.vchip').forEach((x) => x.setAttribute('aria-pressed', String(x === b))); renderCard(true); });
+  $$('.theme').forEach((b) => b.addEventListener('click', () => { theme = b.dataset.t; $$('.theme').forEach((x) => x.setAttribute('aria-pressed', String(x === b))); renderCard(true); }));
+  ['#vTo', '#vFrom', '#vMsg'].forEach((s) => $(s).addEventListener('input', () => renderCard(false)));
+  renderCard(false);
+
+  // draw voucher to canvas and download
+  function wrapText(ctx, text, x, y, maxW, lh) {
+    const words = text.split(' '); let line = '';
+    for (const w of words) { const t = line ? line + ' ' + w : w; if (ctx.measureText(t).width > maxW && line) { ctx.fillText(line, x, y); line = w; y += lh; } else line = t; }
+    if (line) ctx.fillText(line, x, y);
+  }
+  $('#dl').addEventListener('click', async () => {
+    try { await document.fonts.ready; } catch (e) {}
+    const W = 1600, H = 1000, c = document.createElement('canvas'); c.width = W; c.height = H;
+    const x = c.getContext('2d');
+    const pal = { roz: ['#FBEDEA', '#EBC3BC', '#D9A3A0', '#3B1E2B'], sliwka: ['#6B3A50', '#3B1E2B', '#3B1E2B', '#F6E3DE'], nude: ['#FFF8F5', '#E8CBC0', '#D6B3A6', '#3B1E2B'] }[theme];
+    const g = x.createRadialGradient(W * .85, H * .15, 0, W * .85, H * .15, W); g.addColorStop(0, pal[0]); g.addColorStop(.6, pal[1]); g.addColorStop(1, pal[2]);
+    x.fillStyle = g; x.beginPath(); x.roundRect ? x.roundRect(0, 0, W, H, 60) : x.rect(0, 0, W, H); x.fill();
+    x.strokeStyle = pal[3]; x.globalAlpha = .18; x.lineWidth = 2; x.beginPath(); x.arc(W * 1.0, H * 1.15, 520, 0, 7); x.stroke(); x.globalAlpha = 1;
+    x.fillStyle = pal[3]; x.textBaseline = 'alphabetic';
+    x.font = '96px "Gilda Display", Georgia, serif'; x.fillText('Puder', 90, 170);
+    x.font = '500 22px Jost, sans-serif'; x.globalAlpha = .7; x.fillText('S T U D I O   U R O D Y', 94, 215);
+    x.textAlign = 'right'; x.fillText('V O U C H E R   P O D A R U N K O W Y', W - 90, 130); x.globalAlpha = 1; x.textAlign = 'left';
+    x.font = `${amt.length > 8 ? 110 : 190}px "Gilda Display", Georgia, serif`; x.fillText(amt, 90, 560);
+    x.font = '500 46px Jost, sans-serif'; x.fillText($('#cTo').textContent, 90, 720);
+    x.font = '36px Jost, sans-serif'; x.globalAlpha = .85; x.fillText($('#cFrom').textContent, 90, 775);
+    x.font = 'italic 32px Jost, sans-serif'; wrapText(x, $('#vMsg').value, 90, 850, 900, 44);
+    x.textAlign = 'right'; x.font = '500 30px Jost, sans-serif'; x.fillText('NR ' + code(), W - 90, 850); x.fillText('ważny do ' + until.toLocaleDateString('pl-PL'), W - 90, 900);
+    c.toBlob((blob) => {
+      if (!blob) { $('#vnote').textContent = 'Nie udało się zapisać obrazka w tej przeglądarce.'; return; }
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `voucher-puder-${code()}.png`;
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+      $('#vnote').textContent = 'Voucher zapisany. Opłacisz go w studiu albo przelewem.';
+    });
+  });
+  $('#copyV').addEventListener('click', (e) => {
+    const btn = e.currentTarget, txt = `Dzień dobry! Chcę zamówić voucher ${code()}: ${amt}, ${$('#cTo').textContent}, ${$('#cFrom').textContent}. Treść: „${$('#vMsg').value}”.`;
+    const done = (m) => { btn.textContent = m; setTimeout(() => (btn.textContent = 'Kopiuj zamówienie'), 1800); };
+    try { navigator.clipboard.writeText(txt).then(() => done('Skopiowano'), () => done('Nie udało się skopiować')); } catch (err) { done('Nie udało się skopiować'); }
+  });
+  $$('[data-copy]').forEach((b) => b.addEventListener('click', () => {
+    const done = (m) => { b.textContent = m; setTimeout(() => (b.textContent = 'Kopiuj'), 1800); };
+    try { navigator.clipboard.writeText($('#' + b.dataset.copy).textContent).then(() => done('Skopiowano'), () => done('Zaznacz')); } catch (e) { done('Zaznacz'); }
+  }));
+
+  /* ---------- powder particles ---------- */
+  const cv = $('#powder'), ctx = cv.getContext('2d'); let parts = [];
+  function size() { const d = Math.min(devicePixelRatio || 1, 2); cv.width = innerWidth * d; cv.height = innerHeight * d; ctx.setTransform(d, 0, 0, d, 0, 0);
+    parts = Array.from({ length: Math.round(innerWidth / 40) }, () => ({ x: Math.random() * innerWidth, y: Math.random() * innerHeight, r: 1 + Math.random() * 3.5, vx: (Math.random() - .5) * .15, vy: -.08 - Math.random() * .2, a: .15 + Math.random() * .35, c: Math.random() < .5 ? '180,71,90' : '255,248,245' })); }
+  size(); addEventListener('resize', size);
+  let mx = -999, my = -999; addEventListener('pointermove', (e) => { mx = e.clientX; my = e.clientY; });
+  (function loop() {
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    parts.forEach((p) => {
+      const dx = p.x - mx, dy = p.y - my, d2 = dx * dx + dy * dy;
+      if (d2 < 9000) { p.vx += dx / 9000; p.vy += dy / 9000; }
+      p.vx *= .98; p.vy = p.vy * .98 - .004; p.x += p.vx; p.y += p.vy;
+      if (p.y < -10) { p.y = innerHeight + 10; p.x = Math.random() * innerWidth; p.vy = -.1; }
+      if (p.x < -10) p.x = innerWidth + 10; if (p.x > innerWidth + 10) p.x = -10;
+      ctx.fillStyle = `rgba(${p.c},${p.a})`; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 7); ctx.fill();
+    });
+    if (!reduce) requestAnimationFrame(loop);
+  })();
+
+  /* nav + anchors */
+  const nav = $('#nav'); let lastY = 0;
+  addEventListener('scroll', () => { const y = scrollY; nav.classList.toggle('is-solid', y > 40); nav.classList.toggle('is-hidden', y > lastY && y > 400); lastY = y; }, { passive: true });
+  $$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {
+    const id = a.getAttribute('href'); const t = id === '#top' ? 0 : $(id); if (t === null) return; e.preventDefault();
+    if (window.__lenis) window.__lenis.scrollTo(t, { offset: t === 0 ? 0 : -10, duration: 1.4 });
+    else if (t === 0) scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); else t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+  }));
+
+  const loader = $('#loader');
+  if (!anim) { loader.remove(); return; }
+
+  /* ================= GSAP ================= */
+  gsap.registerPlugin(ScrollTrigger);
+  if (fine && window.Lenis) { const l = new Lenis({ lerp: .09 }); window.__lenis = l; l.on('scroll', ScrollTrigger.update); gsap.ticker.add((t) => l.raf(t * 1000)); gsap.ticker.lagSmoothing(0); }
+
+  loader.style.animation = 'none';
+  gsap.set('.hero .line > span', { yPercent: 110 });
+  gsap.set(['.hero .eyebrow', '.hero__lead', '.hero__cta', '.hero__rating'], { opacity: 0, y: 24 });
+  gsap.set('.arch', { clipPath: 'inset(100% 0 0 0 round 999px 999px 18px 18px)' });
+  gsap.set(['.mirror', '.badge'], { scale: 0 });
+  gsap.timeline({ defaults: { ease: 'expo.out' } })
+    .fromTo('#puff', { scale: 0 }, { scale: 9, duration: 1.4, ease: 'power2.out' })
+    .from('#loaderWord span', { opacity: 0, filter: 'blur(14px)', y: 20, duration: .9, stagger: .08 }, 0.1)
+    .to('#loaderWord', { opacity: 0, filter: 'blur(10px)', duration: .5, ease: 'power2.in' }, '+=.2')
+    .to(loader, { opacity: 0, duration: .6, onComplete: () => loader.remove() }, '-=.2')
+    .to('.hero .line > span', { yPercent: 0, duration: 1.2, stagger: .12 }, '-=.4')
+    .to('.arch--1', { clipPath: 'inset(0% 0 0 0 round 999px 999px 18px 18px)', duration: 1.4 }, '<')
+    .to('.arch--2', { clipPath: 'inset(0% 0 0 0 round 999px 999px 18px 18px)', duration: 1.4 }, '<.15')
+    .to('.arch--3', { clipPath: 'inset(0% 0 0 0 round 999px 999px 18px 18px)', duration: 1.4 }, '<.15')
+    .to('.hero .eyebrow', { opacity: 1, y: 0, duration: .8 }, '<-.2')
+    .to(['.hero__lead', '.hero__cta', '.hero__rating'], { opacity: 1, y: 0, duration: .9, stagger: .1 }, '-=1')
+    .to(['.mirror', '.badge'], { scale: 1, duration: 1, ease: 'back.out(1.8)', stagger: .1 }, '-=.9');
+
+  $$('.arch, .mirror').forEach((el) => gsap.to(el, { yPercent: -12 * +el.dataset.depth, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } }));
+  if (fine) $('.hero').addEventListener('pointermove', (e) => {
+    const nx = e.clientX / innerWidth - .5, ny = e.clientY / innerHeight - .5;
+    $$('.arch, .mirror').forEach((el) => gsap.to(el, { x: nx * 14 * el.dataset.depth, duration: 1.2, ease: 'power3.out' }));
+  });
+  const skewTo = gsap.quickTo('#marquee', 'skewX', { duration: .4, ease: 'power3' });
+  ScrollTrigger.create({ onUpdate: (s) => skewTo(gsap.utils.clamp(-8, 8, s.getVelocity() / -300)) });
+  $$('.reveal').forEach((el) => gsap.from(el, { y: 50, opacity: 0, filter: 'blur(8px)', duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 88%' } }));
+  gsap.from('.treat__img', { clipPath: 'inset(30% 10% 30% 10% round 999px)', duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: '.treat', start: 'top 80%' } });
+  gsap.from('.vform > *', { y: 30, opacity: 0, duration: .8, stagger: .08, ease: 'expo.out', scrollTrigger: { trigger: '.vgrid', start: 'top 80%' } });
+  gsap.from('#card', { rotationY: -35, rotationX: 10, y: 60, opacity: 0, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: '.vprev', start: 'top 85%' } });
+  // card tilt + shine follows pointer
+  if (fine) {
+    const card = $('#card');
+    card.addEventListener('pointermove', (e) => { const r = card.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+      gsap.to(card, { rotationY: (px - .5) * 16, rotationX: (.5 - py) * 12, duration: .5, ease: 'power3.out' }); card.style.setProperty('--shine', `${(px - .5) * 160}%`); });
+    card.addEventListener('pointerleave', () => { gsap.to(card, { rotationY: 0, rotationX: 0, duration: .8, ease: 'elastic.out(1, .5)' }); card.style.setProperty('--shine', '-60%'); });
+  } else gsap.fromTo('#card', { '--shine': '-80%' }, { '--shine': '120%', duration: 2.6, repeat: -1, repeatDelay: 1.5, ease: 'power2.inOut' });
+  gsap.from('.rev', { y: 60, opacity: 0, duration: 1, stagger: .12, ease: 'expo.out', scrollTrigger: { trigger: '.revs', start: 'top 85%' } });
+  gsap.fromTo('#strip', { x: () => innerWidth * .15 }, { x: () => -($('#strip').scrollWidth - innerWidth * .85), ease: 'none', scrollTrigger: { trigger: '#strip', start: 'top bottom', end: 'bottom top', scrub: .6, invalidateOnRefresh: true } });
+  gsap.fromTo('#visitImg img', { yPercent: -15 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '#visitImg', start: 'top bottom', end: 'bottom top', scrub: true } });
+  gsap.from('.foot__word span', { yPercent: 100, duration: 1.1, stagger: .07, ease: 'expo.out', scrollTrigger: { trigger: '.foot', start: 'top 90%' } });
+  addEventListener('load', () => ScrollTrigger.refresh());
+})();
+</script>
+</body>
+</html>
