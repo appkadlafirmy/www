@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Brzytwa Barber Shop</title>
+<meta name="description" content="Brzytwa — barber shop w Łodzi. Strzyżenie męskie, skin fade, broda i golenie brzytwą. Zarezerwuj wizytę online u wybranego barbera.">
+<meta name="theme-color" content="#15130F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2315130F'/%3E%3Crect x='24' y='8' width='16' height='48' rx='8' fill='%23ECE5D8'/%3E%3Cpath d='M24 20l16-8M24 32l16-8M24 44l16-8M24 56l16-8' stroke='%23C6262E' stroke-width='4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Layout: warm-black shop with bone-white "price board" sections; the barber pole's red/white/blue stripe is the one recurring ornament. */
+  :root {
+    --black: #15130F;
+    --black-2: #211E19;
+    --bone: #ECE5D8;
+    --bone-2: #E2D9C8;
+    --paper: #F6F1E7;
+    --red: #C6262E;
+    --blue: #1E4B94;
+    --steel: #8D877D;
+    --line-d: rgba(236, 229, 216, 0.16);
+    --line-l: rgba(21, 19, 15, 0.16);
+    --stripes: repeating-linear-gradient(-45deg, var(--red) 0 14px, var(--paper) 14px 28px, var(--blue) 28px 42px, var(--paper) 42px 56px);
+
+    --f-display: Archivo, "Arial Black", system-ui, sans-serif;
+    --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+
+    --step--1: clamp(0.78rem, 0.75rem + 0.15vw, 0.86rem);
+    --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.1rem);
+    --step-1: clamp(1.2rem, 1.08rem + 0.55vw, 1.5rem);
+    --step-2: clamp(1.7rem, 1.3rem + 1.8vw, 2.9rem);
+    --step-3: clamp(2.4rem, 1.4rem + 4.4vw, 5.6rem);
+    --step-4: clamp(3rem, 1rem + 8.6vw, 10rem);
+
+    --gutter: clamp(16px, 4vw, 56px);
+    --max: 1400px;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    color-scheme: dark;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  body { margin: 0; background: var(--black); color: var(--bone); font-family: var(--f-display); font-variation-settings: "wdth" 100; font-size: var(--step-0); line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button, input { font: inherit; color: inherit; }
+  button { background: none; border: 0; padding: 0; cursor: pointer; }
+  h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; }
+  ul, ol { padding: 0; list-style: none; }
+  h1, h2, h3 { font-weight: 900; font-variation-settings: "wdth" 125; text-transform: uppercase; line-height: .9; letter-spacing: -0.01em; text-wrap: balance; }
+  :focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
+  ::selection { background: var(--red); color: var(--paper); }
+  .wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+  .mono { font-family: var(--f-mono); }
+  .eyebrow { font-family: var(--f-mono); font-size: var(--step--1); letter-spacing: .1em; text-transform: uppercase; }
+  .red { color: var(--red); }
+  .stripe { height: 10px; background: var(--stripes); background-size: 79px 79px; animation: pole 2.4s linear infinite; }
+  @keyframes pole { to { background-position: 79px 0; } }
+
+  .btn { display: inline-flex; align-items: center; gap: .7rem; padding: 1.05rem 1.6rem; font-weight: 800; font-variation-settings: "wdth" 112; text-transform: uppercase; letter-spacing: .02em; background: var(--red); color: var(--paper); position: relative; overflow: hidden; isolation: isolate; transition: color .3s; }
+  .btn::before { content: ""; position: absolute; inset: 0; background: var(--paper); z-index: -1; transform: scaleX(0); transform-origin: right; transition: transform .45s var(--ease); }
+  .btn:hover { color: var(--black); }
+  .btn:hover::before { transform: scaleX(1); transform-origin: left; }
+  .btn svg { width: 18px; height: 18px; }
+  .btn--line { background: transparent; box-shadow: inset 0 0 0 2px var(--bone); color: var(--bone); }
+
+  /* loader */
+  .loader { position: fixed; inset: 0; z-index: 130; background: var(--black); display: grid; place-items: center; animation: lo .6s var(--ease) 2.6s forwards; }
+  @keyframes lo { to { transform: translateY(-100%); visibility: hidden; } }
+  .loader__in { display: flex; align-items: center; gap: 1.4rem; }
+  .pole { width: 34px; height: 130px; border-radius: 17px; overflow: hidden; position: relative; box-shadow: 0 0 0 4px var(--bone); }
+  .pole span { position: absolute; inset: -60px 0; background: repeating-linear-gradient(-30deg, var(--red) 0 12px, var(--paper) 12px 24px, var(--blue) 24px 36px, var(--paper) 36px 48px); animation: poleY 1.2s linear infinite; }
+  @keyframes poleY { to { transform: translateY(55.4px); } }
+  .loader__word { font-weight: 900; font-variation-settings: "wdth" 125; font-size: clamp(2.6rem, 10vw, 6rem); text-transform: uppercase; display: flex; overflow: hidden; line-height: 1; }
+  .loader__word span { display: inline-block; }
+
+  /* nav */
+  .nav { position: fixed; inset: 0 0 auto; z-index: 80; padding-top: env(safe-area-inset-top, 0px); transition: transform .5s var(--ease), background .4s; }
+  .nav.is-hidden { transform: translateY(-110%); }
+  .nav.is-solid { background: rgba(21, 19, 15, .92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+  .nav__bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: .9rem; }
+  .logo { display: flex; align-items: center; gap: .6rem; font-weight: 900; font-variation-settings: "wdth" 125; text-transform: uppercase; font-size: 1.35rem; }
+  .logo .mini-pole { width: 12px; height: 30px; border-radius: 6px; overflow: hidden; position: relative; box-shadow: 0 0 0 2px var(--bone); }
+  .logo .mini-pole span { position: absolute; inset: -20px 0; background: repeating-linear-gradient(-30deg, var(--red) 0 5px, var(--paper) 5px 10px, var(--blue) 10px 15px, var(--paper) 15px 20px); animation: poleS 1.2s linear infinite; }
+  @keyframes poleS { to { transform: translateY(23.1px); } }
+  .nav__links { display: none; gap: 1.8rem; font-weight: 600; font-variation-settings: "wdth" 110; text-transform: uppercase; font-size: .9rem; letter-spacing: .04em; }
+  .nav__links a:hover { color: var(--red); }
+  .nav .btn { padding: .7rem 1.1rem; font-size: .85rem; }
+  @media (min-width: 960px) { .nav__links { display: flex; } }
+
+  /* hero */
+  .hero { padding-top: calc(6.5rem + env(safe-area-inset-top, 0px)); padding-bottom: clamp(3rem, 6vw, 5rem); position: relative; overflow: hidden; }
+  .hero__grid { display: grid; gap: 2.5rem; align-items: end; }
+  @media (min-width: 960px) { .hero__grid { grid-template-columns: 1.25fr .9fr; } }
+  .hero h1 { font-size: min(var(--step-4), 10.6vw); line-height: .86; }
+  .hero h1 .cond { font-variation-settings: "wdth" 62; color: var(--red); }
+  .line { display: block; overflow: hidden; padding-top: .12em; margin-top: -.12em; }
+  .line > span { display: inline-block; }
+  .hero__lead { max-width: 40ch; margin-top: 1.8rem; font-size: var(--step-1); line-height: 1.4; color: rgba(236,229,216,.8); }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
+  .queue { max-width: 100%; display: inline-flex; flex-wrap: wrap; align-items: center; gap: .8rem 1rem; margin-bottom: 1.8rem; padding: .7rem 1rem; border: 1.5px solid var(--line-d); font-family: var(--f-mono); font-size: .9rem; }
+  .queue__dots { display: flex; gap: 5px; }
+  .queue__dots i { width: 12px; height: 12px; border-radius: 50%; background: var(--line-d); }
+  .queue__dots i.on { background: var(--red); }
+  .shot { position: relative; display: grid; grid-template-columns: 1fr 44px; gap: 14px; width: min(100%, 520px); justify-self: end; }
+  .shot__img { aspect-ratio: 10 / 13; overflow: hidden; max-width: 100%; }
+  .shot__img img { width: 100%; height: 112%; object-fit: cover; filter: contrast(1.05); }
+  .shot__pole { border-radius: 22px; overflow: hidden; position: relative; box-shadow: 0 0 0 3px var(--bone); }
+  .shot__pole span { position: absolute; inset: -80px 0; background: repeating-linear-gradient(-30deg, var(--red) 0 16px, var(--paper) 16px 32px, var(--blue) 32px 48px, var(--paper) 48px 64px); animation: poleL 1.4s linear infinite; }
+  @keyframes poleL { to { transform: translateY(73.9px); } }
+  .shot__tag { position: absolute; left: -14px; bottom: 24px; background: var(--paper); color: var(--black); padding: .7rem 1rem; font-family: var(--f-mono); font-size: .85rem; line-height: 1.35; transform: rotate(-4deg); box-shadow: 0 16px 30px -12px rgba(0,0,0,.7); }
+  .shot__tag b { display: block; font-family: var(--f-display); font-variation-settings: "wdth" 125; font-weight: 900; font-size: 1.4rem; text-transform: uppercase; }
+  @media (max-width: 959px) { .shot { width: min(86vw, 420px); justify-self: center; } }
+
+  /* marquee */
+  .marquee { background: var(--paper); color: var(--black); padding-block: 1rem; overflow: hidden; }
+  .marquee__track { display: flex; width: max-content; animation: mq 26s linear infinite; }
+  .marquee__track > div { display: flex; align-items: center; gap: 1.6rem; padding-right: 1.6rem; }
+  .marquee span { font-weight: 900; font-variation-settings: "wdth" 125; text-transform: uppercase; font-size: var(--step-2); white-space: nowrap; line-height: 1; }
+  .marquee small { font-family: var(--f-mono); font-size: .95rem; color: var(--red); }
+  .marquee i { width: 46px; height: 16px; background: var(--stripes); background-size: 79px 79px; flex: none; }
+  @keyframes mq { to { transform: translateX(-50%); } }
+
+  .sec { padding-block: clamp(4.5rem, 10vw, 8rem); }
+  .sec-head { display: grid; gap: 1rem; margin-bottom: clamp(2rem, 5vw, 3.4rem); }
+  @media (min-width: 960px) { .sec-head { grid-template-columns: 1.3fr 1fr; align-items: end; } }
+  .sec-title { font-size: var(--step-3); }
+  .sec-note { max-width: 42ch; opacity: .75; }
+  .light { background: var(--bone); color: var(--black); }
+  .light .sec-note { opacity: .7; }
+
+  /* services */
+  .svc { border-top: 2px solid var(--black); }
+  .svc__row { display: grid; grid-template-columns: 1fr auto; gap: .5rem 1.5rem; align-items: center; padding: 1.3rem 0; border-bottom: 1.5px solid var(--line-l); position: relative; }
+  .svc__name { font-weight: 900; font-variation-settings: "wdth" 115; text-transform: uppercase; font-size: clamp(1.25rem, 1rem + 1.2vw, 2rem); line-height: 1; transition: transform .45s var(--ease), color .3s; }
+  .svc__price { font-family: var(--f-mono); font-weight: 600; font-size: 1.1rem; white-space: nowrap; }
+  .svc__meta { grid-column: 1 / -1; display: flex; align-items: center; gap: 1rem; font-family: var(--f-mono); font-size: .85rem; color: var(--steel); }
+  .svc__bar { flex: 1; max-width: 260px; height: 6px; background: var(--bone-2); position: relative; overflow: hidden; }
+  .svc__bar span { position: absolute; inset: 0; background: var(--black); transform-origin: left; }
+  .svc__row:hover .svc__name { transform: translateX(10px); color: var(--red); }
+  @media (min-width: 960px) { .svc__row { grid-template-columns: 1.4fr 1fr auto; } .svc__meta { grid-column: auto; } }
+  .preview { position: fixed; top: 0; left: 0; z-index: 60; width: 240px; aspect-ratio: 4 / 5; overflow: hidden; pointer-events: none; opacity: 0; transform: scale(.6); display: none; box-shadow: 0 30px 50px -20px rgba(0,0,0,.6); }
+  .preview img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  @media (hover: hover) and (pointer: fine) { .preview { display: block; } }
+
+  /* booking */
+  .book { display: grid; gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
+  @media (min-width: 1040px) { .book { grid-template-columns: 1.5fr 1fr; } }
+  .step { display: grid; gap: .9rem; padding-block: 1.4rem; border-top: 1.5px solid var(--line-d); }
+  .step__h { display: flex; align-items: baseline; gap: .8rem; font-weight: 800; font-variation-settings: "wdth" 115; text-transform: uppercase; font-size: 1.15rem; }
+  .step__h span { font-family: var(--f-mono); font-weight: 500; color: var(--red); font-size: .9rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: .45rem; }
+  .chip { padding: .65rem .95rem; border: 1.5px solid var(--line-d); font-weight: 600; font-size: .92rem; text-align: left; transition: background .2s, border-color .2s, color .2s; }
+  .chip small { display: block; font-family: var(--f-mono); font-weight: 400; font-size: .75rem; opacity: .7; }
+  .chip:hover { border-color: var(--bone); }
+  .chip[aria-pressed="true"] { background: var(--bone); color: var(--black); border-color: var(--bone); }
+  .chip:disabled { opacity: .28; text-decoration: line-through; cursor: not-allowed; }
+  .barbers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
+  @media (min-width: 640px) { .barbers { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .bcard { display: grid; gap: .5rem; padding: .5rem; border: 1.5px solid var(--line-d); text-align: left; transition: border-color .2s, background .2s; }
+  .bcard__img { aspect-ratio: 1; overflow: hidden; background: var(--black-2); display: grid; place-items: center; }
+  .bcard__img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: filter .4s; }
+  .bcard b { font-weight: 800; font-variation-settings: "wdth" 115; text-transform: uppercase; line-height: 1.1; }
+  .bcard small { font-family: var(--f-mono); font-size: .72rem; opacity: .7; line-height: 1.3; }
+  .bcard[aria-pressed="true"] { border-color: var(--red); background: var(--black-2); }
+  .bcard[aria-pressed="true"] img, .bcard:hover img { filter: none; }
+  .days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .35rem; }
+  .day { padding: .55rem .2rem; border: 1.5px solid var(--line-d); text-align: center; display: grid; gap: .05rem; transition: background .2s, color .2s; }
+  .day small { font-family: var(--f-mono); font-size: .68rem; text-transform: uppercase; opacity: .7; }
+  .day b { font-weight: 800; font-size: 1.2rem; font-variation-settings: "wdth" 100; }
+  .day[aria-pressed="true"] { background: var(--red); border-color: var(--red); }
+  .day:disabled { opacity: .25; cursor: not-allowed; }
+  .slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: .35rem; }
+  .slot { padding: .55rem 0; border: 1.5px solid var(--line-d); font-family: var(--f-mono); font-size: .9rem; text-align: center; transition: background .2s, color .2s; }
+  .slot:hover { border-color: var(--bone); }
+  .slot[aria-pressed="true"] { background: var(--bone); color: var(--black); border-color: var(--bone); }
+  .slot:disabled { opacity: .2; text-decoration: line-through; cursor: not-allowed; }
+  .empty { font-family: var(--f-mono); font-size: .9rem; opacity: .7; }
+  .fld input { width: 100%; padding: .85rem 1rem; background: var(--black-2); border: 1.5px solid var(--line-d); outline: none; }
+  .fld input:focus { border-color: var(--red); }
+  .summary { background: var(--paper); color: var(--black); padding: 1.4rem; display: grid; gap: 1rem; position: relative; }
+  @media (min-width: 1040px) { .summary { position: sticky; top: 6rem; } }
+  .summary .stripe { position: absolute; left: 0; right: 0; top: 0; }
+  .summary h3 { font-size: 1.8rem; margin-top: .6rem; }
+  .sum__rows { display: grid; font-family: var(--f-mono); font-size: .92rem; }
+  .sum__rows div { display: flex; justify-content: space-between; gap: 1rem; padding: .55rem 0; border-bottom: 1px dashed var(--line-l); }
+  .sum__rows dd { font-weight: 600; text-align: right; }
+  .sum__total { display: flex; justify-content: space-between; align-items: baseline; }
+  .sum__total b { font-weight: 900; font-variation-settings: "wdth" 125; font-size: var(--step-2); line-height: 1; }
+  .summary .btn { justify-content: center; }
+  .sum__msg { min-height: 1.3em; font-family: var(--f-mono); font-size: .85rem; color: var(--red); }
+  .confirm { border: 2px dashed var(--black); padding: 1rem; display: grid; gap: .6rem; }
+  .confirm__code { font-weight: 900; font-variation-settings: "wdth" 125; font-size: 1.8rem; letter-spacing: .04em; }
+  .confirm pre { margin: 0; white-space: pre-wrap; font-family: var(--f-mono); font-size: .85rem; user-select: all; }
+  .confirm button { justify-self: start; font-family: var(--f-mono); font-size: .85rem; text-decoration: underline; }
+
+  /* team */
+  .team { display: grid; gap: clamp(14px, 2vw, 24px); grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+  .member { display: grid; gap: .8rem; }
+  .member__img { aspect-ratio: 4 / 5; overflow: hidden; position: relative; max-width: 100%; }
+  .member__img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.1); transition: filter .5s, transform .8s var(--ease); }
+  .member:hover .member__img img { filter: none; transform: scale(1.05); }
+  .member__img .stripe { position: absolute; left: 0; right: 0; bottom: 0; transform: scaleX(0); transform-origin: left; transition: transform .5s var(--ease); }
+  .member:hover .member__img .stripe { transform: scaleX(1); }
+  .member h3 { font-size: 1.8rem; }
+  .member p { font-family: var(--f-mono); font-size: .88rem; opacity: .75; }
+
+  /* gallery */
+  .gal { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  @media (min-width: 960px) { .gal { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 22vw; } .gal figure:nth-child(1) { grid-row: span 2; grid-column: span 2; } .gal figure:nth-child(6) { grid-column: span 2; } }
+  .gal figure { overflow: hidden; position: relative; aspect-ratio: 1; max-width: 100%; }
+  @media (min-width: 960px) { .gal figure { aspect-ratio: auto; } }
+  .gal img { width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease), filter .5s; filter: grayscale(.4); }
+  .gal figure:hover img { transform: scale(1.07); filter: none; }
+
+  /* good to know */
+  .know { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); border-top: 2px solid var(--black); }
+  .know div { padding: 1.4rem 1.2rem 1.4rem 0; border-bottom: 1.5px solid var(--line-l); display: grid; gap: .3rem; }
+  .know b { font-weight: 900; font-variation-settings: "wdth" 115; text-transform: uppercase; font-size: 1.25rem; }
+  .know span { opacity: .75; }
+
+  /* visit */
+  .visit { display: grid; gap: 2rem; }
+  @media (min-width: 960px) { .visit { grid-template-columns: 1.1fr 1fr; gap: 4rem; align-items: center; } }
+  .visit__img { aspect-ratio: 16 / 11; overflow: hidden; max-width: 100%; }
+  .visit__img img { width: 100%; height: 120%; object-fit: cover; }
+  .visit__addr { font-size: var(--step-2); margin-block: 1rem 1.5rem; }
+  .hours { display: grid; border-top: 2px solid var(--bone); font-family: var(--f-mono); }
+  .hours div { display: flex; justify-content: space-between; padding: .7rem .2rem; border-bottom: 1px solid var(--line-d); }
+  .hours .is-today { background: var(--red); padding-inline: .8rem; font-weight: 600; border-bottom-color: transparent; }
+  .copyrow { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.4rem; }
+  .copy { display: inline-flex; gap: .5rem; align-items: center; padding: .6rem .9rem; border: 1.5px solid var(--line-d); font-family: var(--f-mono); font-size: .9rem; }
+  .copy span { user-select: all; }
+  .copy button { font-size: .78rem; padding: .2rem .5rem; background: var(--bone); color: var(--black); }
+
+  .foot { padding-block: 3rem calc(2rem + env(safe-area-inset-bottom, 0px)); overflow: hidden; }
+  .foot__word { font-weight: 900; font-variation-settings: "wdth" 125; text-transform: uppercase; font-size: clamp(3.2rem, 15.5vw, 15rem); line-height: .82; display: flex; overflow: hidden; }
+  .foot__word span { display: inline-block; }
+  .foot__row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem; margin-top: 2rem; font-family: var(--f-mono); font-size: .9rem; }
+  .foot__row ul { display: flex; flex-wrap: wrap; gap: 1.2rem; }
+  .foot__note { margin-top: 1.2rem; font-size: .8rem; opacity: .6; max-width: 70ch; font-family: var(--f-mono); }
+  .foot__note a { text-decoration: underline; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+    .loader { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__in">
+    <div class="pole"><span></span></div>
+    <div class="loader__word" id="loaderWord"><span>B</span><span>r</span><span>z</span><span>y</span><span>t</span><span>w</span><span>a</span></div>
+  </div>
+</div>
+<div class="preview" id="preview" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__bar">
+    <a href="#top" class="logo"><span class="mini-pole"><span></span></span>Brzytwa</a>
+    <nav class="nav__links" aria-label="Główna">
+      <a href="#uslugi">Usługi</a><a href="#rezerwacja">Rezerwacja</a><a href="#ekipa">Ekipa</a><a href="#odwiedz">Kontakt</a>
+    </nav>
+    <a class="btn" href="#rezerwacja">Umów się</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero__grid">
+      <div>
+        <p class="queue" id="queue"><span class="queue__dots" id="queueDots"></span><span id="queueText">Sprawdzam kolejkę…</span></p>
+        <h1>
+          <span class="line"><span>Strzyżemy</span></span>
+          <span class="line"><span class="cond">krótko.</span></span>
+          <span class="line"><span>Gadamy</span></span>
+          <span class="line"><span class="cond">długo.</span></span>
+        </h1>
+        <p class="hero__lead">Barber shop w centrum Łodzi. Klasyczne cięcia, fade’y, broda i golenie brzytwą z gorącym ręcznikiem. Kawa albo whisky na start.</p>
+        <div class="hero__cta">
+          <a class="btn" href="#rezerwacja">Zarezerwuj wizytę
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn--line" href="#uslugi">Cennik</a>
+        </div>
+      </div>
+      <div class="shot">
+        <div class="shot__img"><img src="img/hero.jpg" alt="Barber goli klienta brzytwą w przyciemnionym zakładzie" width="1000" height="1300"></div>
+        <div class="shot__pole" aria-hidden="true"><span></span></div>
+        <div class="shot__tag"><b>Golenie brzytwą</b>40 min · 80 zł</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track" id="marquee">
+      <div><span>Strzyżenie</span><small>90 zł</small><i></i><span>Skin fade</span><small>110 zł</small><i></i><span>Broda</span><small>60 zł</small><i></i><span>Golenie brzytwą</span><small>80 zł</small><i></i><span>Combo</span><small>140 zł</small><i></i></div>
+      <div><span>Strzyżenie</span><small>90 zł</small><i></i><span>Skin fade</span><small>110 zł</small><i></i><span>Broda</span><small>60 zł</small><i></i><span>Golenie brzytwą</span><small>80 zł</small><i></i><span>Combo</span><small>140 zł</small><i></i></div>
+    </div>
+  </div>
+
+  <section class="sec light" id="uslugi">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="sec-title reveal">Cennik <span class="red">bez gwiazdek</span></h2>
+        <p class="sec-note">Cena to cena. Mycie, stylizacja i kawa są zawsze w zestawie. Pasek pokazuje, ile czasu zarezerwować.</p>
+      </div>
+      <div class="svc" id="svc"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="rezerwacja">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="sec-title reveal">Zarezerwuj <span class="red">fotel</span></h2>
+        <p class="sec-note">Cztery kroki i masz termin. Godziny, w których usługa się nie zmieści, są od razu wykreślone.</p>
+      </div>
+      <div class="book">
+        <div>
+          <div class="step"><p class="step__h"><span>01</span>Usługa</p><div class="chips" id="bkSvc" role="group" aria-label="Usługa"></div></div>
+          <div class="step"><p class="step__h"><span>02</span>Barber</p><div class="barbers" id="bkBarber" role="group" aria-label="Barber"></div></div>
+          <div class="step"><p class="step__h"><span>03</span>Dzień</p><div class="days" id="bkDay" role="group" aria-label="Dzień"></div></div>
+          <div class="step"><p class="step__h"><span>04</span>Godzina</p><div class="slots" id="bkSlot" role="group" aria-label="Godzina"></div></div>
+          <div class="step fld"><label class="step__h" for="bkName"><span>05</span>Imię</label><input type="text" id="bkName" maxlength="30" placeholder="np. Tomek" autocomplete="given-name"></div>
+        </div>
+        <aside class="summary" aria-live="polite">
+          <div class="stripe"></div>
+          <h3>Twoja wizyta</h3>
+          <dl class="sum__rows" id="sumRows"></dl>
+          <div class="sum__total"><span class="mono">Do zapłaty na miejscu</span><b id="sumPrice">0 zł</b></div>
+          <p class="sum__msg" id="sumMsg"></p>
+          <button class="btn" type="button" id="bkGo">Rezerwuję</button>
+          <div class="confirm" id="confirm" hidden>
+            <span class="eyebrow">Kod rezerwacji</span>
+            <span class="confirm__code" id="code">—</span>
+            <pre id="confirmText"></pre>
+            <button type="button" id="copyConfirm">Kopiuj i wyślij nam w wiadomości</button>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="ekipa" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="sec-title reveal">Ekipa</h2>
+        <p class="sec-note">Trzech barberów, razem 27 lat przy fotelu. Każdy ma swoją specjalność, ale ostre cięcie umie każdy.</p>
+      </div>
+      <div class="team" id="team"></div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0" aria-label="Galeria">
+    <div class="wrap">
+      <div class="gal" id="gal">
+        <figure><img src="img/fade.jpg" alt="Barber robi fade maszynką" loading="lazy"></figure>
+        <figure><img src="img/maszynki.jpg" alt="Rząd maszynek do strzyżenia" loading="lazy"></figure>
+        <figure><img src="img/golenie-bw.jpg" alt="Golenie brzytwą, zdjęcie czarno-białe" loading="lazy"></figure>
+        <figure><img src="img/tatuaz.jpg" alt="Wytatuowany barber przy pracy" loading="lazy"></figure>
+        <figure><img src="img/czerwony-fotel.jpg" alt="Czerwony fotel barberski w ciemnym wnętrzu" loading="lazy"></figure>
+        <figure><img src="img/ciecie.jpg" alt="Strzyżenie nożyczkami z góry" loading="lazy"></figure>
+        <figure><img src="img/narzedzia.jpg" alt="Narzędzia barberskie na blacie" loading="lazy"></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec light">
+    <div class="wrap">
+      <div class="sec-head"><h2 class="sec-title reveal">Dobrze <span class="red">wiedzieć</span></h2></div>
+      <div class="know">
+        <div><b>Spóźnienie</b><span>Do 10 minut czekamy. Później skracamy usługę, żeby nie przesuwać kolejnych klientów.</span></div>
+        <div><b>Płatność</b><span>Karta, BLIK, gotówka. Napiwek do słoika przy kasie, jeśli chcesz.</span></div>
+        <div><b>Bez rezerwacji</b><span>Wpadaj śmiało. Kolejkę na żywo widzisz na górze strony.</span></div>
+        <div><b>Na start</b><span>Kawa z ekspresu, woda albo jedna whisky na koszt firmy.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="odwiedz">
+    <div class="wrap visit">
+      <div class="visit__img" id="visitImg"><img src="img/wnetrze.jpg" alt="Wnętrze barber shopu z cegłą i fotelami" loading="lazy" width="1600" height="1000"></div>
+      <div>
+        <p class="eyebrow red">Centrum · 3 min od Piotrkowskiej</p>
+        <p class="visit__addr"><b style="font-weight:900;font-variation-settings:'wdth' 125;text-transform:uppercase">ul. Ostra 12<br>Łódź</b></p>
+        <dl class="hours" id="hours"></dl>
+        <div class="copyrow">
+          <span class="copy"><span id="phone">+48 42 000 00 00</span><button type="button" data-copy="phone">Kopiuj</button></span>
+          <span class="copy"><span id="mail">fotel@brzytwa-demo.pl</span><button type="button" data-copy="mail">Kopiuj</button></span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="stripe" style="margin-bottom:3rem"></div>
+  <div class="wrap">
+    <p class="foot__word" aria-hidden="true"><span>B</span><span>r</span><span>z</span><span>y</span><span>t</span><span>w</span><span>a</span></p>
+    <div class="foot__row">
+      <ul><li><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a></li><li><a href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a></li><li><a href="#rezerwacja">Rezerwacja</a></li></ul>
+      <p>© 2026 Brzytwa Barber Shop · Łódź</p>
+    </div>
+    <p class="foot__note">Przykładowy projekt strony. Zakład, barberzy, adres i ceny są fikcyjne. Zdjęcia: autorzy z <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a>.</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(() => {
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const anim = !!window.gsap && !reduce;
+  const pad = (n) => String(n).padStart(2, '0');
+  const hm = (m) => `${Math.floor(m / 60)}:${pad(m % 60)}`;
+
+  /* ---------- clock (Warsaw) ---------- */
+  function nowPL() {
+    try {
+      const p = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Warsaw', year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(new Date());
+      const g = (t) => p.find((x) => x.type === t).value;
+      return { y: +g('year'), mo: +g('month'), d: +g('day'), day: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(g('weekday')), min: +g('hour') * 60 + +g('minute') };
+    } catch (e) { const d = new Date(); return { y: d.getFullYear(), mo: d.getMonth() + 1, d: d.getDate(), day: d.getDay(), min: d.getHours() * 60 + d.getMinutes() }; }
+  }
+  const DAYS = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
+  const DSH = ['nd', 'pn', 'wt', 'śr', 'cz', 'pt', 'sb'];
+  const HOURS = { 1: [540, 1200], 2: [540, 1200], 3: [540, 1200], 4: [540, 1200], 5: [540, 1200], 6: [540, 960], 0: null };
+  const hash = (s) => { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0) / 4294967295; };
+  const N = nowPL();
+  const todayKey = `${N.y}-${pad(N.mo)}-${pad(N.d)}`;
+
+  /* queue */
+  function queue() {
+    const n = nowPL(), h = HOURS[n.day];
+    const dots = $('#queueDots'), txt = $('#queueText');
+    if (!h || n.min < h[0] || n.min >= h[1] - 30) {
+      dots.innerHTML = ''; txt.textContent = h && n.min < h[0] ? `Zamknięte · otwieramy o ${hm(h[0])}` : 'Zamknięte · zarezerwuj na kolejny dzień';
+      return;
+    }
+    const q = Math.floor(hash(todayKey + Math.floor(n.min / 20)) * 4);
+    dots.innerHTML = [0, 1, 2, 3].map((i) => `<i class="${i < q ? 'on' : ''}"></i>`).join('');
+    txt.textContent = q ? `Kolejka: ${q} ${q === 1 ? 'osoba' : 'osoby'} · ok. ${q * 20} min` : 'Kolejka: 0 · wpadaj od razu';
+  }
+  queue(); setInterval(queue, 60000);
+
+  /* ---------- data ---------- */
+  const SVC = [
+    ['cut', 'Strzyżenie męskie', 45, 90, 'Konsultacja, mycie, strzyżenie, stylizacja.', 'img/ciecie.jpg'],
+    ['fade', 'Skin fade', 60, 110, 'Cieniowanie do skóry, ostre przejścia.', 'img/fade.jpg'],
+    ['beard', 'Broda', 30, 60, 'Trymowanie, kontur brzytwą, olejek.', 'img/broda-bw.jpg'],
+    ['shave', 'Golenie brzytwą', 40, 80, 'Gorący ręcznik, piana, brzytwa, balsam.', 'img/golenie.jpg'],
+    ['combo', 'Combo: włosy + broda', 75, 140, 'Pełen serwis w jednej wizycie.', 'img/dawid.jpg'],
+    ['dad', 'Ojciec + syn', 70, 150, 'Dwa strzyżenia, jeden fotel obok drugiego.', 'img/kuba.jpg'],
+    ['kid', 'Strzyżenie dziecięce', 30, 60, 'Do 12 lat. Z lizakiem na koniec.', 'img/maszynka.jpg']
+  ];
+  const BARBERS = [
+    ['any', 'Ktokolwiek', 'pierwszy wolny', null],
+    ['kuba', 'Kuba', 'klasyka, nożyczki · 12 lat', 'img/kuba.jpg'],
+    ['dawid', 'Dawid', 'brody i golenie · 9 lat', 'img/dawid.jpg'],
+    ['marek', 'Marek', 'fade i wzory · 6 lat', 'img/marek.jpg']
+  ];
+
+  /* services list */
+  const maxMin = Math.max(...SVC.map((s) => s[2]));
+  $('#svc').innerHTML = SVC.map(([k, n, m, p, d, img]) => `<div class="svc__row" data-img="${img}"><h3 class="svc__name">${n}</h3>
+    <p class="svc__meta"><span>${m} min</span><span class="svc__bar"><span style="transform:scaleX(${m / maxMin})"></span></span></p><span class="svc__price">${p} zł</span>
+    <p class="svc__meta" style="font-family:var(--f-display);color:inherit;opacity:.7">${d}</p></div>`).join('');
+
+  /* team */
+  $('#team').innerHTML = BARBERS.slice(1).map(([k, n, s, img]) => `<article class="member"><div class="member__img"><img src="${img}" alt="${n} przy pracy" loading="lazy" width="900" height="1125"><div class="stripe"></div></div>
+    <h3>${n}</h3><p>${s} · @${k}.brzytwa</p></article>`).join('');
+
+  /* ---------- booking ---------- */
+  const state = { svc: 'cut', barber: 'any', dayIdx: 0, slot: null };
+  const days = [];
+  for (let i = 0; i < 8; i++) {
+    const dt = new Date(Date.UTC(N.y, N.mo - 1, N.d + i));
+    days.push({ key: dt.toISOString().slice(0, 10), wd: dt.getUTCDay(), d: dt.getUTCDate(), i });
+  }
+  // first open day as default
+  state.dayIdx = days.findIndex((d) => HOURS[d.wd] && (d.i > 0 || N.min < HOURS[d.wd][1] - 60));
+  // each barber's day is a seeded sequence of booked visits and free gaps
+  const busyCache = {};
+  function busy(barber, day) {
+    const id = `${barber}|${day.key}`;
+    if (busyCache[id]) return busyCache[id];
+    let seed = Math.floor(hash(id) * 4294967295);
+    const rnd = () => { seed = (seed + 0x6D2B79F5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t ^= t + Math.imul(t ^ (t >>> 7), 61 | t); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+    const h = HOURS[day.wd], out = [];
+    let t = h[0];
+    while (t < h[1]) {
+      if (rnd() < 0.5) t += [30, 45, 60, 75, 90, 120][Math.floor(rnd() * 6)];
+      else { const len = [30, 45, 45, 60, 75][Math.floor(rnd() * 5)]; out.push([t, t + len]); t += len; }
+    }
+    return (busyCache[id] = out);
+  }
+  function freeFor(barber, day, start, dur) {
+    return !busy(barber, day).some(([a, b]) => start < b && start + dur > a);
+  }
+  function slotsFor(day) {
+    const h = HOURS[day.wd]; if (!h) return [];
+    const dur = SVC.find((s) => s[0] === state.svc)[2];
+    const out = [];
+    for (let m = h[0]; m + dur <= h[1]; m += 15) {
+      if (day.i === 0 && m < N.min + 30) { out.push([m, false, null]); continue; }
+      const list = state.barber === 'any' ? BARBERS.slice(1).map((b) => b[0]) : [state.barber];
+      const who = list.find((b) => freeFor(b, day, m, dur));
+      out.push([m, !!who, who || null]);
+    }
+    return out;
+  }
+  function renderSvc() {
+    $('#bkSvc').innerHTML = SVC.map(([k, n, m, p]) => `<button type="button" class="chip" data-k="${k}" aria-pressed="${k === state.svc}">${n}<small>${m} min · ${p} zł</small></button>`).join('');
+  }
+  function renderBarbers() {
+    $('#bkBarber').innerHTML = BARBERS.map(([k, n, s, img]) => `<button type="button" class="bcard" data-k="${k}" aria-pressed="${k === state.barber}">
+      <span class="bcard__img">${img ? `<img src="${img}" alt="" loading="lazy">` : '<svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="8" r="3.5"/><circle cx="16" cy="9" r="3"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M14.5 14.6c3.2-.4 5.8 1.3 6.6 4.9"/></svg>'}</span>
+      <b>${n}</b><small>${s}</small></button>`).join('');
+  }
+  function renderDays() {
+    $('#bkDay').innerHTML = days.slice(0, 7).map((d) => {
+      const closed = !HOURS[d.wd] || (d.i === 0 && N.min >= HOURS[d.wd][1] - 60);
+      return `<button type="button" class="day" data-i="${d.i}" aria-pressed="${d.i === state.dayIdx}" ${closed ? 'disabled' : ''} aria-label="${DAYS[d.wd]} ${d.d}${closed ? ', zamknięte' : ''}"><small>${d.i === 0 ? 'dziś' : DSH[d.wd]}</small><b>${d.d}</b></button>`;
+    }).join('');
+  }
+  function renderSlots() {
+    const day = days[state.dayIdx];
+    const sl = slotsFor(day);
+    if (state.slot && !sl.some(([m, ok]) => ok && m === state.slot.m)) state.slot = null;
+    $('#bkSlot').innerHTML = sl.length ? sl.map(([m, ok, who]) => `<button type="button" class="slot" data-m="${m}" data-who="${who || ''}" aria-pressed="${state.slot && state.slot.m === m}" ${ok ? '' : 'disabled'}>${hm(m)}</button>`).join('') : '<p class="empty">W niedzielę zamknięte.</p>';
+    if (!sl.some(([, ok]) => ok)) $('#bkSlot').insertAdjacentHTML('beforeend', '<p class="empty" style="grid-column:1/-1">Brak wolnych godzin. Wybierz inny dzień albo barbera.</p>');
+    if (anim) gsap.from('#bkSlot .slot', { opacity: 0, y: 10, duration: .3, stagger: .008, ease: 'power2.out' });
+  }
+  function renderSum() {
+    const s = SVC.find((x) => x[0] === state.svc), day = days[state.dayIdx];
+    const who = state.slot ? BARBERS.find((b) => b[0] === state.slot.who) : null;
+    const rows = [['Usługa', s[1]], ['Czas', `${s[2]} min`], ['Barber', who ? who[1] : (state.barber === 'any' ? 'pierwszy wolny' : BARBERS.find((b) => b[0] === state.barber)[1])],
+      ['Kiedy', `${DAYS[day.wd]} ${day.d}.${pad(+day.key.slice(5, 7))}${state.slot ? `, ${hm(state.slot.m)}–${hm(state.slot.m + s[2])}` : ''}`]];
+    $('#sumRows').innerHTML = rows.map(([a, b]) => `<div><dt>${a}</dt><dd>${b}</dd></div>`).join('');
+    $('#sumPrice').textContent = `${s[3]} zł`;
+  }
+  const all = () => { renderSvc(); renderBarbers(); renderDays(); renderSlots(); renderSum(); };
+  all();
+  $('#bkSvc').addEventListener('click', (e) => { const b = e.target.closest('.chip'); if (!b) return; state.svc = b.dataset.k; renderSvc(); renderSlots(); renderSum(); });
+  $('#bkBarber').addEventListener('click', (e) => { const b = e.target.closest('.bcard'); if (!b) return; state.barber = b.dataset.k; renderBarbers(); renderSlots(); renderSum(); });
+  $('#bkDay').addEventListener('click', (e) => { const b = e.target.closest('.day'); if (!b || b.disabled) return; state.dayIdx = +b.dataset.i; state.slot = null; renderDays(); renderSlots(); renderSum(); });
+  $('#bkSlot').addEventListener('click', (e) => {
+    const b = e.target.closest('.slot'); if (!b || b.disabled) return;
+    state.slot = { m: +b.dataset.m, who: b.dataset.who };
+    $$('#bkSlot .slot').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    renderSum();
+    if (anim) gsap.fromTo('.summary', { x: -6 }, { x: 0, duration: .5, ease: 'elastic.out(1, .3)' });
+  });
+  $('#bkGo').addEventListener('click', () => {
+    const msg = $('#sumMsg'), name = $('#bkName').value.trim();
+    if (!state.slot) { msg.textContent = 'Wybierz godzinę.'; return; }
+    if (!name) { msg.textContent = 'Wpisz imię.'; $('#bkName').focus(); return; }
+    msg.textContent = '';
+    const s = SVC.find((x) => x[0] === state.svc), day = days[state.dayIdx], who = BARBERS.find((b) => b[0] === state.slot.who);
+    const code = 'BRZ-' + String(Math.floor(hash(name + day.key + state.slot.m) * 9000) + 1000);
+    $('#code').textContent = code;
+    $('#confirmText').textContent = `Rezerwacja ${code}\n${s[1]} (${s[2]} min, ${s[3]} zł)\n${DAYS[day.wd]} ${day.d}.${pad(+day.key.slice(5, 7))}, ${hm(state.slot.m)}\nBarber: ${who[1]}\nImię: ${name}`;
+    const c = $('#confirm'); c.hidden = false;
+    if (anim) gsap.fromTo(c, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: .5, ease: 'back.out(1.7)' });
+  });
+  const copy = (btn, text, label) => {
+    const done = (m) => { btn.textContent = m; setTimeout(() => (btn.textContent = label), 1800); };
+    try { navigator.clipboard.writeText(text).then(() => done('Skopiowano'), () => done('Zaznacz i skopiuj')); } catch (e) { done('Zaznacz i skopiuj'); }
+  };
+  $('#copyConfirm').addEventListener('click', (e) => copy(e.currentTarget, $('#confirmText').textContent, 'Kopiuj i wyślij nam w wiadomości'));
+  $$('[data-copy]').forEach((b) => b.addEventListener('click', () => copy(b, $('#' + b.dataset.copy).textContent, 'Kopiuj')));
+
+  /* hours */
+  $('#hours').innerHTML = [1, 2, 3, 4, 5, 6, 0].map((d) => `<div class="${d === N.day ? 'is-today' : ''}"><dt>${DAYS[d]}${d === N.day ? ' · dziś' : ''}</dt><dd>${HOURS[d] ? `${hm(HOURS[d][0])}–${hm(HOURS[d][1])}` : 'zamknięte'}</dd></div>`).join('');
+
+  /* nav + anchors */
+  const nav = $('#nav'); let lastY = 0;
+  addEventListener('scroll', () => { const y = scrollY; nav.classList.toggle('is-solid', y > 40); nav.classList.toggle('is-hidden', y > lastY && y > 400); lastY = y; }, { passive: true });
+  $$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {
+    const id = a.getAttribute('href'); const t = id === '#top' ? 0 : $(id); if (t === null) return; e.preventDefault();
+    if (window.__lenis) window.__lenis.scrollTo(t, { offset: t === 0 ? 0 : -10, duration: 1.3 });
+    else if (t === 0) scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); else t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+  }));
+
+  const loader = $('#loader');
+  if (!anim) { loader.remove(); return; }
+
+  /* ================= GSAP ================= */
+  gsap.registerPlugin(ScrollTrigger);
+  if (fine && window.Lenis) { const l = new Lenis({ lerp: .1 }); window.__lenis = l; l.on('scroll', ScrollTrigger.update); gsap.ticker.add((t) => l.raf(t * 1000)); gsap.ticker.lagSmoothing(0); }
+
+  loader.style.animation = 'none';
+  gsap.set('.hero .line > span', { yPercent: 115 });
+  gsap.set(['.queue', '.hero__lead', '.hero__cta'], { opacity: 0, y: 24 });
+  gsap.set('.shot__img', { clipPath: 'inset(0 0 100% 0)' });
+  gsap.set('.shot__pole', { scaleY: 0, transformOrigin: 'top' });
+  gsap.set('.shot__tag', { opacity: 0, x: -30 });
+  gsap.timeline({ defaults: { ease: 'expo.out' } })
+    .from('#loaderWord span', { yPercent: 110, duration: .6, stagger: .05 })
+    .from('.pole', { scaleY: 0, duration: .7, ease: 'back.out(1.6)' }, 0)
+    .to('.loader__in', { opacity: 0, x: 40, duration: .4, ease: 'power2.in' }, '+=.5')
+    .to(loader, { clipPath: 'inset(0 0 100% 0)', duration: .8, ease: 'expo.inOut', onComplete: () => loader.remove() }, '-=.1')
+    .to('.hero .line > span', { yPercent: 0, duration: 1, stagger: .08 }, '-=.4')
+    .to('.shot__img', { clipPath: 'inset(0 0 0% 0)', duration: 1.3 }, '<')
+    .to('.shot__pole', { scaleY: 1, duration: 1.1 }, '<.2')
+    .to('.queue', { opacity: 1, y: 0, duration: .6 }, '<')
+    .to(['.hero__lead', '.hero__cta'], { opacity: 1, y: 0, duration: .8, stagger: .1 }, '-=.8')
+    .to('.shot__tag', { opacity: 1, x: 0, duration: .8 }, '-=.6');
+
+  gsap.to('.shot__img img', { yPercent: -10, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  // headline width breathes with scroll
+  gsap.to('.hero h1 .cond', { fontVariationSettings: '"wdth" 125', ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+
+  const skewTo = gsap.quickTo('#marquee', 'skewX', { duration: .4, ease: 'power3' });
+  ScrollTrigger.create({ onUpdate: (s) => skewTo(gsap.utils.clamp(-10, 10, s.getVelocity() / -260)) });
+  $$('.reveal').forEach((el) => gsap.fromTo(el, { fontVariationSettings: '"wdth" 62', opacity: 0 }, { fontVariationSettings: '"wdth" 125', opacity: 1, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 88%' } }));
+
+  // service rows + bars fill
+  gsap.from('.svc__row', { y: 40, opacity: 0, duration: .8, stagger: .06, ease: 'expo.out', scrollTrigger: { trigger: '#svc', start: 'top 85%' } });
+  $$('.svc__bar span').forEach((b) => gsap.from(b, { scaleX: 0, duration: 1.2, ease: 'power3.out', scrollTrigger: { trigger: b, start: 'top 92%' } }));
+  if (fine) {
+    const pv = $('#preview');
+    const px = gsap.quickTo(pv, 'x', { duration: .6, ease: 'power3' }), py = gsap.quickTo(pv, 'y', { duration: .6, ease: 'power3' });
+    let cur = '';
+    $('#svc').addEventListener('pointermove', (e) => { px(e.clientX + 30); py(e.clientY - 150); });
+    $$('.svc__row').forEach((r) => {
+      r.addEventListener('pointerenter', () => {
+        if (cur !== r.dataset.img) { cur = r.dataset.img; const im = new Image(); im.src = cur; im.alt = ''; pv.appendChild(im);
+          gsap.fromTo(im, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: .5, ease: 'expo.out', onComplete: () => { while (pv.children.length > 1) pv.firstChild.remove(); } }); }
+        gsap.to(pv, { opacity: 1, scale: 1, rotation: gsap.utils.random(-5, 5), duration: .4, ease: 'expo.out' });
+      });
+      r.addEventListener('pointerleave', () => gsap.to(pv, { opacity: 0, scale: .6, duration: .3 }));
+    });
+  }
+
+  gsap.from('.step', { y: 30, opacity: 0, duration: .8, stagger: .08, ease: 'expo.out', scrollTrigger: { trigger: '.book', start: 'top 80%' } });
+  gsap.from('.summary', { y: 60, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: '.summary', start: 'top 90%' } });
+  gsap.from('.member', { y: 80, opacity: 0, duration: 1, stagger: .12, ease: 'expo.out', scrollTrigger: { trigger: '#team', start: 'top 85%' } });
+  gsap.from('#gal figure', { clipPath: 'inset(100% 0 0 0)', duration: 1.1, stagger: .07, ease: 'expo.out', scrollTrigger: { trigger: '#gal', start: 'top 85%' } });
+  gsap.from('.know div', { y: 30, opacity: 0, duration: .8, stagger: .08, ease: 'expo.out', scrollTrigger: { trigger: '.know', start: 'top 90%' } });
+  gsap.fromTo('#visitImg img', { yPercent: -15 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '#visitImg', start: 'top bottom', end: 'bottom top', scrub: true } });
+  gsap.from('.foot__word span', { yPercent: 100, duration: .9, stagger: .05, ease: 'back.out(1.6)', scrollTrigger: { trigger: '.foot', start: 'top 90%' } });
+  addEventListener('load', () => ScrollTrigger.refresh());
+})();
+</script>
+</body>
+</html>
