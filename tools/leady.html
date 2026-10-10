@@ -277,6 +277,11 @@
         <label class="check"><input type="checkbox" id="t-optout"> <span>Dopisz na końcu informację, jak zrezygnować z kolejnych wiadomości</span></label>
         <div class="panel-head" style="margin:6px 0 0"><h2>Follow-up</h2></div>
         <label class="f"><span>Treść przypomnienia (idzie w tym samym wątku, temat „Re: …”)</span><textarea id="t-fbody" rows="5"></textarea></label>
+        <div class="panel-head" style="margin:6px 0 0"><h2>Hotele i noclegi</h2></div>
+        <p class="small muted" style="margin:0">Używane zamiast powyższych dla leadów, których branża to hotel, pensjonat, noclegi, kwatery, agroturystyka, apartamenty itp. Puste pole = zwykły szablon.</p>
+        <label class="f"><span>Temat</span><input type="text" id="t-hsubject"></label>
+        <label class="f"><span>Treść</span><textarea id="t-hbody" rows="10"></textarea></label>
+        <label class="f"><span>Treść przypomnienia</span><textarea id="t-hfbody" rows="5"></textarea></label>
         <div class="row-2">
           <label class="f"><span>Follow-up po ilu dniach</span><input type="number" id="t-fdays" min="1" max="30"></label>
           <label class="f"><span>Limit pierwszych maili dziennie</span><input type="number" id="t-limit" min="1" max="400"></label>
@@ -371,7 +376,18 @@
     ai: false,
     senderEmail: "",
     lastCheckAt: null,
+    hotelSubject: "",
+    hotelBody: "",
+    hotelFollowBody: "",
   };
+  // Leads from accommodation businesses get their own template when one is set.
+  const HOTEL_RE = /hotel|pensjonat|nocleg|kwater|agroturyst|apartament|domki|domy wypoczynkowe|willa|motel|hostel/i;
+  const isHotel = (lead) => HOTEL_RE.test(String((lead && lead.branza) || ""));
+  function tplFor(lead) {
+    const st = S.settings, h = isHotel(lead);
+    const pick = (hk, k) => (h && String(st[hk] || "").trim() ? st[hk] : st[k]);
+    return { subject: pick("hotelSubject", "subject"), body: pick("hotelBody", "body"), followBody: pick("hotelFollowBody", "followBody") };
+  }
   const OPT_OUT = "Jeśli nie chcą Państwo otrzymywać ode mnie wiadomości, wystarczy odpisać „NIE”. Nie napiszę ponownie.";
   const STATUS = {
     new: "Nowy", sent: "Wysłany", replied: "Odpowiedź", bounced: "Odbity", error: "Błąd",
@@ -426,14 +442,14 @@
     return out.replace(/[ \t]*\(\s*\)/g, "").replace(/[ \t]+([,.!?])/g, "$1").replace(/[ \t]{2,}/g, " ");
   }
   function compose(lead, kind, override) {
-    const st = S.settings;
+    const st = S.settings, t = tplFor(lead);
     let subject, body;
     if (kind === "followup") {
-      subject = "Re: " + (lead.subject || fill(st.subject, lead));
-      body = fill(st.followBody, lead);
+      subject = "Re: " + (lead.subject || fill(t.subject, lead));
+      body = fill(t.followBody, lead);
     } else {
-      subject = override ? override.subject : fill(st.subject, lead);
-      body = override ? override.body : fill(st.body, lead);
+      subject = override ? override.subject : fill(t.subject, lead);
+      body = override ? override.body : fill(t.body, lead);
     }
     const parts = [body.trim()];
     if (st.signature && st.signature.trim()) parts.push(st.signature.trim());
@@ -444,7 +460,7 @@
     const st = S.settings, p = [];
     if (!String(st.subject || "").trim()) p.push("Temat jest pusty.");
     if (!String(st.body || "").trim()) p.push("Treść jest pusta.");
-    const all = [st.subject, st.body, st.signature, st.followBody].join("\n");
+    const all = [st.subject, st.body, st.signature, st.followBody, st.hotelSubject, st.hotelBody, st.hotelFollowBody].join("\n");
     const br = all.match(/\[[^\]\n]{2,80}\]/g);
     if (br) p.push("Szablon ma niewypełnione pola: " + [...new Set(br)].slice(0, 4).join(", ") + ". Zastąp je swoim tekstem przed wysyłką.");
     return p;
@@ -811,7 +827,7 @@
     if (blockers.length || !n) $("#send-go").disabled = true;
   }
   async function personalize(lead) {
-    const st = S.settings;
+    const st = tplFor(lead);
     const info = { firma: lead.firma, imie: lead.imie, miasto: lead.miasto, branza: lead.branza, www: lead.www, notatka: lead.notes };
     const prompt = `Przygotuj spersonalizowaną wersję maila biznesowego po polsku dla jednej firmy.
 Zasady:
@@ -968,10 +984,10 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
   };
 
   // ---------- template editor ----------
-  const tplIds = { subject: "#t-subject", body: "#t-body", signature: "#t-sig", followBody: "#t-fbody", followDays: "#t-fdays", dailyLimit: "#t-limit", followLimit: "#t-flimit", delaySec: "#t-delay" };
+  const tplIds = { subject: "#t-subject", body: "#t-body", signature: "#t-sig", followBody: "#t-fbody", followDays: "#t-fdays", dailyLimit: "#t-limit", followLimit: "#t-flimit", delaySec: "#t-delay", hotelSubject: "#t-hsubject", hotelBody: "#t-hbody", hotelFollowBody: "#t-hfbody" };
   $("#tokens").innerHTML = FIELDS.map(([k, label]) => `<button type="button" data-k="${k}" title="Wstaw ${label}">{{${k}}}</button>`).join("");
   let lastText = $("#t-body");
-  ["#t-subject", "#t-body", "#t-fbody", "#t-sig"].forEach((s) => $(s).addEventListener("focus", (e) => (lastText = e.target)));
+  ["#t-subject", "#t-body", "#t-fbody", "#t-sig", "#t-hsubject", "#t-hbody", "#t-hfbody"].forEach((s) => $(s).addEventListener("focus", (e) => (lastText = e.target)));
   $("#tokens").addEventListener("click", (e) => {
     const k = e.target.dataset.k; if (!k) return;
     const el = lastText, tok = "{{" + k + "}}", a = el.selectionStart ?? el.value.length, b = el.selectionEnd ?? a;
@@ -1006,10 +1022,12 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
   }
   function renderPreviewOptions() {
     const sel = $("#preview-lead"), cur = sel.value;
-    const key = S.leads.length + "|" + S.leads.slice(0, 200).map((l) => l.id + (l.firma || "")).join(",");
+    const first = S.leads.slice(0, 200), seen = new Set(first.map((l) => l.id));
+    const list = first.concat(S.leads.filter((l) => isHotel(l) && !seen.has(l.id)).slice(0, 10));
+    const key = S.leads.length + "|" + list.map((l) => l.id + (l.firma || "")).join(",");
     if (key === renderPreviewOptions.key) return;
     renderPreviewOptions.key = key;
-    sel.innerHTML = S.leads.length ? S.leads.slice(0, 200).map((l) => `<option value="${esc(l.id)}">${esc(l.firma || l.email)}</option>`).join("") : `<option value="">Przykładowa firma</option>`;
+    sel.innerHTML = list.length ? list.map((l) => `<option value="${esc(l.id)}">${esc((l.firma || l.email) + (isHotel(l) ? " (nocleg)" : ""))}</option>`).join("") : `<option value="">Przykładowa firma</option>`;
     if ([...sel.options].some((o) => o.value === cur)) sel.value = cur;
   }
   $("#preview-lead").addEventListener("change", () => { $("#ai-preview-note").innerHTML = ""; renderPreview(); });
