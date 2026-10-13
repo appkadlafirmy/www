@@ -375,6 +375,7 @@
     delaySec: 2,
     ai: false,
     senderEmail: "",
+    accountSince: "",
     lastCheckAt: null,
     hotelSubject: "",
     hotelBody: "",
@@ -467,8 +468,11 @@
   }
   const sends = (l) => (Array.isArray(l.sends) ? l.sends : []);
   const lastSend = (l) => { const s = sends(l); return s.length ? s[s.length - 1].at : null; };
+  // Follow-ups reply in the first mail's thread, which exists only in the Gmail account that sent it.
+  const firstAt = (l) => l.firstSentAt || (sends(l)[0] && sends(l)[0].at) || "";
+  const onCurrentAccount = (l) => !S.settings.accountSince || firstAt(l) >= S.settings.accountSince;
   function followReady(l) {
-    if (l.status !== "sent" || l.repliedAt || !l.threadId) return false;
+    if (l.status !== "sent" || l.repliedAt || !l.threadId || !onCurrentAccount(l)) return false;
     const s = sends(l); if (!s.length || s.length >= 3) return false;
     return Date.now() - new Date(lastSend(l)).getTime() >= (Number(S.settings.followDays) || 4) * 864e5;
   }
@@ -795,6 +799,7 @@
       else if (kind === "first" && sends(l).length) skip.push([l, "już wysłano"]);
       else if (kind === "first" && l.status === "check") skip.push([l, "do sprawdzenia"]);
       else if (kind === "followup" && !l.threadId) skip.push([l, "brak pierwszego maila"]);
+      else if (kind === "followup" && !onCurrentAccount(l)) skip.push([l, "pierwszy mail z poprzedniego konta"]);
       else if (kind === "followup" && sends(l).length >= 3) skip.push([l, "już 2 follow-upy"]);
       else ok.push(l);
     }
@@ -883,7 +888,7 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
         const m = p.message && typeof p.message === "object" ? p.message : p;
         const at = nowIso();
         const upd = { status: "sent", lastError: "", sends: [...sends(lead), { at, kind, id: m.id || "" }] };
-        if (kind === "first") { upd.threadId = m.threadId || m.id || ""; upd.subject = msg.subject; upd.firstSentAt = at; }
+        if (kind === "first") { upd.threadId = m.threadId || m.id || ""; upd.subject = msg.subject; upd.firstSentAt = at; upd.fromAccount = S.settings.senderEmail || ""; }
         await db.doc("leads/" + lead.id).update(upd).catch(() => log("  (nie zapisano statusu w bazie)"));
         ok++; unsure = 0; log("✓ " + lead.email + ": wysłano");
       } catch (e) {
@@ -895,7 +900,7 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
           if (found) {
             const at = nowIso();
             const upd = { status: "sent", lastError: "", sends: [...sends(lead), { at, kind, id: found.id }] };
-            if (kind === "first") { upd.threadId = found.threadId; upd.subject = msg.subject; upd.firstSentAt = at; }
+            if (kind === "first") { upd.threadId = found.threadId; upd.subject = msg.subject; upd.firstSentAt = at; upd.fromAccount = S.settings.senderEmail || ""; }
             await db.doc("leads/" + lead.id).update(upd).catch(() => log("  (nie zapisano statusu w bazie)"));
             ok++; unsure = 0; log("✓ " + lead.email + ": wysłano (potwierdzone w Wysłanych)");
             $("#send-prog").style.width = ((i + 1) / list.length) * 100 + "%";
