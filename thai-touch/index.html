@@ -3,1261 +3,824 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Thai Touch Massage — tradycyjny masaż tajski</title>
-<meta name="description" content="Thai Touch Massage — tradycyjny masaż tajski, masaż olejkami aromatycznymi, masaż stóp i rytuały dla par. Spokój, ciepło i dotyk w tajskim stylu.">
-<meta name="theme-color" content="#16332C">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%2316332C'/%3E%3Cpath d='M32 14c5 7 6 14 0 24-6-10-5-17 0-24z' fill='%23D4AE6A'/%3E%3Cpath d='M32 38c-8-2-14-8-15-16 7 1 12 6 15 16zM32 38c8-2 14-8 15-16-7 1-12 6-15 16z' fill='%23D4AE6A' opacity='.75'/%3E%3Cpath d='M18 44h28' stroke='%23D4AE6A' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<title>Thai Touch Massage — masaż tajski i rytuały SPA</title>
+<meta name="description" content="Thai Touch Massage — tradycyjny masaż tajski, masaż olejkami, gorące kamienie i rytuały dla par. Spokój, ciepło i dotyk w tajskim stylu.">
+<meta name="theme-color" content="#F6F1EA">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23F6F1EA'/%3E%3Cpath d='M32 15c5 6 6 13 0 23-6-10-5-17 0-23z' fill='%23A3826A'/%3E%3Cpath d='M32 38c-8-2-13-8-14-15 7 1 11 6 14 15zM32 38c8-2 13-8 14-15-7 1-11 6-14 15z' fill='%23A3826A' opacity='.6'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/hero-poster.jpg">
 <style>
   :root {
-    --jungle-900: #0E221D;
-    --jungle-800: #16332C;
-    --jungle-700: #1F4A3F;
-    --jungle-500: #3C7463;
-    --sand-50: #FBF8F2;
-    --sand-100: #F4EDE1;
-    --sand-200: #E8DCC6;
-    --gold-300: #E6C98F;
-    --gold-400: #D4AE6A;
-    --gold-600: #A47B33;
-    --clay-500: #B4583B;
-    --ink: #1C2421;
-    --ink-soft: #4D5A55;
-    --font-display: "Cormorant Garamond", Georgia, serif;
-    --font-sans: Manrope, ui-sans-serif, system-ui, -apple-system, sans-serif;
-    --ease-out: cubic-bezier(.22, 1, .36, 1);
-    --radius: 1.25rem;
-    --container: 1200px;
-    --shadow: 0 30px 60px -30px rgba(14, 34, 29, .35);
+    --bg: #F6F1EA;
+    --bg-soft: #EFE7DC;
+    --bg-deep: #E5D9C9;
+    --paper: #FBF8F4;
+    --ink: #2B2622;
+    --ink-soft: #6E645B;
+    --line: #DCCFBE;
+    --accent: #A3826A;
+    --accent-dark: #7E6250;
+    --font-display: "Cormorant", Georgia, serif;
+    --font-sans: Jost, ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    --container: 1240px;
   }
 
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
-    margin: 0;
-    font-family: var(--font-sans);
-    font-size: 16px;
-    line-height: 1.65;
-    background: var(--sand-50);
-    color: var(--ink);
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--font-sans); font-weight: 300; font-size: 17px; line-height: 1.7;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
   }
-  img, svg { display: block; max-width: 100%; }
+  img, video, svg { display: block; max-width: 100%; }
   a { color: inherit; text-decoration: none; }
-  ul, ol { margin: 0; padding: 0; list-style: none; }
-  h1, h2, h3, h4, p, figure, blockquote { margin: 0; }
-  button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+  ul { margin: 0; padding: 0; list-style: none; }
+  h1, h2, h3, p, figure, blockquote, dl, dd { margin: 0; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
   input, select, textarea { font: inherit; color: inherit; }
-  :focus-visible { outline: 2px solid var(--gold-600); outline-offset: 3px; border-radius: 4px; }
+  :focus-visible { outline: 1px solid var(--accent-dark); outline-offset: 4px; }
 
   .container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 1.25rem; }
-  @media (min-width: 768px) { .container { padding: 0 2rem; } }
+  @media (min-width: 768px) { .container { padding: 0 2.5rem; } }
 
-  .eyebrow {
-    display: inline-flex; align-items: center; gap: .6rem;
-    font-size: .78rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
-    color: var(--gold-600);
-  }
-  .eyebrow::before { content: ""; width: 28px; height: 1px; background: currentColor; }
-  .section-title {
-    font-family: var(--font-display); font-weight: 600;
-    font-size: clamp(2.2rem, 4.5vw, 3.6rem); line-height: 1.05; letter-spacing: -.01em;
-    margin-top: .9rem;
-  }
-  .section-title em { font-style: italic; color: var(--gold-600); font-weight: 500; }
-  .lead { font-size: 1.08rem; color: var(--ink-soft); max-width: 36rem; margin-top: 1.1rem; }
+  .label { font-size: .74rem; font-weight: 400; letter-spacing: .32em; text-transform: uppercase; color: var(--accent-dark); }
+  .h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.4rem, 5vw, 4.2rem); line-height: 1.05; letter-spacing: -.01em; margin-top: 1.1rem; }
+  .h2 em { font-style: italic; color: var(--accent-dark); }
+  .text { color: var(--ink-soft); max-width: 34rem; margin-top: 1.4rem; }
 
-  /* Buttons */
+  .link {
+    display: inline-flex; align-items: center; gap: .9rem; min-height: 44px;
+    font-size: .78rem; font-weight: 400; letter-spacing: .26em; text-transform: uppercase;
+  }
+  .link i { position: relative; width: 44px; height: 1px; background: currentColor; transition: width .6s var(--ease); }
+  .link i::after { content: ""; position: absolute; right: 0; top: -3px; width: 7px; height: 7px; border-top: 1px solid; border-right: 1px solid; transform: rotate(45deg); }
+  .link:hover i { width: 68px; }
+
   .btn {
-    position: relative; display: inline-flex; align-items: center; gap: .6rem;
-    min-height: 52px; padding: 0 1.6rem; border-radius: 999px;
-    font-weight: 600; font-size: .95rem; letter-spacing: .01em;
-    overflow: hidden; isolation: isolate;
-    transition: transform .4s var(--ease-out), box-shadow .4s var(--ease-out), color .4s;
+    position: relative; display: inline-flex; align-items: center; justify-content: center; gap: .8rem;
+    min-height: 54px; padding: 0 2rem; border: 1px solid var(--ink); overflow: hidden; isolation: isolate;
+    font-size: .76rem; font-weight: 400; letter-spacing: .26em; text-transform: uppercase;
+    transition: color .5s var(--ease), border-color .5s;
   }
-  .btn svg { width: 18px; height: 18px; transition: transform .4s var(--ease-out); }
-  .btn:hover svg { transform: translateX(4px); }
-  .btn-gold { background: var(--gold-400); color: var(--jungle-900); box-shadow: 0 12px 30px -12px rgba(212, 174, 106, .8); }
-  .btn-gold::after {
-    content: ""; position: absolute; inset: 0; z-index: -1;
-    background: var(--gold-300); transform: translateY(101%); transition: transform .45s var(--ease-out);
-  }
-  .btn-gold:hover::after { transform: translateY(0); }
-  .btn-gold:hover { transform: translateY(-2px); }
-  .btn-ghost { border: 1px solid rgba(251, 248, 242, .35); color: var(--sand-50); }
-  .btn-ghost:hover { background: rgba(251, 248, 242, .08); border-color: var(--sand-50); }
-  .btn-dark { background: var(--jungle-800); color: var(--sand-50); }
-  .btn-dark:hover { background: var(--jungle-700); transform: translateY(-2px); }
+  .btn::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--ink); transform: scaleY(0); transform-origin: bottom; transition: transform .6s var(--ease); }
+  .btn:hover { color: var(--paper); }
+  .btn:hover::before { transform: scaleY(1); }
+  .btn-solid { background: var(--ink); color: var(--paper); }
+  .btn-solid::before { background: var(--accent-dark); }
+  .btn-solid:hover { border-color: var(--accent-dark); }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(36px); transition: opacity 1.2s var(--ease), transform 1.2s var(--ease); }
+  .reveal.in { opacity: 1; transform: none; }
+  .d1 { transition-delay: .12s; } .d2 { transition-delay: .24s; } .d3 { transition-delay: .36s; } .d4 { transition-delay: .48s; }
+  .img-reveal { overflow: hidden; }
+  .img-reveal img { transform: scale(1.18); transition: transform 2s var(--ease); }
+  .img-reveal::after { content: ""; position: absolute; inset: 0; background: var(--bg); transform-origin: top; transition: transform 1.4s var(--ease); }
+  .about .img-reveal::after { background: var(--paper); }
+  .voucher .img-reveal::after { background: var(--bg-soft); }
+  .img-reveal.in img { transform: scale(1); }
+  .img-reveal.in::after { transform: scaleY(0); }
 
   /* ---------- Header ---------- */
-  .header {
-    position: fixed; inset: 0 0 auto; z-index: 50;
-    transition: background .5s, box-shadow .5s, padding .5s var(--ease-out);
-    padding: 1.25rem 0;
-  }
-  .header.is-scrolled {
-    background: rgba(14, 34, 29, .86);
-    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-    box-shadow: 0 10px 30px -20px rgba(0, 0, 0, .6);
-    padding: .7rem 0;
-  }
-  .header .container { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-  .logo { display: flex; align-items: center; gap: .7rem; color: var(--sand-50); }
-  .logo-mark { width: 40px; height: 40px; }
-  .logo-text { font-family: var(--font-display); font-size: 1.45rem; font-weight: 600; line-height: 1; }
-  .logo-text small { display: block; font-family: var(--font-sans); font-size: .62rem; letter-spacing: .32em; text-transform: uppercase; color: var(--gold-400); margin-top: .3rem; font-weight: 600; }
-  .nav { display: none; gap: 2rem; color: rgba(251, 248, 242, .82); font-size: .92rem; font-weight: 500; }
-  .nav a { position: relative; padding: .4rem 0; transition: color .3s; }
-  .nav a::after {
-    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
-    background: var(--gold-400); transform: scaleX(0); transform-origin: right; transition: transform .45s var(--ease-out);
-  }
-  .nav a:hover, .nav a.is-active { color: var(--sand-50); }
-  .nav a:hover::after, .nav a.is-active::after { transform: scaleX(1); transform-origin: left; }
-  .header-cta { display: none; min-height: 44px; padding: 0 1.25rem; font-size: .88rem; }
-  .menu-toggle {
-    width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center;
-    border: 1px solid rgba(251, 248, 242, .3); color: var(--sand-50);
-  }
-  .menu-toggle span { display: block; width: 18px; height: 1.5px; background: currentColor; position: relative; transition: background .3s; }
-  .menu-toggle span::before, .menu-toggle span::after {
-    content: ""; position: absolute; left: 0; width: 100%; height: 100%; background: currentColor; transition: transform .4s var(--ease-out);
-  }
-  .menu-toggle span::before { transform: translateY(-6px); }
-  .menu-toggle span::after { transform: translateY(6px); }
-  .menu-open .menu-toggle span { background: transparent; }
-  .menu-open .menu-toggle span::before { transform: rotate(45deg); }
-  .menu-open .menu-toggle span::after { transform: rotate(-45deg); }
-  @media (min-width: 960px) {
-    .nav, .header-cta { display: flex; }
-    .menu-toggle { display: none; }
-  }
+  .header { position: fixed; inset: 0 0 auto; z-index: 50; padding: 1.4rem 0; transition: background .6s, padding .6s var(--ease), box-shadow .6s; }
+  .header.solid { background: rgba(246, 241, 234, .9); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: .8rem 0; box-shadow: 0 1px 0 var(--line); }
+  .header .container { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+  .logo { display: flex; align-items: center; gap: .75rem; }
+  .logo svg { width: 34px; height: 34px; }
+  .logo b { display: block; font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; letter-spacing: .02em; line-height: 1; }
+  .logo small { display: block; font-size: .58rem; letter-spacing: .42em; text-transform: uppercase; color: var(--accent-dark); margin-top: .25rem; }
+  .nav { display: none; gap: 2.4rem; font-size: .76rem; letter-spacing: .22em; text-transform: uppercase; }
+  .nav a { position: relative; padding: .5rem 0; }
+  .nav a::after { content: ""; position: absolute; left: 50%; right: 50%; bottom: .2rem; height: 1px; background: currentColor; transition: left .5s var(--ease), right .5s var(--ease); }
+  .nav a:hover::after, .nav a.active::after { left: 0; right: 0; }
+  .header .btn { display: none; min-height: 44px; padding: 0 1.4rem; }
+  .burger { width: 46px; height: 46px; display: grid; place-content: center; gap: 7px; }
+  .burger span { display: block; width: 26px; height: 1px; background: var(--ink); transition: transform .5s var(--ease); }
+  .menu-open .burger span:first-child { transform: translateY(4px) rotate(45deg); }
+  .menu-open .burger span:last-child { transform: translateY(-4px) rotate(-45deg); }
+  @media (min-width: 1000px) { .nav, .header .btn { display: flex; } .burger { display: none; } }
 
-  .mobile-menu {
-    position: fixed; inset: 0; z-index: 40; background: var(--jungle-900);
-    display: flex; flex-direction: column; justify-content: center; padding: 6rem 1.5rem 2rem;
-    clip-path: circle(0% at calc(100% - 44px) 44px);
-    transition: clip-path .7s var(--ease-out);
-    visibility: hidden;
+  .drawer {
+    position: fixed; inset: 0; z-index: 40; background: var(--bg); padding: 7rem 1.5rem 2.5rem;
+    display: flex; flex-direction: column; justify-content: space-between;
+    clip-path: inset(0 0 100% 0); transition: clip-path .8s var(--ease), visibility 0s .8s; visibility: hidden;
   }
-  .menu-open .mobile-menu { clip-path: circle(150% at calc(100% - 44px) 44px); visibility: visible; }
-  .mobile-menu a {
-    font-family: var(--font-display); font-size: 2.4rem; color: var(--sand-50); padding: .35rem 0;
-    opacity: 0; transform: translateY(20px); transition: opacity .5s, transform .5s var(--ease-out);
-  }
-  .menu-open .mobile-menu a { opacity: 1; transform: none; }
-  .menu-open .mobile-menu a:nth-child(2) { transition-delay: .06s; }
-  .menu-open .mobile-menu a:nth-child(3) { transition-delay: .12s; }
-  .menu-open .mobile-menu a:nth-child(4) { transition-delay: .18s; }
-  .menu-open .mobile-menu a:nth-child(5) { transition-delay: .24s; }
-  .menu-open .mobile-menu a:nth-child(6) { transition-delay: .3s; }
-  .mobile-menu .btn { margin-top: 2rem; align-self: flex-start; font-family: var(--font-sans); font-size: 1rem; }
+  .menu-open .drawer { clip-path: inset(0); visibility: visible; transition: clip-path .8s var(--ease); }
+  .drawer nav a { display: block; font-family: var(--font-display); font-size: 2.6rem; font-weight: 300; line-height: 1.35; opacity: 0; transform: translateY(24px); transition: opacity .6s, transform .6s var(--ease); }
+  .menu-open .drawer nav a { opacity: 1; transform: none; }
+  .drawer nav a:nth-child(2) { transition-delay: .05s; } .drawer nav a:nth-child(3) { transition-delay: .1s; }
+  .drawer nav a:nth-child(4) { transition-delay: .15s; } .drawer nav a:nth-child(5) { transition-delay: .2s; }
+  .drawer p { color: var(--ink-soft); font-size: .95rem; margin-top: 1.4rem; }
 
   /* ---------- Hero ---------- */
-  .hero {
-    position: relative; min-height: 100svh; display: flex; align-items: center;
+  .hero { position: relative; height: 100svh; min-height: 620px; overflow: hidden; display: flex; align-items: flex-end; }
+  .hero video, .hero .poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero video { animation: heroZoom 14s var(--ease) both; }
+  @keyframes heroZoom { from { transform: scale(1.12); } to { transform: scale(1); } }
+  .hero-veil {
+    position: absolute; inset: 0;
     background:
-      radial-gradient(1200px 600px at 85% 20%, rgba(212, 174, 106, .16), transparent 60%),
-      radial-gradient(900px 700px at 10% 100%, rgba(60, 116, 99, .45), transparent 60%),
-      var(--jungle-900);
-    color: var(--sand-50); overflow: hidden; padding: 8rem 0 5rem;
+      linear-gradient(90deg, rgba(246, 241, 234, .92) 0%, rgba(246, 241, 234, .7) 38%, rgba(246, 241, 234, 0) 72%),
+      linear-gradient(0deg, rgba(246, 241, 234, .55) 0%, rgba(246, 241, 234, 0) 35%);
   }
-  .hero-pattern { position: absolute; inset: 0; opacity: .06; pointer-events: none; }
-  .hero .container { position: relative; display: grid; gap: 3rem; align-items: center; }
-  @media (min-width: 960px) { .hero .container { grid-template-columns: 1.1fr .9fr; } }
-  .hero-kicker { color: var(--gold-400); }
-  .hero h1 {
-    font-family: var(--font-display); font-weight: 500;
-    font-size: clamp(2.9rem, 6.2vw, 5.4rem); line-height: .98; letter-spacing: -.02em;
-    margin-top: 1.4rem;
+  @media (max-width: 760px) {
+    .hero-veil { background: linear-gradient(0deg, rgba(246, 241, 234, .97) 0%, rgba(246, 241, 234, .85) 50%, rgba(246, 241, 234, .25) 82%); }
   }
-  .hero h1 em { font-style: italic; color: var(--gold-400); }
-  .hero h1 .line { display: block; overflow: hidden; padding-bottom: .08em; }
-  .hero h1 .line > span { display: inline-block; transform: translateY(110%); animation: rise 1.2s var(--ease-out) forwards; }
-  .hero h1 .line:nth-child(2) > span { animation-delay: .12s; }
-  .hero h1 .line:nth-child(3) > span { animation-delay: .24s; }
-  @keyframes rise { to { transform: none; } }
-  .hero p.lead { color: rgba(251, 248, 242, .74); margin-top: 1.6rem; }
-  .hero-actions { display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 2.4rem; }
-  .fade-up { opacity: 0; transform: translateY(24px); animation: fadeUp 1s var(--ease-out) forwards; }
-  @keyframes fadeUp { to { opacity: 1; transform: none; } }
-  .d1 { animation-delay: .5s; } .d2 { animation-delay: .65s; } .d3 { animation-delay: .8s; } .d4 { animation-delay: .95s; }
-
-  .hero-stats { display: flex; gap: 2.4rem; margin-top: 3.2rem; padding-top: 2rem; border-top: 1px solid rgba(251, 248, 242, .12); }
-  .hero-stats strong { display: block; font-family: var(--font-display); font-size: 2.3rem; font-weight: 600; color: var(--gold-300); line-height: 1; }
-  .hero-stats strong, .gc-amount, .prices li b, .step-num { font-variant-numeric: lining-nums; }
-  .hero-stats span { line-height: 1.4; display: block; margin-top: .4rem; font-size: .82rem; color: rgba(251, 248, 242, .6); }
-
-  .hero-visual { position: relative; aspect-ratio: 1; max-width: 520px; width: 100%; margin: 0 auto; }
-  .hero-orb {
-    position: absolute; inset: 6%; border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, #2C5E50, var(--jungle-800) 55%, #0B1B17);
-    box-shadow: inset 0 0 80px rgba(0, 0, 0, .4), 0 40px 120px -40px rgba(212, 174, 106, .45);
+  .hero-content { position: relative; width: 100%; padding-bottom: clamp(3.5rem, 10vh, 7rem); }
+  .hero .label { display: inline-block; opacity: 0; animation: fade 1.2s var(--ease) .3s forwards; }
+  .hero h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(3.4rem, 8.4vw, 7.6rem); line-height: .95; letter-spacing: -.02em; margin-top: 1.4rem; }
+  .hero h1 em { font-style: italic; color: var(--accent-dark); }
+  .hero h1 .ln { display: block; overflow: hidden; padding-bottom: .06em; }
+  .hero h1 .ln > span { display: inline-block; transform: translateY(105%); animation: up 1.4s var(--ease) forwards; }
+  .hero h1 .ln:nth-child(1) > span { animation-delay: .45s; }
+  .hero h1 .ln:nth-child(2) > span { animation-delay: .6s; }
+  .hero h1 .ln:nth-child(3) > span { animation-delay: .75s; }
+  @keyframes up { to { transform: none; } }
+  @keyframes fade { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  .hero-sub { max-width: 27rem; color: var(--ink-soft); margin-top: 1.6rem; opacity: 0; animation: fade 1.2s var(--ease) 1.1s forwards; }
+  .hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem 2.2rem; margin-top: 2.4rem; opacity: 0; animation: fade 1.2s var(--ease) 1.3s forwards; }
+  .play {
+    position: absolute; right: 2.5rem; bottom: clamp(3.5rem, 10vh, 7rem); display: none; align-items: center; gap: .8rem; min-height: 44px; color: var(--paper);
+    font-size: .7rem; letter-spacing: .26em; text-transform: uppercase; text-shadow: 0 1px 12px rgba(0,0,0,.35);
+    opacity: 0; animation: fade 1.2s var(--ease) 1.6s forwards;
   }
-  .hero-ring { position: absolute; inset: 0; border-radius: 50%; border: 1px dashed rgba(212, 174, 106, .35); animation: spin 60s linear infinite; }
-  .hero-ring.r2 { inset: 13%; border-style: solid; border-color: rgba(251, 248, 242, .08); animation-duration: 90s; animation-direction: reverse; }
-  .hero-ring .dot { position: absolute; top: -5px; left: 50%; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: var(--gold-400); box-shadow: 0 0 20px var(--gold-400); }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .hero-lotus { position: absolute; inset: 18%; animation: breathe 7s ease-in-out infinite; }
-  @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.045); } }
-  .lotus-petal { transform-origin: 200px 300px; transform: scale(0); animation: bloom 1.4s var(--ease-out) forwards; }
-  @keyframes bloom { to { transform: scale(1); } }
+  @media (min-width: 1000px) { .play { display: flex; } }
+  .play span { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(251, 248, 244, .75); display: grid; place-items: center; }
+  .play svg { width: 14px; height: 14px; }
+  .scroll-line { position: absolute; left: 50%; bottom: 0; width: 1px; height: 64px; background: rgba(43, 38, 34, .15); overflow: hidden; }
+  .scroll-line::after { content: ""; position: absolute; inset: 0; background: var(--ink); animation: drip 2.4s var(--ease) infinite; }
+  @keyframes drip { from { transform: translateY(-100%); } to { transform: translateY(100%); } }
 
-  .hero-badge {
-    position: absolute; display: flex; align-items: center; gap: .75rem;
-    background: rgba(251, 248, 242, .08); border: 1px solid rgba(251, 248, 242, .14);
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-    padding: .8rem 1.1rem; border-radius: 1rem; font-size: .82rem;
-    animation: float 6s ease-in-out infinite;
-  }
-  .hero-badge strong { display: block; font-size: .95rem; color: var(--sand-50); }
-  .hero-badge span { color: rgba(251, 248, 242, .6); }
-  .hero-badge .ico { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: var(--gold-400); color: var(--jungle-900); flex: none; }
-  .hero-badge .ico svg { width: 18px; height: 18px; }
-  .hero-badge.b1 { top: 10%; left: -2%; }
-  .hero-badge.b2 { bottom: 9%; right: -2%; animation-delay: -3s; }
-  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+  section { scroll-margin-top: 72px; }
+  .sec { padding: 7rem 0; }
+  @media (min-width: 900px) { .sec { padding: 10rem 0; } }
 
-  .petals { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
-  .petal {
-    position: absolute; top: -40px; width: 14px; height: 14px; opacity: .0;
-    background: var(--gold-300); border-radius: 80% 0 80% 0;
-    animation: fall linear infinite;
-  }
-  @keyframes fall {
-    0% { transform: translate3d(0, -40px, 0) rotate(0); opacity: 0; }
-    10% { opacity: .55; }
-    90% { opacity: .35; }
-    100% { transform: translate3d(var(--drift, 80px), 105vh, 0) rotate(540deg); opacity: 0; }
-  }
-
-  .scroll-cue {
-    position: absolute; left: 50%; bottom: 1.6rem; transform: translateX(-50%);
-    display: flex; flex-direction: column; align-items: center; gap: .5rem;
-    font-size: .7rem; letter-spacing: .28em; text-transform: uppercase; color: rgba(251, 248, 242, .5);
-  }
-  .scroll-cue i { width: 1px; height: 42px; background: linear-gradient(var(--gold-400), transparent); animation: cue 2.2s ease-in-out infinite; transform-origin: top; }
-  @keyframes cue { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
-
-  /* ---------- Marquee ---------- */
-  .marquee { background: var(--gold-400); color: var(--jungle-900); overflow: hidden; padding: 1rem 0; }
-  .marquee-track { display: flex; width: max-content; animation: marquee 38s linear infinite; }
-  .marquee-track span {
-    display: inline-flex; align-items: center; gap: 2.4rem; padding-right: 2.4rem;
-    font-family: var(--font-display); font-size: 1.5rem; font-style: italic; font-weight: 500; white-space: nowrap;
-  }
-  .marquee-track span::after { content: "✦"; font-style: normal; font-size: .9rem; }
-  @keyframes marquee { to { transform: translateX(-50%); } }
-
-  /* ---------- Reveal ---------- */
-  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease-out), transform 1s var(--ease-out); }
-  .reveal.is-visible { opacity: 1; transform: none; }
-  .reveal[data-delay="1"] { transition-delay: .1s; }
-  .reveal[data-delay="2"] { transition-delay: .2s; }
-  .reveal[data-delay="3"] { transition-delay: .3s; }
-  .reveal[data-delay="4"] { transition-delay: .4s; }
-
-  section { scroll-margin-top: 70px; }
-  .section { padding: 6.5rem 0; }
-  @media (min-width: 960px) { .section { padding: 8.5rem 0; } }
+  /* ---------- Intro statement ---------- */
+  .intro { text-align: center; }
+  .intro .lotus { width: 46px; height: 46px; margin: 0 auto 2rem; color: var(--accent); }
+  .statement { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.9rem, 3.8vw, 3.2rem); line-height: 1.3; max-width: 60rem; margin: 0 auto; }
+  .statement .w { opacity: .16; transition: opacity .5s; }
+  .statement .w.on { opacity: 1; }
+  .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; max-width: 46rem; margin: 5rem auto 0; border-top: 1px solid var(--line); padding-top: 2.4rem; }
+  .facts b { display: block; font-family: var(--font-display); font-weight: 300; font-size: clamp(2.4rem, 5vw, 3.6rem); line-height: 1; font-variant-numeric: lining-nums; }
+  .facts span { display: block; margin-top: .5rem; font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-soft); line-height: 1.4; }
 
   /* ---------- About ---------- */
+  .about { background: var(--paper); }
   .about .container { display: grid; gap: 4rem; align-items: center; }
-  @media (min-width: 960px) { .about .container { grid-template-columns: 1fr 1fr; gap: 6rem; } }
-  .about-art { position: relative; aspect-ratio: 4 / 5; max-width: 480px; }
-  .about-card {
-    position: absolute; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
+  @media (min-width: 960px) { .about .container { grid-template-columns: 1.05fr .95fr; gap: 6rem; } }
+  .about-media { position: relative; padding: 0 12% 18% 0; }
+  .about-media .m1 { position: relative; aspect-ratio: 4 / 3.4; }
+  .about-media .m2 { position: absolute; right: 0; bottom: 0; width: 44%; aspect-ratio: 3 / 4; outline: 10px solid var(--paper); }
+  .about-media img { width: 100%; height: 100%; object-fit: cover; }
+  .about-media .tag {
+    position: absolute; left: -.4rem; bottom: 18%; writing-mode: vertical-rl; transform: rotate(180deg) translateX(100%);
+    font-size: .68rem; letter-spacing: .4em; text-transform: uppercase; color: var(--accent-dark);
   }
-  .about-card.c1 { inset: 0 18% 14% 0; background: linear-gradient(160deg, var(--jungle-700), var(--jungle-900)); }
-  .about-card.c2 { inset: 46% 0 0 38%; background: linear-gradient(150deg, var(--gold-300), var(--gold-600)); border: 8px solid var(--sand-50); }
-  .about-card svg { width: 100%; height: 100%; }
-  .about-year {
-    position: absolute; top: 8%; right: 4%; width: 112px; height: 112px; border-radius: 50%;
-    background: var(--sand-50); box-shadow: var(--shadow); display: grid; place-items: center; text-align: center;
-  }
-  .about-year svg { position: absolute; inset: 0; width: 100%; height: 100%; animation: spin 24s linear infinite; }
-  .about-year b { font-family: var(--font-display); font-size: 1.9rem; color: var(--jungle-800); line-height: 1; }
-  .features { display: grid; gap: 1.4rem; margin-top: 2.6rem; }
-  @media (min-width: 560px) { .features { grid-template-columns: 1fr 1fr; } }
-  .feature { display: flex; gap: 1rem; }
-  .feature .ico {
-    flex: none; width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center;
-    background: var(--sand-100); color: var(--jungle-700); transition: background .4s, color .4s, transform .4s var(--ease-out);
-  }
-  .feature:hover .ico { background: var(--jungle-800); color: var(--gold-300); transform: rotate(-6deg); }
-  .feature .ico svg { width: 22px; height: 22px; }
-  .feature h3 { font-size: 1rem; font-weight: 700; }
-  .feature p { font-size: .92rem; color: var(--ink-soft); margin-top: .2rem; line-height: 1.55; }
+  .pillars { display: grid; gap: 1.6rem 2.4rem; margin-top: 3rem; }
+  @media (min-width: 560px) { .pillars { grid-template-columns: 1fr 1fr; } }
+  .pillars li { border-top: 1px solid var(--line); padding-top: 1.2rem; }
+  .pillars b { display: block; font-family: var(--font-display); font-size: 1.45rem; font-weight: 400; }
+  .pillars span { display: block; color: var(--ink-soft); font-size: .95rem; margin-top: .3rem; line-height: 1.6; }
 
   /* ---------- Services ---------- */
-  .services { background: var(--sand-100); position: relative; }
-  .services-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 2rem; }
-  .tabs { display: flex; flex-wrap: wrap; gap: .5rem; padding: .35rem; background: var(--sand-50); border-radius: 999px; border: 1px solid var(--sand-200); }
-  .tab {
-    min-height: 44px; padding: 0 1.15rem; border-radius: 999px; font-size: .88rem; font-weight: 600; color: var(--ink-soft);
-    transition: background .35s, color .35s;
+  .svc-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 2rem; }
+  .svc-grid { display: grid; gap: 3.5rem 2rem; margin-top: 4.5rem; }
+  @media (min-width: 700px) { .svc-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1080px) { .svc-grid { grid-template-columns: repeat(3, 1fr); } .svc:nth-child(3n+2) { margin-top: 4rem; } }
+  .svc { display: flex; flex-direction: column; }
+  .svc-img { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--bg-soft); }
+  .svc-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.6s var(--ease); }
+  .svc:hover .svc-img img { transform: scale(1.06); }
+  .svc-num { position: absolute; left: 1.2rem; top: 1rem; font-family: var(--font-display); font-size: 1.15rem; font-style: italic; color: var(--paper); text-shadow: 0 1px 10px rgba(0,0,0,.35); }
+  .svc-book {
+    position: absolute; left: 1rem; right: 1rem; bottom: 1rem; min-height: 50px; display: flex; align-items: center; justify-content: center;
+    background: rgba(251, 248, 244, .92); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    font-size: .72rem; letter-spacing: .26em; text-transform: uppercase;
+    transform: translateY(calc(100% + 1.2rem)); transition: transform .7s var(--ease), background .4s, color .4s;
   }
-  .tab:hover { color: var(--ink); }
-  .tab[aria-selected="true"] { background: var(--jungle-800); color: var(--sand-50); }
+  .svc:hover .svc-book, .svc-book:focus-visible { transform: none; }
+  .svc-book:hover { background: var(--ink); color: var(--paper); }
+  @media (hover: none) { .svc-book { transform: none; } }
+  .svc h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.85rem; line-height: 1.15; margin-top: 1.5rem; }
+  .svc p { color: var(--ink-soft); font-size: .95rem; margin-top: .5rem; line-height: 1.6; }
+  .svc dl { display: flex; gap: 2.4rem; margin-top: 1.1rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+  .svc dt { font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-soft); }
+  .svc dd { font-family: var(--font-display); font-size: 1.45rem; font-weight: 500; font-variant-numeric: lining-nums; }
 
-  .service-grid { display: grid; gap: 1.4rem; margin-top: 3.2rem; }
-  @media (min-width: 680px) { .service-grid { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 1040px) { .service-grid { grid-template-columns: repeat(3, 1fr); } }
-  .service {
-    position: relative; display: flex; flex-direction: column; padding: 2rem; border-radius: var(--radius);
-    background: var(--sand-50); border: 1px solid var(--sand-200); overflow: hidden;
-    transition: transform .5s var(--ease-out), box-shadow .5s var(--ease-out), border-color .5s, opacity .4s;
-  }
-  .service::before {
-    content: ""; position: absolute; inset: auto -30% -60% auto; width: 260px; height: 260px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(212, 174, 106, .35), transparent 70%);
-    opacity: 0; transition: opacity .6s;
-  }
-  .service:hover { transform: translateY(-8px); box-shadow: var(--shadow); border-color: transparent; }
-  .service:hover::before { opacity: 1; }
-  .service.is-hidden { display: none; }
-  .service.is-entering { animation: cardIn .6s var(--ease-out) both; }
-  @keyframes cardIn { from { opacity: 0; transform: translateY(24px) scale(.98); } }
-  .service-top { display: flex; justify-content: space-between; align-items: flex-start; }
-  .service-ico {
-    width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center;
-    background: var(--jungle-800); color: var(--gold-300); transition: transform .6s var(--ease-out);
-  }
-  .service:hover .service-ico { transform: rotate(-12deg) scale(1.06); }
-  .service-ico svg { width: 26px; height: 26px; }
-  .tag { font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gold-600); border: 1px solid var(--gold-300); padding: .3rem .7rem; border-radius: 999px; }
-  .service h3 { font-family: var(--font-display); font-size: 1.75rem; font-weight: 600; line-height: 1.1; margin-top: 1.6rem; }
-  .service p { color: var(--ink-soft); font-size: .94rem; margin-top: .7rem; flex: 1; }
-  .prices { margin-top: 1.6rem; border-top: 1px solid var(--sand-200); }
-  .prices li { display: flex; justify-content: space-between; align-items: baseline; padding: .7rem 0; border-bottom: 1px dashed var(--sand-200); font-size: .92rem; }
-  .prices li span { color: var(--ink-soft); }
-  .prices li b { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; color: var(--jungle-800); }
-  .service-link { display: inline-flex; align-items: center; gap: .4rem; margin-top: 1.4rem; font-weight: 700; font-size: .9rem; color: var(--jungle-700); min-height: 44px; }
-  .service-link svg { width: 16px; height: 16px; transition: transform .4s var(--ease-out); }
-  .service-link:hover svg { transform: translateX(5px); }
-  .service.featured { background: var(--jungle-800); color: var(--sand-50); border-color: var(--jungle-800); }
-  .service.featured p, .service.featured .prices li span { color: rgba(251, 248, 242, .7); }
-  .service.featured .service-ico { background: var(--gold-400); color: var(--jungle-900); }
-  .service.featured .prices, .service.featured .prices li { border-color: rgba(251, 248, 242, .14); }
-  .service.featured .prices li b { color: var(--gold-300); }
-  .service.featured .service-link { color: var(--gold-300); }
-  .service.featured .tag { color: var(--gold-300); border-color: rgba(230, 201, 143, .5); }
+  /* ---------- Gallery band ---------- */
+  .band { overflow: hidden; }
+  .band-track { display: flex; gap: 1.2rem; width: max-content; will-change: transform; padding-left: 1.25rem; }
+  .band-track figure { flex: none; height: clamp(240px, 34vw, 440px); overflow: hidden; }
+  .band-track figure.w { aspect-ratio: 3 / 2; }
+  .band-track figure.t { aspect-ratio: 2 / 3; }
+  .band-track img { width: 100%; height: 100%; object-fit: cover; }
 
-  /* ---------- Ritual / steps ---------- */
-  .ritual { background: var(--jungle-900); color: var(--sand-50); position: relative; overflow: hidden; }
-  .ritual .section-title { color: var(--sand-50); }
-  .ritual .section-title em { color: var(--gold-400); }
-  .ritual .lead { color: rgba(251, 248, 242, .7); }
-  .steps { position: relative; display: grid; gap: 2.5rem; margin-top: 4rem; }
-  @media (min-width: 860px) { .steps { grid-template-columns: repeat(4, 1fr); gap: 2rem; } }
-  .steps-line { display: none; }
-  @media (min-width: 860px) {
-    .steps-line { display: block; position: absolute; top: 36px; left: 36px; right: 12%; height: 1px; background: rgba(251, 248, 242, .14); }
-    .steps-line i { position: absolute; inset: 0; background: var(--gold-400); transform: scaleX(0); transform-origin: left; transition: transform 2.2s var(--ease-out) .3s; }
-    .steps.is-visible .steps-line i { transform: scaleX(1); }
-  }
-  .step { position: relative; }
-  .step-num {
-    position: relative; width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center;
-    background: var(--jungle-800); border: 1px solid rgba(212, 174, 106, .4);
-    font-family: var(--font-display); font-size: 1.6rem; color: var(--gold-300);
-  }
-  .step h3 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 600; margin-top: 1.5rem; }
-  .step p { color: rgba(251, 248, 242, .66); font-size: .94rem; margin-top: .5rem; }
+  /* ---------- Ritual ---------- */
+  .ritual-head { max-width: 40rem; }
+  .steps { display: grid; margin-top: 4.5rem; border-top: 1px solid var(--line); }
+  @media (min-width: 900px) { .steps { grid-template-columns: repeat(4, 1fr); } }
+  .step { position: relative; padding: 2.2rem 1.6rem 2.4rem 0; border-bottom: 1px solid var(--line); }
+  @media (min-width: 900px) { .step { border-bottom: 0; padding-right: 2rem; } .step + .step { padding-left: 2rem; border-left: 1px solid var(--line); } }
+  .step::before { content: ""; position: absolute; left: 0; top: -1px; height: 1px; width: 0; background: var(--ink); transition: width 1.6s var(--ease) .2s; }
+  .step.in::before { width: 100%; }
+  .step em { font-family: var(--font-display); font-size: 1.05rem; color: var(--accent-dark); }
+  .step h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.75rem; margin-top: .9rem; }
+  .step p { color: var(--ink-soft); font-size: .95rem; margin-top: .5rem; line-height: 1.6; }
 
   /* ---------- Voucher ---------- */
-  .voucher .container { display: grid; gap: 3.5rem; align-items: center; }
-  @media (min-width: 960px) { .voucher .container { grid-template-columns: .95fr 1.05fr; gap: 5rem; } }
-  .gift-wrap { perspective: 1200px; }
-  .gift-card {
-    position: relative; aspect-ratio: 1.6; border-radius: 1.4rem; padding: 2rem;
-    background:
-      radial-gradient(400px 220px at 100% 0%, rgba(230, 201, 143, .35), transparent 70%),
-      linear-gradient(135deg, var(--jungle-700), var(--jungle-900));
-    color: var(--sand-50); box-shadow: 0 50px 80px -40px rgba(14, 34, 29, .7);
-    display: flex; flex-direction: column; justify-content: space-between; overflow: hidden;
-    transform-style: preserve-3d; transition: transform .25s ease-out;
+  .voucher { background: var(--bg-soft); }
+  .voucher .container { display: grid; gap: 4rem; align-items: center; }
+  @media (min-width: 960px) { .voucher .container { grid-template-columns: .9fr 1.1fr; gap: 7rem; } }
+  .v-media { position: relative; aspect-ratio: 4 / 5; max-width: 460px; width: 88%; }
+  .v-media img { width: 100%; height: 100%; object-fit: cover; }
+  .v-card {
+    position: absolute; right: -12%; bottom: 8%; width: 70%; aspect-ratio: 1.6; padding: 1.2rem 1.4rem;
+    background: var(--paper); box-shadow: 0 40px 70px -35px rgba(43, 38, 34, .45);
+    display: flex; flex-direction: column; justify-content: space-between;
   }
-  .gift-card::after {
-    content: ""; position: absolute; inset: 0; pointer-events: none;
-    background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, .16) 45%, transparent 60%);
-    background-size: 250% 100%; background-position: var(--shine, 100%) 0;
+  .v-card.in { transition: opacity 1.2s var(--ease), transform .35s ease-out; }
+  .v-card .logo b { font-size: 1.15rem; } .v-card .logo svg { width: 24px; height: 24px; }
+  .v-card .val { font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1; font-variant-numeric: lining-nums; }
+  .v-card .val small { font-family: var(--font-sans); font-size: .7rem; letter-spacing: .24em; color: var(--ink-soft); margin-left: .3rem; }
+  .v-card .meta { display: flex; justify-content: space-between; gap: .5rem; font-size: .56rem; letter-spacing: .24em; text-transform: uppercase; color: var(--ink-soft); }
+  .amounts { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 2.4rem; }
+  .amounts button {
+    min-width: 84px; min-height: 48px; padding: 0 1.1rem; border: 1px solid var(--line);
+    font-family: var(--font-display); font-size: 1.3rem; font-variant-numeric: lining-nums; transition: background .4s, color .4s, border-color .4s;
   }
-  .gift-card .gc-lotus { position: absolute; right: -40px; bottom: -50px; width: 240px; opacity: .2; }
-  .gc-top { display: flex; justify-content: space-between; align-items: center; }
-  .gc-top .logo-text { color: var(--sand-50); font-size: 1.3rem; }
-  .gc-chip { font-size: .68rem; letter-spacing: .24em; text-transform: uppercase; color: var(--gold-300); }
-  .gc-amount { font-family: var(--font-display); font-size: clamp(2.6rem, 6vw, 3.6rem); font-weight: 600; line-height: 1; color: var(--gold-300); }
-  .gc-amount small { font-size: .4em; color: rgba(251, 248, 242, .7); font-family: var(--font-sans); font-weight: 500; letter-spacing: .08em; }
-  .gc-bottom { display: flex; justify-content: space-between; font-size: .75rem; color: rgba(251, 248, 242, .55); letter-spacing: .1em; }
-  .amounts { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 2rem; }
-  .amount {
-    min-height: 48px; padding: 0 1.3rem; border-radius: 999px; border: 1px solid var(--sand-200); background: #fff;
-    font-weight: 700; transition: all .35s var(--ease-out);
-  }
-  .amount:hover { border-color: var(--jungle-500); }
-  .amount[aria-pressed="true"] { background: var(--jungle-800); border-color: var(--jungle-800); color: var(--sand-50); transform: translateY(-2px); }
-  .voucher-list { margin-top: 1.8rem; display: grid; gap: .7rem; }
-  .voucher-list li { display: flex; gap: .7rem; align-items: center; color: var(--ink-soft); }
-  .voucher-list svg { width: 20px; height: 20px; color: var(--gold-600); flex: none; }
-  .voucher .btn { margin-top: 2.2rem; }
+  .amounts button:hover { border-color: var(--ink); }
+  .amounts button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .v-list { margin-top: 2rem; display: grid; gap: .6rem; color: var(--ink-soft); }
+  .v-list li { display: flex; align-items: center; gap: .9rem; }
+  .v-list li::before { content: ""; width: 18px; height: 1px; background: var(--accent); flex: none; }
+  .voucher .btn { margin-top: 2.6rem; }
 
-  /* ---------- Testimonials ---------- */
-  .testimonials { background: var(--sand-100); text-align: center; overflow: hidden; }
-  .testimonials .eyebrow::after { content: ""; width: 28px; height: 1px; background: currentColor; }
-  .t-slider { position: relative; max-width: 820px; margin: 3rem auto 0; min-height: 300px; }
-  .t-slide {
-    position: absolute; inset: 0; opacity: 0; transform: translateX(40px);
-    transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); pointer-events: none;
-  }
-  .t-slide.is-active { opacity: 1; transform: none; pointer-events: auto; position: relative; }
-  .t-slide.is-leaving { transform: translateX(-40px); }
-  .stars { display: flex; justify-content: center; gap: .25rem; color: var(--gold-600); }
-  .stars svg { width: 18px; height: 18px; }
-  .t-slide blockquote { font-family: var(--font-display); font-size: clamp(1.5rem, 3.2vw, 2.25rem); line-height: 1.3; font-weight: 500; margin-top: 1.6rem; }
-  .t-author { margin-top: 2rem; display: inline-flex; align-items: center; gap: .9rem; text-align: left; }
-  .avatar { width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; background: var(--jungle-800); color: var(--gold-300); font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; }
-  .t-author b { display: block; font-size: .95rem; }
-  .t-author span { font-size: .84rem; color: var(--ink-soft); }
-  .t-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 2.6rem; }
-  .t-arrow { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--sand-200); background: var(--sand-50); display: grid; place-items: center; transition: background .3s, color .3s, border-color .3s; }
-  .t-arrow:hover { background: var(--jungle-800); color: var(--sand-50); border-color: var(--jungle-800); }
-  .t-arrow svg { width: 18px; height: 18px; }
-  .t-dots { display: flex; gap: .2rem; }
-  .t-dot { width: 24px; height: 44px; display: grid; place-items: center; }
-  .t-dot::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: var(--sand-200); transition: width .4s var(--ease-out), background .4s; }
-  .t-dot[aria-current="true"]::before { width: 22px; background: var(--jungle-800); }
+  /* ---------- Reviews ---------- */
+  .reviews { text-align: center; }
+  .slider { max-width: 54rem; margin: 3rem auto 0; display: grid; }
+  .slide { grid-area: 1 / 1; opacity: 0; transform: translateY(18px); transition: opacity 1s var(--ease), transform 1s var(--ease); pointer-events: none; }
+  .slide.on { opacity: 1; transform: none; pointer-events: auto; }
+  .slide blockquote { font-family: var(--font-display); font-weight: 300; font-style: italic; font-size: clamp(1.6rem, 3.2vw, 2.5rem); line-height: 1.35; }
+  .slide figcaption { margin-top: 2rem; font-size: .74rem; letter-spacing: .26em; text-transform: uppercase; color: var(--ink-soft); }
+  .slide figcaption b { color: var(--ink); font-weight: 400; }
+  .stars { color: var(--accent); letter-spacing: .4em; font-size: .9rem; margin-bottom: 1.6rem; }
+  .dots { display: flex; justify-content: center; gap: .3rem; margin-top: 2.6rem; }
+  .dots button { width: 48px; height: 44px; display: grid; place-items: center; }
+  .dots button::before { content: ""; width: 28px; height: 1px; background: var(--line); transition: background .4s, width .6s var(--ease); }
+  .dots button[aria-current="true"]::before { background: var(--ink); width: 40px; }
 
   /* ---------- Booking ---------- */
-  .booking .container { display: grid; gap: 3.5rem; }
-  @media (min-width: 960px) { .booking .container { grid-template-columns: .85fr 1.15fr; gap: 5rem; align-items: start; } }
-  .info-list { display: grid; gap: 1.4rem; margin-top: 2.4rem; }
-  .info-list li { display: flex; gap: 1rem; }
-  .info-list .ico { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: var(--sand-100); color: var(--jungle-700); flex: none; }
-  .info-list .ico svg { width: 20px; height: 20px; }
-  .info-list b { display: block; font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gold-600); }
-  .info-list span, .info-list a { color: var(--ink); }
-  .info-list a:hover { color: var(--jungle-500); }
-  .hours { margin-top: .2rem; display: grid; grid-template-columns: auto auto; column-gap: 1.4rem; font-size: .95rem; }
+  .booking { background: var(--paper); }
+  .booking .container { display: grid; gap: 4rem; }
+  @media (min-width: 960px) { .booking .container { grid-template-columns: .8fr 1.2fr; gap: 7rem; } }
+  .contact { margin-top: 2.8rem; display: grid; gap: 1.8rem; }
+  .contact div > span { display: block; font-size: .7rem; letter-spacing: .26em; text-transform: uppercase; color: var(--accent-dark); margin-bottom: .3rem; }
+  .contact a:hover { color: var(--accent-dark); }
+  .hours { display: grid; grid-template-columns: auto 1fr; gap: .1rem 1.6rem; }
   .hours dt { color: var(--ink-soft); }
-  .hours dd { margin: 0; font-weight: 600; }
 
-  .form-card { background: #fff; border: 1px solid var(--sand-200); border-radius: 1.6rem; padding: 2rem; box-shadow: var(--shadow); }
-  @media (min-width: 640px) { .form-card { padding: 2.75rem; } }
-  .form-card h3 { font-family: var(--font-display); font-size: 2rem; font-weight: 600; }
-  .form-card > p { color: var(--ink-soft); font-size: .92rem; margin-top: .3rem; }
-  .form-grid { display: grid; gap: 1.1rem; margin-top: 1.8rem; }
-  @media (min-width: 640px) { .form-grid { grid-template-columns: 1fr 1fr; } .form-grid .full { grid-column: 1 / -1; } }
-  .field label { display: block; font-size: .82rem; font-weight: 700; margin-bottom: .4rem; }
-  .field input, .field select, .field textarea {
-    width: 100%; min-height: 50px; padding: .75rem 1rem; border-radius: .8rem;
-    border: 1px solid var(--sand-200); background: var(--sand-50);
-    transition: border-color .3s, box-shadow .3s, background .3s;
+  .form { display: grid; gap: 2.2rem 2.4rem; }
+  @media (min-width: 640px) { .form { grid-template-columns: 1fr 1fr; } .form .full { grid-column: 1 / -1; } }
+  .f { position: relative; }
+  .f label { display: block; font-size: .7rem; letter-spacing: .24em; text-transform: uppercase; color: var(--ink-soft); }
+  .f input, .f select, .f textarea {
+    width: 100%; min-height: 48px; padding: .6rem 0; border: 0; border-bottom: 1px solid var(--line); background: transparent; border-radius: 0;
+    font-size: 1.05rem; transition: border-color .4s;
   }
-  .field textarea { min-height: 110px; resize: vertical; }
-  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--jungle-500); background: #fff; box-shadow: 0 0 0 4px rgba(60, 116, 99, .14); }
-  .field .err { display: none; color: var(--clay-500); font-size: .8rem; margin-top: .35rem; }
-  .field.invalid input, .field.invalid select { border-color: var(--clay-500); }
-  .field.invalid .err { display: block; }
-  .form-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.6rem; }
-  .form-foot small { color: var(--ink-soft); font-size: .8rem; max-width: 18rem; }
-  .form-success { display: none; text-align: center; padding: 2rem 0; }
-  .form-success.show { display: block; animation: fadeUp .8s var(--ease-out) both; }
-  .form-success .check { width: 84px; height: 84px; margin: 0 auto 1.4rem; }
-  .form-success .check circle { stroke-dasharray: 240; stroke-dashoffset: 240; animation: draw 1s var(--ease-out) forwards; }
-  .form-success .check path { stroke-dasharray: 60; stroke-dashoffset: 60; animation: draw .6s var(--ease-out) .6s forwards; }
-  @keyframes draw { to { stroke-dashoffset: 0; } }
-  .form-success h3 { font-family: var(--font-display); font-size: 2rem; }
-  .form-success p { color: var(--ink-soft); margin-top: .5rem; }
-  .spinner { width: 18px; height: 18px; border-radius: 50%; border: 2px solid rgba(14, 34, 29, .25); border-top-color: var(--jungle-900); animation: spin .8s linear infinite; display: none; }
-  .is-loading .spinner { display: block; }
-  .is-loading .arrow { display: none; }
+  .f select { appearance: none; -webkit-appearance: none; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%236E645B'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E") no-repeat right center; padding-right: 1.6rem; }
+  .f textarea { min-height: 90px; resize: vertical; }
+  .f::after { content: ""; position: absolute; left: 0; bottom: 0; height: 1px; width: 100%; background: var(--ink); transform: scaleX(0); transform-origin: left; transition: transform .7s var(--ease); pointer-events: none; }
+  .f:focus-within::after { transform: scaleX(1); }
+  .f input:focus, .f select:focus, .f textarea:focus { outline: none; }
+  .f .err { display: none; position: absolute; top: 100%; font-size: .78rem; color: #A1503A; margin-top: .3rem; }
+  .f.bad input, .f.bad select { border-color: #A1503A; }
+  .f.bad .err { display: block; }
+  .f.full.foot::after { display: none; }
+  .form-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.2rem; }
+  .form-foot small { color: var(--ink-soft); font-size: .82rem; }
+  .thanks { display: none; padding: 3rem 0; }
+  .thanks.on { display: block; animation: fade 1s var(--ease) both; }
+  .thanks h3 { font-family: var(--font-display); font-weight: 300; font-size: 3rem; }
+  .thanks p { color: var(--ink-soft); margin-top: .6rem; }
 
-  /* ---------- CTA band ---------- */
-  .cta-band { padding: 0 0 6.5rem; }
-  .cta-inner {
-    position: relative; overflow: hidden; border-radius: 2rem; padding: 4rem 2rem; text-align: center;
-    background: radial-gradient(600px 300px at 50% 0%, rgba(212, 174, 106, .28), transparent 70%), var(--jungle-800);
-    color: var(--sand-50);
-  }
-  .cta-inner h2 { font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 500; line-height: 1.05; max-width: 44rem; margin: 0 auto; }
-  .cta-inner h2 em { color: var(--gold-400); }
-  .cta-inner p { color: rgba(251, 248, 242, .7); margin: 1.2rem auto 0; max-width: 32rem; }
-  .cta-inner .btn { margin-top: 2rem; }
-  .cta-inner .glow { position: absolute; width: 220px; height: 220px; border-radius: 50%; border: 1px solid rgba(212, 174, 106, .25); animation: pulse 5s ease-out infinite; left: 50%; top: 50%; margin: -110px 0 0 -110px; pointer-events: none; }
-  .cta-inner .glow.g2 { animation-delay: 1.6s; }
-  .cta-inner .glow.g3 { animation-delay: 3.2s; }
-  @keyframes pulse { from { transform: scale(.6); opacity: 1; } to { transform: scale(4); opacity: 0; } }
+  /* ---------- Closing ---------- */
+  .closing { position: relative; min-height: 78vh; display: grid; place-items: center; text-align: center; overflow: hidden; padding: 6rem 0; }
+  .closing > img { position: absolute; left: 0; top: -12%; width: 100%; height: 124%; max-width: none; object-fit: cover; will-change: transform; }
+  .closing::before { content: ""; position: absolute; inset: 0; background: rgba(246, 241, 234, .74); z-index: 1; }
+  .closing .container { position: relative; z-index: 2; }
+  .closing h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.6rem, 6vw, 5.2rem); line-height: 1.02; max-width: 50rem; margin: 1.2rem auto 0; }
+  .closing h2 em { color: var(--accent-dark); }
+  .closing p { color: var(--ink-soft); margin: 1.4rem auto 0; max-width: 30rem; }
+  .closing .btn { margin-top: 2.4rem; }
 
   /* ---------- Footer ---------- */
-  .footer { background: var(--jungle-900); color: rgba(251, 248, 242, .7); padding: 4.5rem 0 2rem; font-size: .92rem; }
-  .footer-grid { display: grid; gap: 2.5rem; }
-  @media (min-width: 760px) { .footer-grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; } }
-  .footer h4 { color: var(--sand-50); font-size: .78rem; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 1rem; }
-  .footer li { padding: .25rem 0; }
-  .footer a:hover { color: var(--gold-300); }
-  .footer .logo { margin-bottom: 1.2rem; }
-  .socials { display: flex; gap: .6rem; margin-top: 1.4rem; }
-  .socials a { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(251, 248, 242, .18); display: grid; place-items: center; transition: background .3s, color .3s, border-color .3s; }
-  .socials a:hover { background: var(--gold-400); color: var(--jungle-900); border-color: var(--gold-400); }
-  .socials svg { width: 18px; height: 18px; }
-  .footer-bottom { margin-top: 3.5rem; padding-top: 1.6rem; border-top: 1px solid rgba(251, 248, 242, .1); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; font-size: .8rem; color: rgba(251, 248, 242, .45); }
+  .footer { padding: 5rem 0 2.2rem; font-size: .95rem; }
+  .f-grid { display: grid; gap: 2.6rem; }
+  @media (min-width: 800px) { .f-grid { grid-template-columns: 1.5fr 1fr 1fr 1fr; } }
+  .footer h4 { margin: 0 0 1rem; font-size: .7rem; font-weight: 400; letter-spacing: .26em; text-transform: uppercase; color: var(--accent-dark); }
+  .footer li { padding: .2rem 0; color: var(--ink-soft); }
+  .footer a:hover { color: var(--ink); }
+  .footer .about-f { color: var(--ink-soft); max-width: 22rem; margin-top: 1.2rem; }
+  .f-bottom { margin-top: 4rem; padding-top: 1.6rem; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; justify-content: space-between; gap: .8rem; font-size: .78rem; color: var(--ink-soft); }
 
-  /* Back to top + progress */
-  .progress { position: fixed; top: 0; left: 0; height: 2px; width: 100%; background: var(--gold-400); transform-origin: left; transform: scaleX(0); z-index: 60; }
-  .to-top {
-    position: fixed; right: 1.2rem; bottom: 1.2rem; z-index: 30; width: 52px; height: 52px; border-radius: 50%;
-    background: var(--jungle-800); color: var(--gold-300); display: grid; place-items: center; box-shadow: var(--shadow);
-    opacity: 0; transform: translateY(20px); pointer-events: none; transition: opacity .4s, transform .4s var(--ease-out), background .3s;
-  }
-  .to-top.show { opacity: 1; transform: none; pointer-events: auto; }
-  .to-top:hover { background: var(--jungle-700); }
-  .to-top svg { width: 20px; height: 20px; }
+  .progress { position: fixed; left: 0; top: 0; z-index: 60; height: 2px; width: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; }
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
-    .reveal { opacity: 1; transform: none; }
-    .petals { display: none; }
+    *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0s !important; transition-duration: .001ms !important; transition-delay: 0s !important; }
+    .statement .w { opacity: 1; }
   }
 </style>
 </head>
 <body>
-
 <div class="progress" aria-hidden="true"></div>
 
-<!-- Header -->
 <header class="header" id="header">
   <div class="container">
     <a href="#top" class="logo" aria-label="Thai Touch Massage — strona główna">
-      <svg class="logo-mark" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-        <circle cx="24" cy="24" r="23" stroke="#D4AE6A" stroke-opacity=".5"/>
-        <path d="M24 10c4 5.5 4.8 11 0 19-4.8-8-4-13.5 0-19z" fill="#D4AE6A"/>
-        <path d="M24 29c-6.5-1.6-11-6.5-12-13 5.6.8 9.6 4.8 12 13zM24 29c6.5-1.6 11-6.5 12-13-5.6.8-9.6 4.8-12 13z" fill="#D4AE6A" fill-opacity=".7"/>
-        <path d="M14 34h20" stroke="#D4AE6A" stroke-width="1.6" stroke-linecap="round"/>
+      <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <circle cx="24" cy="24" r="23" stroke="#A3826A" stroke-opacity=".5"/>
+        <path d="M24 11c4 5 4.8 10.5 0 18-4.8-7.5-4-13 0-18z" fill="#A3826A"/>
+        <path d="M24 29c-6.5-1.6-10.5-6.2-11.5-12 5.4.8 9.3 4.6 11.5 12zM24 29c6.5-1.6 10.5-6.2 11.5-12-5.4.8-9.3 4.6-11.5 12z" fill="#A3826A" fill-opacity=".55"/>
+        <path d="M15 34h18" stroke="#A3826A" stroke-linecap="round"/>
       </svg>
-      <span class="logo-text">Thai Touch<small>Massage</small></span>
+      <span><b>Thai Touch</b><small>Massage &amp; Spa</small></span>
     </a>
-    <nav class="nav" aria-label="Główna nawigacja">
+    <nav class="nav" aria-label="Nawigacja">
       <a href="#o-nas">O nas</a>
       <a href="#zabiegi">Zabiegi</a>
-      <a href="#rytual">Rytuał</a>
+      <a href="#rytual">Wizyta</a>
       <a href="#vouchery">Vouchery</a>
-      <a href="#opinie">Opinie</a>
-      <a href="#rezerwacja">Kontakt</a>
+      <a href="#kontakt">Kontakt</a>
     </nav>
-    <a href="#rezerwacja" class="btn btn-gold header-cta">Zarezerwuj wizytę</a>
-    <button class="menu-toggle" aria-label="Otwórz menu" aria-expanded="false" aria-controls="mobile-menu"><span></span></button>
+    <a href="#kontakt" class="btn">Rezerwacja</a>
+    <button class="burger" aria-label="Otwórz menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span></button>
   </div>
 </header>
 
-<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
-  <a href="#o-nas">O nas</a>
-  <a href="#zabiegi">Zabiegi</a>
-  <a href="#rytual">Rytuał</a>
-  <a href="#vouchery">Vouchery</a>
-  <a href="#opinie">Opinie</a>
-  <a href="#rezerwacja" class="btn btn-gold">Zarezerwuj wizytę</a>
+<div class="drawer" id="drawer" aria-hidden="true">
+  <nav aria-label="Menu mobilne">
+    <a href="#o-nas">O nas</a>
+    <a href="#zabiegi">Zabiegi</a>
+    <a href="#rytual">Wizyta</a>
+    <a href="#vouchery">Vouchery</a>
+    <a href="#kontakt">Kontakt</a>
+  </nav>
+  <div>
+    <a href="#kontakt" class="btn btn-solid">Zarezerwuj wizytę</a>
+    <p>+48 500 000 000 · codziennie od 10:00</p>
+  </div>
 </div>
 
 <main id="top">
 
   <!-- Hero -->
-  <section class="hero">
-    <svg class="hero-pattern" aria-hidden="true" width="100%" height="100%">
-      <defs>
-        <pattern id="thai" width="80" height="80" patternUnits="userSpaceOnUse">
-          <path d="M40 4c8 10 8 22 0 36-8-14-8-26 0-36zM4 40c10-8 22-8 36 0-14 8-26 8-36 0zM40 76c-8-10-8-22 0-36 8 14 8 26 0 36zM76 40c-10 8-22 8-36 0 14-8 26-8 36 0z" fill="none" stroke="#E6C98F" stroke-width="1"/>
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#thai)"/>
-    </svg>
-    <div class="petals" aria-hidden="true"></div>
+  <section class="hero" aria-label="Thai Touch Massage">
+    <img class="poster" src="img/hero-poster.jpg" alt="">
+    <video id="hero-video" autoplay muted loop playsinline preload="auto" poster="img/hero-poster.jpg" aria-hidden="true">
+      <source src="img/hero.mp4" type="video/mp4">
+      <source src="img/hero.webm" type="video/webm">
+    </video>
+    <div class="hero-veil"></div>
 
-    <div class="container">
-      <div>
-        <span class="eyebrow hero-kicker fade-up">Tradycyjny masaż tajski</span>
+    <div class="hero-content">
+      <div class="container">
+        <span class="label">Tradycyjny masaż tajski · SPA</span>
         <h1>
-          <span class="line"><span>Odnajdź <em>spokój</em></span></span>
-          <span class="line"><span>w każdym</span></span>
-          <span class="line"><span>dotyku.</span></span>
+          <span class="ln"><span>Chwila</span></span>
+          <span class="ln"><span><em>tylko</em> dla</span></span>
+          <span class="ln"><span>Ciebie.</span></span>
         </h1>
-        <p class="lead fade-up d1">Autentyczne techniki z Tajlandii, ciepłe olejki i chwila tylko dla Ciebie. Wejdź zmęczony — wyjdź lekki, rozluźniony i pełen energii.</p>
-        <div class="hero-actions fade-up d2">
-          <a href="#rezerwacja" class="btn btn-gold">Zarezerwuj wizytę
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-          <a href="#zabiegi" class="btn btn-ghost">Zobacz zabiegi</a>
-        </div>
-        <div class="hero-stats fade-up d3">
-          <div><strong data-count="12">0</strong><span>lat doświadczenia</span></div>
-          <div><strong data-count="8">0</strong><span>rodzajów masażu</span></div>
-          <div><strong data-count="4.9" data-decimals="1">0</strong><span>średnia ocen</span></div>
-        </div>
-      </div>
-
-      <div class="hero-visual fade-up d2" aria-hidden="true">
-        <div class="hero-ring"><span class="dot"></span></div>
-        <div class="hero-ring r2"></div>
-        <div class="hero-orb"></div>
-        <svg class="hero-lotus" viewBox="0 0 400 400" fill="none">
-          <defs>
-            <linearGradient id="pg" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#F3DDAF"/>
-              <stop offset="1" stop-color="#A47B33"/>
-            </linearGradient>
-            <linearGradient id="pg2" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#E6C98F" stop-opacity=".85"/>
-              <stop offset="1" stop-color="#7A5A22" stop-opacity=".7"/>
-            </linearGradient>
-          </defs>
-          <g class="lotus-petal" style="animation-delay:.9s"><path d="M200 300C140 290 70 250 50 170c60 0 120 40 150 130z" fill="url(#pg2)"/></g>
-          <g class="lotus-petal" style="animation-delay:.9s"><path d="M200 300c60-10 130-50 150-130-60 0-120 40-150 130z" fill="url(#pg2)"/></g>
-          <g class="lotus-petal" style="animation-delay:1.05s"><path d="M200 300c-50-20-95-80-85-170 50 25 85 90 85 170z" fill="url(#pg)" opacity=".9"/></g>
-          <g class="lotus-petal" style="animation-delay:1.05s"><path d="M200 300c50-20 95-80 85-170-50 25-85 90-85 170z" fill="url(#pg)" opacity=".9"/></g>
-          <g class="lotus-petal" style="animation-delay:1.2s"><path d="M200 300c-40-50-40-140 0-210 40 70 40 160 0 210z" fill="url(#pg)"/></g>
-          <path d="M120 318h160" stroke="#D4AE6A" stroke-width="2" stroke-linecap="round" opacity=".7"/>
-          <path d="M145 334h110" stroke="#D4AE6A" stroke-width="2" stroke-linecap="round" opacity=".4"/>
-        </svg>
-        <div class="hero-badge b1">
-          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 12h18" stroke-linecap="round"/><circle cx="12" cy="12" r="4"/></svg></span>
-          <div><strong>Dyplomowani terapeuci</strong><span>szkoła Wat Pho</span></div>
-        </div>
-        <div class="hero-badge b2">
-          <span class="ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg></span>
-          <div><strong>4,9 / 5</strong><span>ponad 600 opinii</span></div>
+        <p class="hero-sub">Autentyczne techniki z Tajlandii, ciepłe olejki i cisza, w której ciało wreszcie odpuszcza.</p>
+        <div class="hero-cta">
+          <a href="#kontakt" class="btn btn-solid">Zarezerwuj wizytę</a>
+          <a href="#zabiegi" class="link">Zabiegi i cennik <i></i></a>
         </div>
       </div>
     </div>
 
-    <a href="#o-nas" class="scroll-cue">Przewiń<i></i></a>
+    <button class="play" id="play-toggle" aria-label="Zatrzymaj wideo w tle"><span><svg viewBox="0 0 24 24" fill="currentColor"></svg></span><em class="play-txt" style="font-style:normal">Pauza</em></button>
+    <span class="scroll-line" aria-hidden="true"></span>
   </section>
 
-  <!-- Marquee -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span>Masaż tajski</span><span>Olejki aromatyczne</span><span>Gorące kamienie</span><span>Refleksologia stóp</span><span>Rytuał dla par</span><span>Herbal Compress</span>
-      <span>Masaż tajski</span><span>Olejki aromatyczne</span><span>Gorące kamienie</span><span>Refleksologia stóp</span><span>Rytuał dla par</span><span>Herbal Compress</span>
+  <!-- Intro -->
+  <section class="sec intro">
+    <div class="container">
+      <svg class="lotus reveal" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <path d="M24 9c4.5 5.5 5.3 11.5 0 20-5.3-8.5-4.5-14.5 0-20z" stroke="currentColor"/>
+        <path d="M24 29c-7-1.8-11.5-7-12.5-13.5 6 .9 10.2 5.2 12.5 13.5zM24 29c7-1.8 11.5-7 12.5-13.5-6 .9-10.2 5.2-12.5 13.5z" stroke="currentColor"/>
+        <path d="M14 35h20M18 39h12" stroke="currentColor" stroke-linecap="round"/>
+      </svg>
+      <p class="statement" id="statement">Masaż tajski to nie tylko zabieg. To starożytna sztuka uważnego dotyku, która przywraca ciału lekkość, a myślom spokój. Zostaw pośpiech za drzwiami — resztą zajmiemy się my.</p>
+      <div class="facts">
+        <div class="reveal"><b data-count="12">0</b><span>lat praktyki</span></div>
+        <div class="reveal d1"><b data-count="6">0</b><span>rytuałów</span></div>
+        <div class="reveal d2"><b data-count="4.9" data-dec="1">0</b><span>średnia ocen</span></div>
+      </div>
     </div>
-  </div>
+  </section>
 
   <!-- About -->
-  <section class="section about" id="o-nas">
+  <section class="sec about" id="o-nas">
     <div class="container">
-      <div class="about-art reveal">
-        <div class="about-card c1">
-          <svg viewBox="0 0 300 380" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-            <defs>
-              <radialGradient id="sun" cx=".7" cy=".25" r=".6">
-                <stop offset="0" stop-color="#E6C98F" stop-opacity=".55"/>
-                <stop offset="1" stop-color="#E6C98F" stop-opacity="0"/>
-              </radialGradient>
-            </defs>
-            <rect width="300" height="380" fill="url(#sun)"/>
-            <g fill="none" stroke="#E6C98F" stroke-opacity=".35" stroke-width="1.2">
-              <path d="M150 380V200"/>
-              <path d="M150 260c-30-10-60-40-70-80 35 6 60 35 70 80zM150 230c30-10 60-40 70-80-35 6-60 35-70 80zM150 200c-14-20-16-55 0-90 16 35 14 70 0 90z"/>
-            </g>
-            <g fill="#E6C98F">
-              <circle cx="210" cy="95" r="34" fill-opacity=".9"/>
-            </g>
-            <g fill="#0E221D" fill-opacity=".55">
-              <path d="M0 300c40-30 80-40 120-20s90 30 180-10v110H0z"/>
-            </g>
-            <g fill="#0E221D" fill-opacity=".85">
-              <path d="M0 330c60-20 110-15 160 5s100 15 140-5v50H0z"/>
-            </g>
-          </svg>
-        </div>
-        <div class="about-card c2">
-          <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-            <g fill="#FBF8F2" fill-opacity=".9" transform="translate(100 100)">
-              <g id="fr"><path d="M0 0c-8-18-6-40 10-52 14 14 8 36-10 52z"/></g>
-              <use href="#fr" transform="rotate(72)"/>
-              <use href="#fr" transform="rotate(144)"/>
-              <use href="#fr" transform="rotate(216)"/>
-              <use href="#fr" transform="rotate(288)"/>
-              <circle r="8" fill="#D4AE6A"/>
-            </g>
-          </svg>
-        </div>
-        <div class="about-year">
-          <svg viewBox="0 0 112 112" aria-hidden="true">
-            <defs><path id="circ" d="M56 56m-42 0a42 42 0 1 1 84 0a42 42 0 1 1-84 0"/></defs>
-            <text font-size="9.5" font-weight="700" letter-spacing="3.2" fill="#A47B33" font-family="Manrope, sans-serif">
-              <textPath href="#circ">· RELAKS · ENERGIA · RÓWNOWAGA </textPath>
-            </text>
-          </svg>
-          <b>od<br>2014</b>
-        </div>
+      <div class="about-media">
+        <div class="m1 img-reveal" data-reveal><img src="img/tajski.jpg" alt="Terapeuta wykonuje tradycyjny masaż tajski z rozciąganiem w jasnym, spokojnym wnętrzu" loading="lazy"></div>
+        <div class="m2 img-reveal" data-reveal style="transition-delay:.3s"><img src="img/atm-5.jpg" alt="Naturalne mydło, ręcznik i gałązki kwitnącej wiśni w jasnym wnętrzu SPA" loading="lazy"></div>
+        <span class="tag">Est. 2014</span>
       </div>
-
       <div>
-        <span class="eyebrow reveal">O nas</span>
-        <h2 class="section-title reveal" data-delay="1">Kawałek Tajlandii <em>w sercu miasta</em></h2>
-        <p class="lead reveal" data-delay="2">Thai Touch to miejsce, w którym czas zwalnia. Nasze terapeutki pochodzą z Tajlandii i pracują metodami przekazywanymi z pokolenia na pokolenie — łącząc akupresurę, rozciąganie i pracę z liniami energetycznymi Sen.</p>
-        <div class="features">
-          <div class="feature reveal" data-delay="1">
-            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-8-4.5-8-11.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 8 3.5C20 17.5 12 22 12 22z"/></svg></span>
-            <div><h3>Prawdziwa tradycja</h3><p>Techniki prosto ze szkół w Bangkoku i Chiang Mai.</p></div>
-          </div>
-          <div class="feature reveal" data-delay="2">
-            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8 7 6 10 6 14a6 6 0 0 0 12 0c0-4-2-7-6-12z"/></svg></span>
-            <div><h3>Naturalne olejki</h3><p>Kokos, trawa cytrynowa i jaśmin — bez sztucznych dodatków.</p></div>
-          </div>
-          <div class="feature reveal" data-delay="3">
-            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10l7-6 7 6v11"/><path d="M10 21v-6h4v6"/></svg></span>
-            <div><h3>Kameralne wnętrza</h3><p>Ciepłe, wyciszone gabinety z prysznicem.</p></div>
-          </div>
-          <div class="feature reveal" data-delay="4">
-            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
-            <div><h3>Bez pośpiechu</h3><p>Herbata i chwila odpoczynku po każdym zabiegu.</p></div>
-          </div>
-        </div>
+        <span class="label reveal">O nas</span>
+        <h2 class="h2 reveal d1">Kawałek Tajlandii, <em>w ciszy</em> i bez pośpiechu</h2>
+        <p class="text reveal d2">Nasze terapeutki uczyły się w tajskich szkołach masażu i pracują metodami przekazywanymi z pokolenia na pokolenie — łącząc akupresurę, rozciąganie i pracę z liniami energetycznymi Sen.</p>
+        <ul class="pillars">
+          <li class="reveal d1"><b>Prawdziwa tradycja</b><span>Techniki z Bangkoku i Chiang Mai, bez skrótów.</span></li>
+          <li class="reveal d2"><b>Naturalne olejki</b><span>Kokos, trawa cytrynowa i jaśmin.</span></li>
+          <li class="reveal d3"><b>Kameralne gabinety</b><span>Ciepło, półmrok i prysznic na miejscu.</span></li>
+          <li class="reveal d4"><b>Czas po zabiegu</b><span>Herbata i chwila w strefie relaksu.</span></li>
+        </ul>
       </div>
     </div>
   </section>
 
   <!-- Services -->
-  <section class="section services" id="zabiegi">
+  <section class="sec" id="zabiegi">
     <div class="container">
-      <div class="services-head">
+      <div class="svc-head">
         <div>
-          <span class="eyebrow reveal">Zabiegi i cennik</span>
-          <h2 class="section-title reveal" data-delay="1">Wybierz swój <em>rytuał</em></h2>
+          <span class="label reveal">Zabiegi i cennik</span>
+          <h2 class="h2 reveal d1">Wybierz <em>swój rytuał</em></h2>
         </div>
-        <div class="tabs reveal" data-delay="2" role="tablist" aria-label="Filtruj zabiegi">
-          <button class="tab" role="tab" aria-selected="true" data-filter="all">Wszystkie</button>
-          <button class="tab" role="tab" aria-selected="false" data-filter="klasyczne">Klasyczne</button>
-          <button class="tab" role="tab" aria-selected="false" data-filter="relaks">Relaks</button>
-          <button class="tab" role="tab" aria-selected="false" data-filter="pary">Dla par</button>
-        </div>
+        <p class="text reveal d2" style="max-width:24rem">Każdy zabieg zaczynamy od rozmowy i ciepłej kąpieli stóp. Siłę ucisku zawsze dopasowujemy do Ciebie.</p>
       </div>
 
-      <div class="service-grid">
-        <article class="service reveal" data-cat="klasyczne">
-          <div class="service-top">
-            <span class="service-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><path d="M5 21l4-8 3 2 3-2 4 8M9 13l-2-4h10l-2 4"/></svg></span>
-            <span class="tag">Klasyka</span>
-          </div>
+      <div class="svc-grid">
+        <article class="svc reveal">
+          <div class="svc-img"><img src="img/tajski.jpg" alt="Tradycyjny masaż tajski z rozciąganiem" loading="lazy"><span class="svc-num">01</span>
+            <a href="#kontakt" class="svc-book" data-service="Tradycyjny masaż tajski">Zarezerwuj</a></div>
           <h3>Tradycyjny masaż tajski</h3>
-          <p>Bez olejku, w luźnym stroju. Akupresura i rozciąganie inspirowane jogą przywracają ciału elastyczność.</p>
-          <ul class="prices"><li><span>60 min</span><b>180 zł</b></li><li><span>90 min</span><b>250 zł</b></li></ul>
-          <a href="#rezerwacja" class="service-link" data-service="Tradycyjny masaż tajski">Zarezerwuj <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <p>Bez olejku, w luźnym stroju. Akupresura i rozciąganie inspirowane jogą.</p>
+          <dl><div><dt>60 min</dt><dd>180 zł</dd></div><div><dt>90 min</dt><dd>250 zł</dd></div></dl>
         </article>
-
-        <article class="service featured reveal" data-delay="1" data-cat="relaks">
-          <div class="service-top">
-            <span class="service-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8 7 6 10 6 14a6 6 0 0 0 12 0c0-4-2-7-6-12z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/></svg></span>
-            <span class="tag">Bestseller</span>
-          </div>
+        <article class="svc reveal d1">
+          <div class="svc-img"><img src="img/olejki.jpg" alt="Relaksujący masaż pleców olejkiem aromatycznym" loading="lazy"><span class="svc-num">02</span>
+            <a href="#kontakt" class="svc-book" data-service="Masaż aromatyczny olejkami">Zarezerwuj</a></div>
           <h3>Masaż aromatyczny olejkami</h3>
-          <p>Płynne, głębokie ruchy i ciepły olejek o zapachu do wyboru. Idealny na stres i bezsenność.</p>
-          <ul class="prices"><li><span>60 min</span><b>200 zł</b></li><li><span>90 min</span><b>280 zł</b></li></ul>
-          <a href="#rezerwacja" class="service-link" data-service="Masaż aromatyczny olejkami">Zarezerwuj <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <p>Płynne, głębokie ruchy i ciepły olejek o wybranym zapachu. Na stres i bezsenność.</p>
+          <dl><div><dt>60 min</dt><dd>200 zł</dd></div><div><dt>90 min</dt><dd>280 zł</dd></div></dl>
         </article>
-
-        <article class="service reveal" data-delay="2" data-cat="klasyczne">
-          <div class="service-top">
-            <span class="service-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3c-2 4-2 9 0 13 1.5 3 6 5 9 3 2-1.5 1-4-1-5-2-1-3-3-3-5V3"/></svg></span>
-            <span class="tag">Klasyka</span>
-          </div>
-          <h3>Refleksologia stóp</h3>
-          <p>Ucisk punktów refleksyjnych na stopach i łydkach. Lekkość nóg i głębokie odprężenie całego ciała.</p>
-          <ul class="prices"><li><span>45 min</span><b>140 zł</b></li><li><span>60 min</span><b>170 zł</b></li></ul>
-          <a href="#rezerwacja" class="service-link" data-service="Refleksologia stóp">Zarezerwuj <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        </article>
-
-        <article class="service reveal" data-cat="relaks">
-          <div class="service-top">
-            <span class="service-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="16" rx="8" ry="4"/><ellipse cx="12" cy="10" rx="6" ry="3"/><path d="M9 4c0 1 1 1 1 2s-1 1-1 2M14 4c0 1 1 1 1 2s-1 1-1 2"/></svg></span>
-            <span class="tag">Rozgrzewający</span>
-          </div>
+        <article class="svc reveal d2">
+          <div class="svc-img"><img src="img/kamienie.jpg" alt="Gorące bazaltowe kamienie ułożone na plecach, obok białe kwiaty" loading="lazy"><span class="svc-num">03</span>
+            <a href="#kontakt" class="svc-book" data-service="Gorące kamienie">Zarezerwuj</a></div>
           <h3>Gorące kamienie</h3>
-          <p>Bazaltowe kamienie rozgrzewają mięśnie do głębi, a olejek domyka rytuał. Najlepszy w chłodne dni.</p>
-          <ul class="prices"><li><span>75 min</span><b>260 zł</b></li><li><span>90 min</span><b>300 zł</b></li></ul>
-          <a href="#rezerwacja" class="service-link" data-service="Gorące kamienie">Zarezerwuj <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <p>Bazaltowe kamienie rozgrzewają mięśnie do głębi. Idealny w chłodne dni.</p>
+          <dl><div><dt>75 min</dt><dd>260 zł</dd></div><div><dt>90 min</dt><dd>300 zł</dd></div></dl>
         </article>
-
-        <article class="service reveal" data-delay="1" data-cat="relaks">
-          <div class="service-top">
-            <span class="service-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="6"/><path d="M12 7V3M9 4l3 3 3-3M8 13h8M12 9v8"/></svg></span>
-            <span class="tag">Ziołowy</span>
-          </div>
-          <h3>Herbal Compress</h3>
-          <p>Stemple z tajskimi ziołami — imbirem, kurkumą i trawą cytrynową — wygrzewane parą i przykładane do ciała.</p>
-          <ul class="prices"><li><span>90 min</span><b>290 zł</b></li><li><span>120 min</span><b>360 zł</b></li></ul>
-          <a href="#rezerwacja" class="service-link" data-service="Herbal Compress">Zarezerwuj <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <article class="svc reveal">
+          <div class="svc-img"><img src="img/stopy.jpg" alt="Masaż stóp — refleksologia" loading="lazy"><span class="svc-num">04</span>
+            <a href="#kontakt" class="svc-book" data-service="Refleksologia stóp">Zarezerwuj</a></div>
+          <h3>Refleksologia stóp</h3>
+          <p>Ucisk punktów refleksyjnych na stopach i łydkach. Lekkość nóg i głęboki relaks.</p>
+          <dl><div><dt>45 min</dt><dd>140 zł</dd></div><div><dt>60 min</dt><dd>170 zł</dd></div></dl>
         </article>
-
-        <article class="service reveal" data-delay="2" data-cat="pary">
-          <div class="service-top">
-            <span class="service-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 19S2 15 2 10a3.5 3.5 0 0 1 6.5-1.8A3.5 3.5 0 0 1 15 10c0 1-.3 2-.8 3"/><path d="M16 21s-5-3-5-7a2.8 2.8 0 0 1 5-1.6 2.8 2.8 0 0 1 5 1.6c0 4-5 7-5 7z"/></svg></span>
-            <span class="tag">Dla dwojga</span>
-          </div>
-          <h3>Rytuał dla par</h3>
-          <p>Wspólny gabinet, dwie terapeutki i masaż olejkami na cztery ręce. Herbata i tajskie owoce w cenie.</p>
-          <ul class="prices"><li><span>60 min / 2 os.</span><b>390 zł</b></li><li><span>90 min / 2 os.</span><b>540 zł</b></li></ul>
-          <a href="#rezerwacja" class="service-link" data-service="Rytuał dla par">Zarezerwuj <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <article class="svc reveal d1">
+          <div class="svc-img"><img src="img/stemple.jpg" alt="Masaż ziołowymi stemplami" loading="lazy"><span class="svc-num">05</span>
+            <a href="#kontakt" class="svc-book" data-service="Ziołowe stemple">Zarezerwuj</a></div>
+          <h3>Ziołowe stemple</h3>
+          <p>Imbir, kurkuma i trawa cytrynowa wygrzewane parą i przykładane do ciała.</p>
+          <dl><div><dt>90 min</dt><dd>290 zł</dd></div><div><dt>120 min</dt><dd>360 zł</dd></div></dl>
+        </article>
+        <article class="svc reveal d2">
+          <div class="svc-img"><img src="img/para.jpg" alt="Kwiaty plumerii pływające w kamiennej misie" loading="lazy"><span class="svc-num">06</span>
+            <a href="#kontakt" class="svc-book" data-service="Rytuał dla dwojga">Zarezerwuj</a></div>
+          <h3>Rytuał dla dwojga</h3>
+          <p>Wspólny gabinet, dwie terapeutki, masaż olejkami. Herbata i owoce w cenie.</p>
+          <dl><div><dt>60 min · 2 os.</dt><dd>390 zł</dd></div><div><dt>90 min · 2 os.</dt><dd>540 zł</dd></div></dl>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- Ritual / steps -->
-  <section class="section ritual" id="rytual">
-    <div class="container">
-      <span class="eyebrow reveal">Jak wygląda wizyta</span>
-      <h2 class="section-title reveal" data-delay="1">Cztery kroki do <em>pełnego relaksu</em></h2>
-      <p class="lead reveal" data-delay="2">Każda wizyta to coś więcej niż masaż. To spokojny rytuał, który zaczyna się już w progu.</p>
+  <!-- Gallery band -->
+  <div class="band" aria-hidden="true">
+    <div class="band-track" id="band">
+      <figure class="t"><img src="img/atm-1.jpg" alt="" loading="lazy"></figure>
+      <figure class="w"><img src="img/atm-2.jpg" alt="" loading="lazy"></figure>
+      <figure class="t"><img src="img/o-nas-2.jpg" alt="" loading="lazy"></figure>
+      <figure class="w"><img src="img/atm-3.jpg" alt="" loading="lazy"></figure>
+      <figure class="t"><img src="img/atm-6.jpg" alt="" loading="lazy"></figure>
+      <figure class="w"><img src="img/atm-4.jpg" alt="" loading="lazy"></figure>
+      <figure class="t"><img src="img/voucher.jpg" alt="" loading="lazy"></figure>
+    </div>
+  </div>
 
-      <div class="steps" id="steps">
-        <div class="steps-line" aria-hidden="true"><i></i></div>
-        <div class="step reveal">
-          <div class="step-num">01</div>
-          <h3>Powitanie</h3>
-          <p>Ziołowa herbata i krótka rozmowa o Twoich potrzebach, napięciach i preferencjach.</p>
-        </div>
-        <div class="step reveal" data-delay="1">
-          <div class="step-num">02</div>
-          <h3>Rytuał stóp</h3>
-          <p>Ciepła kąpiel stóp z limonką i solą — tradycyjne tajskie oczyszczenie przed zabiegiem.</p>
-        </div>
-        <div class="step reveal" data-delay="2">
-          <div class="step-num">03</div>
-          <h3>Masaż</h3>
-          <p>Terapeutka dobiera siłę ucisku do Ciebie. Ty tylko oddychasz i odpuszczasz.</p>
-        </div>
-        <div class="step reveal" data-delay="3">
-          <div class="step-num">04</div>
-          <h3>Wyciszenie</h3>
-          <p>Kilka minut w strefie relaksu z herbatą i owocami, zanim wrócisz do świata.</p>
-        </div>
+  <!-- Ritual -->
+  <section class="sec" id="rytual">
+    <div class="container">
+      <div class="ritual-head">
+        <span class="label reveal">Jak wygląda wizyta</span>
+        <h2 class="h2 reveal d1">Cztery kroki do <em>pełnego relaksu</em></h2>
+      </div>
+      <div class="steps">
+        <div class="step reveal"><em>I.</em><h3>Powitanie</h3><p>Ziołowa herbata i krótka rozmowa o Twoich potrzebach i napięciach.</p></div>
+        <div class="step reveal d1"><em>II.</em><h3>Rytuał stóp</h3><p>Ciepła kąpiel stóp z limonką i solą — tajskie oczyszczenie przed masażem.</p></div>
+        <div class="step reveal d2"><em>III.</em><h3>Masaż</h3><p>Terapeutka dobiera ucisk do Ciebie. Ty tylko oddychasz i odpuszczasz.</p></div>
+        <div class="step reveal d3"><em>IV.</em><h3>Wyciszenie</h3><p>Kilka minut w strefie relaksu, zanim wrócisz do codzienności.</p></div>
       </div>
     </div>
   </section>
 
   <!-- Voucher -->
-  <section class="section voucher" id="vouchery">
+  <section class="sec voucher" id="vouchery">
     <div class="container">
-      <div class="gift-wrap reveal">
-        <div class="gift-card" id="gift-card">
-          <svg class="gc-lotus" viewBox="0 0 48 48" fill="#E6C98F" aria-hidden="true">
-            <path d="M24 10c4 5.5 4.8 11 0 19-4.8-8-4-13.5 0-19z"/>
-            <path d="M24 29c-6.5-1.6-11-6.5-12-13 5.6.8 9.6 4.8 12 13zM24 29c6.5-1.6 11-6.5 12-13-5.6.8-9.6 4.8-12 13z" fill-opacity=".7"/>
-          </svg>
-          <div class="gc-top">
-            <span class="logo-text">Thai Touch<small>Massage</small></span>
-            <span class="gc-chip">Voucher</span>
-          </div>
-          <div class="gc-amount"><span id="gc-value">300</span> <small>ZŁ</small></div>
-          <div class="gc-bottom"><span>PODARUJ CHWILĘ SPOKOJU</span><span>WAŻNY 6 MIES.</span></div>
+      <div class="v-media">
+        <div class="img-reveal" data-reveal style="position:absolute;inset:0"><img src="img/voucher.jpg" alt="Kompozycja SPA: świeca, drewniana łyżka i naturalne mydła" loading="lazy"></div>
+        <div class="v-card reveal d2" id="v-card">
+          <span class="logo"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M24 11c4 5 4.8 10.5 0 18-4.8-7.5-4-13 0-18z" fill="#A3826A"/><path d="M24 29c-6.5-1.6-10.5-6.2-11.5-12 5.4.8 9.3 4.6 11.5 12zM24 29c6.5-1.6 10.5-6.2 11.5-12-5.4.8-9.3 4.6-11.5 12z" fill="#A3826A" fill-opacity=".55"/></svg><b>Thai Touch</b></span>
+          <span class="val"><span id="v-val">300</span><small>ZŁ</small></span>
+          <span class="meta"><span>Voucher podarunkowy</span><span>6 mies.</span></span>
         </div>
       </div>
-
       <div>
-        <span class="eyebrow reveal">Vouchery prezentowe</span>
-        <h2 class="section-title reveal" data-delay="1">Podaruj <em>chwilę spokoju</em></h2>
-        <p class="lead reveal" data-delay="2">Elegancki voucher na dowolny zabieg lub kwotę — na urodziny, rocznicę albo po prostu bez okazji.</p>
-        <div class="amounts reveal" data-delay="2" role="group" aria-label="Wybierz kwotę vouchera">
-          <button class="amount" aria-pressed="false" data-value="200">200 zł</button>
-          <button class="amount" aria-pressed="true" data-value="300">300 zł</button>
-          <button class="amount" aria-pressed="false" data-value="500">500 zł</button>
-          <button class="amount" aria-pressed="false" data-value="800">800 zł</button>
+        <span class="label reveal">Vouchery</span>
+        <h2 class="h2 reveal d1">Podaruj <em>chwilę spokoju</em></h2>
+        <p class="text reveal d2">Elegancki voucher na dowolny zabieg lub kwotę — na urodziny, rocznicę albo po prostu bez okazji.</p>
+        <div class="amounts reveal d2" role="group" aria-label="Kwota vouchera w złotych">
+          <button aria-pressed="false" data-v="200">200</button>
+          <button aria-pressed="true" data-v="300">300</button>
+          <button aria-pressed="false" data-v="500">500</button>
+          <button aria-pressed="false" data-v="800">800</button>
         </div>
-        <ul class="voucher-list reveal" data-delay="3">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Wersja elektroniczna (PDF) od ręki</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Lub w eleganckiej kopercie do odbioru w salonie</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Ważny 6 miesięcy na wszystkie zabiegi</li>
+        <ul class="v-list reveal d3">
+          <li>Wersja elektroniczna (PDF) od ręki</li>
+          <li>Lub w kopercie do odbioru w salonie</li>
+          <li>Ważny 6 miesięcy na wszystkie zabiegi</li>
         </ul>
-        <a href="#rezerwacja" class="btn btn-dark reveal" data-delay="4" id="voucher-btn">Zamów voucher
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
+        <a href="#kontakt" class="btn reveal d4" id="v-btn">Zamów voucher</a>
       </div>
     </div>
   </section>
 
-  <!-- Testimonials -->
-  <section class="section testimonials" id="opinie">
+  <!-- Reviews -->
+  <section class="sec reviews">
     <div class="container">
-      <span class="eyebrow reveal">Opinie gości</span>
-      <h2 class="section-title reveal" data-delay="1">Wracają do nas <em>z uśmiechem</em></h2>
-
-      <div class="t-slider reveal" data-delay="2" aria-roledescription="karuzela" aria-live="polite">
-        <figure class="t-slide is-active">
-          <div class="stars" aria-label="5 na 5 gwiazdek"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg></div>
-          <blockquote>„Najlepszy masaż tajski, jaki miałam poza Tajlandią. Po 90 minutach plecy jak nowe, a herbata na koniec to mały rytuał, na który czekam.”</blockquote>
-          <figcaption class="t-author"><span class="avatar">A</span><span><b>Anna K.</b><span>Masaż tajski, 90 min</span></span></figcaption>
-        </figure>
-        <figure class="t-slide">
-          <div class="stars" aria-label="5 na 5 gwiazdek"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg></div>
-          <blockquote>„Kupiłem żonie voucher na rocznicę, skończyło się na tym, że poszliśmy razem na rytuał dla par. Spokój, cisza i fantastyczna obsługa.”</blockquote>
-          <figcaption class="t-author"><span class="avatar">M</span><span><b>Marek W.</b><span>Rytuał dla par</span></span></figcaption>
-        </figure>
-        <figure class="t-slide">
-          <div class="stars" aria-label="5 na 5 gwiazdek"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg></div>
-          <blockquote>„Pracuję przy biurku po 10 godzin dziennie. Gorące kamienie raz w miesiącu to moja najlepsza inwestycja w zdrowie.”</blockquote>
-          <figcaption class="t-author"><span class="avatar">K</span><span><b>Katarzyna P.</b><span>Gorące kamienie</span></span></figcaption>
-        </figure>
+      <span class="label reveal">Opinie gości</span>
+      <div class="slider reveal d1" aria-live="polite">
+        <figure class="slide on"><div class="stars" aria-label="5 na 5">★★★★★</div><blockquote>„Najlepszy masaż tajski, jaki miałam poza Tajlandią. Po 90 minutach plecy jak nowe, a herbata na koniec to mały rytuał, na który czekam.”</blockquote><figcaption><b>Anna K.</b> · Masaż tajski</figcaption></figure>
+        <figure class="slide"><div class="stars" aria-label="5 na 5">★★★★★</div><blockquote>„Kupiłem żonie voucher na rocznicę, a skończyło się na rytuale dla dwojga. Cisza, zapach olejków i świetna obsługa.”</blockquote><figcaption><b>Marek W.</b> · Rytuał dla dwojga</figcaption></figure>
+        <figure class="slide"><div class="stars" aria-label="5 na 5">★★★★★</div><blockquote>„Pracuję przy biurku po 10 godzin dziennie. Gorące kamienie raz w miesiącu to moja najlepsza inwestycja w zdrowie.”</blockquote><figcaption><b>Katarzyna P.</b> · Gorące kamienie</figcaption></figure>
       </div>
-
-      <div class="t-nav">
-        <button class="t-arrow" data-dir="-1" aria-label="Poprzednia opinia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
-        <div class="t-dots"></div>
-        <button class="t-arrow" data-dir="1" aria-label="Następna opinia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-      </div>
+      <div class="dots"></div>
     </div>
   </section>
 
   <!-- Booking -->
-  <section class="section booking" id="rezerwacja">
+  <section class="sec booking" id="kontakt">
     <div class="container">
       <div>
-        <span class="eyebrow reveal">Rezerwacja i kontakt</span>
-        <h2 class="section-title reveal" data-delay="1">Zarezerwuj <em>swoją chwilę</em></h2>
-        <p class="lead reveal" data-delay="2">Wyślij zgłoszenie, a oddzwonimy, aby potwierdzić termin. Wolisz od razu porozmawiać? Zadzwoń.</p>
-        <ul class="info-list">
-          <li class="reveal" data-delay="1">
-            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
-            <div><b>Adres</b><span>ul. Przykładowa 12, 00-001 Warszawa</span></div>
-          </li>
-          <li class="reveal" data-delay="2">
-            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span>
-            <div><b>Telefon</b><a href="tel:+48500000000">+48 500 000 000</a></div>
-          </li>
-          <li class="reveal" data-delay="3">
-            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
-            <div><b>Godziny otwarcia</b>
-              <dl class="hours"><dt>Pon – Pt</dt><dd>10:00 – 21:00</dd><dt>Sobota</dt><dd>10:00 – 20:00</dd><dt>Niedziela</dt><dd>11:00 – 18:00</dd></dl>
-            </div>
-          </li>
-        </ul>
+        <span class="label reveal">Rezerwacja</span>
+        <h2 class="h2 reveal d1">Zarezerwuj <em>swoją chwilę</em></h2>
+        <p class="text reveal d2">Wyślij zgłoszenie, a oddzwonimy, by potwierdzić termin. Wolisz porozmawiać? Zadzwoń.</p>
+        <div class="contact">
+          <div class="reveal d1"><span>Adres</span>ul. Przykładowa 12, Gdańsk</div>
+          <div class="reveal d2"><span>Telefon</span><a href="tel:+48500000000">+48 500 000 000</a></div>
+          <div class="reveal d3"><span>Godziny</span>
+            <dl class="hours"><dt>Pon – Pt</dt><dd>10:00 – 21:00</dd><dt>Sobota</dt><dd>10:00 – 20:00</dd><dt>Niedziela</dt><dd>11:00 – 18:00</dd></dl>
+          </div>
+        </div>
       </div>
 
-      <div class="form-card reveal" data-delay="2">
-        <form id="booking-form" novalidate>
-          <h3>Formularz rezerwacji</h3>
-          <p>Odpowiadamy zwykle w ciągu godziny.</p>
-          <div class="form-grid">
-            <div class="field">
-              <label for="f-name">Imię i nazwisko</label>
-              <input id="f-name" name="name" type="text" autocomplete="name" required>
-              <span class="err">Podaj imię i nazwisko.</span>
-            </div>
-            <div class="field">
-              <label for="f-phone">Telefon</label>
-              <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required pattern="[0-9 +()-]{9,}">
-              <span class="err">Podaj poprawny numer telefonu.</span>
-            </div>
-            <div class="field full">
-              <label for="f-service">Zabieg</label>
-              <select id="f-service" name="service" required>
-                <option value="">Wybierz zabieg…</option>
-                <option>Tradycyjny masaż tajski</option>
-                <option>Masaż aromatyczny olejkami</option>
-                <option>Refleksologia stóp</option>
-                <option>Gorące kamienie</option>
-                <option>Herbal Compress</option>
-                <option>Rytuał dla par</option>
-                <option>Voucher prezentowy</option>
-              </select>
-              <span class="err">Wybierz zabieg.</span>
-            </div>
-            <div class="field">
-              <label for="f-date">Preferowany dzień</label>
-              <input id="f-date" name="date" type="date" required>
-              <span class="err">Wybierz dzień.</span>
-            </div>
-            <div class="field">
-              <label for="f-time">Pora dnia</label>
-              <select id="f-time" name="time">
-                <option>Dowolna</option>
-                <option>Rano (10–13)</option>
-                <option>Popołudnie (13–17)</option>
-                <option>Wieczór (17–21)</option>
-              </select>
-            </div>
-            <div class="field full">
-              <label for="f-msg">Uwagi (opcjonalnie)</label>
-              <textarea id="f-msg" name="msg" placeholder="Np. preferowana siła masażu, miejsca do ominięcia…"></textarea>
-            </div>
-          </div>
-          <div class="form-foot">
-            <small>To strona demonstracyjna — formularz niczego nie wysyła.</small>
-            <button type="submit" class="btn btn-gold">Wyślij zgłoszenie
-              <span class="spinner" aria-hidden="true"></span>
-              <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </button>
+      <div class="reveal d2">
+        <form class="form" id="form" novalidate>
+          <div class="f"><label for="f-name">Imię i nazwisko</label><input id="f-name" name="name" autocomplete="name" required><span class="err">Podaj imię i nazwisko.</span></div>
+          <div class="f"><label for="f-tel">Telefon</label><input id="f-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" pattern="[0-9 +()\-]{9,}" required><span class="err">Podaj poprawny numer.</span></div>
+          <div class="f full"><label for="f-svc">Zabieg</label>
+            <select id="f-svc" name="service" required>
+              <option value="">Wybierz zabieg…</option>
+              <option>Tradycyjny masaż tajski</option>
+              <option>Masaż aromatyczny olejkami</option>
+              <option>Gorące kamienie</option>
+              <option>Refleksologia stóp</option>
+              <option>Ziołowe stemple</option>
+              <option>Rytuał dla dwojga</option>
+              <option>Voucher podarunkowy</option>
+            </select><span class="err">Wybierz zabieg.</span></div>
+          <div class="f"><label for="f-date">Dzień</label><input id="f-date" name="date" type="date" required><span class="err">Wybierz dzień.</span></div>
+          <div class="f"><label for="f-time">Pora</label>
+            <select id="f-time" name="time"><option>Dowolna</option><option>Rano (10–13)</option><option>Popołudnie (13–17)</option><option>Wieczór (17–21)</option></select></div>
+          <div class="f full"><label for="f-msg">Uwagi (opcjonalnie)</label><textarea id="f-msg" name="msg"></textarea></div>
+          <div class="full form-foot">
+            <small>Strona demonstracyjna — formularz niczego nie wysyła.</small>
+            <button type="submit" class="btn btn-solid">Wyślij zgłoszenie</button>
           </div>
         </form>
-        <div class="form-success" role="status">
-          <svg class="check" viewBox="0 0 84 84" fill="none" stroke="#3C7463" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="42" cy="42" r="38"/><path d="M27 43l10 10 20-22"/>
-          </svg>
-          <h3>Dziękujemy!</h3>
-          <p>Twoje zgłoszenie dotarło. Oddzwonimy, aby potwierdzić termin.</p>
-        </div>
+        <div class="thanks" role="status"><h3>Dziękujemy.</h3><p>Zgłoszenie dotarło — oddzwonimy, aby potwierdzić termin.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- CTA band -->
-  <section class="cta-band">
+  <!-- Closing -->
+  <section class="closing">
+    <img src="img/atm-3.jpg" alt="" loading="lazy" id="closing-img">
     <div class="container">
-      <div class="cta-inner reveal">
-        <span class="glow" aria-hidden="true"></span><span class="glow g2" aria-hidden="true"></span><span class="glow g3" aria-hidden="true"></span>
-        <h2>Twoje ciało zasługuje na <em>odpoczynek</em>.</h2>
-        <p>Pierwsza wizyta? Z hasłem „SPOKÓJ” otrzymasz 15% rabatu na dowolny masaż.</p>
-        <a href="#rezerwacja" class="btn btn-gold">Umów pierwszą wizytę
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-      </div>
+      <span class="label reveal">Pierwsza wizyta</span>
+      <h2 class="reveal d1">Twoje ciało zasługuje na <em>odpoczynek</em>.</h2>
+      <p class="reveal d2">Z hasłem „SPOKÓJ” otrzymasz 15% rabatu na pierwszy masaż.</p>
+      <a href="#kontakt" class="btn btn-solid reveal d3">Umów wizytę</a>
     </div>
   </section>
 </main>
 
 <footer class="footer">
   <div class="container">
-    <div class="footer-grid">
+    <div class="f-grid">
       <div>
         <a href="#top" class="logo" aria-label="Thai Touch Massage">
-          <svg class="logo-mark" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-            <circle cx="24" cy="24" r="23" stroke="#D4AE6A" stroke-opacity=".5"/>
-            <path d="M24 10c4 5.5 4.8 11 0 19-4.8-8-4-13.5 0-19z" fill="#D4AE6A"/>
-            <path d="M24 29c-6.5-1.6-11-6.5-12-13 5.6.8 9.6 4.8 12 13zM24 29c6.5-1.6 11-6.5 12-13-5.6.8-9.6 4.8-12 13z" fill="#D4AE6A" fill-opacity=".7"/>
-            <path d="M14 34h20" stroke="#D4AE6A" stroke-width="1.6" stroke-linecap="round"/>
+          <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <circle cx="24" cy="24" r="23" stroke="#A3826A" stroke-opacity=".5"/>
+            <path d="M24 11c4 5 4.8 10.5 0 18-4.8-7.5-4-13 0-18z" fill="#A3826A"/>
+            <path d="M24 29c-6.5-1.6-10.5-6.2-11.5-12 5.4.8 9.3 4.6 11.5 12zM24 29c6.5-1.6 10.5-6.2 11.5-12-5.4.8-9.3 4.6-11.5 12z" fill="#A3826A" fill-opacity=".55"/>
+            <path d="M15 34h18" stroke="#A3826A" stroke-linecap="round"/>
           </svg>
-          <span class="logo-text">Thai Touch<small>Massage</small></span>
+          <span><b>Thai Touch</b><small>Massage &amp; Spa</small></span>
         </a>
-        <p>Tradycyjny masaż tajski i rytuały relaksacyjne. Spokój, ciepło i dotyk w tajskim stylu.</p>
-        <div class="socials">
-          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
-          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v2H8v4h2v8h4v-8h3l1-4h-4V8z"/></svg></a>
-        </div>
+        <p class="about-f">Tradycyjny masaż tajski i rytuały relaksacyjne w spokojnym, jasnym wnętrzu.</p>
       </div>
-      <div>
-        <h4>Zabiegi</h4>
-        <ul>
-          <li><a href="#zabiegi">Masaż tajski</a></li>
-          <li><a href="#zabiegi">Masaż olejkami</a></li>
-          <li><a href="#zabiegi">Gorące kamienie</a></li>
-          <li><a href="#zabiegi">Rytuał dla par</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Salon</h4>
-        <ul>
-          <li><a href="#o-nas">O nas</a></li>
-          <li><a href="#rytual">Jak wygląda wizyta</a></li>
-          <li><a href="#vouchery">Vouchery</a></li>
-          <li><a href="#opinie">Opinie</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Kontakt</h4>
-        <ul>
-          <li>ul. Przykładowa 12</li>
-          <li>00-001 Warszawa</li>
-          <li><a href="tel:+48500000000">+48 500 000 000</a></li>
-          <li><a href="mailto:kontakt@example.com">kontakt@example.com</a></li>
-        </ul>
-      </div>
+      <div><h4>Zabiegi</h4><ul><li><a href="#zabiegi">Masaż tajski</a></li><li><a href="#zabiegi">Masaż olejkami</a></li><li><a href="#zabiegi">Gorące kamienie</a></li><li><a href="#zabiegi">Rytuał dla dwojga</a></li></ul></div>
+      <div><h4>Salon</h4><ul><li><a href="#o-nas">O nas</a></li><li><a href="#rytual">Wizyta</a></li><li><a href="#vouchery">Vouchery</a></li><li><a href="#kontakt">Rezerwacja</a></li></ul></div>
+      <div><h4>Kontakt</h4><ul><li>ul. Przykładowa 12</li><li>Gdańsk</li><li><a href="tel:+48500000000">+48 500 000 000</a></li><li><a href="#">Instagram</a> · <a href="#">Facebook</a></li></ul></div>
     </div>
-    <div class="footer-bottom">
+    <div class="f-bottom">
       <span>© <span id="year">2026</span> Thai Touch Massage</span>
-      <span>Strona demonstracyjna — dane kontaktowe, ceny i opinie są przykładowe.</span>
+      <span>Strona demonstracyjna — adres, ceny i opinie są przykładowe. Zdjęcia i wideo: Pexels.</span>
     </div>
   </div>
 </footer>
 
-<button class="to-top" aria-label="Wróć na górę"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button>
-
 <script>
 (function () {
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+  $('#year').textContent = new Date().getFullYear();
 
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-  /* Header, progress bar, back to top */
-  var header = $('#header'), progress = $('.progress'), toTop = $('.to-top');
-  function onScroll() {
-    var y = window.scrollY, max = document.documentElement.scrollHeight - innerHeight;
-    header.classList.toggle('is-scrolled', y > 40);
-    progress.style.transform = 'scaleX(' + (max > 0 ? y / max : 0) + ')';
-    toTop.classList.toggle('show', y > 800);
+  /* Statement: split into words that light up on scroll */
+  var st = $('#statement');
+  st.innerHTML = st.textContent.split(' ').map(function (w) { return '<span class="w">' + w + '</span>'; }).join(' ');
+  var words = $$('.w', st);
+  function updateStatement() {
+    if (reduce) return;
+    var r = st.getBoundingClientRect();
+    var p = Math.min(Math.max((innerHeight * .85 - r.top) / (r.height + innerHeight * .35), 0), 1);
+    var n = Math.round(p * words.length);
+    words.forEach(function (w, i) { w.classList.toggle('on', i < n); });
   }
-  addEventListener('scroll', onScroll, { passive: true }); onScroll();
-  toTop.addEventListener('click', function () { scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); });
 
-  /* Mobile menu */
-  var toggle = $('.menu-toggle'), menu = $('#mobile-menu');
-  function setMenu(open) {
+  /* Header, progress, parallax */
+  var header = $('#header'), bar = $('.progress'), band = $('#band'), closingImg = $('#closing-img');
+  var ticking = false;
+  function frame() {
+    var y = scrollY, max = document.documentElement.scrollHeight - innerHeight;
+    header.classList.toggle('solid', y > 60);
+    bar.style.transform = 'scaleX(' + (max > 0 ? y / max : 0) + ')';
+    if (!reduce) {
+      var r = band.parentNode.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < innerHeight) {
+        var p = (innerHeight - r.top) / (innerHeight + r.height);
+        band.style.transform = 'translate3d(' + (-p * Math.max(band.scrollWidth - innerWidth, 0)) + 'px,0,0)';
+      }
+      var c = closingImg.parentNode.getBoundingClientRect();
+      if (c.bottom > 0 && c.top < innerHeight) {
+        closingImg.style.transform = 'translate3d(0,' + ((c.top + c.height / 2 - innerHeight / 2) * -.12) + 'px,0)';
+      }
+    }
+    updateStatement();
+    ticking = false;
+  }
+  addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });
+  addEventListener('resize', frame);
+  frame();
+
+  /* Hero video play/pause */
+  var video = $('#hero-video'), toggle = $('#play-toggle');
+  if (reduce) { video.removeAttribute('autoplay'); video.pause(); }
+  function setPlayUI() {
+    var playing = !video.paused;
+    toggle.setAttribute('aria-label', playing ? 'Zatrzymaj wideo w tle' : 'Odtwórz wideo w tle');
+    $('.play-txt', toggle).textContent = playing ? 'Pauza' : 'Odtwórz';
+    $('svg', toggle).innerHTML = playing ? '<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>' : '<path d="M7 4l13 8-13 8z"/>';
+  }
+  toggle.addEventListener('click', function () { if (video.paused) video.play(); else video.pause(); });
+  video.addEventListener('play', setPlayUI); video.addEventListener('pause', setPlayUI);
+  setPlayUI();
+
+  /* Menu */
+  var burger = $('.burger'), drawer = $('#drawer');
+  function menu(open) {
     document.body.classList.toggle('menu-open', open);
-    toggle.setAttribute('aria-expanded', open);
-    toggle.setAttribute('aria-label', open ? 'Zamknij menu' : 'Otwórz menu');
-    menu.setAttribute('aria-hidden', !open);
+    burger.setAttribute('aria-expanded', open);
+    burger.setAttribute('aria-label', open ? 'Zamknij menu' : 'Otwórz menu');
+    drawer.setAttribute('aria-hidden', !open);
     document.body.style.overflow = open ? 'hidden' : '';
   }
-  toggle.addEventListener('click', function () { setMenu(!document.body.classList.contains('menu-open')); });
-  $$('a', menu).forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
-  addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
-
-  /* Active nav link */
-  var links = $$('.nav a');
-  var sections = links.map(function (a) { return $(a.getAttribute('href')); });
-  var navIO = new IntersectionObserver(function (entries) {
-    entries.forEach(function (en) {
-      if (en.isIntersecting) links.forEach(function (a) { a.classList.toggle('is-active', a.getAttribute('href') === '#' + en.target.id); });
-    });
-  }, { rootMargin: '-45% 0px -50% 0px' });
-  sections.forEach(function (s) { if (s) navIO.observe(s); });
+  burger.addEventListener('click', function () { menu(!document.body.classList.contains('menu-open')); });
+  $$('a', drawer).forEach(function (a) { a.addEventListener('click', function () { menu(false); }); });
+  addEventListener('keydown', function (e) { if (e.key === 'Escape') menu(false); });
 
   /* Reveal on scroll */
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (en) {
-      if (en.isIntersecting) { en.target.classList.add('is-visible'); io.unobserve(en.target); }
-    });
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: .15, rootMargin: '0px 0px -40px 0px' });
-  $$('.reveal, #steps').forEach(function (el) { io.observe(el); });
+  $$('.reveal, [data-reveal]').forEach(function (el) { io.observe(el); });
 
-  /* Falling petals */
-  if (!reduce) {
-    var petals = $('.petals');
-    for (var i = 0; i < 14; i++) {
-      var p = document.createElement('span');
-      p.className = 'petal';
-      var size = 8 + Math.random() * 12;
-      p.style.left = Math.random() * 100 + '%';
-      p.style.width = p.style.height = size + 'px';
-      p.style.animationDuration = 12 + Math.random() * 14 + 's';
-      p.style.animationDelay = -Math.random() * 20 + 's';
-      p.style.setProperty('--drift', (Math.random() * 200 - 60) + 'px');
-      petals.appendChild(p);
-    }
-  }
+  /* Active nav link */
+  var navLinks = $$('.nav a');
+  var nio = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) navLinks.forEach(function (a) { a.classList.toggle('active', a.hash === '#' + e.target.id); }); });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  navLinks.forEach(function (a) { var s = $(a.hash); if (s) nio.observe(s); });
 
   /* Counters */
-  function count(el) {
-    var target = parseFloat(el.dataset.count), dec = +(el.dataset.decimals || 0);
-    var fmt = function (v) { return v.toFixed(dec).replace('.', ','); };
-    if (reduce) { el.textContent = fmt(target); return; }
-    var start = null, dur = 1800;
-    function step(t) {
-      if (!start) start = t;
-      var k = Math.min((t - start) / dur, 1), e = 1 - Math.pow(1 - k, 4);
-      el.textContent = fmt(target * e);
-      if (k < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
-  setTimeout(function () { $$('[data-count]').forEach(count); }, 900);
-
-  /* Hero parallax */
-  var visual = $('.hero-visual');
-  if (!reduce && matchMedia('(pointer: fine)').matches) {
-    $('.hero').addEventListener('mousemove', function (e) {
-      var x = (e.clientX / innerWidth - .5), y = (e.clientY / innerHeight - .5);
-      visual.style.transform = 'translate3d(' + x * -24 + 'px,' + y * -24 + 'px,0)';
-    });
-  }
-
-  /* Service filter */
-  var tabs = $$('.tab'), cards = $$('.service');
-  tabs.forEach(function (tab) {
-    tab.addEventListener('click', function () {
-      var f = tab.dataset.filter;
-      tabs.forEach(function (t) { t.setAttribute('aria-selected', t === tab); });
-      cards.forEach(function (c) {
-        var show = f === 'all' || c.dataset.cat === f;
-        c.classList.remove('is-entering');
-        c.classList.toggle('is-hidden', !show);
-        if (show) { c.classList.add('is-visible'); void c.offsetWidth; c.classList.add('is-entering'); }
+  var cio = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return; cio.unobserve(e.target);
+      var el = e.target, to = parseFloat(el.dataset.count), dec = +(el.dataset.dec || 0), t0 = null;
+      var fmt = function (v) { return v.toFixed(dec).replace('.', ','); };
+      if (reduce) { el.textContent = fmt(to); return; }
+      requestAnimationFrame(function step(t) {
+        if (!t0) t0 = t; var k = Math.min((t - t0) / 2000, 1);
+        el.textContent = fmt(to * (1 - Math.pow(1 - k, 4)));
+        if (k < 1) requestAnimationFrame(step);
       });
     });
-  });
+  }, { threshold: .6 });
+  $$('[data-count]').forEach(function (el) { cio.observe(el); });
 
-  /* Prefill service from card links */
-  var serviceSelect = $('#f-service');
-  $$('[data-service]').forEach(function (a) {
-    a.addEventListener('click', function () { serviceSelect.value = a.dataset.service; });
-  });
+  /* Prefill form from service / voucher */
+  var svcSelect = $('#f-svc');
+  $$('[data-service]').forEach(function (a) { a.addEventListener('click', function () { svcSelect.value = a.dataset.service; }); });
+  $('#v-btn').addEventListener('click', function () { svcSelect.value = 'Voucher podarunkowy'; });
 
-  /* Voucher amount + tilt */
-  var gcValue = $('#gc-value');
-  $$('.amount').forEach(function (b) {
+  /* Voucher amount */
+  var vVal = $('#v-val');
+  $$('.amounts button').forEach(function (b) {
     b.addEventListener('click', function () {
-      $$('.amount').forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
-      var from = +gcValue.textContent, to = +b.dataset.value, s = null;
-      if (reduce) { gcValue.textContent = to; return; }
+      $$('.amounts button').forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
+      var from = +vVal.textContent, to = +b.dataset.v, t0 = null;
+      if (reduce) { vVal.textContent = to; return; }
       requestAnimationFrame(function step(t) {
-        if (!s) s = t;
-        var k = Math.min((t - s) / 600, 1), e = 1 - Math.pow(1 - k, 3);
-        gcValue.textContent = Math.round(from + (to - from) * e);
+        if (!t0) t0 = t; var k = Math.min((t - t0) / 700, 1);
+        vVal.textContent = Math.round(from + (to - from) * (1 - Math.pow(1 - k, 3)));
         if (k < 1) requestAnimationFrame(step);
       });
     });
   });
-  $('#voucher-btn').addEventListener('click', function () { serviceSelect.value = 'Voucher prezentowy'; });
-  var card = $('#gift-card');
+  var vCard = $('#v-card');
   if (!reduce && matchMedia('(pointer: fine)').matches) {
-    card.addEventListener('mousemove', function (e) {
-      var r = card.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-      card.style.transform = 'rotateY(' + (x - .5) * 16 + 'deg) rotateX(' + (.5 - y) * 12 + 'deg)';
-      card.style.setProperty('--shine', (100 - x * 100) + '%');
+    var vMedia = vCard.parentNode;
+    vMedia.addEventListener('mousemove', function (e) {
+      var r = vMedia.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      vCard.style.transform = 'translate3d(' + x * 18 + 'px,' + y * 18 + 'px,0) rotate(' + x * 3 + 'deg)';
     });
-    card.addEventListener('mouseleave', function () { card.style.transform = ''; card.style.setProperty('--shine', '100%'); });
+    vMedia.addEventListener('mouseleave', function () { vCard.style.transform = ''; });
   }
 
-  /* Testimonials */
-  var slides = $$('.t-slide'), dotsWrap = $('.t-dots'), idx = 0, timer;
+  /* Reviews */
+  var slides = $$('.slide'), dots = $('.dots'), cur = 0, timer;
   slides.forEach(function (_, i) {
-    var d = document.createElement('button');
-    d.className = 't-dot'; d.setAttribute('aria-label', 'Opinia ' + (i + 1));
-    d.addEventListener('click', function () { go(i); restart(); });
-    dotsWrap.appendChild(d);
+    var b = document.createElement('button');
+    b.setAttribute('aria-label', 'Opinia ' + (i + 1));
+    b.addEventListener('click', function () { go(i); auto(); });
+    dots.appendChild(b);
   });
-  var dots = $$('.t-dot');
-  function go(n) {
-    var prev = slides[idx];
-    idx = (n + slides.length) % slides.length;
-    if (prev !== slides[idx]) {
-      prev.classList.add('is-leaving'); prev.classList.remove('is-active');
-      setTimeout(function () { prev.classList.remove('is-leaving'); }, 800);
-    }
-    slides[idx].classList.add('is-active');
-    dots.forEach(function (d, i) { d.setAttribute('aria-current', i === idx); });
+  function go(i) {
+    cur = (i + slides.length) % slides.length;
+    slides.forEach(function (s, j) { s.classList.toggle('on', j === cur); });
+    $$('button', dots).forEach(function (d, j) { d.setAttribute('aria-current', j === cur); });
   }
-  function restart() { clearInterval(timer); if (!reduce) timer = setInterval(function () { go(idx + 1); }, 6500); }
-  $$('.t-arrow').forEach(function (b) { b.addEventListener('click', function () { go(idx + +b.dataset.dir); restart(); }); });
-  go(0); restart();
+  function auto() { clearInterval(timer); if (!reduce) timer = setInterval(function () { go(cur + 1); }, 7000); }
+  go(0); auto();
 
   /* Booking form (demo) */
-  var form = $('#booking-form'), dateInput = $('#f-date');
-  dateInput.min = new Date().toISOString().slice(0, 10);
+  var form = $('#form');
+  $('#f-date').min = new Date().toISOString().slice(0, 10);
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    var ok = true;
-    $$('[required]', form).forEach(function (inp) {
-      var valid = inp.checkValidity() && inp.value.trim() !== '';
-      inp.closest('.field').classList.toggle('invalid', !valid);
-      if (!valid && ok) { inp.focus(); ok = false; }
+    var first = null;
+    $$('[required]', form).forEach(function (el) {
+      var ok = el.checkValidity() && el.value.trim() !== '';
+      el.closest('.f').classList.toggle('bad', !ok);
+      if (!ok && !first) first = el;
     });
-    if (!ok) return;
-    var btn = $('button[type=submit]', form);
-    btn.classList.add('is-loading'); btn.disabled = true;
-    setTimeout(function () {
-      form.style.display = 'none';
-      $('.form-success').classList.add('show');
-    }, 1200);
+    if (first) { first.focus(); return; }
+    form.style.display = 'none';
+    $('.thanks').classList.add('on');
   });
-  $$('input, select', form).forEach(function (inp) {
-    inp.addEventListener('input', function () { inp.closest('.field').classList.remove('invalid'); });
-  });
+  $$('input, select', form).forEach(function (el) { el.addEventListener('input', function () { el.closest('.f').classList.remove('bad'); }); });
 })();
 </script>
 </body>
