@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Weterynarz Katowice – Przychodnia Weterynaryjna, ul. Bolesława Chrobrego</title>
 <meta name="description" content="Przychodnia weterynaryjna w Katowicach przy ul. Bolesława Chrobrego. Psy i koty: konsultacje, szczepienia, czipowanie i paszporty, diagnostyka, zabiegi, opieka nad seniorami. Umów wizytę.">
-<meta name="theme-color" content="#F7F2EA">
+<meta name="theme-color" content="#141716">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231F4D3A'/%3E%3Cpath d='M32 14v36M14 32h36' stroke='%23F7F2EA' stroke-width='10' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -338,6 +338,88 @@
 
   .rv { opacity: 0; transform: translateY(34px); transition: opacity 1s var(--ease), transform 1s var(--ease); transition-delay: var(--d, 0s); }
   .rv.in { opacity: 1; transform: none; }
+
+  /* ===== dark frosted-glass theme ===== */
+  :root { --ink: #ECE8E1; --muted: rgba(236,232,225,.62); --line: rgba(255,255,255,.12); --sage: #A8CDB8; --glass: rgba(255,255,255,.055); --glass2: rgba(255,255,255,.09); --gborder: rgba(255,255,255,.12); --blur: blur(18px) saturate(1.2); }
+  body { background: #141716; color: var(--ink); }
+  ::selection { background: var(--apricot); color: #1C1410; }
+  .ambient { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: #141716; }
+  .ambient img { position: absolute; inset: -8%; width: 116%; height: 116%; max-width: none; object-fit: cover; filter: blur(46px) brightness(.42) saturate(.75); transform: scaleX(-1); }
+  .ambient::after { content: ""; position: absolute; inset: 0; background: radial-gradient(60% 50% at 80% 20%, rgba(229,142,98,.12), transparent 70%), radial-gradient(50% 50% at 10% 80%, rgba(168,205,184,.10), transparent 70%), rgba(20,23,22,.55); }
+  .glass { background: var(--glass); border: 1px solid var(--gborder); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); }
+
+  .btn-main { background: var(--apricot); color: #1C1410; box-shadow: 0 12px 30px -14px rgba(229,142,98,.8); }
+  .btn-main:hover { background: var(--apricot2); }
+  .btn-ghost { color: var(--ink); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.28); }
+  .btn-ghost:hover { box-shadow: inset 0 0 0 1.5px #fff; }
+  .hdr.solid { background: rgba(20,23,22,.55); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); box-shadow: 0 1px 0 var(--gborder); }
+  .hdr .cross, .hdr:not(.solid) .cross { background: var(--ink); color: #1C2620; }
+  .hdr:not(.solid) .btn-main { background: var(--ink); color: #1C2620; }
+  .menu a:hover { color: #fff; }
+  .splash { background: #141716; }
+
+  /* hero fades into the frosted page */
+  .hero { background: transparent; }
+  .hero-bg::after { background: linear-gradient(90deg, rgba(14,17,15,.82) 0%, rgba(14,17,15,.5) 38%, rgba(14,17,15,0) 66%), linear-gradient(0deg, rgba(20,23,22,1) 0%, rgba(20,23,22,.55) 16%, rgba(20,23,22,0) 42%), linear-gradient(180deg, rgba(14,17,15,.45) 0%, rgba(14,17,15,0) 22%); }
+  @media (max-width: 899px) { .hero { background: #141716; } .hero-bg { background: #141716; } .hero-bg::after { background: linear-gradient(0deg, #141716 0%, rgba(20,23,22,.6) 30%, rgba(20,23,22,0) 60%), linear-gradient(180deg, rgba(14,17,15,.55) 0%, rgba(14,17,15,0) 25%); } }
+  .tape { background: rgba(255,255,255,.04); border-block: 1px solid var(--gborder); padding: 18px 0; -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); color: var(--ink); }
+  .tape + section { margin-top: 0; border-radius: 0; background: transparent; }
+
+  h2 .hl, h1 .hl { color: var(--sage); }
+  .hero h1 .hl { color: #fff; }
+  h2 .it { color: var(--apricot2); }
+  .lbl b { color: var(--apricot2); }
+
+  .card { background: var(--glass); border: 1px solid var(--gborder); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); }
+  .card:hover { box-shadow: 0 30px 60px -30px rgba(0,0,0,.7); border-color: rgba(229,142,98,.45); }
+  .card .no { color: var(--apricot2); }
+  .card .ic { background: rgba(168,205,184,.14); color: var(--sage); }
+  .card:hover .ic { background: var(--sage); color: #1C2620; }
+  .card.v2 .ic { background: rgba(229,142,98,.16); color: var(--apricot2); }
+  .card.v2:hover .ic { background: var(--apricot); color: #1C1410; }
+  .card.photo { background: #1d201f; border: 1px solid var(--gborder); }
+
+  .frame { background: #1d201f; border: 1px solid var(--gborder); }
+  .frame .eye { background: rgba(20,23,22,.5); color: var(--ink); border: 1px solid var(--gborder); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); }
+  .frame .eye b { color: var(--apricot2); }
+  .ticks .dot { background: rgba(168,205,184,.16); color: var(--sage); box-shadow: inset 0 0 0 1px rgba(168,205,184,.35); }
+
+  .cal { background: var(--glass); border: 1px solid var(--gborder); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); color: var(--ink); }
+  .tabs { background: rgba(255,255,255,.06); }
+  .tabs button[aria-selected="true"] { background: var(--ink); color: #1C2620; }
+  .plan li { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.07); }
+
+  .stp { background: var(--glass); border: 1px solid var(--gborder); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); }
+  .stp .n { color: var(--apricot2); }
+
+  .promise { background: rgba(0,0,0,.18); border-block: 1px solid rgba(255,255,255,.06); }
+  .promise .big .word { color: rgba(236,232,225,.18); }
+  .promise .big .hl.on { color: var(--apricot2); }
+  .pets figure { background: #1d201f; border: 1px solid rgba(255,255,255,.25); box-shadow: 0 20px 40px -20px rgba(0,0,0,.8); }
+
+  summary:hover { color: var(--apricot2); }
+  summary::after { background: linear-gradient(var(--sage), var(--sage)) center/12px 1.5px no-repeat, linear-gradient(var(--sage), var(--sage)) center/1.5px 12px no-repeat, rgba(255,255,255,.07); }
+
+  .contact { background: rgba(255,255,255,.035); border-top: 1px solid var(--gborder); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); color: var(--ink); }
+  .contact .lbl::after { background: var(--line); }
+  .panel { background: rgba(10,12,11,.38); color: var(--ink); border: 1px solid var(--gborder); }
+  .fld input:focus, .fld textarea:focus { border-color: var(--apricot2); }
+  .fld input:focus + label, .fld input:not(:placeholder-shown) + label, .fld textarea:focus + label, .fld textarea:not(:placeholder-shown) + label { color: var(--apricot2); }
+  .chips input:checked + span { background: var(--apricot); color: #1C1410; border-color: var(--apricot); }
+  .err { color: #FF9A85; }
+  .bad input { border-color: #FF9A85; }
+  .ok { background: rgba(168,205,184,.14); color: var(--sage); }
+  .info { background: var(--glass); border: 1px solid var(--gborder); }
+  .map { background: var(--glass); border: 1px solid var(--gborder); }
+  .map iframe { filter: grayscale(1) invert(.9) contrast(.85); }
+
+  footer { background: rgba(0,0,0,.25); border-top: 1px solid rgba(255,255,255,.06); color: var(--ink); }
+  .giant { color: var(--apricot2); opacity: .9; }
+
+  .demo { background: rgba(20,23,22,.75); border: 1px solid var(--gborder); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); }
+  .mbar { background: rgba(20,23,22,.6); border: 1px solid var(--gborder); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); }
+  .badge { color: #1C2620; }
+
   @media (prefers-reduced-motion: reduce) {
     .rv, .fade-up { transform: none; transition: opacity .6s ease; }
     h1 .w > span { transform: none; transition: none; }
@@ -385,6 +467,7 @@
   </div>
 </header>
 
+<div class="ambient" aria-hidden="true"><img src="img/hero-pies.jpg" alt=""></div>
 <main id="top">
   <section class="hero">
     <div class="hero-bg" aria-hidden="true"><img src="img/hero-pies.jpg" alt="" width="2000" height="1334" fetchpriority="high"></div>
