@@ -66,6 +66,8 @@
   .chip i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
   .chip.ok i { background: var(--accent); }
   .chip.bad i { background: var(--danger); }
+  .chip.acct { padding: 1px 4px 1px 9px; }
+  .chip.acct select { border: 0; background: transparent; color: var(--fg); font: inherit; padding: 2px 4px; width: auto; max-width: 210px; }
   .tabs { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 10px; }
   .tab { border: 0; background: none; padding: 7px 14px; border-radius: 8px; cursor: pointer; color: var(--muted); font-weight: 500; white-space: nowrap; }
   .tab:hover { background: var(--surface-2); color: var(--fg); }
@@ -191,6 +193,7 @@
       <div class="conn" aria-live="polite">
         <span class="chip" id="chip-db"><i></i>Baza: łączenie…</span>
         <span class="chip" id="chip-gmail"><i></i>Gmail: łączenie…</span>
+        <label class="chip acct" title="Konto, z którego idą maile. Zmień je też w connectorze Gmail."><span>Konto:</span><select id="acct-sel" aria-label="Aktywne konto Gmail"></select></label>
         <span class="chip" id="chip-ai"><i></i>AI: łączenie…</span>
       </div>
     </div>
@@ -376,6 +379,7 @@
     ai: false,
     senderEmail: "",
     accountSince: "",
+    accounts: [],
     lastCheckAt: null,
     hotelSubject: "",
     hotelBody: "",
@@ -470,7 +474,12 @@
   const lastSend = (l) => { const s = sends(l); return s.length ? s[s.length - 1].at : null; };
   // Follow-ups reply in the first mail's thread, which exists only in the Gmail account that sent it.
   const firstAt = (l) => l.firstSentAt || (sends(l)[0] && sends(l)[0].at) || "";
-  const onCurrentAccount = (l) => !S.settings.accountSince || firstAt(l) >= S.settings.accountSince;
+  // Leads mailed before accounts were tracked all went out from the original address.
+  const LEGACY_ACCOUNT = "appkadlafirmy@gmail.com";
+  const norm = (e) => String(e || "").trim().toLowerCase();
+  const activeAccount = () => norm(S.settings.senderEmail);
+  const acctOf = (l) => norm(l.fromAccount) || LEGACY_ACCOUNT;
+  const onCurrentAccount = (l) => !activeAccount() || acctOf(l) === activeAccount();
   function followReady(l) {
     if (l.status !== "sent" || l.repliedAt || !l.threadId || !onCurrentAccount(l)) return false;
     const s = sends(l); if (!s.length || s.length >= 3) return false;
@@ -479,7 +488,7 @@
   // First messages and follow-ups have separate daily limits.
   function sentToday(kind = "first") {
     const t = dayKey(new Date()); let n = 0;
-    for (const l of S.leads) for (const s of sends(l)) if (dayKey(s.at) === t && (s.kind === "followup") === (kind === "followup")) n++;
+    for (const l of S.leads) { if (sends(l).length && !onCurrentAccount(l)) continue; for (const s of sends(l)) if (dayKey(s.at) === t && (s.kind === "followup") === (kind === "followup")) n++; }
     return n;
   }
   const limitFor = (kind = "first") => kind === "followup" ? (Number(S.settings.followLimit) || 30) : (Number(S.settings.dailyLimit) || 30);
@@ -706,6 +715,7 @@
       <label class="f"><span>Strona www</span><input type="text" id="lf-www" value="${esc(L.www)}"></label>
       <label class="f"><span>Notatka (widzi ją też personalizacja AI)</span><textarea id="lf-notes" rows="3">${esc(L.notes)}</textarea></label>
       ${lead ? `<label class="f"><span>Status</span><select id="lf-status">${opt}</select></label>` : ""}
+      ${sends(L).length ? `<p class="small muted" style="margin:0">Wysłane z konta: <b>${esc(acctOf(L))}</b></p>` : ""}
       ${L.source ? `<p class="small muted" style="margin:0">Źródło: <a href="${esc(L.source)}" target="_blank" rel="noopener">${esc(L.source.slice(0, 70))}</a></p>` : ""}
       <div id="lf-err"></div>`,
       [...(lead ? [["Usuń", async () => { await db.doc("leads/" + lead.id).delete().catch(() => {}); closeSheet(); toast("Usunięto lead."); }, "danger"]] : []),
@@ -799,7 +809,7 @@
       else if (kind === "first" && sends(l).length) skip.push([l, "już wysłano"]);
       else if (kind === "first" && l.status === "check") skip.push([l, "do sprawdzenia"]);
       else if (kind === "followup" && !l.threadId) skip.push([l, "brak pierwszego maila"]);
-      else if (kind === "followup" && !onCurrentAccount(l)) skip.push([l, "pierwszy mail z poprzedniego konta"]);
+      else if (kind === "followup" && !onCurrentAccount(l)) skip.push([l, "pierwszy mail z konta " + acctOf(l)]);
       else if (kind === "followup" && sends(l).length >= 3) skip.push([l, "już 2 follow-upy"]);
       else ok.push(l);
     }
@@ -815,6 +825,7 @@
     const blockers = [];
     if (!mcp) blockers.push("Gmail jest niedostępny w tym widoku.");
     if (!db) blockers.push("Baza jest niedostępna.");
+    if (!activeAccount()) blockers.push("Wybierz u góry konto, z którego wysyłasz.");
     if (kind === "first") blockers.push(...probs);
     if (!ok.length) blockers.push("Żaden z zaznaczonych leadów nie nadaje się do tej wysyłki.");
     else if (!left) blockers.push("Dzienny limit jest wyczerpany. Wróć jutro albo podnieś limit w zakładce Wiadomość.");
@@ -888,7 +899,7 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
         const m = p.message && typeof p.message === "object" ? p.message : p;
         const at = nowIso();
         const upd = { status: "sent", lastError: "", sends: [...sends(lead), { at, kind, id: m.id || "" }] };
-        if (kind === "first") { upd.threadId = m.threadId || m.id || ""; upd.subject = msg.subject; upd.firstSentAt = at; upd.fromAccount = S.settings.senderEmail || ""; }
+        if (kind === "first") { upd.threadId = m.threadId || m.id || ""; upd.subject = msg.subject; upd.firstSentAt = at; upd.fromAccount = activeAccount(); }
         await db.doc("leads/" + lead.id).update(upd).catch(() => log("  (nie zapisano statusu w bazie)"));
         ok++; unsure = 0; log("✓ " + lead.email + ": wysłano");
       } catch (e) {
@@ -900,7 +911,7 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
           if (found) {
             const at = nowIso();
             const upd = { status: "sent", lastError: "", sends: [...sends(lead), { at, kind, id: found.id }] };
-            if (kind === "first") { upd.threadId = found.threadId; upd.subject = msg.subject; upd.firstSentAt = at; upd.fromAccount = S.settings.senderEmail || ""; }
+            if (kind === "first") { upd.threadId = found.threadId; upd.subject = msg.subject; upd.firstSentAt = at; upd.fromAccount = activeAccount(); }
             await db.doc("leads/" + lead.id).update(upd).catch(() => log("  (nie zapisano statusu w bazie)"));
             ok++; unsure = 0; log("✓ " + lead.email + ": wysłano (potwierdzone w Wysłanych)");
             $("#send-prog").style.width = ((i + 1) / list.length) * 100 + "%";
@@ -946,7 +957,7 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
     const self = String(S.settings.senderEmail || "").toLowerCase();
     const open = (l) => sends(l).length && !l.repliedAt && !["bounced", "not_interested", "unsubscribed"].includes(l.status);
     const byThread = new Map(), byEmail = new Map();
-    for (const l of S.leads) { if (!open(l)) continue; if (l.threadId) byThread.set(l.threadId, l); byEmail.set(String(l.email).toLowerCase(), l); }
+    for (const l of S.leads) { if (!open(l)) continue; if (l.threadId && onCurrentAccount(l)) byThread.set(l.threadId, l); byEmail.set(String(l.email).toLowerCase(), l); }
     if (!byEmail.size) { note.innerHTML = `<div class="note">Nie ma wysłanych maili, na które czekasz na odpowiedź.</div>`; return; }
     btn.disabled = true;
     let found = 0, refused = 0, bounces = 0, seen = 0, page = 0, token = "";
@@ -1022,6 +1033,42 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
     try { await saveSettings(readForm()); dirty = false; $("#tpl-status").textContent = "Zapisano " + fmtDate(nowIso()); toast("Zapisano szablon."); }
     catch (e) { $("#tpl-status").textContent = "Nie udało się zapisać (" + (e.code || "błąd") + ")."; }
   };
+  // ---------- sending account ----------
+  const accountList = () => [...new Set([...(S.settings.accounts || []), S.settings.senderEmail, S.connected].map(norm).filter(Boolean))];
+  function renderAccountSel() {
+    const sel = $("#acct-sel"), cur = activeAccount(), list = accountList();
+    sel.innerHTML = (cur ? "" : `<option value="">— wybierz —</option>`) +
+      list.map((a) => `<option value="${esc(a)}"${a === cur ? " selected" : ""}>${esc(a)}${a === norm(S.connected) ? " ✓" : ""}</option>`).join("") +
+      `<option value="__add">+ Dodaj konto…</option>`;
+  }
+  async function setAccount(email) {
+    email = norm(email); if (!isEmail(email)) return toast("To nie wygląda na adres e-mail.");
+    try { await saveSettings({ senderEmail: email, accounts: [...new Set([...accountList(), email])] }); toast("Wysyłasz teraz z " + email + "."); }
+    catch (e) { toast("Nie udało się zapisać konta."); }
+    renderAccountSel();
+  }
+  $("#acct-sel").addEventListener("change", (e) => {
+    const v = e.target.value;
+    if (v !== "__add") return setAccount(v);
+    renderAccountSel();
+    openSheet("Dodaj konto Gmail", `<label class="f"><span>Adres e-mail</span><input type="email" id="acct-new" placeholder="np. kontakt@gmail.com"></label>
+      <p class="small muted" style="margin:0">Pamiętaj, żeby w connectorze Gmail też było podłączone to konto. Każde konto ma osobny dzienny limit, a follow-upy idą tylko do firm, które dostały pierwszy mail z tego samego konta.</p>`,
+      [["Anuluj", closeSheet], ["Dodaj i ustaw", async () => { await setAccount($("#acct-new").value); closeSheet(); }, "primary"]]);
+  });
+  // Works out which Gmail account the connector is signed in to, and switches to it when it differs.
+  async function detectAccount() {
+    const pick = (r, f) => { const m = ((r && r.payload && r.payload.threads) || [])[0]?.messages?.[0]; return m ? (String(f(m) || "").match(/[^\s<>"]+@[^\s<>"]+/) || [""])[0] : ""; };
+    try {
+      let a = pick(await mcp.callTool(GMAIL, "search_threads", { query: "in:sent", pageSize: 1, view: "THREAD_VIEW_METADATA_ONLY" }, { cache: false }), (m) => m.sender);
+      if (!a) a = pick(await mcp.callTool(GMAIL, "search_threads", { query: "in:inbox", pageSize: 1, view: "THREAD_VIEW_METADATA_ONLY" }, { cache: false }), (m) => (m.toRecipients || [])[0]);
+      if (!a) return;
+      S.connected = norm(a); applyDetected();
+    } catch (e) {}
+  }
+  function applyDetected() {
+    renderAccountSel();
+    if (S.connected && S.settingsLoaded && db && S.connected !== activeAccount()) setAccount(S.connected);
+  }
   function previewLead() {
     const id = $("#preview-lead").value; return S.leads.find((l) => l.id === id) || S.leads[0] || { firma: "Przykładowa Firma", imie: "Anna", miasto: "Poznań", branza: "gastronomia", email: "kontakt@przyklad.pl" };
   }
@@ -1114,6 +1161,7 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
     db.collection("requests").onSnapshot((s) => { S.requests = s.docs.map((x) => ({ id: x.id, ...x.data() })); scheduleRender(); }, dbErr);
     db.doc("settings/main").onSnapshot((s) => {
       S.settings = { ...DEFAULTS, ...(s.exists ? s.data() : {}) }; S.settingsLoaded = true;
+      applyDetected();
       if (!dirty) fillForm();
       scheduleRender();
     }, dbErr);
@@ -1126,7 +1174,7 @@ Odpowiedz wyłącznie obiektem JSON: {"subject": "…", "body": "…"}`;
       const s = servers && servers[0];
       if (!s) chip("#chip-gmail", "bad", "Gmail: niepodłączony");
       else if (s.authStatus === "needs_reauth") chip("#chip-gmail", "bad", "Gmail: połącz ponownie");
-      else chip("#chip-gmail", "ok", "Gmail: gotowy");
+      else { chip("#chip-gmail", "ok", "Gmail: gotowy"); detectAccount(); }
     } catch (e) { chip("#chip-gmail", "", "Gmail: " + (e.code || "?")); }
   });
   C.use("sample").then((s) => {
