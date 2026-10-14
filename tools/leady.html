@@ -105,6 +105,8 @@
   .reply-item { border-left: 3px solid var(--reply); padding: 4px 0 4px 12px; display: grid; gap: 2px; min-width: 0; }
   .reply-item p { margin: 0; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
 
+  .rand { display: inline-flex; gap: 6px; align-items: center; }
+  .rand input { width: 76px; }
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--line); background: var(--surface); padding: 7px 13px; border-radius: 8px; cursor: pointer; font-weight: 500; white-space: nowrap; }
   .btn:hover { border-color: var(--muted); }
   .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
@@ -252,7 +254,7 @@
           <option value="bounced">Odbite / błędy</option>
           <option value="closed">Niezainteresowani / wypisani</option>
         </select>
-        <button class="btn" id="btn-random" title="Losuje nowe leady (spośród pasujących do filtra), tyle ile zostało z dziennego limitu, i otwiera podgląd wysyłki">Wyślij do losowych</button>
+        <span class="rand"><input type="number" id="rand-n" min="1" inputmode="numeric" aria-label="Ile losowych leadów" title="Ile losowych firm (puste = cały pozostały limit na dziś)"><button class="btn" id="btn-random" title="Losuje nowe leady (spośród pasujących do filtra) i otwiera podgląd wysyłki">Wyślij do losowych</button></span>
         <button class="btn" id="btn-import">Importuj CSV</button>
         <button class="btn primary" id="btn-add">Dodaj lead</button>
       </div>
@@ -575,7 +577,8 @@
   }
   function renderBadges() {
     const left = Math.max(0, limitFor() - sentToday());
-    $("#btn-random").textContent = left ? `Wyślij do ${left} losowych` : "Limit na dziś wykorzystany";
+    $("#btn-random").textContent = left ? "Wyślij do losowych" : "Limit na dziś wykorzystany";
+    $("#rand-n").placeholder = left ? "max " + left : "0"; $("#rand-n").disabled = !left;
     const pend = S.requests.filter((r) => r.status !== "done").length;
     $("#req-badge").hidden = !pend; $("#req-badge").textContent = pend;
     $("#lead-count").textContent = S.leads.length ? "(" + S.leads.length + ")" : "";
@@ -655,7 +658,9 @@
   $("#btn-random").onclick = () => {
     const pool = filteredLeads().filter((l) => !sends(l).length && !BLOCKED.has(l.status) && !l.repliedAt && l.status !== "check" && isEmail(l.email));
     const left = Math.max(0, limitFor() - sentToday());
-    const n = Math.min(left, pool.length);
+    const want = Math.floor(Number($("#rand-n").value)) || left;
+    if (want > left) toast(`Dzisiejszy limit dla tego konta pozwala jeszcze na ${left}. Wyślę ${Math.min(left, pool.length)}.`);
+    const n = Math.min(want, left, pool.length);
     if (!pool.length) { toast("Brak nowych leadów do wysłania" + (S.q || S.status !== "all" ? " w tym filtrze." : ".")); return; }
     if (!n) { toast("Dzienny limit jest wyczerpany. Wróć jutro."); return; }
     for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
