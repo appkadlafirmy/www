@@ -167,10 +167,7 @@
   .splash-line span { display: block; height: 100%; background: var(--apricot); transform-origin: 0 50%; transform: scaleX(var(--k, 0)); }
   .splash.done .splash-ui { opacity: 0; transform: translateY(-24px); }
   .splash.done .splash-bg img { filter: blur(0) brightness(1) saturate(1); transform: scaleX(-1) scale(1.18); }
-  .splash-sharp { --k: 0; clip-path: circle(calc(var(--k) * 14vmax) at 56% 17%); transition: none; }
-  .splash-sharp img { filter: none; }
-  @media (max-width: 899px) { .splash-sharp { clip-path: circle(calc(var(--k) * 19vmax) at 54% 18%); } .splash.done .splash-sharp { clip-path: circle(150vmax at 54% 18%); } .splash-mid { margin-top: auto; margin-bottom: 34px; } }
-  .splash.done .splash-sharp { clip-path: circle(150vmax at 56% 17%); transition: clip-path 1.1s cubic-bezier(.76, 0, .24, 1); }
+  @media (max-width: 899px) { .splash-mid { margin-top: auto; margin-bottom: 34px; } }
   .splash-word:nth-child(3) span { animation-delay: .24s; }
   .splash-mid { mix-blend-mode: normal; }
   .splash-word { text-shadow: 0 4px 30px rgba(0,0,0,.35); }
@@ -462,8 +459,7 @@
 </head>
 <body>
 <div class="splash" id="splash" aria-hidden="true">
-  <div class="splash-bg"><img src="img/hero-pies.jpg" alt=""></div>
-  <div class="splash-bg splash-sharp" id="splashSharp"><img src="img/hero-pies.jpg" alt=""></div>
+  <div class="splash-bg"><img src="img/hero-pies.jpg" alt="" id="splashImg"></div>
   <div class="splash-ui">
     <div class="splash-top"><b>Katowice</b><span>ul. Chrobrego</span></div>
     <div class="splash-mid">
@@ -751,7 +747,7 @@
   // Splash: blurred hero photo + 0-100 counter, then the photo sharpens into the hero
   const intro = document.getElementById("splash"), html = document.documentElement;
   const heroBg = document.querySelector(".hero-bg img");
-  const countEl = document.getElementById("splashCount"), lineEl = document.getElementById("splashLine"), sharpEl = document.getElementById("splashSharp");
+  const countEl = document.getElementById("splashCount"), lineEl = document.getElementById("splashLine"), splashImg = document.getElementById("splashImg");
   const dur = reduce ? 300 : 1900, t0 = performance.now();
   let ready = heroBg.complete;
   if (!ready) { const ok = () => { ready = true; }; heroBg.addEventListener("load", ok, { once: true }); heroBg.addEventListener("error", ok, { once: true }); setTimeout(ok, 3200); }
@@ -761,8 +757,9 @@
     const e = 1 - Math.pow(1 - k, 3);
     countEl.textContent = Math.round(e * 100);
     lineEl.style.setProperty("--k", e.toFixed(3));
-    sharpEl.style.setProperty("--k", e.toFixed(3));
+    if (!reduce) splashImg.style.filter = `blur(${(28 - e * 18).toFixed(1)}px) brightness(${(.38 + e * .17).toFixed(2)}) saturate(.8)`;
     if (k < 1) return requestAnimationFrame(tick);
+    splashImg.style.filter = "blur(0px) brightness(1) saturate(1)";
     intro.classList.add("done");
     setTimeout(() => { intro.classList.add("out"); html.classList.remove("locked"); document.body.classList.add("loaded"); }, reduce ? 0 : 700);
     setTimeout(() => intro.classList.add("gone"), reduce ? 500 : 2300);
