@@ -281,11 +281,14 @@
   /* reveal */
   .rv { opacity: 0; transform: translateY(26px); transition: opacity .8s var(--ease), transform .8s var(--ease); transition-delay: var(--d, 0s); }
   .rv.in { opacity: 1; transform: none; }
+  /* Reduced motion: keep gentle fades and a slower marquee, drop the morphing and floating. */
   @media (prefers-reduced-motion: reduce) {
-    .rv { opacity: 1; transform: none; transition: none; }
-    .blob, .photo, .float, .track { animation: none; }
+    .rv { transform: none; transition: opacity .6s ease; }
+    .blob, .photo, .float { animation: none; }
+    .track { animation-duration: 60s; }
     html { scroll-behavior: auto; }
   }
+  .marquee:hover .track { animation-play-state: paused; }
 </style>
 </head>
 <body>
