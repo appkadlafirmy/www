@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weterynarz Gdynia – Gabinet Weterynaryjny lek. wet. Katarzyna Przewoska-Stoltmann</title>
+<meta name="description" content="Gabinet weterynaryjny w Gdyni, ul. Górna. Lek. wet. Katarzyna Przewoska-Stoltmann: konsultacje, szczepienia, czipowanie i paszporty, diagnostyka, zabiegi. Psy i koty. Umów wizytę.">
+<meta name="theme-color" content="#0F4C47">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%230F4C47'/%3E%3Cg fill='%23F4C95D'%3E%3Cpath d='M32 35c-7 0-12 6-12 11 0 4 3 6 6 6 2 0 4-1 6-1s4 1 6 1c3 0 6-2 6-6 0-5-5-11-12-11z'/%3E%3Cellipse cx='19' cy='29' rx='4.5' ry='5.5'/%3E%3Cellipse cx='27' cy='19' rx='4.5' ry='5.5'/%3E%3Cellipse cx='37' cy='19' rx='4.5' ry='5.5'/%3E%3Cellipse cx='45' cy='29' rx='4.5' ry='5.5'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/pies-hero.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VeterinaryCare",
+  "name": "Gabinet Weterynaryjny lek. wet. Katarzyna Przewoska-Stoltmann",
+  "description": "Gabinet weterynaryjny w Gdyni dla psów i kotów: konsultacje, szczepienia, czipowanie i paszporty, diagnostyka, profilaktyka i zabiegi.",
+  "email": "katarzyna.przewoska@gmail.com",
+  "address": { "@type": "PostalAddress", "streetAddress": "ul. Górna", "addressLocality": "Gdynia", "addressRegion": "pomorskie", "addressCountry": "PL" },
+  "areaServed": ["Gdynia", "Sopot", "Rumia", "Trójmiasto"],
+  "employee": { "@type": "Person", "name": "Katarzyna Przewoska-Stoltmann", "jobTitle": "Lekarz weterynarii" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Gdzie znajdę weterynarza w Gdyni?", "acceptedAnswer": { "@type": "Answer", "text": "Gabinet Weterynaryjny lek. wet. Katarzyny Przewoskiej-Stoltmann mieści się w Gdyni przy ul. Górnej. Przyjmujemy psy i koty: konsultacje, szczepienia, czipowanie, diagnostyka i zabiegi." } },
+    { "@type": "Question", "name": "Czy trzeba się wcześniej umówić?", "acceptedAnswer": { "@type": "Answer", "text": "Tak, przyjmujemy po wcześniejszym umówieniu telefonicznym lub przez formularz na stronie. Dzięki temu nie czekasz w poczekalni." } },
+    { "@type": "Question", "name": "Czy wyrobicie paszport dla psa lub kota?", "acceptedAnswer": { "@type": "Answer", "text": "Tak. Wszczepiamy czip, rejestrujemy zwierzę i wydajemy paszport potrzebny do podróży za granicę." } }
+  ]
+}
+</script>
+<style>
+  :root {
+    --ink: #0E2A2A;
+    --deep: #0F4C47;
+    --teal: #1F7A70;
+    --mint: #D3EBE3;
+    --mint-2: #E8F4EF;
+    --cream: #FBF6EF;
+    --sand: #F2E9DD;
+    --coral: #E8774A;
+    --coral-soft: #FBE0D3;
+    --butter: #F4C95D;
+    --butter-soft: #FCEFC8;
+    --muted: #4F6461;
+    --line: #E3D8C9;
+    --display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+    --sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --ease: cubic-bezier(.2, .8, .2, 1);
+    --max: 1240px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+  body { margin: 0; background: var(--cream); color: var(--ink); font: 400 17px/1.65 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+  h1, h2, h3, p, ul, ol, dl, dd, figure, blockquote { margin: 0; }
+  ul, ol { padding: 0; list-style: none; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; border-radius: 8px; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+  @media (min-width: 900px) { .wrap { padding: 0 40px; } }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* buttons */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 26px; border-radius: 99px; border: 0; font-weight: 700; font-size: 16px; text-decoration: none; cursor: pointer; transition: transform .25s var(--ease), background .25s, box-shadow .25s; white-space: nowrap; }
+  .btn:active { transform: scale(.97); }
+  .btn-coral { background: var(--coral); color: #2A1206; box-shadow: 0 10px 24px -10px rgba(232,119,74,.8); }
+  .btn-coral:hover { background: #EF8A60; transform: translateY(-2px); }
+  .btn-dark { background: var(--deep); color: #fff; }
+  .btn-dark:hover { background: var(--ink); transform: translateY(-2px); }
+  .btn-line { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 2px var(--ink); }
+  .btn-line:hover { background: var(--ink); color: var(--cream); }
+  .btn .arr { width: 30px; height: 30px; border-radius: 50%; background: rgba(0,0,0,.12); display: grid; place-items: center; margin-right: -12px; transition: transform .3s var(--ease); }
+  .btn:hover .arr { transform: translateX(3px); }
+
+  /* header */
+  .top { position: sticky; top: 0; z-index: 40; padding: 12px 0; transition: background .3s, box-shadow .3s; }
+  .top.scrolled { background: rgba(251,246,239,.86); backdrop-filter: blur(14px); box-shadow: 0 1px 0 var(--line); }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .logo-mark { width: 44px; height: 44px; border-radius: 14px; background: var(--deep); display: grid; place-items: center; flex: none; transform: rotate(-6deg); transition: transform .4s var(--ease); }
+  .logo:hover .logo-mark { transform: rotate(6deg); }
+  .logo-txt b { display: block; font-family: var(--display); font-weight: 700; font-size: 18px; line-height: 1.05; letter-spacing: -.01em; }
+  .logo-txt span { display: block; font-size: 12.5px; color: var(--muted); }
+  @media (max-width: 480px), (min-width: 1020px) and (max-width: 1260px) { .logo-txt span { display: none; } }
+  @media (max-width: 420px) { .logo-txt b { font-size: 15.5px; } .logo-mark { width: 40px; height: 40px; } .bar .btn { padding: 0 16px; font-size: 14px; min-height: 44px; } .bar { gap: 10px; } }
+  .menu { display: none; align-items: center; gap: 4px; background: #fff; border-radius: 99px; padding: 5px; box-shadow: 0 1px 0 var(--line), 0 8px 24px -16px rgba(14,42,42,.3); }
+  .menu a { white-space: nowrap; text-decoration: none; font-weight: 600; font-size: 15px; color: var(--muted); padding: 9px 16px; border-radius: 99px; transition: background .2s, color .2s; }
+  .menu a:hover { background: var(--mint-2); color: var(--ink); }
+  @media (min-width: 1020px) { .menu { display: flex; } }
+  .bar .btn { min-height: 46px; padding: 0 20px; font-size: 15px; }
+  .bar .call { display: none; }
+  @media (min-width: 640px) { .bar .call { display: inline-flex; } }
+
+  /* hero */
+  .hero { position: relative; padding: 26px 0 60px; }
+  @media (min-width: 1020px) { .hero { padding: 40px 0 90px; } }
+  .hero-grid { display: grid; gap: 44px; align-items: center; }
+  @media (min-width: 1020px) { .hero-grid { grid-template-columns: 1.08fr .92fr; gap: 40px; } }
+  .tag { display: inline-flex; align-items: center; gap: 9px; background: #fff; padding: 7px 14px 7px 8px; border-radius: 99px; font-weight: 600; font-size: 14px; box-shadow: 0 1px 0 var(--line); }
+  .tag .dot { width: 26px; height: 26px; border-radius: 50%; background: var(--mint); display: grid; place-items: center; color: var(--deep); }
+  h1 { font-family: var(--display); font-weight: 800; font-size: clamp(42px, 7.2vw, 88px); line-height: .98; letter-spacing: -.035em; margin-top: 22px; }
+  h1 .pill { display: inline-flex; align-items: center; gap: .18em; background: var(--coral); color: #2A1206; padding: 0 .28em .04em; border-radius: .5em; transform: rotate(-2deg); }
+  h1 .pill svg { width: .62em; height: .62em; }
+  h1 .soft { color: var(--teal); }
+  .lead { font-size: clamp(17px, 1.6vw, 19.5px); color: var(--muted); max-width: 33rem; margin-top: 24px; }
+  .lead b { color: var(--ink); font-weight: 600; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 34px; }
+  .chips li { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 99px; background: var(--sand); font-size: 14.5px; font-weight: 600; }
+  .chips svg { color: var(--teal); }
+
+  .stage { position: relative; max-width: 520px; width: 100%; margin: 0 auto; aspect-ratio: 1 / 1.08; }
+  .blob { position: absolute; inset: 4% 2% 0 6%; border-radius: 46% 54% 42% 58% / 52% 44% 56% 48%; background: var(--butter); animation: morph 16s ease-in-out infinite alternate; }
+  .photo { position: absolute; inset: 0 8% 6% 0; border-radius: 42% 58% 50% 50% / 48% 46% 54% 52%; overflow: hidden; box-shadow: 0 40px 70px -40px rgba(14,42,42,.6); animation: morph 18s ease-in-out infinite alternate-reverse; }
+  .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; transform: scale(1.04); }
+  @keyframes morph { 50% { border-radius: 56% 44% 52% 48% / 44% 56% 44% 56%; } 100% { border-radius: 48% 52% 60% 40% / 56% 48% 52% 44%; } }
+  .float { position: absolute; background: #fff; border-radius: 18px; padding: 12px 15px; display: flex; align-items: center; gap: 11px; box-shadow: 0 22px 44px -22px rgba(14,42,42,.45); font-size: 14px; line-height: 1.3; animation: bob 6s ease-in-out infinite; }
+  .float b { display: block; font-size: 15px; }
+  .float span { color: var(--muted); }
+  .float .ic { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; flex: none; }
+  .f1 { left: -4%; top: 14%; }
+  .f1 .ic { background: var(--mint); color: var(--deep); }
+  .f2 { right: -2%; bottom: 13%; animation-delay: -3s; }
+  .f2 .ic { background: var(--coral-soft); color: #B4552B; }
+  @media (max-width: 520px) { .f1 { left: 0; top: 4%; } .f2 { right: 0; bottom: 2%; } }
+  @keyframes bob { 50% { transform: translateY(-10px); } }
+  .doodle { position: absolute; color: var(--teal); opacity: .9; }
+  .d1 { right: 6%; top: -2%; width: 54px; transform: rotate(18deg); }
+  .d2 { left: 4%; bottom: 2%; width: 40px; transform: rotate(-20deg); color: var(--coral); }
+
+  /* marquee */
+  .mq-wrap { overflow: hidden; padding: 14px 0; }
+  .marquee { background: var(--deep); color: #F6EFE4; overflow: hidden; padding: 22px 0; transform: rotate(-1.2deg); margin: 0 -20px; }
+  .track { display: flex; gap: 42px; width: max-content; animation: slide 34s linear infinite; font-family: var(--display); font-weight: 700; font-size: clamp(22px, 3vw, 34px); letter-spacing: -.01em; white-space: nowrap; }
+  .track span { display: inline-flex; align-items: center; gap: 42px; }
+  .track svg { color: var(--butter); flex: none; }
+  @keyframes slide { to { transform: translateX(-50%); } }
+
+  /* section heads */
+  section { padding: 96px 0; }
+  @media (max-width: 700px) { section { padding: 72px 0; } }
+  .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; font-size: 13.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--teal); }
+  .eyebrow::before { content: ""; width: 26px; height: 2px; background: currentColor; border-radius: 2px; }
+  h2 { font-family: var(--display); font-weight: 800; font-size: clamp(34px, 5vw, 60px); line-height: 1.02; letter-spacing: -.03em; margin-top: 14px; }
+  h2 em { font-style: normal; color: var(--coral); }
+  .sub { color: var(--muted); font-size: 18px; max-width: 36rem; margin-top: 16px; }
+  .head-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px 40px; margin-bottom: 44px; }
+
+  /* bento */
+  .bento { display: grid; gap: 16px; grid-template-columns: 1fr; }
+  @media (min-width: 700px) { .bento { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1020px) { .bento { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 250px; } .b-big { grid-column: span 2; grid-row: span 2; } .b-wide { grid-column: span 2; } }
+  .tile { position: relative; border-radius: 28px; padding: 26px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; min-height: 230px; isolation: isolate; transition: transform .45s var(--ease); }
+  .tile:hover { transform: translateY(-4px); }
+  .tile h3 { font-family: var(--display); font-weight: 700; font-size: 24px; line-height: 1.1; letter-spacing: -.015em; }
+  .tile p { font-size: 15.5px; margin-top: 8px; max-width: 26rem; }
+  .tile .ic { position: absolute; top: 22px; left: 22px; width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; background: rgba(255,255,255,.7); }
+  .tile.photo-tile { color: #fff; }
+  .tile.photo-tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transition: transform .8s var(--ease); }
+  .tile.photo-tile:hover img { transform: scale(1.05); }
+  .tile.photo-tile::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(14,42,42,0) 30%, rgba(14,42,42,.82) 100%); }
+  .tile.photo-tile p { color: #E6F0EC; }
+  .b-big h3 { font-size: clamp(28px, 3vw, 38px); }
+  .t-mint { background: var(--mint); } .t-mint .ic { color: var(--deep); }
+  .t-coral { background: var(--coral-soft); } .t-coral .ic { color: #B4552B; }
+  .t-butter { background: var(--butter-soft); } .t-butter .ic { color: #8A6512; }
+  .t-sand { background: var(--sand); } .t-sand .ic { color: var(--teal); }
+  .tile p { color: var(--muted); }
+  .pill-s { position: absolute; top: 22px; right: 22px; background: rgba(255,255,255,.92); color: var(--ink); font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 99px; }
+
+  /* care / why */
+  .care { background: var(--deep); color: #EAF3EF; border-radius: 44px; margin: 0 12px; overflow: hidden; }
+  @media (min-width: 900px) { .care { margin: 0 24px; } }
+  .care-grid { display: grid; gap: 44px; align-items: center; }
+  @media (min-width: 960px) { .care-grid { grid-template-columns: .9fr 1.1fr; gap: 70px; } }
+  .care .eyebrow { color: var(--butter); }
+  .care h2 { color: #fff; }
+  .care h2 em { color: var(--butter); }
+  .care-photo { position: relative; }
+  .care-photo img { width: 100%; height: auto; max-height: 640px; aspect-ratio: 4/5; object-fit: cover; border-radius: 32px; }
+  .care-photo .badge { position: absolute; right: -10px; top: 28px; width: 128px; height: 128px; border-radius: 50%; background: var(--coral); color: #2A1206; display: grid; place-items: center; text-align: center; font-family: var(--display); font-weight: 800; font-size: 17px; line-height: 1.05; transform: rotate(10deg); box-shadow: 0 20px 40px -20px rgba(0,0,0,.5); }
+  .quote { font-family: var(--display); font-weight: 600; font-size: clamp(22px, 2.3vw, 28px); line-height: 1.25; color: #fff; margin-top: 22px; letter-spacing: -.01em; }
+  .points { display: grid; gap: 14px; margin-top: 30px; }
+  .points li { display: flex; gap: 16px; align-items: flex-start; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 20px; padding: 18px; }
+  .points .n { width: 38px; height: 38px; border-radius: 12px; background: var(--butter); color: var(--ink); display: grid; place-items: center; flex: none; }
+  .points b { display: block; color: #fff; font-size: 17px; }
+  .points span { color: #BFD6CE; font-size: 15.5px; }
+
+  /* steps */
+  .steps { display: grid; gap: 18px; position: relative; }
+  @media (min-width: 900px) { .steps { grid-template-columns: repeat(3, 1fr); gap: 24px; } .steps::before { content: ""; position: absolute; top: 34px; left: 12%; right: 12%; border-top: 2.5px dashed var(--line); z-index: 0; } }
+  .step { position: relative; z-index: 1; background: #fff; border-radius: 28px; padding: 28px; box-shadow: 0 1px 0 var(--line); }
+  .step .num { width: 68px; height: 68px; border-radius: 50%; display: grid; place-items: center; font-family: var(--display); font-weight: 800; font-size: 26px; background: var(--mint); color: var(--deep); border: 6px solid var(--cream); margin: -2px 0 0 -4px; }
+  .step:nth-child(2) .num { background: var(--butter-soft); color: #7A570C; }
+  .step:nth-child(3) .num { background: var(--coral-soft); color: #A04A23; }
+  .step h3 { font-family: var(--display); font-weight: 700; font-size: 23px; margin-top: 16px; letter-spacing: -.01em; }
+  .step p { color: var(--muted); margin-top: 8px; font-size: 16px; }
+
+  /* doctor */
+  .doc { display: grid; gap: 30px; align-items: center; background: #fff; border-radius: 36px; padding: 30px; box-shadow: 0 1px 0 var(--line); }
+  @media (min-width: 900px) { .doc { grid-template-columns: auto 1fr; gap: 54px; padding: 50px; } }
+  .avatar { width: 200px; height: 200px; border-radius: 40% 60% 55% 45% / 50% 45% 55% 50%; background: linear-gradient(140deg, var(--teal), var(--deep)); color: var(--butter); display: grid; place-items: center; font-family: var(--display); font-weight: 800; font-size: 76px; letter-spacing: -.04em; position: relative; }
+  .avatar::after { content: "lek. wet."; position: absolute; bottom: -8px; right: -14px; background: var(--coral); color: #2A1206; font-family: var(--sans); font-weight: 700; font-size: 14px; letter-spacing: 0; padding: 7px 13px; border-radius: 99px; transform: rotate(-6deg); }
+  .doc h2 { font-size: clamp(30px, 4vw, 46px); }
+  .doc p { color: var(--muted); margin-top: 14px; max-width: 42rem; }
+  .sign { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .sign li { background: var(--mint-2); color: var(--deep); font-weight: 600; font-size: 14.5px; padding: 8px 14px; border-radius: 99px; }
+
+  /* faq */
+  .faq-grid { display: grid; gap: 30px; }
+  @media (min-width: 960px) { .faq-grid { grid-template-columns: .8fr 1.2fr; gap: 60px; } .faq-grid .stick { position: sticky; top: 110px; align-self: start; } }
+  .faq { display: grid; gap: 12px; }
+  details { background: #fff; border-radius: 22px; box-shadow: 0 1px 0 var(--line); transition: background .3s; }
+  details[open] { background: var(--mint-2); }
+  summary { cursor: pointer; list-style: none; padding: 22px 70px 22px 24px; font-weight: 700; font-size: 17.5px; position: relative; }
+  summary::-webkit-details-marker { display: none; }
+  summary .pm { position: absolute; right: 18px; top: 50%; width: 36px; height: 36px; margin-top: -18px; border-radius: 50%; background: var(--sand); display: grid; place-items: center; transition: transform .35s var(--ease), background .3s; }
+  details[open] summary .pm { transform: rotate(45deg); background: var(--coral); }
+  details p { padding: 0 24px 22px; color: var(--muted); }
+
+  /* contact */
+  .contact { background: var(--ink); color: #EAF3EF; border-radius: 44px 44px 0 0; padding-bottom: 70px; }
+  .contact h2 { color: #fff; }
+  .contact .eyebrow { color: var(--butter); }
+  .contact .sub { color: #B9CFC8; }
+  .c-grid { display: grid; gap: 18px; margin-top: 44px; }
+  @media (min-width: 1000px) { .c-grid { grid-template-columns: 1.15fr .85fr; } }
+  .form-card { background: var(--cream); color: var(--ink); border-radius: 32px; padding: 30px; }
+  @media (min-width: 700px) { .form-card { padding: 38px; } }
+  .form-card h3 { font-family: var(--display); font-weight: 800; font-size: 28px; letter-spacing: -.02em; }
+  form { display: grid; gap: 18px; margin-top: 22px; }
+  .row { display: grid; gap: 16px; }
+  @media (min-width: 600px) { .row { grid-template-columns: 1fr 1fr; } }
+  .lbl { display: block; font-weight: 700; font-size: 14.5px; margin-bottom: 8px; }
+  input[type=text], input[type=tel], textarea { width: 100%; background: #fff; border: 2px solid var(--line); border-radius: 16px; padding: 13px 16px; font-size: 16px; transition: border-color .2s; }
+  input:focus, textarea:focus { outline: none; border-color: var(--teal); }
+  textarea { min-height: 110px; resize: vertical; }
+  .seg { display: flex; flex-wrap: wrap; gap: 8px; border: 0; padding: 0; margin: 0; }
+  .seg legend { padding: 0; }
+  .seg label { position: relative; }
+  .seg input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .seg span { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 0 16px; border-radius: 99px; background: #fff; border: 2px solid var(--line); font-weight: 600; font-size: 15px; transition: background .2s, border-color .2s, color .2s; }
+  .seg input:checked + span { background: var(--deep); border-color: var(--deep); color: #fff; }
+  .seg input:focus-visible + span { outline: 3px solid var(--coral); outline-offset: 2px; }
+  .err { color: #B3261E; font-size: 14px; margin-top: 6px; display: none; }
+  .invalid .err { display: block; }
+  .invalid input { border-color: #B3261E; }
+  .ok { display: none; background: var(--mint); color: var(--deep); padding: 16px 18px; border-radius: 16px; font-weight: 600; }
+  .info { display: grid; gap: 14px; }
+  .i-card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: 26px; padding: 24px; }
+  .i-card .k { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--butter); }
+  .i-card .v { font-family: var(--display); font-weight: 700; font-size: 22px; color: #fff; margin-top: 6px; letter-spacing: -.01em; }
+  .i-card a.v { text-decoration: none; display: inline-block; }
+  .i-card .s { color: #9DB8B0; font-size: 14px; margin-top: 4px; }
+  .hours { display: grid; grid-template-columns: 1fr auto; gap: 6px 20px; margin-top: 10px; color: #fff; }
+  .hours span:nth-child(odd) { color: #B9CFC8; }
+  .map { border-radius: 26px; overflow: hidden; height: 220px; background: #173837; border: 1px solid rgba(255,255,255,.12); }
+  .map iframe { width: 100%; height: 100%; border: 0; filter: grayscale(.2) contrast(1.05); }
+
+  footer { background: var(--ink); color: #9DB8B0; padding: 0 0 110px; font-size: 14.5px; }
+  @media (min-width: 900px) { footer { padding-bottom: 40px; } }
+  .wordmark { font-family: var(--display); font-weight: 800; font-size: clamp(54px, 12vw, 170px); line-height: .9; letter-spacing: -.05em; color: #173837; padding: 10px 0 26px; white-space: nowrap; overflow: hidden; }
+  .f-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 30px; border-top: 1px solid rgba(255,255,255,.1); padding-top: 24px; }
+  .f-row a { color: #EAF3EF; }
+
+  /* demo note + mobile bar */
+  .demo { position: fixed; right: 16px; bottom: 16px; z-index: 50; background: var(--ink); color: #EAF3EF; font-size: 12.5px; padding: 8px 14px; border-radius: 99px; box-shadow: 0 10px 30px -10px rgba(0,0,0,.5); max-width: calc(100vw - 32px); }
+  .demo b { color: var(--butter); }
+  .mbar { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 45; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: rgba(255,255,255,.92); backdrop-filter: blur(12px); padding: 8px; border-radius: 99px; box-shadow: 0 16px 40px -14px rgba(14,42,42,.5); }
+  .mbar .btn { min-height: 48px; font-size: 15px; padding: 0 14px; }
+  @media (min-width: 900px) { .mbar { display: none; } }
+  @media (max-width: 899px) { .demo { bottom: 84px; right: auto; left: 50%; transform: translateX(-50%); text-align: center; white-space: nowrap; } }
+
+  /* reveal */
+  .rv { opacity: 0; transform: translateY(26px); transition: opacity .8s var(--ease), transform .8s var(--ease); transition-delay: var(--d, 0s); }
+  .rv.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .rv { opacity: 1; transform: none; transition: none; }
+    .blob, .photo, .float, .track { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="paw" viewBox="0 0 64 64"><path fill="currentColor" d="M32 35c-7 0-12 6-12 11 0 4 3 6 6 6 2 0 4-1 6-1s4 1 6 1c3 0 6-2 6-6 0-5-5-11-12-11z"/><ellipse fill="currentColor" cx="19" cy="29" rx="4.5" ry="5.5"/><ellipse fill="currentColor" cx="27" cy="19" rx="4.5" ry="5.5"/><ellipse fill="currentColor" cx="37" cy="19" rx="4.5" ry="5.5"/><ellipse fill="currentColor" cx="45" cy="29" rx="4.5" ry="5.5"/></symbol>
+  <symbol id="arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></symbol>
+  <symbol id="check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M20 6 9 17l-5-5"/></symbol>
+</svg>
+
+<header class="top" id="top">
+  <div class="wrap bar">
+    <a class="logo" href="#top" aria-label="Gabinet Weterynaryjny Gdynia – początek strony">
+      <span class="logo-mark" aria-hidden="true"><svg width="26" height="26" style="color:var(--butter)"><use href="#paw"/></svg></span>
+      <span class="logo-txt"><b>Gabinet Weterynaryjny</b><span>lek. wet. K. Przewoska-Stoltmann · Gdynia</span></span>
+    </a>
+    <nav class="menu" aria-label="Menu główne">
+      <a href="#uslugi">Usługi</a>
+      <a href="#dlaczego">Dlaczego my</a>
+      <a href="#wizyta">Pierwsza wizyta</a>
+      <a href="#pytania">Pytania</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <div style="display:flex;gap:8px">
+      <a class="btn btn-line call" href="tel:+48000000000"><svg width="18" height="18" aria-hidden="true"><use href="#phone"/></svg>Zadzwoń</a>
+      <a class="btn btn-dark" href="#kontakt">Umów wizytę</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="tag rv"><span class="dot"><svg width="14" height="14"><use href="#paw"/></svg></span>Weterynarz w Gdyni · ul. Górna</span>
+        <h1 class="rv" style="--d:.08s">Weterynarz, który ma <span class="pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>czas</span> <span class="soft">dla Twojego pupila.</span></h1>
+        <p class="lead rv" style="--d:.16s">Gabinet <b>lek. wet. Katarzyny Przewoskiej-Stoltmann</b>. Psy i koty, od pierwszego szczepienia po spokojną starość. Bez pośpiechu, bez stresu, z jasnym planem leczenia.</p>
+        <div class="cta rv" style="--d:.24s">
+          <a class="btn btn-coral" href="#kontakt">Umów wizytę <span class="arr"><svg width="16" height="16" aria-hidden="true"><use href="#arrow"/></svg></span></a>
+          <a class="btn btn-line" href="#uslugi">Zobacz, w czym pomagamy</a>
+        </div>
+        <ul class="chips rv" style="--d:.32s" aria-label="W skrócie">
+          <li><svg width="16" height="16" aria-hidden="true"><use href="#check"/></svg>Psy i koty</li>
+          <li><svg width="16" height="16" aria-hidden="true"><use href="#check"/></svg>Wizyty po umówieniu</li>
+          <li><svg width="16" height="16" aria-hidden="true"><use href="#check"/></svg>Paszporty i czipy</li>
+        </ul>
+      </div>
+      <div class="stage rv" style="--d:.15s">
+        <div class="blob" aria-hidden="true"></div>
+        <div class="photo"><img src="img/pies-hero.jpg" alt="Uśmiechnięty golden retriever na niebieskim tle" width="1400" height="1859" fetchpriority="high"></div>
+        <svg class="doodle d1" viewBox="0 0 64 64" aria-hidden="true"><use href="#paw"/></svg>
+        <svg class="doodle d2" viewBox="0 0 64 64" aria-hidden="true"><use href="#paw"/></svg>
+        <div class="float f1"><span class="ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/></svg></span><span><b>Bez pośpiechu</b><span>Czas na każde pytanie</span></span></div>
+        <div class="float f2"><span class="ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span><span><b>Umów termin</b><span>Telefonicznie lub online</span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="mq-wrap"><div class="marquee" aria-hidden="true">
+    <div class="track">
+      <span>Konsultacje <svg width="26" height="26"><use href="#paw"/></svg> Szczepienia <svg width="26" height="26"><use href="#paw"/></svg> Czipowanie <svg width="26" height="26"><use href="#paw"/></svg> Paszporty <svg width="26" height="26"><use href="#paw"/></svg> Diagnostyka <svg width="26" height="26"><use href="#paw"/></svg> Zabiegi <svg width="26" height="26"><use href="#paw"/></svg> Seniorzy <svg width="26" height="26"><use href="#paw"/></svg></span>
+      <span>Konsultacje <svg width="26" height="26"><use href="#paw"/></svg> Szczepienia <svg width="26" height="26"><use href="#paw"/></svg> Czipowanie <svg width="26" height="26"><use href="#paw"/></svg> Paszporty <svg width="26" height="26"><use href="#paw"/></svg> Diagnostyka <svg width="26" height="26"><use href="#paw"/></svg> Zabiegi <svg width="26" height="26"><use href="#paw"/></svg> Seniorzy <svg width="26" height="26"><use href="#paw"/></svg></span>
+    </div>
+  </div></div>
+
+  <section id="uslugi">
+    <div class="wrap">
+      <div class="head-row">
+        <div class="rv">
+          <p class="eyebrow">Usługi</p>
+          <h2>Wszystko, czego potrzebuje <em>Twój zwierzak</em></h2>
+        </div>
+        <p class="sub rv" style="--d:.1s">Od szczeniaka i kociaka po seniora. Profilaktyka, leczenie i formalności w jednym miejscu, blisko domu.</p>
+      </div>
+      <ul class="bento">
+        <li class="tile photo-tile b-big rv">
+          <img src="img/hero-kot.jpg" alt="Kot spokojnie badany na stole w gabinecie" loading="lazy" width="1600" height="1067">
+          <span class="pill-s">Najczęściej wybierane</span>
+          <h3>Konsultacje i badania</h3>
+          <p>Dokładne badanie ogólne, porada przy niepokojących objawach, kontrola po leczeniu. Wyjaśniamy wszystko prostym językiem.</p>
+        </li>
+        <li class="tile t-mint rv" style="--d:.06s">
+          <span class="ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 2 4 4M17 7l3-3M19 9 8.7 19.3a2.4 2.4 0 0 1-3.4 0l-.6-.6a2.4 2.4 0 0 1 0-3.4L15 5M9 11l4 4M5 19l-3 3M14 4l6 6"/></svg></span>
+          <h3>Szczepienia i odrobaczanie</h3>
+          <p>Kalendarz szczepień, wścieklizna, ochrona przed pasożytami.</p>
+        </li>
+        <li class="tile t-butter rv" style="--d:.12s">
+          <span class="ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M15 9h3M15 13h3M6 16h6"/></svg></span>
+          <h3>Czipowanie i paszporty</h3>
+          <p>Czip, rejestracja i paszport na wyjazdy z pupilem.</p>
+        </li>
+        <li class="tile photo-tile rv" style="--d:.06s">
+          <img src="img/szczeniak.jpg" alt="Szczeniak golden retrievera patrzący w obiektyw" loading="lazy" width="1400" height="1867" style="object-position:center 35%">
+          <h3>Szczeniaki i kocięta</h3>
+          <p>Pierwsza wizyta, szczepienia i dobry start.</p>
+        </li>
+        <li class="tile t-coral rv" style="--d:.12s">
+          <span class="ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6.5L5 18a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-8.5V3"/><path d="M7.5 15h9"/></svg></span>
+          <h3>Diagnostyka</h3>
+          <p>Badania krwi i moczu, skóra, uszy, układ pokarmowy.</p>
+        </li>
+        <li class="tile t-sand b-wide rv" style="--d:.06s">
+          <span class="ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"/></svg></span>
+          <h3>Zabiegi i opieka nad seniorem</h3>
+          <p>Kastracja i sterylizacja, drobne zabiegi, opatrywanie ran. Regularne przeglądy dla starszych psów i kotów.</p>
+        </li>
+        <li class="tile photo-tile b-wide rv" style="--d:.12s">
+          <img src="img/szczepienia.jpg" alt="Kot przygotowany do szczepienia, trzymany delikatnie w dłoniach" loading="lazy" width="1600" height="2400" style="object-position:center 38%">
+          <h3>Delikatnie i bez stresu</h3>
+          <p>Spokojne tempo i łagodne podejście, także do lękliwych zwierząt.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="care" id="dlaczego">
+    <div class="wrap care-grid">
+      <div class="care-photo rv">
+        <img src="img/kot-wlascicielka.jpg" alt="Kobieta czule przytula rudego kota" loading="lazy" width="1400" height="2114">
+        <div class="badge" aria-hidden="true">Psy<br>&amp; koty<br>z Gdyni</div>
+      </div>
+      <div>
+        <p class="eyebrow rv">Dlaczego my</p>
+        <h2 class="rv" style="--d:.06s">Traktujemy go jak <em>członka rodziny</em>. Bo nim jest.</h2>
+        <p class="quote rv" style="--d:.12s">„Najważniejsze jest dla mnie to, żeby zwierzak wyszedł zaopiekowany, a właściciel spokojny i z jasną informacją, co dalej.”</p>
+        <ul class="points">
+          <li class="rv" style="--d:.1s"><span class="n"><svg width="18" height="18" aria-hidden="true"><use href="#check"/></svg></span><span><b>Czas na każdą wizytę</b><span>Przyjmujemy po umówieniu, więc nie czekasz w kolejce, a badanie nie odbywa się w biegu.</span></span></li>
+          <li class="rv" style="--d:.16s"><span class="n"><svg width="18" height="18" aria-hidden="true"><use href="#check"/></svg></span><span><b>Jasne wyjaśnienia</b><span>Mówimy, co dolega pupilowi, jakie są opcje i ile kosztują, zanim cokolwiek zrobimy.</span></span></li>
+          <li class="rv" style="--d:.22s"><span class="n"><svg width="18" height="18" aria-hidden="true"><use href="#check"/></svg></span><span><b>Blisko domu</b><span>Kameralny gabinet w Gdyni przy ul. Górnej, wygodny dojazd z całego Trójmiasta.</span></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="wizyta">
+    <div class="wrap">
+      <div class="head-row">
+        <div class="rv">
+          <p class="eyebrow">Pierwsza wizyta</p>
+          <h2>Prosto, w <em>3 krokach</em></h2>
+        </div>
+        <p class="sub rv" style="--d:.1s">Pierwszy raz u nas? Tak to wygląda.</p>
+      </div>
+      <ol class="steps">
+        <li class="step rv"><span class="num">1</span><h3>Umawiasz termin</h3><p>Dzwonisz albo zostawiasz wiadomość w formularzu. Oddzwonimy i dobierzemy godzinę.</p></li>
+        <li class="step rv" style="--d:.1s"><span class="num">2</span><h3>Spokojne badanie</h3><p>Rozmawiamy o objawach i nawykach, potem dokładnie badamy pupila, w jego tempie.</p></li>
+        <li class="step rv" style="--d:.2s"><span class="num">3</span><h3>Plan i zalecenia</h3><p>Dostajesz diagnozę, plan leczenia i zalecenia. Wiesz, co dalej i kiedy kontrola.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="doc rv">
+        <div class="avatar" aria-hidden="true">KP</div>
+        <div>
+          <p class="eyebrow">Lekarz weterynarii</p>
+          <h2>Katarzyna Przewoska-Stoltmann</h2>
+          <p>Prowadzę gabinet w Gdyni, w którym każdy pacjent jest traktowany indywidualnie. Wiem, jak ważny jest dla Ciebie Twój pies czy kot. Dlatego stawiam na spokojną atmosferę, dokładne badanie i rozmowę, po której wszystko jest jasne.</p>
+          <ul class="sign"><li>Psy</li><li>Koty</li><li>Profilaktyka</li><li>Szczepienia</li><li>Opieka nad seniorem</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pytania" style="padding-top:10px">
+    <div class="wrap faq-grid">
+      <div class="stick rv">
+        <p class="eyebrow">Pytania</p>
+        <h2>Zanim <em>zadzwonisz</em></h2>
+        <p class="sub">Najczęściej zadawane pytania. Nie ma tu Twojego? Napisz lub zadzwoń.</p>
+      </div>
+      <div class="faq">
+        <details class="rv"><summary>Gdzie znajdę weterynarza w Gdyni?<span class="pm" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary><p>Gabinet Weterynaryjny lek. wet. Katarzyny Przewoskiej-Stoltmann mieści się w Gdyni przy ul. Górnej. Przyjmujemy psy i koty: konsultacje, szczepienia, czipowanie, diagnostyka i zabiegi.</p></details>
+        <details class="rv" style="--d:.05s"><summary>Czy trzeba się wcześniej umówić?<span class="pm" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary><p>Tak, przyjmujemy po wcześniejszym umówieniu. Dzięki temu nie czekasz w poczekalni, a my mamy czas na spokojne badanie. Zadzwoń albo wypełnij formularz.</p></details>
+        <details class="rv" style="--d:.1s"><summary>Kiedy zaszczepić szczeniaka lub kociaka?<span class="pm" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary><p>Pierwsze szczepienia wykonuje się zwykle w wieku kilku tygodni, a potem według kalendarza. Na pierwszej wizycie ustalimy plan dopasowany do Twojego zwierzaka.</p></details>
+        <details class="rv" style="--d:.15s"><summary>Co zabrać na pierwszą wizytę?<span class="pm" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary><p>Książeczkę zdrowia lub paszport, wyniki wcześniejszych badań i listę podawanych leków. Kota najlepiej przywieźć w transporterze, psa na smyczy.</p></details>
+        <details class="rv" style="--d:.2s"><summary>Czy wyrobicie paszport dla psa lub kota?<span class="pm" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary><p>Tak. Wszczepiamy czip, rejestrujemy zwierzę i wydajemy paszport potrzebny do podróży za granicę.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="kontakt">
+    <div class="wrap">
+      <div class="head-row" style="margin-bottom:0">
+        <div class="rv">
+          <p class="eyebrow">Kontakt</p>
+          <h2>Umów wizytę <em style="color:var(--butter)">dla pupila</em></h2>
+        </div>
+        <p class="sub rv" style="--d:.1s">Zostaw wiadomość, a oddzwonimy, żeby ustalić termin. W pilnych sprawach najlepiej zadzwonić.</p>
+      </div>
+      <div class="c-grid">
+        <div class="form-card rv">
+          <h3>Formularz wizyty</h3>
+          <form id="form" novalidate>
+            <div class="row">
+              <div id="f-name"><label class="lbl" for="name">Imię i nazwisko</label><input id="name" name="name" type="text" autocomplete="name" required><p class="err">Wpisz imię i nazwisko.</p></div>
+              <div id="f-phone"><label class="lbl" for="phone">Telefon</label><input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required><p class="err">Wpisz numer telefonu, żebyśmy mogli oddzwonić.</p></div>
+            </div>
+            <fieldset class="seg"><legend class="lbl">Twój pupil</legend>
+              <label><input type="radio" name="pet" value="Pies" checked><span>Pies</span></label>
+              <label><input type="radio" name="pet" value="Kot"><span>Kot</span></label>
+              <label><input type="radio" name="pet" value="Inne zwierzę"><span>Inne</span></label>
+            </fieldset>
+            <fieldset class="seg"><legend class="lbl">Cel wizyty</legend>
+              <label><input type="radio" name="type" value="Konsultacja" checked><span>Konsultacja</span></label>
+              <label><input type="radio" name="type" value="Szczepienie"><span>Szczepienie</span></label>
+              <label><input type="radio" name="type" value="Czip / paszport"><span>Czip / paszport</span></label>
+              <label><input type="radio" name="type" value="Badania"><span>Badania</span></label>
+              <label><input type="radio" name="type" value="Zabieg"><span>Zabieg</span></label>
+            </fieldset>
+            <div><label class="lbl" for="msg">Wiadomość <span style="font-weight:400;color:var(--muted)">(opcjonalnie)</span></label><textarea id="msg" name="msg" placeholder="Imię i wiek pupila, objawy, preferowany termin"></textarea></div>
+            <button class="btn btn-coral" type="submit">Wyślij zgłoszenie <span class="arr"><svg width="16" height="16" aria-hidden="true"><use href="#arrow"/></svg></span></button>
+            <p class="ok" id="ok" role="status">Dziękujemy! Otworzyliśmy gotową wiadomość w Twojej poczcie. Wystarczy ją wysłać, a oddzwonimy, żeby ustalić termin.</p>
+          </form>
+        </div>
+        <div class="info">
+          <div class="i-card rv" style="--d:.05s"><p class="k">Telefon</p><a class="v" href="tel:+48000000000">+48 000 000 000</a><p class="s">Numer do uzupełnienia</p></div>
+          <div class="i-card rv" style="--d:.1s"><p class="k">Adres</p><p class="v">ul. Górna, Gdynia</p><p class="s"><a href="mailto:katarzyna.przewoska@gmail.com" style="color:#EAF3EF">katarzyna.przewoska@gmail.com</a></p></div>
+          <div class="i-card rv" style="--d:.15s"><p class="k">Godziny przyjęć</p>
+            <div class="hours"><span>Poniedziałek – piątek</span><span>9:00 – 18:00</span><span>Sobota</span><span>9:00 – 13:00</span><span>Niedziela</span><span>nieczynne</span></div>
+            <p class="s">Godziny przykładowe – do potwierdzenia</p></div>
+          <div class="map rv" style="--d:.2s"><iframe title="Mapa dojazdu: ul. Górna, Gdynia" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=G%C3%B3rna%2C%20Gdynia&output=embed"></iframe></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="wordmark" aria-hidden="true">weterynarz gdynia</div>
+    <div class="f-row">
+      <span>© 2026 Gabinet Weterynaryjny lek. wet. Katarzyna Przewoska-Stoltmann · ul. Górna, Gdynia</span>
+      <span>Projekt: <a href="https://www.instagram.com/appkadlafirmy/" target="_blank" rel="noopener">@appkadlafirmy</a></span>
+    </div>
+  </div>
+</footer>
+
+<p class="demo"><b>Demo</b> · telefon i godziny do uzupełnienia</p>
+<nav class="mbar" aria-label="Szybki kontakt">
+  <a class="btn btn-line" href="tel:+48000000000"><svg width="18" height="18" aria-hidden="true"><use href="#phone"/></svg>Zadzwoń</a>
+  <a class="btn btn-coral" href="#kontakt">Umów wizytę</a>
+</nav>
+
+<script>
+  const hdr = document.getElementById("top");
+  const onScroll = () => hdr.classList.toggle("scrolled", scrollY > 10);
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+  const els = document.querySelectorAll(".rv");
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -6% 0px", threshold: .08 });
+    els.forEach((el) => io.observe(el));
+  } else els.forEach((el) => el.classList.add("in"));
+
+  const form = document.getElementById("form");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const d = Object.fromEntries(new FormData(form));
+    let first = null;
+    for (const [k, id] of [["name", "f-name"], ["phone", "f-phone"]]) {
+      const bad = !String(d[k] || "").trim();
+      document.getElementById(id).classList.toggle("invalid", bad);
+      if (bad && !first) first = form.elements[k];
+    }
+    if (first) { first.focus(); return; }
+    const body = `Imię i nazwisko: ${d.name}\nTelefon: ${d.phone}\nPupil: ${d.pet}\nCel wizyty: ${d.type}\n\n${d.msg || ""}`;
+    location.href = "mailto:katarzyna.przewoska@gmail.com?subject=" + encodeURIComponent("Prośba o wizytę – " + d.type) + "&body=" + encodeURIComponent(body);
+    document.getElementById("ok").style.display = "block";
+  });
+  form.addEventListener("input", (e) => { const w = e.target.closest(".invalid"); if (w && e.target.value.trim()) w.classList.remove("invalid"); });
+</script>
+</body>
+</html>
