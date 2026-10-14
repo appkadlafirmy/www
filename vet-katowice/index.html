@@ -102,8 +102,8 @@
   .hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: 38% 30%; transform: scaleX(-1) scale(calc(1.12 - var(--p, 0) * .06)) translateY(calc(var(--p, 0) * -30px)); }
   .hero-bg { transform: scale(1.18); transition: transform 2.6s var(--ease); }
   .loaded .hero-bg { transform: none; }
-  .hero-bg::after { content: ""; position: absolute; inset: -1px 0 -3px; background: linear-gradient(90deg, rgba(14,18,14,.82) 0%, rgba(14,18,14,.5) 38%, rgba(14,18,14,0) 66%), linear-gradient(0deg, rgba(14,18,14,.7) 0%, rgba(14,18,14,0) 45%), linear-gradient(180deg, rgba(14,18,14,.45) 0%, rgba(14,18,14,0) 22%); }
-  @media (max-width: 899px) { .hero { background: #12140f; padding-top: 50svh; padding-bottom: 44px; } .hero-bg { bottom: auto; height: 72svh; background: #12140f; } .hero-bg img { object-position: 25% 30%; } .hero-bg::after { background: linear-gradient(0deg, #12140f 0%, rgba(18,20,15,.6) 30%, rgba(18,20,15,0) 60%), linear-gradient(180deg, rgba(14,18,14,.55) 0%, rgba(14,18,14,0) 25%); } }
+  .hero-bg::after { content: ""; position: absolute; inset: -1px 0 -3px; background: linear-gradient(90deg, rgba(14,18,14,.82) 0%, rgba(14,18,14,.5) 38%, rgba(14,18,14,0) 66%), linear-gradient(0deg, rgba(31,77,58,.95) 0%, rgba(31,77,58,.35) 18%, rgba(14,18,14,0) 45%), linear-gradient(180deg, rgba(14,18,14,.45) 0%, rgba(14,18,14,0) 22%); }
+  @media (max-width: 899px) { .hero { background: linear-gradient(180deg, #1F4D3A 60%, #1F4D3A); padding-top: 50svh; padding-bottom: 44px; } .hero-bg { bottom: auto; height: 72svh; background: #1F4D3A; } .hero-bg img { object-position: 25% 30%; } .hero-bg::after { background: linear-gradient(0deg, #1F4D3A 0%, rgba(31,77,58,.6) 30%, rgba(31,77,58,0) 60%), linear-gradient(180deg, rgba(14,18,14,.55) 0%, rgba(14,18,14,0) 25%); } }
   .hero .wrap { position: relative; z-index: 1; width: 100%; }
   .hero-txt { max-width: 640px; }
   .kicker { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--apricot2); }
@@ -166,7 +166,8 @@
   @keyframes float { 50% { transform: translateY(-8px); } }
 
   /* marquee */
-  .tape { background: var(--green); color: var(--bg); padding: 22px 0; overflow: hidden; }
+  .tape { background: var(--green); color: var(--bg); padding: 16px 0 50px; overflow: hidden; }
+  .tape + section { margin-top: -30px; border-radius: 34px 34px 0 0; background: var(--bg); z-index: 3; }
   .row { display: flex; width: max-content; white-space: nowrap; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: clamp(26px, 3.6vw, 44px); line-height: 1.2; }
   .row .in { display: flex; animation: mq 40s linear infinite; }
   .row span { display: inline-flex; align-items: center; gap: .7em; padding-right: .7em; }
@@ -196,7 +197,7 @@
   .hs-view::-webkit-scrollbar { display: none; }
   .hs-track { display: flex; gap: 18px; padding: 0 20px 20px; width: max-content; }
   @media (min-width: 900px) { .hs-track { padding: 0 40px 20px; } }
-  .card { scroll-snap-align: start; width: min(80vw, 360px); min-height: 420px; border-radius: 30px; padding: 30px; background: var(--bg2); border: 1px solid var(--line); display: flex; flex-direction: column; position: relative; overflow: hidden; transition: box-shadow .5s var(--ease), transform .5s var(--ease); }
+  .card { scroll-snap-align: start; width: min(80vw, 360px); min-height: 420px; border-radius: 30px; padding: 30px; background: linear-gradient(180deg, #FFFDF9 0%, #FBF1E6 100%); border: 1px solid rgba(229,142,98,.2); display: flex; flex-direction: column; position: relative; overflow: hidden; transition: box-shadow .5s var(--ease), transform .5s var(--ease); }
   @media (max-width: 700px) { .card { min-height: 340px; } }
   .card:hover { transform: translateY(-6px); box-shadow: 0 30px 50px -30px rgba(31,77,58,.45); }
   .card .no { font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--apricot); }
@@ -204,7 +205,7 @@
   .card:hover .ic { background: var(--green); color: #fff; }
   .card h3 { font-family: var(--serif); font-weight: 500; font-size: 28px; line-height: 1.1; letter-spacing: -.015em; margin-top: 22px; }
   .card p { color: var(--muted); font-size: 15.5px; margin-top: 10px; }
-  .card.photo { padding: 0; background: #0b0b0b; border: 0; }
+  .card.photo { padding: 0; background: var(--sand); border: 0; }
   .card.photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
   .card.photo:hover img { transform: scale(1.06); }
   .card.photo .cap { position: relative; margin-top: auto; padding: 30px; color: #fff; background: linear-gradient(180deg, transparent, rgba(0,0,0,.75) 50%); }
@@ -221,7 +222,7 @@
   /* cats split */
   .split { display: grid; gap: 44px; align-items: center; }
   @media (min-width: 960px) { .split { grid-template-columns: 1fr 1fr; gap: 80px; } }
-  .frame { position: relative; border-radius: 200px 200px 34px 34px; overflow: hidden; aspect-ratio: 4/5; background: #0b0b0b; max-height: 700px; }
+  .frame { position: relative; border-radius: 200px 200px 34px 34px; overflow: hidden; aspect-ratio: 4/5; background: var(--sand); max-height: 700px; }
   .frame img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.12) translateY(var(--py, 0px)); }
   .frame .eye { position: absolute; left: 20px; right: 20px; bottom: 20px; background: rgba(247,242,234,.94); color: var(--ink); border-radius: 20px; padding: 14px 18px; font-size: 14.5px; max-width: 290px; }
   .frame .eye b { color: var(--green); display: block; font-family: var(--serif); font-size: 19px; font-weight: 600; }
@@ -250,7 +251,7 @@
   /* steps */
   .steps { margin-top: 50px; display: grid; gap: 18px; }
   @media (min-width: 900px) { .steps { grid-template-columns: repeat(3, 1fr); } }
-  .stp { background: var(--bg2); border: 1px solid var(--line); border-radius: 30px; padding: 32px; position: relative; overflow: hidden; }
+  .stp { background: linear-gradient(180deg, #FFFDF9 0%, #FBF1E6 100%); border: 1px solid rgba(229,142,98,.2); border-radius: 30px; padding: 32px; position: relative; overflow: hidden; }
   .stp::before { content: ""; position: absolute; left: 0; top: 0; height: 4px; width: 100%; background: var(--apricot); transform: scaleX(0); transform-origin: left; transition: transform 1.2s var(--ease) .3s; }
   .stp.in::before { transform: scaleX(1); }
   .stp .n { font-family: var(--serif); font-style: italic; font-size: 64px; line-height: 1; color: var(--apricot); display: block; }
@@ -264,7 +265,7 @@
   .promise .big .word.on { color: var(--ink); }
   .promise .big .hl.on { color: var(--apricot); font-style: italic; }
   .pets { display: flex; justify-content: center; gap: 14px; margin-top: 44px; }
-  .pets figure { width: 120px; height: 160px; border-radius: 99px; overflow: hidden; background: #0b0b0b; border: 4px solid var(--bg); transition: transform .6s var(--ease); }
+  .pets figure { width: 120px; height: 160px; border-radius: 99px; overflow: hidden; background: var(--sand); border: 4px solid #fff; box-shadow: 0 18px 30px -18px rgba(31,77,58,.45); transition: transform .6s var(--ease); }
   .pets figure:nth-child(2) { transform: translateY(-18px); }
   .pets figure:hover { transform: translateY(-26px) rotate(-3deg); }
   .pets img { width: 100%; height: 100%; object-fit: cover; }
@@ -446,7 +447,7 @@
               <p>Kalendarz szczepień, wścieklizna, ochrona przed pasożytami.</p>
             </li>
             <li class="card photo">
-              <img src="img/pies-obroza.jpg" alt="Jasny pies w obroży na czarnym tle" loading="lazy" width="1400" height="2100">
+              <img src="img/szczeniak-las.jpg" alt="Jasny szczeniak siedzący w ogrodzie" loading="lazy" width="1200" height="800" style="object-position:30% 50%">
               <div class="cap"><h3>Psy każdej wielkości</h3><p>Od szczeniaka po seniora, od yorka po owczarka.</p></div>
             </li>
             <li class="card">
@@ -482,7 +483,7 @@
   <section id="koty">
     <div class="wrap split">
       <div class="frame rv" id="catFrame">
-        <img src="img/kot-oczy.jpg" alt="Czarny kot o żółtych oczach na ciemnym tle" loading="lazy" width="1400" height="2100">
+        <img src="img/kot-okno.jpg" alt="Rudy kot siedzący na parapecie w słońcu" loading="lazy" width="1200" height="1600">
         <p class="eye"><b>Cat friendly</b>Kot to nie mały pies. Badamy go w jego tempie.</p>
       </div>
       <div>
@@ -537,9 +538,9 @@
       <p class="lbl rv" style="justify-content:center"><b>05</b> Nasza obietnica</p>
       <p class="big" id="bigText">Traktujemy Twojego zwierzaka tak, jak <span class="hl">swojego</span>. Z cierpliwością, uwagą i szacunkiem.</p>
       <div class="pets rv">
-        <figure><img src="img/kot-czarny.jpg" alt="Czarny kot o zielonych oczach" loading="lazy" width="1400" height="2100"></figure>
-        <figure><img src="img/pies-zloty.jpg" alt="Golden retriever na czarnym tle" loading="lazy" width="1400" height="1960"></figure>
-        <figure><img src="img/pies-obroza.jpg" alt="Jasny pies w obroży" loading="lazy" width="1400" height="2100"></figure>
+        <figure><img src="img/kot-pregowany.jpg" alt="Pręgowany kot patrzący przez okno" loading="lazy" width="1200" height="1800"></figure>
+        <figure><img src="img/pies-usmiech.jpg" alt="Uśmiechnięty golden retriever w ogrodzie" loading="lazy" width="1200" height="1800"></figure>
+        <figure><img src="img/kot-syjam.jpg" alt="Kot syjamski leżący na parapecie" loading="lazy" width="1200" height="2133"></figure>
       </div>
     </div>
   </section>
