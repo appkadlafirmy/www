@@ -10,7 +10,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="img/intro-szczeniak.jpg">
 <link rel="preload" as="image" href="img/hero-pies.jpg">
 <script>document.documentElement.classList.add("js","locked");</script>
 <script type="application/ld+json">
@@ -144,22 +143,32 @@
   .hdr:not(.solid) .cross { background: var(--bg); color: var(--green); }
   .hdr:not(.solid) .btn-main { background: var(--bg); color: var(--green); box-shadow: none; }
 
-  /* splash loader */
-  .splash { position: fixed; inset: 0; z-index: 200; background: var(--green); color: var(--bg); display: none; place-items: center; transition: transform 1.1s cubic-bezier(.76, 0, .24, 1); }
-  .js .splash { display: grid; }
-  .splash.out { transform: translateY(-100%); }
+  /* splash loader: blurred hero photo + counter, sharpens into the hero */
+  .splash { position: fixed; inset: 0; z-index: 200; background: #141716; color: var(--ink); display: none; overflow: hidden; transition: opacity .9s ease .5s; }
+  .js .splash { display: block; }
   .splash.gone { display: none; }
-  .splash-in { display: grid; justify-items: center; gap: 22px; text-align: center; padding: 20px; }
-  .splash-pic { width: min(64vw, 340px); aspect-ratio: 4/5; border-radius: 200px 200px 30px 30px; overflow: hidden; clip-path: inset(100% 0 0 0); animation: picIn 1.2s var(--ease) .1s forwards; }
-  .splash-pic img { width: 100%; height: 100%; object-fit: cover; object-position: 52% 50%; transform: scale(1.3); animation: picZoom 2.4s var(--ease) .1s forwards; }
-  @keyframes picIn { to { clip-path: inset(0 0 0 0); } }
-  @keyframes picZoom { to { transform: scale(1); } }
-  .splash-name { font-family: var(--serif); font-size: clamp(28px, 4vw, 40px); line-height: 1.1; opacity: 0; transform: translateY(14px); animation: upIn .9s var(--ease) .55s forwards; }
-  .splash-name i { color: var(--apricot2); }
-  .splash-bar { width: 160px; height: 2px; background: rgba(255,255,255,.18); border-radius: 2px; overflow: hidden; opacity: 0; animation: upIn .6s var(--ease) .7s forwards; }
-  .splash-bar span { display: block; height: 100%; background: var(--apricot2); transform-origin: 0 50%; transform: scaleX(0); animation: barFill 1.3s ease-in-out .7s forwards; }
+  .splash-bg { position: absolute; inset: 0; }
+  .splash-bg img { width: 100%; height: 100%; object-fit: cover; object-position: 38% 30%; transform: scaleX(-1) scale(1.3); filter: blur(28px) brightness(.38) saturate(.8); transition: filter 1.2s var(--ease), transform 1.6s var(--ease); }
+  @media (max-width: 899px) { .splash-bg img { object-position: 25% 30%; } }
+  .splash-ui { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 28px 24px; transition: opacity .5s ease, transform .7s var(--ease); }
+  @media (min-width: 900px) { .splash-ui { padding: 40px 48px; } }
+  .splash-top, .splash-bot { display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 12.5px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: rgba(236,232,225,.7); opacity: 0; animation: upIn .8s var(--ease) .15s forwards; }
+  .splash-top b { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); }
+  .splash-top b::before { content: "+"; width: 30px; height: 30px; border-radius: 50%; background: var(--ink); color: #1C2620; display: grid; place-items: center; font-size: 18px; letter-spacing: 0; }
+  .splash-mid { display: grid; gap: 6px; }
+  .splash-word { font-family: var(--serif); font-weight: 500; font-size: clamp(40px, 7vw, 96px); line-height: 1; letter-spacing: -.015em; overflow: hidden; }
+  .splash-word span { display: inline-block; transform: translateY(105%); animation: wordUp 1s var(--ease) forwards; }
+  .splash-word i { font-weight: 400; color: var(--apricot2); }
+  .splash-word:nth-child(2) span { animation-delay: .12s; }
+  .splash-word:nth-child(3) span { animation-delay: .24s; }
+  @keyframes wordUp { to { transform: none; } }
+  .splash-count { font-family: var(--serif); font-style: italic; font-size: clamp(64px, 12vw, 170px); line-height: .8; color: var(--apricot2); font-variant-numeric: tabular-nums; }
+  .splash-line { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255,255,255,.08); }
+  .splash-line span { display: block; height: 100%; background: var(--apricot); transform-origin: 0 50%; transform: scaleX(var(--k, 0)); }
+  .splash.done .splash-ui { opacity: 0; transform: translateY(-24px); }
+  .splash.done .splash-bg img { filter: blur(0) brightness(1) saturate(1); transform: scaleX(-1) scale(1.18); }
+  .splash.out { opacity: 0; pointer-events: none; }
   @keyframes upIn { to { opacity: 1; transform: none; } }
-  @keyframes barFill { to { transform: scaleX(1); } }
   html.locked { overflow: hidden; }
   .float { animation: float 6s ease-in-out infinite; }
   .b2.float { animation-delay: -3s; }
@@ -356,7 +365,6 @@
   .hdr .cross, .hdr:not(.solid) .cross { background: var(--ink); color: #1C2620; }
   .hdr:not(.solid) .btn-main { background: var(--ink); color: #1C2620; }
   .menu a:hover { color: #fff; }
-  .splash { background: #141716; }
 
   /* hero fades into the frosted page */
   .hero { background: transparent; }
@@ -424,7 +432,7 @@
     .rv, .fade-up { transform: none; transition: opacity .6s ease; }
     h1 .w > span { transform: none; transition: none; }
     .hero-bg { transform: none; transition: none; }
-    .splash { transition: opacity .5s ease; } .splash.out { transform: none; opacity: 0; } .splash-pic, .splash-pic img, .splash-name, .splash-bar, .splash-bar span { animation-duration: .01s; animation-delay: 0s; }
+    .splash { transition: opacity .4s ease; } .splash-bg img { transition: none; } .splash-word span, .splash-top, .splash-bot { animation-duration: .01s; animation-delay: 0s; }
     .float { animation: none; }
     .row .in { animation-duration: 90s; }
     .kicker::before { animation: none; }
@@ -435,11 +443,16 @@
 </head>
 <body>
 <div class="splash" id="splash" aria-hidden="true">
-  <div class="splash-in">
-    <div class="splash-pic"><img src="img/intro-szczeniak.jpg" alt="" width="1600" height="1067"></div>
-    <p class="splash-name">Przychodnia <i>Weterynaryjna</i><br>Katowice</p>
-    <div class="splash-bar"><span></span></div>
+  <div class="splash-bg"><img src="img/hero-pies.jpg" alt=""></div>
+  <div class="splash-ui">
+    <div class="splash-top"><b>Przychodnia Weterynaryjna</b><span>Katowice</span></div>
+    <div class="splash-mid">
+      <p class="splash-word"><span>Spokojnie,</span></p>
+      <p class="splash-word"><span>zaraz <i>zaczynamy</i></span></p>
+    </div>
+    <div class="splash-bot"><span>ul. Chrobrego</span><span class="splash-count" id="splashCount">0</span></div>
   </div>
+  <div class="splash-line"><span id="splashLine"></span></div>
 </div>
 <div class="progress" id="progress" aria-hidden="true"></div>
 
@@ -708,18 +721,25 @@
   document.documentElement.classList.add("js");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Intro: show the photo splash, wait for the hero photo (max ~3s), then slide away
+  // Splash: blurred hero photo + 0-100 counter, then the photo sharpens into the hero
   const intro = document.getElementById("splash"), html = document.documentElement;
   const heroBg = document.querySelector(".hero-bg img");
-  const minTime = new Promise((r) => setTimeout(r, reduce ? 300 : 2000));
-  const heroReady = heroBg.complete ? Promise.resolve() : new Promise((r) => { heroBg.addEventListener("load", r, { once: true }); heroBg.addEventListener("error", r, { once: true }); });
-  const cap = new Promise((r) => setTimeout(r, 3200));
-  Promise.all([minTime, Promise.race([heroReady, cap])]).then(() => {
-    intro.classList.add("out");
-    html.classList.remove("locked");
-    setTimeout(() => document.body.classList.add("loaded"), reduce ? 0 : 380);
-    setTimeout(() => intro.classList.add("gone"), 1200);
-  });
+  const countEl = document.getElementById("splashCount"), lineEl = document.getElementById("splashLine");
+  const dur = reduce ? 300 : 1900, t0 = performance.now();
+  let ready = heroBg.complete;
+  if (!ready) { const ok = () => { ready = true; }; heroBg.addEventListener("load", ok, { once: true }); heroBg.addEventListener("error", ok, { once: true }); setTimeout(ok, 3200); }
+  const tick = (now) => {
+    let k = Math.min(1, (now - t0) / dur);
+    if (!ready) k = Math.min(k, .9);
+    const e = 1 - Math.pow(1 - k, 3);
+    countEl.textContent = Math.round(e * 100);
+    lineEl.style.setProperty("--k", e.toFixed(3));
+    if (k < 1) return requestAnimationFrame(tick);
+    intro.classList.add("done");
+    setTimeout(() => { intro.classList.add("out"); html.classList.remove("locked"); document.body.classList.add("loaded"); }, reduce ? 0 : 700);
+    setTimeout(() => intro.classList.add("gone"), reduce ? 500 : 2300);
+  };
+  requestAnimationFrame(tick);
 
   // Reveal on scroll
   const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px", threshold: .1 });
