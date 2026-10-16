@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel – Spa Home</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2B211C">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%232B211C'/%3E%3Ctext x='32' y='43' font-family='Georgia' font-size='30' fill='%23E9D7C0' text-anchor='middle' font-style='italic'%3ES%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ivory: #F5EFE7; --paper: #FFFDFA; --sand: #EADFD1; --sand2: #DCCBB6;
+    --ink: #2B211C; --muted: #7B6A5E; --clay: #B0714A; --clay2: #C98D66;
+    --ok: #4F7A55; --bad: #A23B26; --line: rgba(43,33,28,.12);
+    --serif: "Cormorant Garamond", Georgia, serif;
+    --sans: Manrope, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ivory); color: var(--ink); font: 400 15px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
+  h1, h2, h3, p { margin: 0; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  img { display: block; max-width: 100%; }
+  :focus-visible { outline: 2px solid var(--clay); outline-offset: 2px; border-radius: 6px; }
+  [hidden] { display: none !important; }
+
+  /* login */
+  .login { min-height: 100svh; display: grid; place-items: center; padding: 20px; background: radial-gradient(120% 90% at 20% 0%, #4A372C 0%, #2B211C 60%); }
+  .login-card { width: min(100%, 400px); background: var(--paper); border-radius: 18px; padding: 36px 30px; box-shadow: 0 40px 80px -30px rgba(0,0,0,.6); animation: up .7s var(--ease); }
+  @keyframes up { from { opacity: 0; transform: translateY(16px); } }
+  .brand { font-family: var(--serif); font-size: 34px; line-height: 1; }
+  .brand i { font-weight: 400; }
+  .brand small { display: block; font-family: var(--sans); font-size: 10.5px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+  .login-card h1 { font-family: var(--serif); font-weight: 500; font-size: 26px; margin-top: 26px; }
+  .login-card p.sub { color: var(--muted); font-size: 14px; margin-top: 4px; }
+  .login-card form { display: grid; gap: 14px; margin-top: 22px; }
+  .hint { font-size: 12.5px; color: var(--muted); background: var(--sand); border-radius: 10px; padding: 10px 12px; margin-top: 18px; }
+  .hint b { color: var(--ink); }
+  .shake { animation: shake .4s; }
+  @keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+
+  /* fields + buttons */
+  label.f { display: grid; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--muted); }
+  .in, select.in, textarea.in { width: 100%; border: 1px solid var(--line); background: #fff; border-radius: 10px; padding: 11px 12px; font-size: 15px; color: var(--ink); transition: border-color .2s, box-shadow .2s; }
+  .in:focus { outline: none; border-color: var(--clay); box-shadow: 0 0 0 3px rgba(176,113,74,.15); }
+  textarea.in { resize: vertical; min-height: 84px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 0 18px; border-radius: 99px; border: 0; cursor: pointer; font-weight: 600; font-size: 14px; text-decoration: none; transition: background .2s, color .2s, transform .2s; white-space: nowrap; }
+  .btn:active { transform: scale(.97); }
+  .b-dark { background: var(--ink); color: var(--ivory); }
+  .b-dark:hover { background: var(--clay); }
+  .b-soft { background: var(--sand); color: var(--ink); }
+  .b-soft:hover { background: var(--sand2); }
+  .b-ghost { background: transparent; color: var(--muted); }
+  .b-ghost:hover { color: var(--bad); background: rgba(162,59,38,.08); }
+  .b-wide { width: 100%; min-height: 48px; }
+
+  /* app shell */
+  .app { display: grid; grid-template-columns: minmax(0, 1fr); min-height: 100svh; }
+  .side, main { min-width: 0; }
+  @media (min-width: 960px) { .app { grid-template-columns: 250px minmax(0, 1fr); } }
+  .side { background: var(--ink); color: var(--ivory); padding: 22px 16px; display: flex; flex-direction: column; gap: 22px; position: sticky; top: 0; height: 100svh; }
+  .side .brand small { color: rgba(245,239,231,.55); }
+  .nav { display: grid; gap: 4px; }
+  .nav button { display: flex; align-items: center; gap: 12px; border: 0; background: transparent; color: rgba(245,239,231,.72); padding: 11px 12px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 14.5px; text-align: left; transition: background .2s, color .2s; }
+  .nav button svg { flex: none; opacity: .8; }
+  .nav button:hover { background: rgba(255,255,255,.06); color: #fff; }
+  .nav button[aria-current="page"] { background: rgba(255,255,255,.1); color: #fff; }
+  .nav .cnt { margin-left: auto; background: var(--clay); color: #fff; border-radius: 99px; font-size: 11.5px; padding: 1px 8px; }
+  .side-foot { margin-top: auto; display: grid; gap: 8px; }
+  .side-foot .btn { width: 100%; }
+  .side-foot .b-soft { background: rgba(255,255,255,.1); color: var(--ivory); }
+  .side-foot .b-soft:hover { background: rgba(255,255,255,.18); }
+  @media (max-width: 959px) {
+    .side { position: sticky; top: 0; z-index: 20; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; padding: 12px 14px; gap: 10px; }
+    .side .brand { font-size: 24px; }
+    .side .brand small { display: none; }
+    .nav { order: 3; width: 100%; display: flex; overflow-x: auto; gap: 4px; scrollbar-width: none; margin: 0 -14px; padding: 0 14px; }
+    .nav::-webkit-scrollbar { display: none; }
+    .nav button { padding: 8px 12px; font-size: 13.5px; flex: none; }
+    .nav button svg { display: none; }
+    .side-foot { margin: 0 0 0 auto; display: flex; gap: 6px; }
+    .side-foot .btn { width: auto; min-height: 36px; padding: 0 12px; font-size: 13px; }
+    .side-foot .lo { display: none; }
+  }
+  main { padding: 28px 20px 90px; max-width: 1060px; width: 100%; }
+  @media (min-width: 960px) { main { padding: 40px 48px 80px; } }
+  .demo-note { display: flex; gap: 10px; align-items: flex-start; background: #FFF6E9; border: 1px solid #F0D9B8; color: #6B4E2E; border-radius: 12px; padding: 12px 14px; font-size: 13.5px; margin-bottom: 26px; }
+  .page-h { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 14px; margin-bottom: 22px; }
+  .page-h h2 { font-family: var(--serif); font-weight: 500; font-size: clamp(32px, 4vw, 44px); line-height: 1; }
+  .page-h p { color: var(--muted); margin-top: 6px; }
+  .view { animation: up .45s var(--ease); }
+
+  .card { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+  .grid2 { display: grid; gap: 14px; }
+  @media (min-width: 700px) { .grid2 { grid-template-columns: 1fr 1fr; } }
+  .stack { display: grid; gap: 14px; }
+
+  /* dashboard */
+  .stats { display: grid; gap: 14px; grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 900px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+  .stat { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+  .stat .k { font-size: 12px; color: var(--muted); font-weight: 600; }
+  .stat .v { font-family: var(--serif); font-size: 40px; line-height: 1.1; margin-top: 4px; }
+  .stat .v small { font-family: var(--sans); font-size: 13px; color: var(--muted); }
+  .quick { display: grid; gap: 12px; margin-top: 22px; }
+  @media (min-width: 800px) { .quick { grid-template-columns: repeat(3, 1fr); } }
+  .q { display: flex; gap: 14px; align-items: center; background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 18px; cursor: pointer; text-align: left; transition: border-color .2s, transform .3s var(--ease); }
+  .q:hover { border-color: var(--clay); transform: translateY(-2px); }
+  .q .ic { width: 42px; height: 42px; border-radius: 12px; background: var(--sand); display: grid; place-items: center; flex: none; color: var(--clay); }
+  .q b { display: block; }
+  .q span { color: var(--muted); font-size: 13px; }
+
+  /* treatments */
+  .tr { display: grid; gap: 14px; grid-template-columns: 92px 1fr; align-items: start; }
+  .tr .thumb { width: 92px; height: 92px; border-radius: 12px; overflow: hidden; background: var(--sand); position: relative; }
+  .tr .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .tr .thumb button { position: absolute; inset: auto 6px 6px 6px; min-height: 26px; font-size: 11px; padding: 0 6px; background: rgba(43,33,28,.78); color: #fff; border: 0; border-radius: 99px; cursor: pointer; }
+  .tr-fields { display: grid; gap: 10px; }
+  .tr-row { display: grid; gap: 10px; grid-template-columns: 1fr 96px 96px; }
+  @media (max-width: 560px) { .tr { grid-template-columns: 1fr; } .tr-row { grid-template-columns: 1fr 1fr; } .tr-row .nm { grid-column: 1 / -1; } }
+  .price { position: relative; }
+  .price .in { padding-right: 28px; }
+  .price span { position: absolute; right: 10px; bottom: 11px; color: var(--muted); font-size: 13px; }
+  .tr-act { display: flex; flex-wrap: wrap; gap: 6px; justify-content: space-between; align-items: center; }
+  .tr-act .mv { display: flex; gap: 4px; }
+  .tr-act .mv button { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: #fff; cursor: pointer; }
+  details.en { font-size: 13px; }
+  details.en summary { cursor: pointer; color: var(--muted); font-weight: 600; padding: 4px 0; }
+  details.en .stack { margin-top: 8px; }
+
+  /* promo preview */
+  .pv { border-radius: 12px; background: var(--clay); color: #fff; padding: 14px; text-align: center; font-size: 14px; }
+  .pv b { font-size: 10.5px; letter-spacing: .24em; text-transform: uppercase; background: rgba(255,255,255,.18); border-radius: 99px; padding: 3px 10px; margin-right: 8px; }
+  .switch { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-weight: 600; }
+  .switch input { appearance: none; width: 46px; height: 26px; border-radius: 99px; background: var(--sand2); position: relative; cursor: pointer; transition: background .25s; margin: 0; }
+  .switch input::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: transform .25s var(--ease); box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+  .switch input:checked { background: var(--ok); }
+  .switch input:checked::after { transform: translateX(20px); }
+
+  /* gallery */
+  .gl { display: grid; gap: 12px; grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 700px) { .gl { grid-template-columns: repeat(4, 1fr); } }
+  .gi { position: relative; border-radius: 12px; overflow: hidden; aspect-ratio: 1; background: var(--sand); }
+  .gi img { width: 100%; height: 100%; object-fit: cover; }
+  .gi .ctl { position: absolute; inset: auto 6px 6px 6px; display: flex; gap: 4px; justify-content: space-between; }
+  .gi .ctl button { min-height: 30px; border-radius: 99px; border: 0; background: rgba(43,33,28,.8); color: #fff; cursor: pointer; font-size: 12px; padding: 0 10px; }
+  .gi .ctl .del { background: rgba(162,59,38,.9); }
+  .gadd { border: 2px dashed var(--sand2); border-radius: 12px; aspect-ratio: 1; display: grid; place-items: center; text-align: center; color: var(--muted); cursor: pointer; font-weight: 600; font-size: 13.5px; background: transparent; transition: border-color .2s, color .2s; }
+  .gadd:hover { border-color: var(--clay); color: var(--clay); }
+
+  /* hours */
+  .hr { display: grid; gap: 8px; grid-template-columns: 1fr 140px 40px; align-items: center; }
+  .icon-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: #fff; cursor: pointer; color: var(--muted); }
+  .icon-btn:hover { color: var(--bad); border-color: var(--bad); }
+
+  /* inbox */
+  .filters { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filters button { border: 1px solid var(--line); background: #fff; border-radius: 99px; min-height: 36px; padding: 0 14px; cursor: pointer; font-weight: 600; font-size: 13px; }
+  .filters button[aria-pressed="true"] { background: var(--ink); color: var(--ivory); border-color: var(--ink); }
+  .req { display: grid; gap: 10px; }
+  .rq { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; display: grid; gap: 8px; border-left: 4px solid var(--clay); }
+  .rq[data-st="potwierdzone"] { border-left-color: var(--ok); }
+  .rq[data-st="zrealizowane"] { border-left-color: var(--sand2); opacity: .8; }
+  .rq-top { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; justify-content: space-between; }
+  .rq-top b { font-size: 16px; }
+  .rq-top time { color: var(--muted); font-size: 12.5px; }
+  .rq .meta { color: var(--ink); font-size: 14px; }
+  .rq .meta span { color: var(--muted); }
+  .rq .msg { color: var(--muted); font-size: 14px; font-style: italic; }
+  .rq-act { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .rq-act select { width: auto; padding: 7px 10px; font-size: 13px; }
+  .tag { font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; background: var(--sand); color: var(--muted); border-radius: 99px; padding: 2px 8px; font-weight: 700; }
+  .empty { text-align: center; color: var(--muted); padding: 40px 20px; border: 2px dashed var(--sand2); border-radius: 16px; }
+
+  /* save bar + toast */
+  .savebar { position: sticky; bottom: 14px; margin-top: 22px; display: flex; gap: 10px; align-items: center; justify-content: space-between; background: var(--ink); color: var(--ivory); border-radius: 99px; padding: 8px 8px 8px 20px; box-shadow: 0 20px 40px -20px rgba(0,0,0,.5); transform: translateY(140%); opacity: 0; transition: transform .45s var(--ease), opacity .3s; pointer-events: none; }
+  .savebar.show { transform: none; opacity: 1; pointer-events: auto; }
+  .savebar .btn { background: var(--ivory); color: var(--ink); }
+  .savebar .btn.alt { background: transparent; color: rgba(245,239,231,.7); }
+  .toast { position: fixed; left: 50%; bottom: 24px; z-index: 50; width: max-content; max-width: calc(100vw - 32px); transform: translate(-50%, 20px); opacity: 0; visibility: hidden; background: var(--ok); color: #fff; border-radius: 14px; padding: 12px 18px; font-weight: 600; font-size: 14px; box-shadow: 0 16px 40px -16px rgba(0,0,0,.5); transition: transform .45s var(--ease), opacity .3s, visibility .3s; display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; justify-content: center; text-align: center; }
+  .toast.show { transform: translate(-50%, 0); opacity: 1; visibility: visible; }
+  .toast.err { background: var(--bad); }
+  .toast a { color: #fff; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8ZM7.5 7.5h.01" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-img" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="9" cy="9" r="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m21 15-5-5L5 21" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+  <symbol id="i-text" viewBox="0 0 24 24"><path d="M4 7V5h16v2M9 19h6M12 5v14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m3 7 9 6 9-6" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+</svg>
+
+<!-- LOGIN -->
+<section class="login" id="login">
+  <div class="login-card" id="loginCard">
+    <div class="brand">Spa <i>Home</i><small>panel administracyjny</small></div>
+    <h1>Zaloguj się</h1>
+    <p class="sub">Zarządzaj cennikiem, promocjami i zdjęciami na stronie.</p>
+    <form id="loginForm">
+      <label class="f">Hasło<input class="in" id="pw" type="password" autocomplete="current-password" required></label>
+      <button class="btn b-dark b-wide" type="submit">Zaloguj</button>
+    </form>
+    <p class="hint">Wersja demonstracyjna – hasło: <b>spahome</b></p>
+  </div>
+</section>
+
+<!-- APP -->
+<div class="app" id="app" hidden>
+  <aside class="side">
+    <div class="brand">Spa <i>Home</i><small>panel</small></div>
+    <nav class="nav" id="nav" aria-label="Sekcje panelu">
+      <button data-v="dash" aria-current="page"><svg width="18" height="18"><use href="#i-home"/></svg>Pulpit</button>
+      <button data-v="inbox"><svg width="18" height="18"><use href="#i-mail"/></svg>Rezerwacje<span class="cnt" id="navCnt" hidden>0</span></button>
+      <button data-v="treat"><svg width="18" height="18"><use href="#i-list"/></svg>Cennik</button>
+      <button data-v="promo"><svg width="18" height="18"><use href="#i-tag"/></svg>Promocje</button>
+      <button data-v="gal"><svg width="18" height="18"><use href="#i-img"/></svg>Galeria</button>
+      <button data-v="hours"><svg width="18" height="18"><use href="#i-clock"/></svg>Godziny i kontakt</button>
+      <button data-v="texts"><svg width="18" height="18"><use href="#i-text"/></svg>Teksty</button>
+    </nav>
+    <div class="side-foot">
+      <a class="btn b-soft" href="../" target="_blank" rel="noopener">Zobacz stronę ↗</a>
+      <button class="btn b-ghost lo" id="logout" type="button" style="color:rgba(245,239,231,.6)">Wyloguj</button>
+    </div>
+  </aside>
+
+  <main>
+    <p class="demo-note">ℹ️ <span><b>Wersja demonstracyjna.</b> Zmiany zapisują się w tej przeglądarce i od razu widać je na stronie otwartej na tym samym urządzeniu. W wersji docelowej zapis trafia na serwer i widzą go wszyscy odwiedzający.</span></p>
+    <div id="view"></div>
+    <div class="savebar" id="savebar"><span id="saveMsg">Masz niezapisane zmiany</span><span style="display:flex;gap:6px"><button class="btn alt" id="discard" type="button">Cofnij</button><button class="btn" id="save" type="button">Zapisz zmiany</button></span></div>
+  </main>
+</div>
+
+<input type="file" id="file" accept="image/*" hidden>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="../cms.js"></script>
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const esc = SpaCMS.esc;
+  const PRESETS = ["img/plecy.jpg", "img/kamienie.jpg", "img/aromaterapia.jpg", "img/twarz.jpg", "img/stopy.jpg", "img/olejki.jpg", "img/rytual.jpg", "img/hero.jpg"];
+  const src = (s) => (s.startsWith("data:") ? s : "../" + s);
+
+  /* ---------- login ---------- */
+  const ses = () => { try { return sessionStorage.getItem("spahome-auth") === "1"; } catch (e) { return false; } };
+  const enter = () => { $("#login").hidden = true; $("#app").hidden = false; show("dash"); };
+  if (ses()) enter();
+  $("#loginForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    if ($("#pw").value.trim().toLowerCase() === "spahome") { try { sessionStorage.setItem("spahome-auth", "1"); } catch (er) {} enter(); }
+    else { const c = $("#loginCard"); c.classList.remove("shake"); void c.offsetWidth; c.classList.add("shake"); $("#pw").select(); }
+  });
+  $("#logout").addEventListener("click", () => { try { sessionStorage.removeItem("spahome-auth"); } catch (e) {} location.reload(); });
+
+  /* ---------- state ---------- */
+  let data = SpaCMS.load(), saved = JSON.stringify(data), current = "dash";
+  const dirty = () => JSON.stringify(data) !== saved;
+  const markDirty = () => $("#savebar").classList.toggle("show", dirty());
+  let tt;
+  const toast = (msg, err) => {
+    const t = $("#toast"); t.className = "toast" + (err ? " err" : ""); t.innerHTML = msg;
+    requestAnimationFrame(() => t.classList.add("show"));
+    clearTimeout(tt); tt = setTimeout(() => t.classList.remove("show"), 3200);
+  };
+  const doSave = () => {
+    try { SpaCMS.save(data); saved = JSON.stringify(data); markDirty(); toast('✓ Zapisano – zmiany są już na stronie <a href="../" target="_blank" rel="noopener">Zobacz ↗</a>'); }
+    catch (e) { toast("Brak miejsca w pamięci przeglądarki. Usuń część wgranych zdjęć.", true); }
+  };
+  $("#save").addEventListener("click", doSave);
+  $("#discard").addEventListener("click", () => { data = JSON.parse(saved); markDirty(); show(current); });
+  addEventListener("keydown", (e) => { if ((e.ctrlKey || e.metaKey) && e.key === "s") { e.preventDefault(); if (dirty()) doSave(); } });
+  addEventListener("beforeunload", (e) => { if (dirty()) { e.preventDefault(); e.returnValue = ""; } });
+
+  /* ---------- image upload (resized) ---------- */
+  let pick = null;
+  const choose = (cb) => { pick = cb; $("#file").value = ""; $("#file").click(); };
+  $("#file").addEventListener("change", () => {
+    const f = $("#file").files[0]; if (!f || !pick) return;
+    const r = new FileReader();
+    r.onload = () => {
+      const im = new Image();
+      im.onload = () => {
+        const max = 1400, k = Math.min(1, max / Math.max(im.width, im.height));
+        const c = document.createElement("canvas"); c.width = Math.round(im.width * k); c.height = Math.round(im.height * k);
+        c.getContext("2d").drawImage(im, 0, 0, c.width, c.height);
+        pick(c.toDataURL("image/jpeg", .8));
+      };
+      im.onerror = () => toast("Nie udało się wczytać tego pliku.", true);
+      im.src = r.result;
+    };
+    r.readAsDataURL(f);
+  });
+
+  /* ---------- inbox helpers ---------- */
+  const inbox = () => {
+    let l = SpaCMS.inbox();
+    if (!l.length && !localStorage.getItem("spahome-seeded")) {
+      const d = (h) => new Date(Date.now() - h * 3600e3).toISOString();
+      const t = new Date(); t.setDate(t.getDate() + 2); const ds = t.toISOString().slice(0, 10);
+      l = [
+        { id: "s1", at: d(2), treat: "Masaż gorącymi kamieniami", dur: "90 min", date: ds, slot: "Wieczór", name: "Anna (przykład)", phone: "600 000 000", msg: "Czy jest wolny termin około 19:00?", status: "nowe", sample: true },
+        { id: "s2", at: d(26), treat: "Masaż relaksacyjny", dur: "60 min", date: "", slot: "Popołudnie", name: "Marta (przykład)", phone: "500 000 000", msg: "Chciałabym kupić też bon 200 zł dla mamy.", status: "potwierdzone", sample: true }
+      ];
+      try { SpaCMS.saveInbox(l); localStorage.setItem("spahome-seeded", "1"); } catch (e) {}
+    }
+    return l;
+  };
+  const newCount = () => inbox().filter((r) => r.status === "nowe").length;
+  const syncCnt = () => { const n = newCount(), c = $("#navCnt"); c.hidden = !n; c.textContent = n; };
+  const fmt = (iso) => { try { return new Date(iso).toLocaleString("pl-PL", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }); } catch (e) { return iso; } };
+  const fmtD = (s) => { if (!s) return "dowolny dzień"; const p = s.split("-"); return p[2] + "." + p[1] + "." + p[0]; };
+
+  /* ---------- views ---------- */
+  const V = {};
+  V.dash = () => {
+    const act = SpaCMS.promoActive(data.promo);
+    return `<div class="page-h"><div><h2>Dzień dobry 👋</h2><p>Tu zarządzasz stroną Spa Home. Wybierz, co chcesz zmienić.</p></div></div>
+    <div class="stats">
+      <div class="stat"><p class="k">Nowe rezerwacje</p><p class="v">${newCount()}</p></div>
+      <div class="stat"><p class="k">Masaże w cenniku</p><p class="v">${data.treatments.length}</p></div>
+      <div class="stat"><p class="k">Zdjęcia w galerii</p><p class="v">${data.gallery.length}</p></div>
+      <div class="stat"><p class="k">Promocja</p><p class="v" style="font-size:26px;padding-top:8px">${act ? "aktywna" : "wyłączona"}</p></div>
+    </div>
+    <div class="quick">
+      <button class="q" data-go="inbox"><span class="ic"><svg width="20" height="20"><use href="#i-mail"/></svg></span><span><b>Sprawdź rezerwacje</b><span>Zgłoszenia z formularza na stronie</span></span></button>
+      <button class="q" data-go="treat"><span class="ic"><svg width="20" height="20"><use href="#i-list"/></svg></span><span><b>Zmień ceny</b><span>Dodaj lub edytuj masaż</span></span></button>
+      <button class="q" data-go="promo"><span class="ic"><svg width="20" height="20"><use href="#i-tag"/></svg></span><span><b>Dodaj promocję</b><span>Pasek z ofertą na stronie</span></span></button>
+      <button class="q" data-go="gal"><span class="ic"><svg width="20" height="20"><use href="#i-img"/></svg></span><span><b>Wgraj zdjęcia</b><span>Galeria salonu</span></span></button>
+      <button class="q" data-go="hours"><span class="ic"><svg width="20" height="20"><use href="#i-clock"/></svg></span><span><b>Godziny otwarcia</b><span>Telefon i godziny pracy</span></span></button>
+      <button class="q" data-go="texts"><span class="ic"><svg width="20" height="20"><use href="#i-text"/></svg></span><span><b>Teksty na stronie</b><span>Opis salonu</span></span></button>
+    </div>
+    <div class="card" style="margin-top:22px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
+      <span style="color:var(--muted);font-size:13.5px">Chcesz zacząć od nowa? Przywróć ustawienia demo.</span>
+      <button class="btn b-ghost" id="reset" type="button">Przywróć demo</button>
+    </div>`;
+  };
+  V.inbox = () => {
+    const l = inbox(), f = V.inbox.f || "wszystkie";
+    const shown = l.filter((r) => f === "wszystkie" || r.status === f);
+    const cnt = (s) => l.filter((r) => r.status === s).length;
+    return `<div class="page-h"><div><h2>Rezerwacje</h2><p>Zgłoszenia wysłane przez formularz na stronie.</p></div>
+      <div class="filters" id="filt">${["wszystkie", "nowe", "potwierdzone", "zrealizowane"].map((s) => `<button type="button" data-f="${s}" aria-pressed="${s === f}">${s[0].toUpperCase() + s.slice(1)}${s !== "wszystkie" ? " (" + cnt(s) + ")" : ""}</button>`).join("")}</div></div>
+      <div class="req">${shown.length ? shown.map((r) => `
+        <article class="rq" data-st="${esc(r.status)}" data-id="${esc(r.id)}">
+          <div class="rq-top"><b>${esc(r.name)} ${r.sample ? '<span class="tag">przykład</span>' : ""}</b><time>${fmt(r.at)}</time></div>
+          <p class="meta">${esc(r.treat)} · ${esc(r.dur)} <span>— ${fmtD(r.date)}, ${esc(r.slot).toLowerCase()}</span></p>
+          ${r.msg ? `<p class="msg">„${esc(r.msg)}”</p>` : ""}
+          <div class="rq-act">
+            <a class="btn b-dark" href="tel:${esc(String(r.phone).replace(/\s/g, ""))}">📞 ${esc(r.phone)}</a>
+            <a class="btn b-soft" href="sms:${esc(String(r.phone).replace(/\s/g, ""))}">SMS</a>
+            <select class="in" data-st aria-label="Status">${["nowe", "potwierdzone", "zrealizowane"].map((s) => `<option${s === r.status ? " selected" : ""}>${s}</option>`).join("")}</select>
+            <button class="btn b-ghost" data-del type="button">Usuń</button>
+          </div>
+        </article>`).join("") : `<p class="empty">Brak zgłoszeń w tej kategorii.<br><span style="font-size:13px">Wypełnij formularz na <a href="../#rezerwacja" target="_blank" rel="noopener">stronie</a>, a zgłoszenie pojawi się tutaj.</span></p>`}</div>`;
+  };
+  V.treat = () => `<div class="page-h"><div><h2>Cennik</h2><p>Nazwy, opisy i ceny masaży. Kolejność tutaj = kolejność na stronie.</p></div><button class="btn b-dark" id="addT" type="button">+ Dodaj masaż</button></div>
+    <div class="stack">${data.treatments.map((t, i) => `
+      <div class="card tr" data-i="${i}">
+        <div class="thumb"><img src="${esc(src(t.img))}" alt=""><button type="button" data-img>Zmień</button></div>
+        <div class="tr-fields">
+          <div class="tr-row">
+            <label class="f nm">Nazwa<input class="in" data-k="name" value="${esc(t.name)}"></label>
+            <label class="f price">60 min<input class="in" data-k="p60" inputmode="numeric" value="${esc(t.p60)}"><span>zł</span></label>
+            <label class="f price">90 min<input class="in" data-k="p90" inputmode="numeric" value="${esc(t.p90)}"><span>zł</span></label>
+          </div>
+          <label class="f">Opis<textarea class="in" data-k="desc" rows="2">${esc(t.desc)}</textarea></label>
+          <details class="en"><summary>Wersja angielska (EN)</summary><div class="stack">
+            <label class="f">Name<input class="in" data-k="nameEn" value="${esc(t.nameEn || "")}"></label>
+            <label class="f">Description<textarea class="in" data-k="descEn" rows="2">${esc(t.descEn || "")}</textarea></label></div></details>
+          <div class="tr-act"><span class="mv"><button type="button" data-mv="-1" aria-label="W górę">↑</button><button type="button" data-mv="1" aria-label="W dół">↓</button></span><button class="btn b-ghost" type="button" data-rm>Usuń masaż</button></div>
+        </div>
+      </div>`).join("")}</div>
+    <div class="card" id="imgPick" hidden style="margin-top:14px"><p style="font-weight:600;margin-bottom:10px">Wybierz zdjęcie</p>
+      <div class="gl">${PRESETS.map((p) => `<button class="gi" type="button" data-p="${p}" style="border:0;padding:0;cursor:pointer"><img src="../${p}" alt=""></button>`).join("")}<button class="gadd" type="button" data-up>+ Wgraj własne</button></div></div>`;
+  V.promo = () => {
+    const p = data.promo;
+    return `<div class="page-h"><div><h2>Promocje</h2><p>Pasek z promocją pojawia się pod zdjęciem na górze strony.</p></div></div>
+    <div class="card stack">
+      <label class="switch"><input type="checkbox" id="pOn" ${p.on ? "checked" : ""}> Pokazuj promocję na stronie</label>
+      <label class="f">Treść promocji<input class="in" id="pText" maxlength="110" placeholder="np. -20% na masaż gorącymi kamieniami w listopadzie" value="${esc(p.text)}"></label>
+      <div class="grid2">
+        <label class="f">Ważna do (opcjonalnie)<input class="in" id="pUntil" type="date" value="${esc(p.until)}"></label>
+        <label class="f">Treść po angielsku (opcjonalnie)<input class="in" id="pEn" maxlength="110" value="${esc(p.textEn)}"></label>
+      </div>
+      <div><p style="font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:6px">Podgląd</p><div class="pv" id="pv"></div></div>
+      <p style="font-size:13px;color:var(--muted)">Po dacie końcowej promocja sama znika ze strony.</p>
+    </div>`;
+  };
+  V.gal = () => `<div class="page-h"><div><h2>Galeria</h2><p>Zdjęcia w sekcji „Zajrzyj do środka”. Strzałki zmieniają kolejność.</p></div><button class="btn b-dark" id="addG" type="button">+ Wgraj zdjęcie</button></div>
+    <div class="gl">${data.gallery.map((g, i) => `<div class="gi" data-i="${i}"><img src="${esc(src(g.src))}" alt="${esc(g.alt)}"><div class="ctl"><span style="display:flex;gap:4px"><button type="button" data-mv="-1" aria-label="Wcześniej">←</button><button type="button" data-mv="1" aria-label="Później">→</button></span><button class="del" type="button" data-rm aria-label="Usuń">Usuń</button></div></div>`).join("")}<button class="gadd" type="button" id="addG2">+ Dodaj zdjęcie</button></div>`;
+  V.hours = () => `<div class="page-h"><div><h2>Godziny i kontakt</h2><p>Widoczne w sekcji kontakt i w danych dla Google.</p></div></div>
+    <div class="stack">
+      <div class="card stack"><p style="font-weight:700">Godziny otwarcia</p>
+        <div class="stack" id="hrs">${data.hours.map((h, i) => `<div class="hr" data-i="${i}"><input class="in" data-k="d" value="${esc(h.d)}" aria-label="Dni"><input class="in" data-k="h" value="${esc(h.h)}" aria-label="Godziny"><button class="icon-btn" type="button" data-rm aria-label="Usuń">×</button></div>`).join("")}</div>
+        <div><button class="btn b-soft" id="addH" type="button">+ Dodaj wiersz</button></div>
+        <label class="f">Dopisek pod godzinami<input class="in" id="hNote" value="${esc(data.hoursNote)}"></label>
+      </div>
+      <div class="card grid2">
+        <label class="f">Telefon<input class="in" id="cPhone" inputmode="tel" value="${esc(data.phone)}"></label>
+        <label class="f">E-mail do rezerwacji<input class="in" id="cMail" type="email" value="${esc(data.email)}" disabled title="Zmiana adresu w wersji docelowej"></label>
+      </div>
+    </div>`;
+  V.texts = () => `<div class="page-h"><div><h2>Teksty</h2><p>Najważniejsze opisy na stronie.</p></div></div>
+    <div class="stack">
+      <div class="card stack"><label class="f">Opis na górze strony (pod „Czas tylko dla Ciebie.”)<textarea class="in" data-t="heroLead" rows="3">${esc(data.texts.heroLead)}</textarea></label>
+        <details class="en"><summary>Wersja angielska (EN)</summary><div class="stack"><textarea class="in" data-t="heroLeadEn" rows="3">${esc(data.texts.heroLeadEn)}</textarea></div></details></div>
+      <div class="card stack"><label class="f">Sekcja „O nas”<textarea class="in" data-t="aboutLead" rows="4">${esc(data.texts.aboutLead)}</textarea></label>
+        <details class="en"><summary>Wersja angielska (EN)</summary><div class="stack"><textarea class="in" data-t="aboutLeadEn" rows="4">${esc(data.texts.aboutLeadEn)}</textarea></div></details></div>
+    </div>`;
+
+  /* ---------- binders ---------- */
+  const B = {};
+  B.dash = (el) => {
+    $$("[data-go]", el).forEach((b) => b.addEventListener("click", () => show(b.dataset.go)));
+    $("#reset", el).addEventListener("click", () => {
+      if (!confirm("Przywrócić stronę do ustawień demo? Twoje zmiany i zgłoszenia zostaną usunięte.")) return;
+      SpaCMS.reset(); try { localStorage.removeItem("spahome-seeded"); } catch (e) {}
+      data = SpaCMS.load(); saved = JSON.stringify(data); markDirty(); show("dash"); toast("Przywrócono ustawienia demo");
+    });
+  };
+  B.inbox = (el) => {
+    $$("#filt button", el).forEach((b) => b.addEventListener("click", () => { V.inbox.f = b.dataset.f; show("inbox"); }));
+    $$(".rq", el).forEach((card) => {
+      const id = card.dataset.id;
+      $("[data-st]", card).addEventListener("change", (e) => {
+        const l = inbox(); const r = l.find((x) => x.id === id); if (!r) return;
+        r.status = e.target.value; SpaCMS.saveInbox(l); card.dataset.st = r.status; syncCnt(); toast("Status zmieniony: " + r.status);
+      });
+      $("[data-del]", card).addEventListener("click", () => {
+        if (!confirm("Usunąć to zgłoszenie?")) return;
+        SpaCMS.saveInbox(inbox().filter((x) => x.id !== id)); syncCnt(); show("inbox");
+      });
+    });
+  };
+  B.treat = (el) => {
+    let target = null;
+    $$(".tr", el).forEach((card) => {
+      const i = +card.dataset.i, t = data.treatments[i];
+      $$("[data-k]", card).forEach((inp) => inp.addEventListener("input", () => {
+        const k = inp.dataset.k;
+        t[k] = (k === "p60" || k === "p90") ? inp.value.replace(/[^\d]/g, "") : inp.value;
+        if (k === "p60" || k === "p90") inp.value = t[k];
+        markDirty();
+      }));
+      $("[data-rm]", card).addEventListener("click", () => {
+        if (data.treatments.length <= 1) return toast("Cennik musi mieć co najmniej jeden masaż.", true);
+        if (!confirm("Usunąć „" + t.name + "” z cennika?")) return;
+        data.treatments.splice(i, 1); markDirty(); show("treat");
+      });
+      $$("[data-mv]", card).forEach((b) => b.addEventListener("click", () => {
+        const j = i + +b.dataset.mv; if (j < 0 || j >= data.treatments.length) return;
+        [data.treatments[i], data.treatments[j]] = [data.treatments[j], data.treatments[i]]; markDirty(); show("treat");
+      }));
+      $("[data-img]", card).addEventListener("click", () => {
+        target = i; const p = $("#imgPick", el); p.hidden = false; p.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+    });
+    const setImg = (s) => { if (target == null) return; data.treatments[target].img = s; markDirty(); show("treat"); };
+    $$("#imgPick [data-p]", el).forEach((b) => b.addEventListener("click", () => setImg(b.dataset.p)));
+    $("#imgPick [data-up]", el).addEventListener("click", () => choose(setImg));
+    $("#addT", el).addEventListener("click", () => {
+      data.treatments.push({ id: "t" + Date.now(), name: "Nowy masaż", nameEn: "", desc: "Krótki opis masażu.", descEn: "", p60: 160, p90: 220, img: "img/olejki.jpg" });
+      markDirty(); show("treat");
+      setTimeout(() => { const last = $$(".tr").pop(); if (last) { last.scrollIntoView({ behavior: "smooth", block: "center" }); $("[data-k=name]", last).select(); } }, 60);
+    });
+  };
+  B.promo = (el) => {
+    const p = data.promo;
+    const pv = () => {
+      const u = p.until ? " · do " + p.until.split("-").reverse().slice(0, 2).join(".") : "";
+      $("#pv", el).innerHTML = p.text ? `<b>Promocja</b>${esc(p.text)}${u}` : "<span style='opacity:.8'>Wpisz treść promocji, aby zobaczyć podgląd</span>";
+      $("#pv", el).style.opacity = p.on ? 1 : .5;
+    };
+    $("#pOn", el).addEventListener("change", (e) => { p.on = e.target.checked; pv(); markDirty(); });
+    $("#pText", el).addEventListener("input", (e) => { p.text = e.target.value; if (p.text && !p.on) { p.on = true; $("#pOn", el).checked = true; } pv(); markDirty(); });
+    $("#pUntil", el).addEventListener("input", (e) => { p.until = e.target.value; pv(); markDirty(); });
+    $("#pEn", el).addEventListener("input", (e) => { p.textEn = e.target.value; markDirty(); });
+    pv();
+  };
+  B.gal = (el) => {
+    const add = () => choose((s) => { data.gallery.push({ src: s, alt: "Zdjęcie salonu" }); markDirty(); show("gal"); });
+    $("#addG", el).addEventListener("click", add);
+    $("#addG2", el).addEventListener("click", add);
+    $$(".gi[data-i]", el).forEach((g) => {
+      const i = +g.dataset.i;
+      $("[data-rm]", g).addEventListener("click", () => { data.gallery.splice(i, 1); markDirty(); show("gal"); });
+      $$("[data-mv]", g).forEach((b) => b.addEventListener("click", () => {
+        const j = i + +b.dataset.mv; if (j < 0 || j >= data.gallery.length) return;
+        [data.gallery[i], data.gallery[j]] = [data.gallery[j], data.gallery[i]]; markDirty(); show("gal");
+      }));
+    });
+  };
+  B.hours = (el) => {
+    $$(".hr", el).forEach((row) => {
+      const i = +row.dataset.i;
+      $$("[data-k]", row).forEach((inp) => inp.addEventListener("input", () => { data.hours[i][inp.dataset.k] = inp.value; if (inp.dataset.k === "d") data.hours[i].dEn = ""; markDirty(); }));
+      $("[data-rm]", row).addEventListener("click", () => { if (data.hours.length <= 1) return; data.hours.splice(i, 1); markDirty(); show("hours"); });
+    });
+    $("#addH", el).addEventListener("click", () => { data.hours.push({ d: "Sobota", dEn: "", h: "10:00 – 18:00" }); markDirty(); show("hours"); });
+    $("#hNote", el).addEventListener("input", (e) => { data.hoursNote = e.target.value; data.hoursNoteEn = ""; markDirty(); });
+    $("#cPhone", el).addEventListener("input", (e) => { data.phone = e.target.value; markDirty(); });
+  };
+  B.texts = (el) => {
+    $$("[data-t]", el).forEach((t) => t.addEventListener("input", () => { data.texts[t.dataset.t] = t.value; markDirty(); }));
+  };
+
+  function show(v) {
+    current = v;
+    $$("#nav button").forEach((b) => { if (b.dataset.v === v) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
+    const el = $("#view");
+    el.innerHTML = `<div class="view">${V[v]()}</div>`;
+    B[v] && B[v](el);
+    syncCnt();
+    if (innerWidth < 960) { const nb = $(`#nav button[data-v="${v}"]`); nb && nb.scrollIntoView({ inline: "center", block: "nearest" }); }
+  }
+  $$("#nav button").forEach((b) => b.addEventListener("click", () => { show(b.dataset.v); scrollTo({ top: 0 }); }));
+  addEventListener("storage", (e) => { if (e.key === "spahome-inbox") { syncCnt(); if (current === "inbox" || current === "dash") show(current); } });
+})();
+</script>
+</body>
+</html>

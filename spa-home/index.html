@@ -133,6 +133,16 @@
   .tape:hover .row { animation-play-state: paused; }
   @keyframes mq { to { transform: translateX(-50%); } }
 
+
+  /* promo strip (from panel) */
+  .promo { display: block; background: var(--clay); color: #fff; text-decoration: none; padding: 16px 0; }
+  .promo-in { max-width: var(--max); margin: 0 auto; padding: 0 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 16px; font-size: 15px; text-align: center; }
+  .promo b { font-size: 11px; letter-spacing: .24em; text-transform: uppercase; background: rgba(255,255,255,.18); border-radius: 99px; padding: 4px 12px; }
+  .promo i { font-style: normal; opacity: .85; }
+  .promo u { text-decoration: none; font-weight: 700; }
+  .promo:hover u { text-decoration: underline; }
+  .g-grid { grid-auto-flow: dense; }
+
   /* about */
   .about { display: grid; gap: 54px; align-items: center; }
   @media (min-width: 960px) { .about { grid-template-columns: 1fr 1fr; gap: 90px; } }
@@ -598,6 +608,7 @@
 </nav>
 <p class="demo"><b>Demo</b> · <span data-en="sample prices and photos">ceny i zdjęcia przykładowe</span></p>
 
+<script src="cms.js"></script>
 <script>
 (() => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
