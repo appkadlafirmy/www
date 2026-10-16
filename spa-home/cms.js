@@ -108,6 +108,14 @@
     bar.innerHTML = '<span class="promo-in"><b data-en="Promotion">Promocja</b><span data-en="' + esc(d.promo.textEn || d.promo.text) + '">' + esc(d.promo.text) + '</span>' +
       (until ? '<i data-en="until ' + until + '">do ' + until + '</i>' : "") + '<u data-en="Book">Zarezerwuj →</u></span>';
     hero.parentNode.insertBefore(bar, hero.nextSibling);
+    // also show it right away at the top of the hero, so it is visible without scrolling
+    var eb = hero.querySelector(".eyebrow");
+    if (eb) {
+      var pill = document.createElement("a");
+      pill.className = "promo-pill fade"; pill.href = "#rezerwacja"; pill.style.setProperty("--d", ".05s");
+      pill.innerHTML = '<b data-en="Promotion">Promocja</b><span data-en="' + esc(d.promo.textEn || d.promo.text) + '">' + esc(d.promo.text) + '</span>' + (until ? '<i data-en="until ' + until + '">do ' + until + '</i>' : "") + '<u aria-hidden="true">→</u>';
+      eb.parentNode.insertBefore(pill, eb);
+    }
   }
 
   // gallery
