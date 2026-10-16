@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spa Home – salon masażu Bydgoszcz, pl. Piastowski</title>
+<meta name="description" content="Spa Home – salon masażu w Bydgoszczy przy pl. Piastowskim. Masaż relaksacyjny, gorącymi kamieniami, aromaterapia, masaż twarzy i stóp. Bony podarunkowe. Umów wizytę online.">
+<meta name="theme-color" content="#2B211C">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%232B211C'/%3E%3Ctext x='32' y='43' font-family='Georgia' font-size='30' fill='%23E9D7C0' text-anchor='middle' font-style='italic'%3ES%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/hero.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DaySpa",
+  "name": "Spa Home – salon masażu",
+  "description": "Salon masażu w Bydgoszczy: masaż relaksacyjny, gorącymi kamieniami, aromaterapia, masaż twarzy i stóp, bony podarunkowe.",
+  "email": "vinneri.poland@gmail.com",
+  "address": { "@type": "PostalAddress", "streetAddress": "pl. Piastowski", "addressLocality": "Bydgoszcz", "addressRegion": "kujawsko-pomorskie", "addressCountry": "PL" },
+  "areaServed": "Bydgoszcz"
+}
+</script>
+<style>
+  :root {
+    --ivory: #F5EFE7;
+    --sand: #EADFD1;
+    --sand2: #DCCBB6;
+    --ink: #2B211C;
+    --ink2: #4A3B32;
+    --muted: #7B6A5E;
+    --clay: #B0714A;
+    --clay2: #C98D66;
+    --sage: #7E8466;
+    --line: rgba(43,33,28,.14);
+    --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --sans: Manrope, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    --max: 1240px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: 88px; }
+  body { margin: 0; background: var(--ivory); color: var(--ink); font: 400 16.5px/1.7 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+  h1, h2, h3, p, ul, ol, figure, blockquote { margin: 0; }
+  ul, ol { padding: 0; list-style: none; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; border-radius: 6px; }
+  ::selection { background: var(--clay); color: #fff; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+  @media (min-width: 900px) { .wrap { padding: 0 40px; } }
+  .progress { position: fixed; top: 0; left: 0; height: 2px; width: 100%; background: var(--clay); transform-origin: 0 50%; transform: scaleX(0); z-index: 100; }
+
+  /* type */
+  .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; color: var(--clay); display: inline-flex; align-items: center; gap: 12px; }
+  .eyebrow::before { content: ""; width: 28px; height: 1px; background: currentColor; }
+  h2 { font-family: var(--serif); font-weight: 500; font-size: clamp(38px, 5.4vw, 72px); line-height: 1.02; letter-spacing: -.01em; margin-top: 16px; }
+  h2 em, h1 em { font-style: italic; font-weight: 400; color: var(--clay); }
+  .lead { color: var(--muted); font-size: 17.5px; max-width: 34rem; margin-top: 18px; }
+  section { padding: 120px 0; position: relative; }
+  @media (max-width: 700px) { section { padding: 84px 0; } }
+
+  /* buttons */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; padding: 0 30px; border-radius: 99px; font-weight: 600; font-size: 15px; letter-spacing: .02em; text-decoration: none; border: 0; cursor: pointer; white-space: nowrap; transition: background .3s, color .3s, transform .4s var(--ease), box-shadow .3s; }
+  .btn:active { transform: scale(.97); }
+  .btn-dark { background: var(--ink); color: var(--ivory); }
+  .btn-dark:hover { background: var(--clay); }
+  .btn-light { background: var(--ivory); color: var(--ink); }
+  .btn-light:hover { background: #fff; }
+  .btn-line { background: transparent; color: inherit; box-shadow: inset 0 0 0 1px currentColor; }
+  .btn-line:hover { background: rgba(255,255,255,.12); }
+  .btn svg { transition: transform .4s var(--ease); }
+  .btn:hover svg { transform: translateX(4px); }
+
+  /* header */
+  .hdr { position: fixed; inset: 0 0 auto 0; z-index: 60; padding: 18px 0; color: var(--ivory); transition: background .4s, color .4s, padding .4s, box-shadow .4s, transform .5s var(--ease); }
+  .hdr.solid { background: rgba(245,239,231,.9); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); color: var(--ink); padding: 10px 0; box-shadow: 0 1px 0 var(--line); }
+  .hdr.hide { transform: translateY(-110%); }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+  .logo { text-decoration: none; display: flex; flex-direction: column; line-height: 1; }
+  .logo b { font-family: var(--serif); font-weight: 500; font-size: 30px; letter-spacing: .01em; }
+  .logo b i { font-weight: 400; }
+  .logo small { font-size: 10.5px; letter-spacing: .3em; text-transform: uppercase; opacity: .75; margin-top: 4px; }
+  .menu { display: none; gap: 30px; font-size: 14px; font-weight: 500; }
+  .menu a { text-decoration: none; opacity: .85; position: relative; }
+  .menu a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .45s var(--ease); }
+  .menu a:hover { opacity: 1; }
+  .menu a:hover::after { transform: scaleX(1); transform-origin: left; }
+  @media (min-width: 1080px) { .menu { display: flex; } }
+  .tools { display: flex; align-items: center; gap: 10px; }
+  .lang { display: flex; border-radius: 99px; box-shadow: inset 0 0 0 1px currentColor; padding: 3px; font-size: 12px; font-weight: 700; letter-spacing: .08em; }
+  .lang button { border: 0; background: transparent; cursor: pointer; padding: 6px 10px; border-radius: 99px; min-height: 32px; opacity: .7; transition: background .3s, color .3s, opacity .3s; }
+  .lang button[aria-pressed="true"] { background: currentColor; opacity: 1; }
+  .lang button[aria-pressed="true"] span { color: var(--ink); }
+  .hdr.solid .lang button[aria-pressed="true"] span { color: var(--ivory); }
+  .bar .btn { min-height: 44px; padding: 0 20px; font-size: 14px; }
+  .hdr:not(.solid) .bar .btn-dark { background: var(--ivory); color: var(--ink); }
+  @media (max-width: 560px) { .bar .btn { display: none; } .logo b { font-size: 26px; } }
+
+  /* hero */
+  .hero { position: relative; min-height: 100svh; display: flex; align-items: flex-end; color: var(--ivory); overflow: hidden; padding: 140px 0 70px; background: var(--ink); }
+  .hero-bg { position: absolute; inset: 0; overflow: hidden; }
+  .hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: 62% 40%; transform: scale(1.16); transition: transform 3.2s var(--ease); }
+  .loaded .hero-bg img { transform: scale(1.04) translateY(calc(var(--p, 0) * 40px)); transition: transform 3.2s var(--ease); }
+  .hero-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(30,22,18,.82) 0%, rgba(30,22,18,.35) 45%, rgba(30,22,18,.15) 100%), linear-gradient(90deg, rgba(30,22,18,.55) 0%, rgba(30,22,18,0) 60%); }
+  @media (max-width: 899px) { .hero-bg img { object-position: 70% 40%; } }
+  .hero .wrap { position: relative; width: 100%; }
+  .hero-grid { display: grid; gap: 34px; align-items: end; }
+  @media (min-width: 1000px) { .hero-grid { grid-template-columns: 1.3fr .7fr; } }
+  h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(54px, 9vw, 138px); line-height: .92; letter-spacing: -.02em; margin-top: 22px; }
+  h1 em { color: #E9C9AE; }
+  .ln { display: block; overflow: hidden; padding-bottom: .06em; }
+  .ln > span { display: inline-block; transform: translateY(110%); transition: transform 1.3s var(--ease); transition-delay: calc(var(--i, 0) * 120ms + .2s); }
+  .loaded .ln > span { transform: none; }
+  .hero .eyebrow { color: #E9C9AE; }
+  .hero-side p { color: rgba(245,239,231,.85); font-size: 17px; max-width: 26rem; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+  .fade { opacity: 0; transform: translateY(18px); transition: opacity 1.1s var(--ease), transform 1.1s var(--ease); transition-delay: var(--d, .9s); }
+  .loaded .fade { opacity: 1; transform: none; }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 40px; font-size: 13px; letter-spacing: .08em; color: rgba(245,239,231,.75); }
+  .hero-meta span { display: inline-flex; align-items: center; gap: 8px; }
+  .hero-meta span::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: #E9C9AE; }
+
+  /* marquee */
+  .tape { background: var(--ink); color: var(--sand); padding: 20px 0; overflow: hidden; border-top: 1px solid rgba(255,255,255,.08); }
+  .tape .row { display: flex; width: max-content; animation: mq 46s linear infinite; }
+  .tape span { font-family: var(--serif); font-style: italic; font-size: clamp(24px, 3vw, 36px); padding-right: 1.1em; white-space: nowrap; display: inline-flex; align-items: center; gap: 1.1em; }
+  .tape span::after { content: "✦"; font-style: normal; font-size: .5em; color: var(--clay2); }
+  .tape:hover .row { animation-play-state: paused; }
+  @keyframes mq { to { transform: translateX(-50%); } }
+
+  /* about */
+  .about { display: grid; gap: 54px; align-items: center; }
+  @media (min-width: 960px) { .about { grid-template-columns: 1fr 1fr; gap: 90px; } }
+  .collage { position: relative; height: 560px; }
+  .collage figure { position: absolute; overflow: hidden; border-radius: 4px; box-shadow: 0 30px 60px -30px rgba(43,33,28,.45); }
+  .collage img { width: 100%; height: 100%; object-fit: cover; transform: translateY(var(--py, 0px)) scale(1.12); }
+  .collage .c1 { left: 0; top: 0; width: 64%; height: 78%; border-radius: 220px 220px 4px 4px; }
+  .collage .c2 { right: 0; bottom: 0; width: 50%; height: 52%; }
+  .collage .badge { position: absolute; right: 6%; top: 8%; width: 130px; height: 130px; border-radius: 50%; background: var(--clay); color: #fff; display: grid; place-items: center; text-align: center; font-family: var(--serif); font-style: italic; font-size: 19px; line-height: 1.1; animation: spin 26s linear infinite; }
+  .collage .badge svg { position: absolute; inset: 0; }
+  .collage .badge b { animation: spin 26s linear infinite reverse; font-weight: 500; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (max-width: 600px) { .collage { height: 440px; } .collage .badge { width: 104px; height: 104px; font-size: 16px; } }
+  .points { margin-top: 30px; display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .points li { display: grid; grid-template-columns: 44px 1fr; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .points i { font-family: var(--serif); font-size: 22px; color: var(--clay); font-style: italic; }
+  .points b { display: block; font-weight: 600; font-size: 16px; }
+  .points span { color: var(--muted); font-size: 15px; }
+
+  /* menu of treatments */
+  .treat { background: var(--sand); }
+  .t-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; }
+  .dur { display: inline-flex; background: var(--ivory); border-radius: 99px; padding: 5px; box-shadow: inset 0 0 0 1px var(--line); }
+  .dur button { border: 0; background: transparent; padding: 10px 20px; border-radius: 99px; cursor: pointer; font-weight: 600; font-size: 14px; min-height: 44px; color: var(--muted); transition: background .35s var(--ease), color .35s; }
+  .dur button[aria-pressed="true"] { background: var(--ink); color: var(--ivory); }
+  .t-grid { display: grid; gap: 40px; margin-top: 54px; }
+  @media (min-width: 1000px) { .t-grid { grid-template-columns: 1.1fr .9fr; gap: 70px; align-items: start; } }
+  .t-list li { border-top: 1px solid var(--line); }
+  .t-list li:last-child { border-bottom: 1px solid var(--line); }
+  .t-item { width: 100%; background: none; border: 0; text-align: left; cursor: pointer; display: grid; grid-template-columns: 1fr auto; gap: 6px 24px; padding: 24px 6px; align-items: baseline; transition: padding .5s var(--ease), background .4s; }
+  .t-item h3 { font-family: var(--serif); font-weight: 500; font-size: clamp(26px, 2.6vw, 34px); line-height: 1.1; transition: color .3s; }
+  .t-item p { grid-column: 1 / -1; color: var(--muted); font-size: 15px; max-width: 36rem; }
+  .t-price { font-family: var(--serif); font-size: 28px; white-space: nowrap; }
+  .t-price small { font-family: var(--sans); font-size: 12px; color: var(--muted); letter-spacing: .08em; margin-left: 6px; }
+  .t-item:hover, .t-item.on { padding-left: 18px; }
+  .t-item.on h3 { color: var(--clay); }
+  .t-photo { position: sticky; top: 110px; aspect-ratio: 4/5; border-radius: 4px; overflow: hidden; display: none; box-shadow: 0 40px 70px -40px rgba(43,33,28,.55); }
+  @media (min-width: 1000px) { .t-photo { display: block; } }
+  .t-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.08); transition: opacity .9s var(--ease), transform 1.6s var(--ease); }
+  .t-photo img.on { opacity: 1; transform: scale(1); }
+  .t-photo .cap { position: absolute; left: 20px; bottom: 20px; right: 20px; color: #fff; font-family: var(--serif); font-style: italic; font-size: 24px; text-shadow: 0 2px 20px rgba(0,0,0,.4); }
+  .t-mimg { display: block; height: 180px; border-radius: 4px; overflow: hidden; grid-column: 1 / -1; margin-top: 8px; }
+  .t-mimg img { width: 100%; height: 100%; object-fit: cover; }
+  @media (min-width: 1000px) { .t-mimg { display: none; } }
+  .note { font-size: 13px; color: var(--muted); margin-top: 18px; }
+  .price-flip { display: inline-block; transition: opacity .25s, transform .35s var(--ease); }
+  .price-flip.out { opacity: 0; transform: translateY(-8px); }
+
+  /* ritual */
+  .ritual { background: var(--ink); color: var(--ivory); overflow: hidden; }
+  .ritual .eyebrow { color: var(--clay2); }
+  .ritual h2 em { color: #E9C9AE; }
+  .ritual-bg { position: absolute; inset: 0; opacity: .28; }
+  .ritual-bg img { width: 100%; height: 100%; object-fit: cover; transform: translateY(var(--py, 0px)) scale(1.15); }
+  .ritual .wrap { position: relative; }
+  .steps { display: grid; gap: 1px; margin-top: 60px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.12); }
+  @media (min-width: 900px) { .steps { grid-template-columns: repeat(4, 1fr); } }
+  .step { background: rgba(43,33,28,.82); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); padding: 34px 28px 38px; }
+  .step .n { font-family: var(--serif); font-style: italic; font-size: 54px; line-height: 1; color: var(--clay2); }
+  .step h3 { font-family: var(--serif); font-weight: 500; font-size: 26px; margin-top: 18px; }
+  .step p { color: rgba(245,239,231,.72); font-size: 15px; margin-top: 8px; }
+
+  /* gift voucher */
+  .gift-grid { display: grid; gap: 54px; align-items: center; }
+  @media (min-width: 960px) { .gift-grid { grid-template-columns: .95fr 1.05fr; gap: 80px; } }
+  .card-stage { perspective: 1200px; display: grid; place-items: center; padding: 20px 0; }
+  .voucher { width: min(100%, 460px); aspect-ratio: 1.6; border-radius: 18px; position: relative; overflow: hidden; color: #F6E9DB; padding: 28px 30px; display: flex; flex-direction: column; justify-content: space-between; background: radial-gradient(120% 140% at 0% 0%, #5A4234 0%, #2B211C 60%); box-shadow: 0 40px 80px -30px rgba(43,33,28,.7), inset 0 0 0 1px rgba(233,201,174,.35); transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .5s var(--ease); transform-style: preserve-3d; }
+  .voucher::before { content: ""; position: absolute; inset: 12px; border-radius: 10px; border: 1px solid rgba(233,201,174,.35); pointer-events: none; }
+  .voucher::after { content: ""; position: absolute; inset: -40%; background: linear-gradient(115deg, transparent 40%, rgba(255,255,255,.16) 50%, transparent 60%); transform: translateX(var(--sh, -30%)); transition: transform .5s var(--ease); pointer-events: none; }
+  .v-top { display: flex; justify-content: space-between; align-items: flex-start; position: relative; }
+  .v-top b { font-family: var(--serif); font-weight: 500; font-size: 30px; line-height: 1; }
+  .v-top b i { font-weight: 400; }
+  .v-top small { font-size: 10px; letter-spacing: .3em; text-transform: uppercase; opacity: .7; display: block; margin-top: 6px; }
+  .v-tag { font-size: 10px; letter-spacing: .28em; text-transform: uppercase; border: 1px solid rgba(233,201,174,.5); border-radius: 99px; padding: 6px 12px; }
+  .v-mid { position: relative; }
+  .v-mid span { font-size: 11px; letter-spacing: .26em; text-transform: uppercase; opacity: .7; }
+  .v-val { font-family: var(--serif); font-size: clamp(40px, 6vw, 58px); line-height: 1; margin-top: 6px; }
+  .v-for { font-family: var(--serif); font-style: italic; font-size: 20px; opacity: .9; margin-top: 4px; min-height: 1.3em; }
+  .opts { margin-top: 30px; display: grid; gap: 22px; }
+  .opts .lab { font-size: 13px; font-weight: 600; letter-spacing: .06em; color: var(--muted); margin-bottom: 10px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chips button { border: 0; cursor: pointer; background: var(--sand); color: var(--ink); border-radius: 99px; padding: 0 18px; min-height: 44px; font-weight: 600; font-size: 14px; transition: background .3s, color .3s; }
+  .chips button[aria-pressed="true"] { background: var(--ink); color: var(--ivory); }
+  .field { display: grid; gap: 6px; }
+  .field label { font-size: 13px; font-weight: 600; color: var(--muted); letter-spacing: .04em; }
+  .field input, .field select, .field textarea { width: 100%; background: transparent; border: 0; border-bottom: 1px solid var(--line); padding: 12px 0; font-size: 16px; border-radius: 0; transition: border-color .3s; }
+  .field select { appearance: none; background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%237B6A5E' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 4px center; padding-right: 24px; cursor: pointer; }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--clay); }
+
+  /* gallery */
+  .gal { background: var(--sand); }
+  .g-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 50px; }
+  @media (min-width: 900px) { .g-grid { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 220px; gap: 16px; } .g-grid .tall { grid-row: span 2; } .g-grid .wide { grid-column: span 2; } }
+  .g-grid button { border: 0; padding: 0; cursor: zoom-in; overflow: hidden; border-radius: 4px; position: relative; background: var(--sand2); min-height: 180px; }
+  .g-grid img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease), filter .6s; filter: saturate(.92); }
+  .g-grid button:hover img { transform: scale(1.06); filter: saturate(1.05); }
+  .lb { position: fixed; inset: 0; z-index: 120; background: rgba(30,22,18,.92); display: grid; place-items: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity .4s; }
+  .lb.open { opacity: 1; pointer-events: auto; }
+  .lb img { max-height: 86vh; max-width: 100%; border-radius: 4px; transform: scale(.96); transition: transform .5s var(--ease); }
+  .lb.open img { transform: none; }
+  .lb button { position: absolute; top: 16px; right: 16px; width: 48px; height: 48px; border-radius: 50%; border: 0; background: var(--ivory); cursor: pointer; font-size: 22px; }
+
+  /* reviews */
+  .rev-grid { display: grid; gap: 18px; margin-top: 50px; }
+  @media (min-width: 900px) { .rev-grid { grid-template-columns: repeat(3, 1fr); } }
+  .rev { background: #fff; border-radius: 4px; padding: 30px; box-shadow: 0 1px 0 var(--line); display: flex; flex-direction: column; gap: 18px; }
+  .rev .stars { color: var(--clay); letter-spacing: .2em; font-size: 14px; }
+  .rev blockquote { font-family: var(--serif); font-size: 23px; line-height: 1.3; font-style: italic; }
+  .rev cite { font-style: normal; font-size: 13px; color: var(--muted); font-weight: 600; letter-spacing: .04em; margin-top: auto; }
+  .demo-tag { display: inline-block; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; background: var(--sand); padding: 4px 10px; border-radius: 99px; color: var(--muted); }
+
+  /* faq */
+  .faq-grid { display: grid; gap: 30px; }
+  @media (min-width: 960px) { .faq-grid { grid-template-columns: .8fr 1.2fr; gap: 80px; } }
+  details { border-bottom: 1px solid var(--line); }
+  details:first-child { border-top: 1px solid var(--line); }
+  summary { list-style: none; cursor: pointer; padding: 24px 50px 24px 0; position: relative; font-family: var(--serif); font-size: clamp(21px, 2vw, 26px); font-weight: 500; transition: color .3s; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; position: absolute; right: 4px; top: 50%; transform: translateY(-50%); font-family: var(--sans); font-weight: 300; font-size: 28px; color: var(--clay); transition: transform .4s var(--ease); }
+  details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+  summary:hover { color: var(--clay); }
+  details p { color: var(--muted); padding: 0 40px 24px 0; }
+
+  /* booking */
+  .book { background: var(--ink); color: var(--ivory); }
+  .book .eyebrow { color: var(--clay2); }
+  .book h2 em { color: #E9C9AE; }
+  .b-grid { display: grid; gap: 22px; margin-top: 50px; }
+  @media (min-width: 1000px) { .b-grid { grid-template-columns: 1.2fr .8fr; gap: 28px; } }
+  .panel { background: var(--ivory); color: var(--ink); border-radius: 6px; padding: 30px; }
+  @media (min-width: 700px) { .panel { padding: 44px; } }
+  .panel h3 { font-family: var(--serif); font-weight: 500; font-size: 32px; }
+  form { display: grid; gap: 22px; margin-top: 24px; }
+  .two { display: grid; gap: 22px; }
+  @media (min-width: 620px) { .two { grid-template-columns: 1fr 1fr; } }
+  .slots { display: flex; flex-wrap: wrap; gap: 8px; }
+  .slots button { border: 0; cursor: pointer; border-radius: 99px; padding: 0 16px; min-height: 42px; background: var(--sand); font-weight: 600; font-size: 14px; transition: background .3s, color .3s; }
+  .slots button[aria-pressed="true"] { background: var(--clay); color: #fff; }
+  .err { color: #A23B26; font-size: 13px; display: none; }
+  .bad .err { display: block; }
+  .bad input { border-color: #A23B26; }
+  .ok { display: none; background: var(--sand); border-radius: 6px; padding: 16px 18px; font-weight: 600; }
+  .info { display: grid; gap: 14px; align-content: start; }
+  .i-card { border: 1px solid rgba(255,255,255,.14); border-radius: 6px; padding: 26px; }
+  .i-card .k { font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: var(--clay2); font-weight: 700; }
+  .i-card .v { font-family: var(--serif); font-size: 28px; display: block; margin-top: 6px; text-decoration: none; line-height: 1.2; }
+  .i-card .s { font-size: 13.5px; color: rgba(245,239,231,.62); margin-top: 6px; }
+  .hours { display: grid; grid-template-columns: 1fr auto; gap: 6px 18px; margin-top: 10px; font-size: 15px; }
+  .hours span:nth-child(odd) { color: rgba(245,239,231,.7); }
+  .map { border-radius: 6px; overflow: hidden; height: 240px; background: #3a2e27; }
+  .map iframe { width: 100%; height: 100%; border: 0; filter: grayscale(.85) sepia(.25) contrast(.95); }
+
+  footer { background: var(--ink); color: rgba(245,239,231,.7); padding: 10px 0 120px; border-top: 1px solid rgba(255,255,255,.08); }
+  @media (min-width: 900px) { footer { padding-bottom: 36px; } }
+  .giant { font-family: var(--serif); font-style: italic; font-size: clamp(64px, 15vw, 230px); line-height: 1; color: var(--sand); opacity: .9; text-align: center; letter-spacing: -.02em; padding: 40px 0 10px; }
+  .f-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 30px; font-size: 13.5px; border-top: 1px solid rgba(255,255,255,.1); padding-top: 22px; }
+
+  .mbar { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 65; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px; border-radius: 99px; background: rgba(43,33,28,.92); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); transform: translateY(150%); transition: transform .6s var(--ease); }
+  .mbar.show { transform: none; }
+  .mbar .btn { min-height: 48px; padding: 0 12px; }
+  .mbar .btn-line { color: var(--ivory); }
+  @media (min-width: 900px) { .mbar { display: none; } }
+  .demo { position: fixed; right: 16px; bottom: 16px; z-index: 70; margin: 0; background: var(--ivory); color: var(--ink); font-size: 12px; padding: 7px 14px; border-radius: 99px; box-shadow: 0 10px 30px -10px rgba(0,0,0,.35); }
+  .demo b { color: var(--clay); }
+  @media (max-width: 899px) { .demo { right: 50%; transform: translateX(50%); bottom: 12px; white-space: nowrap; font-size: 11px; transition: bottom .5s var(--ease); } .mbar.show + .demo { bottom: 84px; } }
+
+  .rv { opacity: 0; transform: translateY(36px); transition: opacity 1.1s var(--ease), transform 1.1s var(--ease); transition-delay: var(--d, 0s); }
+  .rv.in { opacity: 1; transform: none; }
+  .mask { clip-path: inset(100% 0 0 0); transition: clip-path 1.4s var(--ease); transition-delay: var(--d, 0s); }
+  .mask.in { clip-path: inset(0 0 0 0); }
+  .collage .c1.mask { clip-path: inset(100% 0 0 0 round 220px 220px 4px 4px); }
+  .collage .c1.mask.in { clip-path: inset(0 0 0 0 round 220px 220px 4px 4px); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rv, .fade { transform: none; transition: opacity .6s ease; }
+    .mask, .collage .c1.mask { clip-path: none; transition: none; }
+    .ln > span { transform: none; transition: none; }
+    .hero-bg img, .loaded .hero-bg img { transform: scale(1.04); transition: none; }
+    .tape .row { animation-duration: 120s; }
+    .collage .badge, .collage .badge b { animation: none; }
+    .voucher { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="arr" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="tel" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></symbol>
+</svg>
+
+<header class="hdr" id="hdr">
+  <div class="wrap bar">
+    <a class="logo" href="#top" aria-label="Spa Home – początek strony">
+      <b>Spa <i>Home</i></b>
+      <small data-en="massage studio">salon masażu</small>
+    </a>
+    <nav class="menu" aria-label="Menu">
+      <a href="#o-nas" data-en="About">O nas</a>
+      <a href="#masaze" data-en="Massages">Masaże</a>
+      <a href="#bon" data-en="Gift voucher">Bon podarunkowy</a>
+      <a href="#galeria" data-en="Gallery">Galeria</a>
+      <a href="#pytania" data-en="FAQ">Pytania</a>
+    </nav>
+    <div class="tools">
+      <div class="lang" role="group" aria-label="Język / Language">
+        <button type="button" data-lang="pl" aria-pressed="true"><span>PL</span></button>
+        <button type="button" data-lang="en" aria-pressed="false"><span>EN</span></button>
+      </div>
+      <a class="btn btn-dark" href="#rezerwacja" data-en="Book a visit">Umów wizytę</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero-bg" aria-hidden="true"><img src="img/hero.jpg" alt="" width="2000" height="1333" fetchpriority="high"></div>
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow fade" style="--d:.1s" data-en="Massage studio · Bydgoszcz">Salon masażu · Bydgoszcz</p>
+          <h1>
+            <span class="ln"><span style="--i:0" data-en="Time">Czas</span></span>
+            <span class="ln"><span style="--i:1" data-en="just for"><em>tylko</em> dla</span></span>
+            <span class="ln"><span style="--i:2" data-en="&lt;em&gt;you.&lt;/em&gt;">Ciebie.</span></span>
+          </h1>
+        </div>
+        <div class="hero-side">
+          <p class="fade" style="--d:.9s" data-en="Relaxing and therapeutic massages in a calm, intimate space at pl. Piastowski. Switch off your phone, take a deep breath – we take care of the rest.">Masaże relaksacyjne i regenerujące w spokojnym, kameralnym wnętrzu przy pl. Piastowskim. Wyłącz telefon, weź głęboki oddech – resztą zajmiemy się my.</p>
+          <div class="cta fade" style="--d:1.05s">
+            <a class="btn btn-light" href="#rezerwacja"><span data-en="Book a visit">Umów wizytę</span> <svg width="18" height="18" aria-hidden="true"><use href="#arr"/></svg></a>
+            <a class="btn btn-line" href="#bon" data-en="Gift voucher">Bon podarunkowy</a>
+          </div>
+        </div>
+      </div>
+      <div class="hero-meta fade" style="--d:1.25s">
+        <span data-en="pl. Piastowski, Bydgoszcz">pl. Piastowski, Bydgoszcz</span>
+        <span data-en="Online booking">Rezerwacja online</span>
+        <span data-en="Gift vouchers">Bony podarunkowe</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="tape" aria-hidden="true">
+    <div class="row">
+      <span data-en="Relaxation">Relaks</span><span data-en="Hot stones">Gorące kamienie</span><span data-en="Aromatherapy">Aromaterapia</span><span data-en="Face massage">Masaż twarzy</span><span data-en="Reflexology">Refleksologia</span><span data-en="Regeneration">Regeneracja</span>
+      <span data-en="Relaxation">Relaks</span><span data-en="Hot stones">Gorące kamienie</span><span data-en="Aromatherapy">Aromaterapia</span><span data-en="Face massage">Masaż twarzy</span><span data-en="Reflexology">Refleksologia</span><span data-en="Regeneration">Regeneracja</span>
+    </div>
+  </div>
+
+  <section id="o-nas">
+    <div class="wrap about">
+      <div class="collage" id="collage">
+        <figure class="c1 mask"><img src="img/plecy.jpg" alt="Masaż pleców w spokojnym wnętrzu salonu" loading="lazy" width="1400" height="2100"></figure>
+        <figure class="c2 mask" style="--d:.25s"><img src="img/olejki.jpg" alt="Naturalne olejki do masażu z lawendą" loading="lazy" width="1200" height="1800"></figure>
+        <div class="badge" aria-hidden="true">
+          <svg viewBox="0 0 130 130"><defs><path id="circ" d="M65,65 m-50,0 a50,50 0 1,1 100,0 a50,50 0 1,1 -100,0"/></defs><text font-size="10.5" letter-spacing="3.2" fill="#F6E9DB" font-family="Manrope, sans-serif" font-weight="600"><textPath href="#circ">SPA HOME · BYDGOSZCZ · RELAKS · </textPath></text></svg>
+          <b>relaks<br>&amp; spokój</b>
+        </div>
+      </div>
+      <div>
+        <p class="eyebrow rv" data-en="About us">O nas</p>
+        <h2 class="rv" style="--d:.08s" data-en="A place where &lt;em&gt;time slows down&lt;/em&gt;">Miejsce, w którym <em>czas zwalnia</em></h2>
+        <p class="lead rv" style="--d:.16s" data-en="Spa Home is an intimate massage studio in the heart of Bydgoszcz. Every visit is planned just for you: we start with a short conversation, choose the oils and pressure, and give you as much time as you need.">Spa Home to kameralny salon masażu w sercu Bydgoszczy. Każdą wizytę układamy pod Ciebie: zaczynamy od krótkiej rozmowy, dobieramy olejki i siłę masażu, a potem dajemy Ci tyle czasu, ile potrzebujesz.</p>
+        <ul class="points">
+          <li class="rv" style="--d:.1s"><i>01</i><span><b data-en="Only you in the room">Tylko Ty w gabinecie</b><span data-en="An intimate space, no rush and no noise – one guest at a time.">Kameralne wnętrze, bez pośpiechu i hałasu – jedna osoba naraz.</span></span></li>
+          <li class="rv" style="--d:.16s"><i>02</i><span><b data-en="Natural oils">Naturalne olejki</b><span data-en="Lavender, eucalyptus, almond – chosen to match your mood.">Lawenda, eukaliptus, migdał – dobrane do Twojego nastroju.</span></span></li>
+          <li class="rv" style="--d:.22s"><i>03</i><span><b data-en="Tea after the massage">Herbata po masażu</b><span data-en="A few quiet minutes to slowly come back to the day.">Kilka spokojnych minut, żeby powoli wrócić do dnia.</span></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="treat" id="masaze">
+    <div class="wrap">
+      <div class="t-head">
+        <div>
+          <p class="eyebrow rv" data-en="Massages &amp; prices">Masaże i cennik</p>
+          <h2 class="rv" style="--d:.08s" data-en="Choose &lt;em&gt;your&lt;/em&gt; ritual">Wybierz <em>swój</em> rytuał</h2>
+        </div>
+        <div class="dur rv" style="--d:.16s" role="group" aria-label="Czas trwania">
+          <button type="button" data-dur="60" aria-pressed="true">60 min</button>
+          <button type="button" data-dur="90" aria-pressed="false">90 min</button>
+        </div>
+      </div>
+      <div class="t-grid">
+        <ul class="t-list" id="tList">
+          <li class="rv"><button class="t-item on" type="button" data-img="0" data-p60="180" data-p90="250">
+            <h3 data-en="Relaxing massage">Masaż relaksacyjny</h3><span class="t-price"><span class="price-flip">180</span> zł</span>
+            <p data-en="Slow, flowing movements with warm oil. Relieves tension and calms the mind.">Powolne, płynne ruchy z ciepłym olejkiem. Rozluźnia napięcia i wycisza głowę.</p>
+            <span class="t-mimg"><img src="img/plecy.jpg" alt="" loading="lazy"></span></button></li>
+          <li class="rv" style="--d:.05s"><button class="t-item" type="button" data-img="1" data-p60="220" data-p90="290">
+            <h3 data-en="Hot stone massage">Masaż gorącymi kamieniami</h3><span class="t-price"><span class="price-flip">220</span> zł</span>
+            <p data-en="Warm basalt stones deeply relax the muscles. Perfect for cold, tiring days.">Ciepłe kamienie bazaltowe głęboko rozgrzewają i rozluźniają mięśnie. Idealny na chłodne, męczące dni.</p>
+            <span class="t-mimg"><img src="img/kamienie.jpg" alt="" loading="lazy"></span></button></li>
+          <li class="rv" style="--d:.1s"><button class="t-item" type="button" data-img="2" data-p60="200" data-p90="270">
+            <h3 data-en="Aromatherapy massage">Masaż aromaterapeutyczny</h3><span class="t-price"><span class="price-flip">200</span> zł</span>
+            <p data-en="A blend of essential oils chosen for you – relaxing, energising or soothing.">Mieszanka olejków eterycznych dobrana do Ciebie – relaksująca, pobudzająca albo kojąca.</p>
+            <span class="t-mimg"><img src="img/aromaterapia.jpg" alt="" loading="lazy"></span></button></li>
+          <li class="rv" style="--d:.15s"><button class="t-item" type="button" data-img="3" data-p60="150" data-p90="210">
+            <h3 data-en="Face &amp; head massage">Masaż twarzy i głowy</h3><span class="t-price"><span class="price-flip">150</span> zł</span>
+            <p data-en="Gentle work on the face, scalp and neck. Relieves tension and leaves the skin glowing.">Delikatna praca na twarzy, skórze głowy i karku. Odpręża i daje skórze zdrowy blask.</p>
+            <span class="t-mimg"><img src="img/twarz.jpg" alt="" loading="lazy"></span></button></li>
+          <li class="rv" style="--d:.2s"><button class="t-item" type="button" data-img="4" data-p60="140" data-p90="190">
+            <h3 data-en="Foot reflexology">Refleksologia stóp</h3><span class="t-price"><span class="price-flip">140</span> zł</span>
+            <p data-en="Massage of the feet and calves. Light, pleasant and great after a long day standing.">Masaż stóp i łydek. Przynosi lekkość i ulgę, świetny po całym dniu na nogach.</p>
+            <span class="t-mimg"><img src="img/stopy.jpg" alt="" loading="lazy"></span></button></li>
+        </ul>
+        <div class="t-photo" id="tPhoto" aria-hidden="true">
+          <img class="on" src="img/plecy.jpg" alt="">
+          <img src="img/kamienie.jpg" alt="" loading="lazy">
+          <img src="img/aromaterapia.jpg" alt="" loading="lazy">
+          <img src="img/twarz.jpg" alt="" loading="lazy">
+          <img src="img/stopy.jpg" alt="" loading="lazy">
+          <p class="cap" id="tCap">Masaż relaksacyjny</p>
+        </div>
+      </div>
+      <p class="note rv" data-en="Sample prices – to be confirmed. Massages for couples available on request.">Ceny przykładowe – do uzupełnienia. Masaże dla par na zapytanie.</p>
+    </div>
+  </section>
+
+  <section class="ritual">
+    <div class="ritual-bg" aria-hidden="true"><img src="img/rytual.jpg" alt="" loading="lazy" id="ritualImg"></div>
+    <div class="wrap">
+      <p class="eyebrow rv" data-en="Your visit">Twoja wizyta</p>
+      <h2 class="rv" style="--d:.08s" data-en="Four steps to &lt;em&gt;calm&lt;/em&gt;">Cztery kroki do <em>spokoju</em></h2>
+      <div class="steps">
+        <div class="step rv" style="--d:.05s"><span class="n">i.</span><h3 data-en="Welcome">Powitanie</h3><p data-en="Tea, a short conversation about how you feel and what you need today.">Herbata i krótka rozmowa o tym, jak się czujesz i czego dziś potrzebujesz.</p></div>
+        <div class="step rv" style="--d:.12s"><span class="n">ii.</span><h3 data-en="Choosing oils">Wybór olejków</h3><p data-en="We choose the scent and the pressure together – gentle or deeper.">Razem dobieramy zapach i siłę masażu – delikatny albo głębszy.</p></div>
+        <div class="step rv" style="--d:.19s"><span class="n">iii.</span><h3 data-en="Massage">Masaż</h3><p data-en="Warm room, soft music, and time that belongs only to you.">Ciepły gabinet, cicha muzyka i czas, który należy tylko do Ciebie.</p></div>
+        <div class="step rv" style="--d:.26s"><span class="n">iv.</span><h3 data-en="Slow return">Powolny powrót</h3><p data-en="A few quiet minutes with tea, so you can calmly return to your day.">Kilka minut w ciszy z herbatą, żeby spokojnie wrócić do dnia.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="bon">
+    <div class="wrap gift-grid">
+      <div class="card-stage rv" id="stage">
+        <div class="voucher" id="voucher" aria-hidden="true">
+          <div class="v-top"><div><b>Spa <i>Home</i></b><small data-en="Gift voucher">Bon podarunkowy</small></div><span class="v-tag">Bydgoszcz</span></div>
+          <div class="v-mid"><span data-en="Value">Wartość</span><div class="v-val" id="vVal">200 zł</div><div class="v-for" id="vFor"></div></div>
+        </div>
+      </div>
+      <div>
+        <p class="eyebrow rv" data-en="Gift voucher">Bon podarunkowy</p>
+        <h2 class="rv" style="--d:.08s" data-en="A gift that &lt;em&gt;always&lt;/em&gt; pleases">Prezent, który <em>zawsze</em> trafia</h2>
+        <p class="lead rv" style="--d:.16s" data-en="Birthday, anniversary, Mother’s Day or just because. Choose the value, write the name – we prepare an elegant voucher, printed or as a PDF.">Urodziny, rocznica, Dzień Matki albo po prostu „bez okazji”. Wybierz wartość, wpisz imię – przygotujemy elegancki bon, drukowany lub w PDF.</p>
+        <div class="opts rv" style="--d:.22s">
+          <div><p class="lab" data-en="Value">Wartość</p>
+            <div class="chips" id="vAmounts">
+              <button type="button" data-v="150" aria-pressed="false">150 zł</button>
+              <button type="button" data-v="200" aria-pressed="true">200 zł</button>
+              <button type="button" data-v="300" aria-pressed="false">300 zł</button>
+              <button type="button" data-v="500" aria-pressed="false">500 zł</button>
+            </div>
+          </div>
+          <div class="field"><label for="vName" data-en="For whom (name on the voucher)">Dla kogo (imię na bonie)</label><input id="vName" type="text" maxlength="28" placeholder="np. Kasia" data-en-ph="e.g. Kate" autocomplete="off"></div>
+          <div><a class="btn btn-dark" id="vOrder" href="#"><span data-en="Order a voucher">Zamów bon</span> <svg width="18" height="18" aria-hidden="true"><use href="#arr"/></svg></a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gal" id="galeria">
+    <div class="wrap">
+      <p class="eyebrow rv" data-en="Gallery">Galeria</p>
+      <h2 class="rv" style="--d:.08s" data-en="Take a look &lt;em&gt;inside&lt;/em&gt;">Zajrzyj <em>do środka</em></h2>
+      <div class="g-grid" id="gal">
+        <button class="tall rv" type="button" aria-label="Powiększ zdjęcie"><img src="img/twarz.jpg" alt="Masaż twarzy" loading="lazy"></button>
+        <button class="rv" style="--d:.06s" type="button" aria-label="Powiększ zdjęcie"><img src="img/kamienie.jpg" alt="Masaż gorącymi kamieniami" loading="lazy"></button>
+        <button class="rv" style="--d:.12s" type="button" aria-label="Powiększ zdjęcie"><img src="img/olejki.jpg" alt="Olejki z lawendą" loading="lazy"></button>
+        <button class="rv" style="--d:.18s" type="button" aria-label="Powiększ zdjęcie"><img src="img/stopy.jpg" alt="Refleksologia stóp" loading="lazy"></button>
+        <button class="wide rv" style="--d:.24s" type="button" aria-label="Powiększ zdjęcie"><img src="img/aromaterapia.jpg" alt="Aromaterapia" loading="lazy"></button>
+        <button class="rv" style="--d:.3s" type="button" aria-label="Powiększ zdjęcie"><img src="img/rytual.jpg" alt="Gabinet masażu" loading="lazy"></button>
+      </div>
+      <p class="note rv" data-en="Sample photos – we will replace them with photos of your studio.">Zdjęcia poglądowe – zastąpimy je zdjęciami Państwa salonu.</p>
+    </div>
+  </section>
+
+  <section id="opinie">
+    <div class="wrap">
+      <p class="eyebrow rv" data-en="Reviews">Opinie</p>
+      <h2 class="rv" style="--d:.08s" data-en="What our guests &lt;em&gt;say&lt;/em&gt;">Co mówią <em>nasi goście</em></h2>
+      <p class="lead rv" style="--d:.14s"><span class="demo-tag" data-en="Sample">Przykładowe</span> <span data-en="Here we will show your real Google reviews.">W tym miejscu pokażemy Państwa prawdziwe opinie z Google.</span></p>
+      <div class="rev-grid">
+        <article class="rev rv"><span class="stars" aria-label="5/5">★★★★★</span><blockquote data-en="“[Place for a real review from Google]”">„[Miejsce na prawdziwą opinię z Google]”</blockquote><cite data-en="— Guest name">— Imię klientki</cite></article>
+        <article class="rev rv" style="--d:.08s"><span class="stars" aria-label="5/5">★★★★★</span><blockquote data-en="“[Place for a real review from Google]”">„[Miejsce na prawdziwą opinię z Google]”</blockquote><cite data-en="— Guest name">— Imię klientki</cite></article>
+        <article class="rev rv" style="--d:.16s"><span class="stars" aria-label="5/5">★★★★★</span><blockquote data-en="“[Place for a real review from Google]”">„[Miejsce na prawdziwą opinię z Google]”</blockquote><cite data-en="— Guest name">— Imię klientki</cite></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="pytania" style="padding-top:0">
+    <div class="wrap faq-grid">
+      <div>
+        <p class="eyebrow rv" data-en="FAQ">Pytania</p>
+        <h2 class="rv" style="--d:.08s" data-en="Good to &lt;em&gt;know&lt;/em&gt;">Dobrze <em>wiedzieć</em></h2>
+      </div>
+      <div class="rv" style="--d:.1s">
+        <details><summary data-en="How do I prepare for a massage?">Jak przygotować się do masażu?</summary><p data-en="Just come a few minutes early. Avoid a heavy meal right before the visit. We provide towels and everything you need.">Wystarczy przyjść kilka minut wcześniej. Unikaj ciężkiego posiłku tuż przed wizytą. Ręczniki i wszystko, czego potrzebujesz, zapewniamy na miejscu.</p></details>
+        <details><summary data-en="Which massage should I choose for the first time?">Jaki masaż wybrać na pierwszy raz?</summary><p data-en="We recommend the relaxing massage – gentle, pleasant and a great introduction. Before we start, we will talk about your needs.">Polecamy masaż relaksacyjny – jest delikatny, przyjemny i świetny na początek. Przed masażem porozmawiamy o Twoich potrzebach.</p></details>
+        <details><summary data-en="Can I buy a voucher for someone?">Czy mogę kupić bon dla kogoś?</summary><p data-en="Yes. Choose the value in the voucher section and we will prepare it printed or as a PDF to send by email.">Tak. Wybierz wartość w sekcji „Bon podarunkowy”, a przygotujemy go w wersji drukowanej albo jako PDF do wysłania mailem.</p></details>
+        <details><summary data-en="How do I cancel or move my visit?">Jak odwołać lub przełożyć wizytę?</summary><p data-en="Just call or write to us, preferably at least 24 hours in advance.">Wystarczy zadzwonić lub napisać, najlepiej co najmniej 24 godziny wcześniej.</p></details>
+        <details><summary data-en="Where are you located?">Gdzie się znajdujecie?</summary><p data-en="At pl. Piastowski in Bydgoszcz. Details and a map are at the bottom of the page.">Przy pl. Piastowskim w Bydgoszczy. Dokładny adres i mapę znajdziesz na dole strony.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="book" id="rezerwacja">
+    <div class="wrap">
+      <p class="eyebrow rv" data-en="Booking">Rezerwacja</p>
+      <h2 class="rv" style="--d:.08s" data-en="Book a moment &lt;em&gt;for yourself&lt;/em&gt;">Zarezerwuj chwilę <em>dla siebie</em></h2>
+      <div class="b-grid">
+        <div class="panel rv">
+          <h3 data-en="Booking request">Prośba o rezerwację</h3>
+          <form id="form" novalidate>
+            <div class="two">
+              <div class="field"><label for="fTreat" data-en="Massage">Masaż</label>
+                <select id="fTreat" name="treat">
+                  <option data-en="Relaxing massage">Masaż relaksacyjny</option>
+                  <option data-en="Hot stone massage">Masaż gorącymi kamieniami</option>
+                  <option data-en="Aromatherapy massage">Masaż aromaterapeutyczny</option>
+                  <option data-en="Face &amp; head massage">Masaż twarzy i głowy</option>
+                  <option data-en="Foot reflexology">Refleksologia stóp</option>
+                </select></div>
+              <div class="field"><label for="fDur" data-en="Duration">Czas</label>
+                <select id="fDur" name="dur"><option>60 min</option><option>90 min</option></select></div>
+            </div>
+            <div class="two">
+              <div class="field"><label for="fDate" data-en="Preferred date">Preferowany dzień</label><input id="fDate" name="date" type="date"></div>
+              <div class="field"><span class="lab" style="font-size:13px;font-weight:600;color:var(--muted)" data-en="Time of day">Pora dnia</span>
+                <div class="slots" id="slots" role="group">
+                  <button type="button" data-en="Morning" aria-pressed="false">Rano</button>
+                  <button type="button" data-en="Afternoon" aria-pressed="true">Popołudnie</button>
+                  <button type="button" data-en="Evening" aria-pressed="false">Wieczór</button>
+                </div></div>
+            </div>
+            <div class="two">
+              <div class="field" id="fN"><label for="fName" data-en="Name">Imię</label><input id="fName" name="name" type="text" autocomplete="given-name" required><p class="err" data-en="Please enter your name.">Wpisz imię.</p></div>
+              <div class="field" id="fP"><label for="fPhone" data-en="Phone">Telefon</label><input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required><p class="err" data-en="Please enter your phone number.">Wpisz numer telefonu.</p></div>
+            </div>
+            <div class="field"><label for="fMsg" data-en="Message (optional)">Wiadomość (opcjonalnie)</label><textarea id="fMsg" name="msg" rows="2"></textarea></div>
+            <div><button class="btn btn-dark" type="submit"><span data-en="Send request">Wyślij prośbę</span> <svg width="18" height="18" aria-hidden="true"><use href="#arr"/></svg></button></div>
+            <p class="ok" id="ok" role="status" data-en="Thank you! We opened a ready message in your email app. Send it and we will call you back to confirm the time.">Dziękujemy! Otworzyliśmy gotową wiadomość w Twojej poczcie. Wyślij ją, a oddzwonimy, żeby potwierdzić termin.</p>
+          </form>
+        </div>
+        <div class="info">
+          <div class="i-card rv" style="--d:.06s"><p class="k" data-en="Phone">Telefon</p><a class="v" href="tel:+48000000000">+48 000 000 000</a><p class="s" data-en="Number to be added">Numer do uzupełnienia</p></div>
+          <div class="i-card rv" style="--d:.12s"><p class="k" data-en="Address">Adres</p><p class="v">pl. Piastowski, Bydgoszcz</p><p class="s"><a href="mailto:vinneri.poland@gmail.com">vinneri.poland@gmail.com</a></p></div>
+          <div class="i-card rv" style="--d:.18s"><p class="k" data-en="Opening hours">Godziny otwarcia</p>
+            <div class="hours"><span data-en="Mon – Fri">Pon – Pt</span><span>10:00 – 20:00</span><span data-en="Saturday">Sobota</span><span>10:00 – 16:00</span><span data-en="Sunday">Niedziela</span><span data-en="by appointment">po umówieniu</span></div>
+            <p class="s" data-en="Sample hours – to be confirmed">Godziny przykładowe – do potwierdzenia</p></div>
+          <div class="map rv" style="--d:.24s"><iframe title="Mapa: pl. Piastowski, Bydgoszcz" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Plac%20Piastowski%2C%20Bydgoszcz&output=embed"></iframe></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="giant" aria-hidden="true">Spa Home</p>
+    <div class="f-row"><span>© 2026 Spa Home · pl. Piastowski, Bydgoszcz</span><span><span data-en="Design:">Projekt:</span> <a href="https://www.instagram.com/appkadlafirmy/" target="_blank" rel="noopener">@appkadlafirmy</a></span></div>
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Zdjęcie"><img alt="" id="lbImg"><button type="button" id="lbClose" aria-label="Zamknij">×</button></div>
+
+<nav class="mbar" id="mbar" aria-label="Szybki kontakt">
+  <a class="btn btn-line" href="tel:+48000000000"><svg width="18" height="18" aria-hidden="true"><use href="#tel"/></svg><span data-en="Call">Zadzwoń</span></a>
+  <a class="btn btn-light" href="#rezerwacja" data-en="Book">Umów wizytę</a>
+</nav>
+<p class="demo"><b>Demo</b> · <span data-en="sample prices, phone and hours">ceny, telefon i godziny przykładowe</span></p>
+
+<script>
+(() => {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  requestAnimationFrame(() => setTimeout(() => document.body.classList.add("loaded"), 60));
+
+  /* ---------- language switch ---------- */
+  let lang = "pl";
+  const i18n = $$("[data-en]");
+  i18n.forEach((el) => { el.dataset.pl = el.innerHTML; });
+  const phs = $$("[data-en-ph]");
+  phs.forEach((el) => { el.dataset.plPh = el.placeholder; });
+  const setLang = (l) => {
+    lang = l;
+    document.documentElement.lang = l;
+    i18n.forEach((el) => { el.innerHTML = l === "en" ? el.dataset.en : el.dataset.pl; });
+    phs.forEach((el) => { el.placeholder = l === "en" ? el.dataset.enPh : el.dataset.plPh; });
+    $$(".lang button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.lang === l));
+    try { localStorage.setItem("spahome-lang", l); } catch (e) {}
+    syncCap(); renderVoucher();
+  };
+  $$(".lang button").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
+
+  /* ---------- reveal ---------- */
+  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px", threshold: .08 });
+  $$(".rv").forEach((el) => io.observe(el));
+  // clip-path hides .mask elements from IntersectionObserver, so watch their parent
+  const mio = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { $$(".mask", e.target).forEach((m) => m.classList.add("in")); mio.unobserve(e.target); } }), { threshold: .15 });
+  [...new Set($$(".mask").map((m) => m.parentElement))].forEach((el) => mio.observe(el));
+
+  /* ---------- treatments ---------- */
+  const items = $$(".t-item"), photos = $$("#tPhoto img"), cap = $("#tCap");
+  let dur = "60";
+  const syncCap = () => { const on = $(".t-item.on h3"); if (on) cap.textContent = on.textContent; };
+  const activate = (btn) => {
+    items.forEach((b) => b.classList.toggle("on", b === btn));
+    photos.forEach((p, i) => p.classList.toggle("on", i === +btn.dataset.img));
+    syncCap();
+  };
+  items.forEach((b) => { b.addEventListener("mouseenter", () => activate(b)); b.addEventListener("focus", () => activate(b)); b.addEventListener("click", () => activate(b)); });
+  const setDur = (d) => {
+    dur = d;
+    $$(".dur button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.dur === d));
+    $$(".price-flip").forEach((el, i) => {
+      el.classList.add("out");
+      setTimeout(() => { el.textContent = items[i].dataset["p" + d]; el.classList.remove("out"); }, reduce ? 0 : 220);
+    });
+    const sel = $("#fDur"); if (sel) sel.value = d + " min";
+  };
+  $$(".dur button").forEach((b) => b.addEventListener("click", () => setDur(b.dataset.dur)));
+  items.forEach((b, i) => b.addEventListener("click", () => { $("#fTreat").selectedIndex = i; }));
+
+  /* ---------- voucher ---------- */
+  let vAmount = 200;
+  const vVal = $("#vVal"), vFor = $("#vFor"), vName = $("#vName");
+  function renderVoucher() {
+    vVal.textContent = vAmount + " zł";
+    const n = vName.value.trim();
+    vFor.textContent = n ? (lang === "en" ? "for " : "dla ") + n : "";
+  }
+  $$("#vAmounts button").forEach((b) => b.addEventListener("click", () => {
+    vAmount = +b.dataset.v;
+    $$("#vAmounts button").forEach((x) => x.setAttribute("aria-pressed", x === b));
+    renderVoucher();
+  }));
+  vName.addEventListener("input", renderVoucher);
+  $("#vOrder").addEventListener("click", (e) => {
+    e.preventDefault();
+    const n = vName.value.trim();
+    const subj = "Zamówienie bonu podarunkowego – " + vAmount + " zł";
+    const body = "Dzień dobry,\n\nchcę zamówić bon podarunkowy o wartości " + vAmount + " zł" + (n ? " dla: " + n : "") + ".\n\nMoje imię i telefon:\n";
+    location.href = "mailto:vinneri.poland@gmail.com?subject=" + encodeURIComponent(subj) + "&body=" + encodeURIComponent(body);
+  });
+  const voucher = $("#voucher"), stage = $("#stage");
+  if (!reduce && matchMedia("(hover: hover)").matches) {
+    stage.addEventListener("pointermove", (e) => {
+      const r = voucher.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      voucher.style.setProperty("--ry", (x * 16).toFixed(2) + "deg");
+      voucher.style.setProperty("--rx", (-y * 12).toFixed(2) + "deg");
+      voucher.style.setProperty("--sh", (x * 60).toFixed(1) + "%");
+    });
+    stage.addEventListener("pointerleave", () => { ["--rx", "--ry", "--sh"].forEach((p) => voucher.style.removeProperty(p)); });
+  }
+
+  /* ---------- gallery lightbox ---------- */
+  const lb = $("#lb"), lbImg = $("#lbImg");
+  let lastFocus = null;
+  const closeLb = () => { lb.classList.remove("open"); if (lastFocus) lastFocus.focus(); };
+  $$("#gal button").forEach((b) => b.addEventListener("click", () => {
+    const img = $("img", b); lbImg.src = img.src; lbImg.alt = img.alt; lastFocus = b;
+    lb.classList.add("open"); $("#lbClose").focus();
+  }));
+  $("#lbClose").addEventListener("click", closeLb);
+  lb.addEventListener("click", (e) => { if (e.target === lb) closeLb(); });
+  addEventListener("keydown", (e) => { if (e.key === "Escape" && lb.classList.contains("open")) closeLb(); });
+
+  /* ---------- booking form ---------- */
+  $$("#slots button").forEach((b) => b.addEventListener("click", () => $$("#slots button").forEach((x) => x.setAttribute("aria-pressed", x === b))));
+  const dateIn = $("#fDate");
+  try { const t = new Date(); t.setDate(t.getDate() + 1); dateIn.min = t.toISOString().slice(0, 10); } catch (e) {}
+  const form = $("#form");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = $("#fName").value.trim(), phone = $("#fPhone").value.trim();
+    $("#fN").classList.toggle("bad", !name);
+    $("#fP").classList.toggle("bad", !phone);
+    if (!name) return $("#fName").focus();
+    if (!phone) return $("#fPhone").focus();
+    const slot = $("#slots button[aria-pressed='true']").dataset.pl || "";
+    const treat = $("#fTreat").selectedOptions[0].dataset.pl || $("#fTreat").value;
+    const body = "Masaż: " + treat + " (" + $("#fDur").value + ")\nPreferowany dzień: " + (dateIn.value || "dowolny") + ", " + slot + "\nImię: " + name + "\nTelefon: " + phone + "\n\n" + ($("#fMsg").value || "");
+    location.href = "mailto:vinneri.poland@gmail.com?subject=" + encodeURIComponent("Rezerwacja – " + treat) + "&body=" + encodeURIComponent(body);
+    $("#ok").style.display = "block";
+  });
+  form.addEventListener("input", (e) => { const w = e.target.closest(".bad"); if (w && e.target.value.trim()) w.classList.remove("bad"); });
+
+  /* ---------- scroll effects ---------- */
+  const prog = $("#progress"), hdr = $("#hdr"), mbar = $("#mbar"), heroImg = $(".hero-bg img");
+  const col = $("#collage"), colImgs = $$("#collage img"), ritualImg = $("#ritualImg");
+  let lastY = scrollY, ticking = false;
+  const par = (el, imgs, k) => {
+    const r = el.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) return;
+    const c = (r.top + r.height / 2 - innerHeight / 2);
+    imgs.forEach((im, i) => im.style.setProperty("--py", (c * k * (i % 2 ? -1 : 1)).toFixed(1) + "px"));
+  };
+  const update = () => {
+    ticking = false;
+    const y = scrollY, h = document.documentElement.scrollHeight - innerHeight;
+    prog.style.transform = "scaleX(" + (h > 0 ? y / h : 0) + ")";
+    hdr.classList.toggle("solid", y > innerHeight * .75);
+    hdr.classList.toggle("hide", y > 600 && y > lastY + 4);
+    if (y < lastY - 4) hdr.classList.remove("hide");
+    lastY = y;
+    mbar.classList.toggle("show", y > innerHeight * .6);
+    if (!reduce) {
+      heroImg.style.setProperty("--p", Math.min(1, y / innerHeight).toFixed(3));
+      par(col, colImgs, -.06);
+      par(ritualImg.parentElement.parentElement, [ritualImg], -.08);
+    }
+  };
+  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  addEventListener("resize", update);
+  update();
+
+  let saved = null;
+  try { saved = localStorage.getItem("spahome-lang"); } catch (e) {}
+  if (saved === "en") setLang("en");
+})();
+</script>
+</body>
+</html>
