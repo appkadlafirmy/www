@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plus Zarządca – zarządzanie nieruchomościami i wspólnotami | Szczecin</title>
+<meta name="description" content="Plus Zarządca – zarządzanie nieruchomościami i wspólnotami mieszkaniowymi w Szczecinie od 2001 roku. Kalkulator wyceny, strefa mieszkańca, zgłoszenie usterki online.">
+<meta name="theme-color" content="#12233D">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2312233D'/%3E%3Cpath d='M32 14v36M14 32h36' stroke='%23C8963E' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "RealEstateAgent",
+  "name": "Plus Zarządca",
+  "description": "Zarządzanie nieruchomościami i wspólnotami mieszkaniowymi w Szczecinie.",
+  "email": "ulatowscy@poczta.fm",
+  "foundingDate": "2001",
+  "address": { "@type": "PostalAddress", "streetAddress": "ul. Granitowa 67", "postalCode": "70-750", "addressLocality": "Szczecin", "addressRegion": "zachodniopomorskie", "addressCountry": "PL" },
+  "areaServed": "Szczecin"
+}
+</script>
+<style>
+  :root {
+    --navy: #12233D;
+    --navy2: #1B3155;
+    --paper: #F4F1EA;
+    --card: #FFFFFF;
+    --ink: #13202F;
+    --muted: #5E6878;
+    --brass: #C8963E;
+    --brass2: #E6C17D;
+    --mint: #3E8E7E;
+    --line: rgba(19,32,47,.12);
+    --grid: rgba(255,255,255,.06);
+    --serif: "DM Serif Display", Georgia, "Times New Roman", serif;
+    --sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    --max: 1220px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: 84px; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 400 16.5px/1.65 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+  h1, h2, h3, p, ul, ol, figure { margin: 0; }
+  ul, ol { padding: 0; list-style: none; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; border-radius: 4px; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+  @media (min-width: 900px) { .wrap { padding: 0 40px; } }
+  section { padding: 110px 0; position: relative; }
+  @media (max-width: 700px) { section { padding: 78px 0; } }
+  .tag { font-size: 12.5px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--brass); display: inline-flex; gap: 10px; align-items: center; }
+  .tag::before { content: ""; width: 22px; height: 2px; background: currentColor; }
+  h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(36px, 4.8vw, 60px); line-height: 1.05; margin-top: 14px; letter-spacing: -.005em; }
+  h2 em, h1 em { font-style: italic; color: var(--brass); }
+  .lead { color: var(--muted); font-size: 17.5px; max-width: 36rem; margin-top: 16px; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 26px; border-radius: 10px; font-weight: 600; font-size: 15.5px; text-decoration: none; border: 0; cursor: pointer; white-space: nowrap; transition: background .25s, color .25s, transform .3s var(--ease), box-shadow .25s; }
+  .btn:active { transform: scale(.97); }
+  .b-brass { background: var(--brass); color: var(--navy); box-shadow: 0 12px 26px -14px rgba(200,150,62,.9); }
+  .b-brass:hover { background: var(--brass2); }
+  .b-navy { background: var(--navy); color: #fff; }
+  .b-navy:hover { background: var(--navy2); }
+  .b-ghost { background: transparent; color: #fff; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.35); }
+  .b-ghost:hover { box-shadow: inset 0 0 0 1.5px #fff; }
+  .btn svg { transition: transform .3s var(--ease); }
+  .btn:hover svg { transform: translateX(4px); }
+
+  /* header */
+  .hdr { position: fixed; inset: 0 0 auto 0; z-index: 60; padding: 16px 0; color: #fff; transition: background .35s, padding .35s, box-shadow .35s, color .35s, transform .45s var(--ease); }
+  .hdr.solid { background: rgba(244,241,234,.92); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); color: var(--ink); padding: 10px 0; box-shadow: 0 1px 0 var(--line); }
+  .hdr.hide { transform: translateY(-110%); }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo .mk { width: 38px; height: 38px; border-radius: 9px; background: var(--brass); color: var(--navy); display: grid; place-items: center; font-weight: 700; font-size: 22px; flex: none; }
+  .logo b { display: block; font-family: var(--serif); font-weight: 400; font-size: 22px; line-height: 1; }
+  .logo small { display: block; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; opacity: .7; margin-top: 3px; }
+  .menu { display: none; gap: 26px; font-size: 14.5px; font-weight: 500; }
+  .menu a { text-decoration: none; opacity: .85; }
+  .menu a:hover { opacity: 1; color: var(--brass); }
+  @media (min-width: 1080px) { .menu { display: flex; } }
+  .bar .btn { min-height: 42px; padding: 0 18px; font-size: 14.5px; }
+  @media (max-width: 480px) { .logo small { display: none; } .bar .btn { padding: 0 14px; font-size: 13.5px; } }
+
+  /* hero */
+  .hero { background: var(--navy); color: #fff; padding: 130px 0 80px; overflow: hidden; min-height: 100svh; display: flex; align-items: center; }
+  .hero::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 44px 44px; -webkit-mask-image: radial-gradient(ellipse 80% 70% at 70% 50%, #000 30%, transparent 80%); mask-image: radial-gradient(ellipse 80% 70% at 70% 50%, #000 30%, transparent 80%); }
+  .hero-grid { position: relative; display: grid; gap: 50px; align-items: center; width: 100%; }
+  @media (min-width: 980px) { .hero-grid { grid-template-columns: 1.05fr .95fr; } }
+  .since { display: inline-flex; align-items: center; gap: 12px; border: 1px solid rgba(255,255,255,.18); border-radius: 99px; padding: 6px 14px 6px 6px; font-size: 13.5px; color: rgba(255,255,255,.85); }
+  .since b { white-space: nowrap; background: var(--brass); color: var(--navy); border-radius: 99px; padding: 3px 10px; font-size: 12.5px; }
+  h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(46px, 6vw, 84px); line-height: 1.02; margin-top: 24px; letter-spacing: -.01em; }
+  .ln { display: block; overflow: hidden; padding-bottom: .08em; }
+  .ln > span { display: inline-block; transform: translateY(110%); transition: transform 1.2s var(--ease); transition-delay: calc(var(--i) * 110ms + .1s); }
+  .loaded .ln > span { transform: none; }
+  .hero .lead { color: rgba(255,255,255,.75); }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .fade { opacity: 0; transform: translateY(16px); transition: opacity 1s var(--ease), transform 1s var(--ease); transition-delay: var(--d, .8s); }
+  .loaded .fade { opacity: 1; transform: none; }
+  .hero-stats { display: flex; flex-wrap: wrap; gap: 28px; margin-top: 44px; padding-top: 26px; border-top: 1px solid rgba(255,255,255,.14); }
+  .hero-stats div b { display: block; font-family: var(--serif); font-size: 40px; font-weight: 400; line-height: 1; color: var(--brass2); }
+  .hero-stats div span { font-size: 13.5px; color: rgba(255,255,255,.65); }
+  .bld { width: 100%; max-width: 480px; justify-self: center; }
+  .bld svg { width: 100%; height: auto; overflow: visible; }
+  .bld .draw { fill: none; stroke: rgba(230,193,125,.85); stroke-width: 1.6; stroke-dasharray: var(--len, 2000); stroke-dashoffset: var(--len, 2000); transition: stroke-dashoffset 2.6s var(--ease); }
+  .loaded .bld .draw { stroke-dashoffset: 0; }
+  .bld .win { fill: rgba(255,255,255,.05); stroke: rgba(255,255,255,.18); stroke-width: 1; transition: fill .9s ease; }
+  .bld .win.on { fill: var(--brass2); }
+  .bld .dim { stroke: rgba(255,255,255,.3); stroke-width: 1; stroke-dasharray: 3 4; fill: none; }
+  .bld text { fill: rgba(255,255,255,.55); font: 500 11px var(--sans); letter-spacing: .12em; }
+  .bld .badge { opacity: 0; transition: opacity .8s ease 2.4s; }
+  .loaded .bld .badge { opacity: 1; }
+
+  /* alarm strip */
+  .alarm { background: var(--brass); color: var(--navy); }
+  .alarm .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 24px; padding-top: 16px; padding-bottom: 16px; font-weight: 500; }
+  .alarm b { font-weight: 700; }
+  .alarm a { font-weight: 700; text-decoration: none; display: inline-flex; gap: 8px; align-items: center; }
+  .pulse { width: 10px; height: 10px; border-radius: 50%; background: #B3261E; display: inline-block; margin-right: 10px; animation: pulse 1.8s infinite; vertical-align: 1px; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(179,38,30,.6); } 100% { box-shadow: 0 0 0 12px rgba(179,38,30,0); } }
+
+  /* offer */
+  .offer { display: grid; gap: 18px; margin-top: 46px; }
+  @media (min-width: 900px) { .offer { grid-template-columns: 1fr 1fr; } }
+  .of { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 30px; position: relative; overflow: hidden; transition: transform .45s var(--ease), box-shadow .45s; }
+  .of:hover { transform: translateY(-4px); box-shadow: 0 30px 50px -34px rgba(18,35,61,.5); }
+  .of::after { content: ""; position: absolute; left: 0; top: 0; height: 4px; width: 100%; background: var(--brass); transform: scaleX(0); transform-origin: left; transition: transform .8s var(--ease); }
+  .of:hover::after { transform: scaleX(1); }
+  .of h3 { font-family: var(--serif); font-weight: 400; font-size: 30px; }
+  .of p.s { color: var(--muted); margin-top: 6px; }
+  .of ul { margin-top: 18px; display: grid; gap: 10px; }
+  .of li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; }
+  .of li::before { content: ""; width: 18px; height: 18px; margin-top: 3px; border-radius: 50%; background: rgba(62,142,126,.14) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%233E8E7E' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat; }
+
+  /* calculator */
+  .calc { background: var(--navy); color: #fff; border-radius: 26px; margin-top: 46px; display: grid; overflow: hidden; }
+  @media (min-width: 980px) { .calc { grid-template-columns: 1.15fr .85fr; } }
+  .calc-in { padding: 30px 24px; display: grid; gap: 26px; }
+  @media (min-width: 700px) { .calc-in { padding: 44px; } }
+  .lab { font-size: 13px; font-weight: 600; letter-spacing: .06em; color: rgba(255,255,255,.7); margin-bottom: 10px; display: flex; justify-content: space-between; }
+  .lab output { color: var(--brass2); font-family: var(--serif); font-size: 22px; letter-spacing: 0; font-weight: 400; }
+  .seg { display: flex; flex-wrap: wrap; gap: 8px; }
+  .seg button { border: 1px solid rgba(255,255,255,.2); background: transparent; color: #fff; border-radius: 10px; padding: 0 16px; min-height: 44px; cursor: pointer; font-weight: 500; font-size: 14.5px; transition: background .25s, border-color .25s, color .25s; }
+  .seg button[aria-pressed="true"] { background: var(--brass); border-color: var(--brass); color: var(--navy); }
+  input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 6px; background: linear-gradient(90deg, var(--brass) var(--pct, 30%), rgba(255,255,255,.15) var(--pct, 30%)); outline: none; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%; background: #fff; border: 4px solid var(--brass); cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
+  input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 4px solid var(--brass); cursor: pointer; }
+  .checks { display: grid; gap: 8px; }
+  @media (min-width: 560px) { .checks { grid-template-columns: 1fr 1fr; } }
+  .chk { display: flex; gap: 12px; align-items: center; border: 1px solid rgba(255,255,255,.14); border-radius: 12px; padding: 12px 14px; cursor: pointer; transition: border-color .25s, background .25s; font-size: 14.5px; }
+  .chk input { width: 20px; height: 20px; accent-color: var(--brass); flex: none; margin: 0; }
+  .chk:has(input:checked) { border-color: var(--brass); background: rgba(200,150,62,.1); }
+  .chk small { display: block; color: rgba(255,255,255,.55); font-size: 12.5px; }
+  .calc-out { background: var(--navy2); padding: 30px 24px; display: flex; flex-direction: column; gap: 18px; position: relative; }
+  @media (min-width: 700px) { .calc-out { padding: 44px; } }
+  .calc-out::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 28px 28px; pointer-events: none; }
+  .calc-out > * { position: relative; }
+  .total small { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.6); }
+  .total b { display: block; font-family: var(--serif); font-weight: 400; font-size: clamp(48px, 6vw, 72px); line-height: 1.05; color: var(--brass2); }
+  .total span { color: rgba(255,255,255,.7); font-size: 14.5px; }
+  .brk { display: grid; gap: 8px; font-size: 14.5px; border-top: 1px solid rgba(255,255,255,.12); padding-top: 16px; }
+  .brk div { display: flex; justify-content: space-between; gap: 12px; color: rgba(255,255,255,.8); }
+  .brk div b { color: #fff; font-weight: 600; white-space: nowrap; }
+  .perm { font-size: 13.5px; color: rgba(255,255,255,.6); }
+  .calc-note { font-size: 12.5px; color: rgba(255,255,255,.5); margin-top: auto; }
+
+  /* resident zone */
+  .zone { background: #E9E4D8; }
+  .ztabs { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 40px; background: rgba(19,32,47,.06); padding: 6px; border-radius: 14px; width: fit-content; }
+  .ztabs button { border: 0; background: transparent; padding: 0 18px; min-height: 44px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 14.5px; color: var(--muted); transition: background .25s, color .25s; }
+  .ztabs button[aria-selected="true"] { background: var(--card); color: var(--ink); box-shadow: 0 4px 12px -6px rgba(0,0,0,.25); }
+  .zpanel { margin-top: 20px; animation: zin .5s var(--ease); }
+  @keyframes zin { from { opacity: 0; transform: translateY(10px); } }
+  .news { display: grid; gap: 12px; }
+  .nw { background: var(--card); border-radius: 16px; padding: 20px 22px; display: grid; grid-template-columns: 70px 1fr; gap: 18px; border: 1px solid var(--line); }
+  .nw .dt { text-align: center; border-right: 1px solid var(--line); padding-right: 14px; }
+  .nw .dt b { display: block; font-family: var(--serif); font-size: 32px; font-weight: 400; line-height: 1; }
+  .nw .dt span { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .nw h3 { font-size: 17px; font-weight: 600; }
+  .nw p { color: var(--muted); font-size: 15px; }
+  .nw .pill { display: inline-block; font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; border-radius: 99px; padding: 2px 9px; margin-bottom: 6px; background: rgba(200,150,62,.16); color: #8A6320; }
+  .nw .pill.w { background: rgba(179,38,30,.12); color: #9B2A22; }
+  .docs { display: grid; gap: 10px; }
+  @media (min-width: 760px) { .docs { grid-template-columns: 1fr 1fr; } }
+  .doc { display: flex; align-items: center; gap: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; text-decoration: none; transition: border-color .25s, transform .3s var(--ease); }
+  .doc:hover { border-color: var(--brass); transform: translateX(4px); }
+  .doc .ic { width: 42px; height: 48px; border-radius: 6px; background: #F6E9D2; color: #8A6320; display: grid; place-items: center; font-size: 11px; font-weight: 700; flex: none; }
+  .doc b { display: block; font-weight: 600; font-size: 15px; }
+  .doc span { color: var(--muted); font-size: 13px; }
+  .rep { background: var(--card); border-radius: 18px; padding: 26px; border: 1px solid var(--line); display: grid; gap: 18px; }
+  .rep .two { display: grid; gap: 16px; }
+  @media (min-width: 640px) { .rep .two { grid-template-columns: 1fr 1fr; } }
+  .fld { display: grid; gap: 6px; }
+  .fld label, .fld > span { font-size: 13px; font-weight: 600; color: var(--muted); }
+  .inp { width: 100%; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: #FBFAF7; font-size: 15.5px; transition: border-color .2s, box-shadow .2s; }
+  .inp:focus { outline: none; border-color: var(--brass); box-shadow: 0 0 0 3px rgba(200,150,62,.2); }
+  textarea.inp { min-height: 100px; resize: vertical; }
+  .cats { display: flex; flex-wrap: wrap; gap: 8px; }
+  .cats button { border: 1px solid var(--line); background: #FBFAF7; border-radius: 99px; padding: 0 14px; min-height: 40px; cursor: pointer; font-size: 14px; font-weight: 500; transition: background .2s, color .2s, border-color .2s; }
+  .cats button[aria-pressed="true"] { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .urg { display: flex; gap: 8px; flex-wrap: wrap; }
+  .urg button { border: 1px solid var(--line); background: #FBFAF7; border-radius: 10px; padding: 0 14px; min-height: 40px; cursor: pointer; font-size: 14px; font-weight: 500; }
+  .urg button[aria-pressed="true"][data-u="pilne"] { background: #B3261E; color: #fff; border-color: #B3261E; }
+  .urg button[aria-pressed="true"]:not([data-u="pilne"]) { background: var(--mint); color: #fff; border-color: var(--mint); }
+  .err { color: #B3261E; font-size: 13px; display: none; }
+  .bad .err { display: block; }
+  .bad .inp { border-color: #B3261E; }
+  .ok { display: none; background: rgba(62,142,126,.12); color: #245E52; border-radius: 12px; padding: 14px 16px; font-weight: 600; }
+  .demo-n { font-size: 13px; color: var(--muted); margin-top: 14px; }
+
+  /* photo band */
+  .band { display: grid; gap: 40px; align-items: center; }
+  @media (min-width: 960px) { .band { grid-template-columns: .9fr 1.1fr; gap: 70px; } }
+  .band figure { border-radius: 22px; overflow: hidden; aspect-ratio: 4/5; max-height: 640px; background: #ddd; clip-path: inset(0 0 100% 0 round 22px); transition: clip-path 1.5s var(--ease); }
+  .band figure.in { clip-path: inset(0 0 0 0 round 22px); }
+  .band img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.12) translateY(var(--py, 0px)); }
+  .steps { margin-top: 30px; display: grid; gap: 0; counter-reset: s; }
+  .steps li { display: grid; grid-template-columns: 54px 1fr; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .steps li::before { counter-increment: s; content: "0" counter(s); font-family: var(--serif); font-size: 30px; color: var(--brass); line-height: 1; }
+  .steps b { display: block; font-weight: 600; font-size: 17px; }
+  .steps span { color: var(--muted); font-size: 15.5px; }
+
+  /* faq */
+  .faq { display: grid; gap: 30px; }
+  @media (min-width: 960px) { .faq { grid-template-columns: .8fr 1.2fr; gap: 70px; } }
+  details { border-bottom: 1px solid var(--line); }
+  details:first-child { border-top: 1px solid var(--line); }
+  summary { list-style: none; cursor: pointer; padding: 22px 46px 22px 0; position: relative; font-weight: 600; font-size: 17.5px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; position: absolute; right: 6px; top: 50%; transform: translateY(-50%); font-size: 26px; font-weight: 300; color: var(--brass); transition: transform .35s var(--ease); }
+  details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+  details p { color: var(--muted); padding: 0 40px 22px 0; }
+
+  /* contact */
+  .contact { background: var(--navy); color: #fff; overflow: hidden; }
+  .contact::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 44px 44px; -webkit-mask-image: linear-gradient(90deg, transparent, #000); mask-image: linear-gradient(90deg, transparent, #000); }
+  .c-grid { position: relative; display: grid; gap: 16px; margin-top: 44px; }
+  @media (min-width: 960px) { .c-grid { grid-template-columns: 1fr 1fr 1.3fr; } }
+  .cc { border: 1px solid rgba(255,255,255,.14); border-radius: 18px; padding: 24px; background: rgba(255,255,255,.03); }
+  .cc .k { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--brass2); font-weight: 600; }
+  .cc .v { font-family: var(--serif); font-size: 25px; display: block; margin-top: 8px; text-decoration: none; line-height: 1.3; word-break: break-word; }
+  .cc p { color: rgba(255,255,255,.6); font-size: 14.5px; margin-top: 6px; }
+  .map { border-radius: 18px; overflow: hidden; min-height: 260px; background: var(--navy2); }
+  .map iframe { width: 100%; height: 100%; min-height: 260px; border: 0; filter: grayscale(1) invert(.88) contrast(.9) hue-rotate(180deg); }
+  footer { background: var(--navy); color: rgba(255,255,255,.55); font-size: 14px; padding: 26px 0 110px; border-top: 1px solid rgba(255,255,255,.08); }
+  @media (min-width: 900px) { footer { padding-bottom: 30px; } }
+  .f-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 30px; }
+
+  .mbar { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 65; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px; border-radius: 14px; background: rgba(18,35,61,.94); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); transform: translateY(150%); transition: transform .5s var(--ease); }
+  .mbar.show { transform: none; }
+  .mbar .btn { min-height: 46px; padding: 0 10px; font-size: 14.5px; }
+  @media (min-width: 900px) { .mbar { display: none; } }
+  .demo { position: fixed; right: 16px; bottom: 16px; z-index: 70; margin: 0; background: #fff; color: var(--ink); font-size: 12px; padding: 7px 14px; border-radius: 99px; box-shadow: 0 10px 30px -10px rgba(0,0,0,.35); }
+  .demo b { color: #8A6320; }
+  @media (max-width: 899px) { .demo { right: 50%; transform: translateX(50%); bottom: 12px; white-space: nowrap; font-size: 11px; transition: bottom .5s var(--ease); } .mbar.show + .demo { bottom: 82px; } }
+
+  .rv { opacity: 0; transform: translateY(30px); transition: opacity 1s var(--ease), transform 1s var(--ease); transition-delay: var(--d, 0s); }
+  .rv.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .rv, .fade { transform: none; transition: opacity .5s ease; }
+    .ln > span { transform: none; transition: none; }
+    .bld .draw { stroke-dashoffset: 0; transition: none; }
+    .band figure { clip-path: none; transition: none; }
+    .pulse { animation: none; }
+    .zpanel { animation: none; }
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="arr" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m3 7 9 6 9-6" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+</svg>
+
+<header class="hdr" id="hdr">
+  <div class="wrap bar">
+    <a class="logo" href="#top" aria-label="Plus Zarządca – początek strony"><span class="mk" aria-hidden="true">+</span><span><b>Plus Zarządca</b><small>Szczecin · od 2001</small></span></a>
+    <nav class="menu" aria-label="Menu">
+      <a href="#oferta">Oferta</a>
+      <a href="#wycena">Kalkulator wyceny</a>
+      <a href="#mieszkancy">Strefa mieszkańca</a>
+      <a href="#przejecie">Zmiana zarządcy</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <a class="btn b-brass" href="#wycena">Wyceń zarządzanie</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="since fade" style="--d:.05s"><b>od 2001</b>Zarządzanie nieruchomościami · Szczecin</p>
+        <h1>
+          <span class="ln"><span style="--i:0">Budynek</span></span>
+          <span class="ln"><span style="--i:1">w dobrych rękach.</span></span>
+          <span class="ln"><span style="--i:2"><em>Spokój</em> w głowie.</span></span>
+        </h1>
+        <p class="lead fade" style="--d:.7s">Rodzinna firma, która od ponad 20 lat zarządza wspólnotami mieszkaniowymi i nieruchomościami w Szczecinie. Przejrzyste rozliczenia, szybka reakcja na awarie i jeden stały opiekun Państwa budynku.</p>
+        <div class="cta fade" style="--d:.85s">
+          <a class="btn b-brass" href="#wycena">Sprawdź koszt zarządzania <svg width="18" height="18" aria-hidden="true"><use href="#arr"/></svg></a>
+          <a class="btn b-ghost" href="#mieszkancy">Zgłoś usterkę</a>
+        </div>
+        <div class="hero-stats fade" style="--d:1s">
+          <div><b id="years">25</b><span>lat doświadczenia</span></div>
+          <div><b>24/7</b><span>zgłoszenia awarii online</span></div>
+          <div><b>1</b><span>stały opiekun budynku</span></div>
+        </div>
+      </div>
+      <div class="bld" aria-hidden="true">
+        <svg viewBox="0 0 420 470" id="bldSvg">
+          <path class="draw" d="M40 440 H400"/>
+          <path class="draw" d="M80 440 V120 L210 60 L340 120 V440"/>
+          <path class="draw" d="M80 120 H340"/>
+          <path class="draw" d="M180 440 V370 H240 V440"/>
+          <path class="draw" d="M366 440 V300 M366 300 a22 22 0 1 0 0.1 0 M50 440 V320 M50 320 a18 18 0 1 0 0.1 0"/>
+          <path class="dim" d="M80 455 H340 M80 450 V460 M340 450 V460"/>
+          <text x="186" y="466">12 LOKALI</text>
+          <g id="wins"></g>
+          <g class="badge"><rect x="214" y="20" rx="10" width="196" height="40" fill="#C8963E"/><text x="230" y="45" style="fill:#12233D;font-weight:700;letter-spacing:.06em">✓ ZGŁOSZENIE PRZYJĘTE</text></g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <div class="alarm">
+    <div class="wrap"><span><span class="pulse" aria-hidden="true"></span><b>Awaria w budynku?</b> Zgłoś ją online – trafi od razu do zarządcy.</span><a href="#mieszkancy">Zgłoś usterkę <svg width="18" height="18" aria-hidden="true"><use href="#arr"/></svg></a></div>
+  </div>
+
+  <section id="oferta">
+    <div class="wrap">
+      <p class="tag rv">Oferta</p>
+      <h2 class="rv" style="--d:.06s">Zarządzanie, które <em>po prostu działa</em></h2>
+      <p class="lead rv" style="--d:.12s">Bierzemy na siebie formalności, rozliczenia i kontakt z wykonawcami. Państwo mają spokój i pełny wgląd w to, co dzieje się w budynku.</p>
+      <div class="offer">
+        <article class="of rv"><h3>Dla wspólnot mieszkaniowych</h3><p class="s">Kompleksowa obsługa budynku i mieszkańców.</p>
+          <ul><li>Zarządzanie administracyjne i techniczne nieruchomości</li><li>Księgowość wspólnoty, zaliczki i rozliczenia mediów</li><li>Przygotowanie zebrań, uchwał i planów gospodarczych</li><li>Przeglądy okresowe, remonty i nadzór nad wykonawcami</li><li>Windykacja zaległości</li></ul></article>
+        <article class="of rv" style="--d:.08s"><h3>Dla właścicieli nieruchomości</h3><p class="s">Opieka nad budynkiem lub lokalami na wynajem.</p>
+          <ul><li>Obsługa najemców i umów</li><li>Pilnowanie płatności i rozliczeń</li><li>Szybka reakcja na awarie i usterki</li><li>Bieżące utrzymanie i drobne naprawy</li><li>Regularne raporty o stanie nieruchomości</li></ul></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="wycena" style="padding-top:0">
+    <div class="wrap">
+      <p class="tag rv">Kalkulator wyceny</p>
+      <h2 class="rv" style="--d:.06s">Ile kosztuje <em>zarządzanie</em> Państwa budynkiem?</h2>
+      <p class="lead rv" style="--d:.12s">Ustaw parametry nieruchomości i wybierz usługi – wycena orientacyjna przelicza się na bieżąco.</p>
+      <div class="calc rv" style="--d:.1s">
+        <div class="calc-in">
+          <div><p class="lab">Rodzaj nieruchomości</p>
+            <div class="seg" id="type">
+              <button type="button" data-t="wspolnota" aria-pressed="true">Wspólnota mieszkaniowa</button>
+              <button type="button" data-t="budynek" aria-pressed="false">Budynek właściciela</button>
+              <button type="button" data-t="lokale" aria-pressed="false">Lokale na wynajem</button>
+            </div></div>
+          <div><p class="lab"><label for="units">Liczba lokali</label><output id="unitsOut">24</output></p><input type="range" id="units" min="4" max="120" step="1" value="24"></div>
+          <div><p class="lab"><label for="area">Powierzchnia użytkowa (m²)</label><output id="areaOut">1 400</output></p><input type="range" id="area" min="200" max="8000" step="50" value="1400"></div>
+          <div><p class="lab">Zakres usług</p>
+            <div class="checks" id="svc">
+              <label class="chk"><input type="checkbox" value="admin" checked disabled><span>Zarządzanie administracyjne<small>w cenie podstawowej</small></span></label>
+              <label class="chk"><input type="checkbox" value="ksieg" checked><span>Księgowość wspólnoty<small>zaliczki, rozliczenia</small></span></label>
+              <label class="chk"><input type="checkbox" value="tech" checked><span>Obsługa techniczna<small>przeglądy, awarie</small></span></label>
+              <label class="chk"><input type="checkbox" value="sprz"><span>Sprzątanie części wspólnych<small>klatki, otoczenie</small></span></label>
+              <label class="chk"><input type="checkbox" value="wind"><span>Windykacja zaległości<small>monitoring płatności</small></span></label>
+              <label class="chk"><input type="checkbox" value="zebr"><span>Zebrania i uchwały<small>organizacja, protokoły</small></span></label>
+            </div></div>
+        </div>
+        <div class="calc-out" aria-live="polite">
+          <div class="total"><small>Szacunkowy koszt miesięczny</small><b id="total">0 zł</b><span id="perUnit">≈ 0 zł na lokal</span></div>
+          <div class="brk" id="brk"></div>
+          <p class="perm" id="perm"></p>
+          <a class="btn b-brass" id="ask" href="#">Poproś o dokładną wycenę <svg width="18" height="18" aria-hidden="true"><use href="#arr"/></svg></a>
+          <p class="calc-note">Wycena orientacyjna, liczona na przykładowych stawkach demo. Dokładną ofertę przygotowujemy po oględzinach budynku.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="zone" id="mieszkancy">
+    <div class="wrap">
+      <p class="tag rv">Strefa mieszkańca</p>
+      <h2 class="rv" style="--d:.06s">Wszystko o Państwa budynku <em>w jednym miejscu</em></h2>
+      <div class="ztabs rv" style="--d:.1s" role="tablist" aria-label="Strefa mieszkańca">
+        <button role="tab" type="button" aria-selected="true" data-z="zgl">Zgłoś usterkę</button>
+        <button role="tab" type="button" aria-selected="false" data-z="ogl">Ogłoszenia</button>
+        <button role="tab" type="button" aria-selected="false" data-z="dok">Dokumenty</button>
+      </div>
+      <div id="zone" class="rv" style="--d:.14s">
+        <div class="zpanel" data-p="zgl" role="tabpanel">
+          <form class="rep" id="rep" novalidate>
+            <div class="fld"><span>Czego dotyczy zgłoszenie?</span>
+              <div class="cats" id="cats">
+                <button type="button" aria-pressed="true">Woda / kanalizacja</button><button type="button" aria-pressed="false">Elektryka / oświetlenie</button><button type="button" aria-pressed="false">Ogrzewanie</button><button type="button" aria-pressed="false">Domofon / drzwi</button><button type="button" aria-pressed="false">Winda</button><button type="button" aria-pressed="false">Części wspólne</button><button type="button" aria-pressed="false">Inne</button>
+              </div></div>
+            <div class="two">
+              <div class="fld" id="fA"><label for="addr">Adres i numer lokalu</label><input class="inp" id="addr" placeholder="np. ul. Granitowa 67 / 4" required><p class="err">Podaj adres budynku i numer lokalu.</p></div>
+              <div class="fld" id="fP"><label for="ph">Telefon kontaktowy</label><input class="inp" id="ph" type="tel" inputmode="tel" autocomplete="tel" required><p class="err">Podaj telefon, żebyśmy mogli oddzwonić.</p></div>
+            </div>
+            <div class="fld"><label for="desc">Opis problemu</label><textarea class="inp" id="desc" placeholder="Co się dzieje i od kiedy?"></textarea></div>
+            <div class="fld"><span>Pilność</span><div class="urg" id="urg"><button type="button" data-u="normalne" aria-pressed="true">Może poczekać</button><button type="button" data-u="pilne" aria-pressed="false">Pilne – zalanie, brak prądu, zagrożenie</button></div></div>
+            <div><button class="btn b-navy" type="submit"><svg width="18" height="18" aria-hidden="true"><use href="#mail"/></svg>Wyślij zgłoszenie</button></div>
+            <p class="ok" id="ok" role="status">Dziękujemy! Otworzyliśmy gotowe zgłoszenie w Państwa poczcie – wystarczy je wysłać.</p>
+          </form>
+        </div>
+        <div class="zpanel" data-p="ogl" role="tabpanel" hidden>
+          <div class="news">
+            <article class="nw"><div class="dt"><b>21</b><span>paź</span></div><div><span class="pill w">Ważne</span><h3>Przerwa w dostawie wody</h3><p>W godz. 9:00–13:00 planowane prace na pionie w klatce B. Przepraszamy za utrudnienia.</p></div></article>
+            <article class="nw"><div class="dt"><b>04</b><span>lis</span></div><div><span class="pill">Zebranie</span><h3>Roczne zebranie wspólnoty</h3><p>Zapraszamy do świetlicy o 18:00. Porządek obrad i projekty uchwał w zakładce „Dokumenty”.</p></div></article>
+            <article class="nw"><div class="dt"><b>15</b><span>lis</span></div><div><span class="pill">Przegląd</span><h3>Przegląd instalacji gazowej</h3><p>Prosimy o udostępnienie lokali. Szczegółowy harmonogram wywieszony na klatkach.</p></div></article>
+          </div>
+          <p class="demo-n">Ogłoszenia przykładowe – w docelowej wersji dodają je Państwo samodzielnie.</p>
+        </div>
+        <div class="zpanel" data-p="dok" role="tabpanel" hidden>
+          <div class="docs">
+            <a class="doc" href="#" onclick="return false"><span class="ic">PDF</span><span><b>Regulamin porządku domowego</b><span>Aktualna wersja</span></span></a>
+            <a class="doc" href="#" onclick="return false"><span class="ic">PDF</span><span><b>Plan gospodarczy na rok</b><span>Projekt do zebrania</span></span></a>
+            <a class="doc" href="#" onclick="return false"><span class="ic">PDF</span><span><b>Uchwały wspólnoty</b><span>Zbiór uchwał</span></span></a>
+            <a class="doc" href="#" onclick="return false"><span class="ic">DOC</span><span><b>Wniosek o zmianę danych właściciela</b><span>Druk do wypełnienia</span></span></a>
+            <a class="doc" href="#" onclick="return false"><span class="ic">DOC</span><span><b>Deklaracja liczby osób (odpady)</b><span>Druk do wypełnienia</span></span></a>
+            <a class="doc" href="#" onclick="return false"><span class="ic">PDF</span><span><b>Odczyty liczników – instrukcja</b><span>Jak podać stan</span></span></a>
+          </div>
+          <p class="demo-n">Dokumenty przykładowe – w docelowej wersji wgrywają je Państwo przez panel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="przejecie">
+    <div class="wrap band">
+      <figure id="bandFig"><img src="img/blok2.jpg" alt="Nowoczesny budynek mieszkalny z balkonami" loading="lazy" id="bandImg"></figure>
+      <div>
+        <p class="tag rv">Zmiana zarządcy</p>
+        <h2 class="rv" style="--d:.06s">Przejmiemy budynek <em>bez zamieszania</em></h2>
+        <p class="lead rv" style="--d:.12s">Zmiana zarządcy brzmi poważnie, ale z nami to uporządkowany proces. Prowadzimy wspólnotę krok po kroku.</p>
+        <ol class="steps">
+          <li class="rv"><span><b>Bezpłatna rozmowa i oględziny</b><span>Poznajemy budynek, jego stan i potrzeby mieszkańców.</span></span></li>
+          <li class="rv" style="--d:.06s"><span><b>Oferta i uchwała</b><span>Przygotowujemy ofertę i pomagamy przy uchwale o zmianie zarządcy.</span></span></li>
+          <li class="rv" style="--d:.12s"><span><b>Przejęcie dokumentów</b><span>Odbieramy dokumentację od poprzedniego zarządcy i porządkujemy rozliczenia.</span></span></li>
+          <li class="rv" style="--d:.18s"><span><b>Stała opieka</b><span>Mieszkańcy dostają kontakt do opiekuna i dostęp do strefy mieszkańca.</span></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="pytania" style="padding-top:0">
+    <div class="wrap faq">
+      <div><p class="tag rv">Pytania</p><h2 class="rv" style="--d:.06s">Najczęściej <em>pytają nas</em></h2></div>
+      <div class="rv" style="--d:.1s">
+        <details><summary>Jak zgłosić awarię w budynku?</summary><p>Najszybciej przez formularz „Zgłoś usterkę” w strefie mieszkańca. W pilnych sprawach – zalanie, brak prądu, zagrożenie – prosimy dodatkowo zadzwonić.</p></details>
+        <details><summary>Gdzie sprawdzę wysokość zaliczek?</summary><p>Informację o zaliczkach i rozliczeniach przekazujemy każdemu właścicielowi. Chętnie wyjaśnimy każdą pozycję mailowo lub telefonicznie.</p></details>
+        <details><summary>Jak zgłosić zmianę właściciela lokalu?</summary><p>Wystarczy wypełnić wniosek o zmianę danych właściciela (zakładka „Dokumenty”) i przesłać go wraz z kopią aktu notarialnego.</p></details>
+        <details><summary>Jak zmienić zarządcę wspólnoty?</summary><p>Wspólnota podejmuje uchwałę o zmianie zarządcy. Pomagamy przygotować dokumenty i przejmujemy obowiązki od poprzedniej firmy – szczegóły w sekcji „Zmiana zarządcy”.</p></details>
+        <details><summary>Czy oględziny i wycena są płatne?</summary><p>Nie, pierwsza rozmowa, oględziny budynku i oferta są bezpłatne i niezobowiązujące.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="kontakt">
+    <div class="wrap">
+      <p class="tag rv">Kontakt</p>
+      <h2 class="rv" style="--d:.06s">Porozmawiajmy o <em>Państwa budynku</em></h2>
+      <div class="c-grid">
+        <div class="cc rv"><p class="k">E-mail</p><a class="v" href="mailto:ulatowscy@poczta.fm">ulatowscy@poczta.fm</a><p>Odpowiadamy w dni robocze.</p></div>
+        <div class="cc rv" style="--d:.06s"><p class="k">Biuro</p><p class="v">ul. Granitowa 67<br>70-750 Szczecin</p><p>Telefon i godziny pracy biura – do uzupełnienia.</p></div>
+        <div class="map rv" style="--d:.12s"><iframe title="Mapa: ul. Granitowa 67, Szczecin" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Granitowa%2067%2C%2070-750%20Szczecin&output=embed"></iframe></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap f-row"><span>© 2026 Plus Zarządca · Andrzej Ulatowski · ul. Granitowa 67, Szczecin · NIP 852-040-19-79</span><span>Projekt: <a href="https://www.instagram.com/appkadlafirmy/" target="_blank" rel="noopener">@appkadlafirmy</a></span></div></footer>
+
+<nav class="mbar" id="mbar" aria-label="Szybkie akcje">
+  <a class="btn b-ghost" href="#mieszkancy">Zgłoś usterkę</a>
+  <a class="btn b-brass" href="#wycena">Wycena</a>
+</nav>
+<p class="demo"><b>Demo</b> · stawki, ogłoszenia i telefon przykładowe</p>
+
+<script>
+(() => {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const MAIL = "ulatowscy@poczta.fm";
+  const fmt = (n) => Math.round(n).toLocaleString("pl-PL").replace(/ /g, " ");
+
+  /* ---------- building drawing ---------- */
+  const NS = "http://www.w3.org/2000/svg", wins = $("#wins"), list = [];
+  for (let r = 0; r < 6; r++) for (let c = 0; c < 5; c++) {
+    if (r === 5 && (c === 2)) continue;
+    const w = document.createElementNS(NS, "rect");
+    w.setAttribute("x", 98 + c * 46); w.setAttribute("y", 140 + r * 46); w.setAttribute("width", 30); w.setAttribute("height", 30); w.setAttribute("rx", 3);
+    w.setAttribute("class", "win"); wins.appendChild(w); list.push(w);
+  }
+  $$(".bld .draw").forEach((p) => { try { p.style.setProperty("--len", Math.ceil(p.getTotalLength())); } catch (e) {} });
+  requestAnimationFrame(() => setTimeout(() => document.body.classList.add("loaded"), 60));
+  if (!reduce) {
+    const flick = () => { const w = list[Math.floor(Math.random() * list.length)]; w.classList.toggle("on"); };
+    setTimeout(() => { for (let i = 0; i < 9; i++) setTimeout(flick, i * 160); setInterval(flick, 900); }, 1800);
+  } else { list.forEach((w, i) => { if (i % 3 === 0) w.classList.add("on"); }); }
+
+  /* years counter */
+  const years = new Date().getFullYear() - 2001; $("#years").textContent = years;
+
+  /* ---------- calculator (demo rates) ---------- */
+  const RATES = { base: 0.45, ksieg: 0.15, tech: 0.12, sprz: 0.28, wind: 60, zebr: 90, min: 650 };
+  const TYPE = { wspolnota: 1, budynek: .92, lokale: 1.1 };
+  const NAMES = { base: "Zarządzanie administracyjne", ksieg: "Księgowość wspólnoty", tech: "Obsługa techniczna", sprz: "Sprzątanie części wspólnych", wind: "Windykacja zaległości", zebr: "Zebrania i uchwały" };
+  let type = "wspolnota", shown = 0;
+  const units = $("#units"), area = $("#area");
+  const setPct = (el) => el.style.setProperty("--pct", ((el.value - el.min) / (el.max - el.min) * 100) + "%");
+  const calc = () => {
+    const A = +area.value, U = +units.value, k = TYPE[type];
+    const parts = [["base", A * RATES.base * k]];
+    $$("#svc input:checked").forEach((c) => { if (c.value === "admin") return; const v = c.value; parts.push([v, (v === "wind" || v === "zebr") ? RATES[v] : A * RATES[v] * k]); });
+    let sum = parts.reduce((s, p) => s + p[1], 0); const floor = sum < RATES.min; if (floor) sum = RATES.min;
+    $("#unitsOut").textContent = U; $("#areaOut").textContent = fmt(A); setPct(units); setPct(area);
+    $("#brk").innerHTML = parts.map(([n, v]) => `<div><span>${NAMES[n]}</span><b>${fmt(v)} zł</b></div>`).join("") + (floor ? `<div><span>Minimalna opłata miesięczna</span><b>${fmt(RATES.min)} zł</b></div>` : "");
+    $("#perUnit").textContent = "≈ " + fmt(sum / U) + " zł na lokal miesięcznie";
+    $("#perm").textContent = "≈ " + (sum / A).toFixed(2).replace(".", ",") + " zł za m² powierzchni użytkowej";
+    animate(sum);
+    $("#ask").dataset.sum = Math.round(sum);
+  };
+  let raf;
+  const animate = (to) => {
+    cancelAnimationFrame(raf);
+    if (reduce) { shown = to; $("#total").textContent = fmt(to) + " zł"; return; }
+    const from = shown, t0 = performance.now();
+    const step = (n) => { const k = Math.min(1, (n - t0) / 450), e = 1 - Math.pow(1 - k, 3); shown = from + (to - from) * e; $("#total").textContent = fmt(shown) + " zł"; if (k < 1) raf = requestAnimationFrame(step); };
+    raf = requestAnimationFrame(step);
+  };
+  [units, area].forEach((el) => el.addEventListener("input", calc));
+  $$("#svc input").forEach((c) => c.addEventListener("change", calc));
+  $$("#type button").forEach((b) => b.addEventListener("click", () => { type = b.dataset.t; $$("#type button").forEach((x) => x.setAttribute("aria-pressed", x === b)); calc(); }));
+  $("#ask").addEventListener("click", (e) => {
+    e.preventDefault();
+    const svc = $$("#svc input:checked").map((c) => c.parentElement.querySelector("span").firstChild.textContent.trim()).join(", ");
+    const tname = $("#type button[aria-pressed='true']").textContent;
+    const body = `Dzień dobry,\n\nproszę o dokładną wycenę zarządzania.\n\nRodzaj: ${tname}\nLiczba lokali: ${units.value}\nPowierzchnia użytkowa: ${area.value} m²\nUsługi: ${svc}\nWycena z kalkulatora: ok. ${$("#ask").dataset.sum} zł / mies.\n\nAdres nieruchomości:\nTelefon:\n`;
+    location.href = "mailto:" + MAIL + "?subject=" + encodeURIComponent("Zapytanie o wycenę zarządzania") + "&body=" + encodeURIComponent(body);
+  });
+  calc();
+
+  /* ---------- resident zone ---------- */
+  const ztabs = $$(".ztabs button");
+  ztabs.forEach((b, i) => {
+    const show = () => { ztabs.forEach((x) => x.setAttribute("aria-selected", x === b)); $$(".zpanel").forEach((p) => { p.hidden = p.dataset.p !== b.dataset.z; if (!p.hidden) { p.style.animation = "none"; void p.offsetWidth; p.style.animation = ""; } }); };
+    b.addEventListener("click", show);
+    b.addEventListener("keydown", (e) => { const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0; if (d) { const n = ztabs[(i + d + ztabs.length) % ztabs.length]; n.focus(); n.click(); } });
+  });
+  const single = (sel) => $$(sel + " button").forEach((b) => b.addEventListener("click", () => $$(sel + " button").forEach((x) => x.setAttribute("aria-pressed", x === b))));
+  single("#cats"); single("#urg");
+  const rep = $("#rep");
+  rep.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const a = $("#addr").value.trim(), p = $("#ph").value.trim();
+    $("#fA").classList.toggle("bad", !a); $("#fP").classList.toggle("bad", !p);
+    if (!a) return $("#addr").focus(); if (!p) return $("#ph").focus();
+    const cat = $("#cats button[aria-pressed='true']").textContent, urg = $("#urg button[aria-pressed='true']").dataset.u;
+    const subj = (urg === "pilne" ? "PILNE – " : "") + "Zgłoszenie usterki: " + cat + " – " + a;
+    const body = `Kategoria: ${cat}\nPilność: ${urg}\nAdres / lokal: ${a}\nTelefon: ${p}\n\nOpis:\n${$("#desc").value}`;
+    location.href = "mailto:" + MAIL + "?subject=" + encodeURIComponent(subj) + "&body=" + encodeURIComponent(body);
+    $("#ok").style.display = "block";
+  });
+  rep.addEventListener("input", (e) => { const w = e.target.closest(".bad"); if (w && e.target.value.trim()) w.classList.remove("bad"); });
+
+  /* ---------- reveal + scroll ---------- */
+  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px", threshold: .06 });
+  $$(".rv").forEach((el) => io.observe(el));
+  const fio = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { $("#bandFig").classList.add("in"); fio.disconnect(); } }), { threshold: .15 });
+  fio.observe($(".band"));
+  const hdr = $("#hdr"), mbar = $("#mbar"), bandImg = $("#bandImg");
+  let lastY = scrollY, tick = false;
+  const upd = () => {
+    tick = false; const y = scrollY;
+    hdr.classList.toggle("solid", y > innerHeight * .8);
+    hdr.classList.toggle("hide", y > 700 && y > lastY + 4); if (y < lastY - 4) hdr.classList.remove("hide"); lastY = y;
+    mbar.classList.toggle("show", y > innerHeight * .6);
+    if (!reduce) { const r = bandImg.parentElement.getBoundingClientRect(); if (r.bottom > 0 && r.top < innerHeight) bandImg.style.setProperty("--py", ((r.top + r.height / 2 - innerHeight / 2) * -.06).toFixed(1) + "px"); }
+  };
+  addEventListener("scroll", () => { if (!tick) { tick = true; requestAnimationFrame(upd); } }, { passive: true });
+  upd();
+})();
+</script>
+</body>
+</html>
