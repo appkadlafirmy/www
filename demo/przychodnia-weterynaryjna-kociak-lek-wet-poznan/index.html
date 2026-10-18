@@ -18,9 +18,9 @@
     --ease: cubic-bezier(.2,.7,.1,1);
    --t-em_style: normal; --t-h1_ls: -.03em; --t-h1_w: 800; --t-h_ls: -.02em; --t-h_w: 700; }
 </style>
-<link rel="stylesheet" href="../assets/salon.css?v=12173096">
+<link rel="stylesheet" href="../assets/salon.css?v=64306988">
 </head>
-<body>
+<body class="hb hf">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="arr" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
@@ -36,24 +36,20 @@
 </header>
 
 <main>
-  <section class="hero">
+  <section class="heroF">
+    <div class="hf-bg"><img src="../assets/salon/vet-hero-pies.jpg" alt="" fetchpriority="high"></div>
     <div class="wrap">
       <div>
-        <div class="chips fade" style="--d:.05s"><span class="chip"><i></i>Psy i koty</span><span class="chip"><i></i>Szczepienia i czipowanie</span><span class="chip"><i></i>Rezerwacja online</span></div>
+        <div class="chips glassc fade" style="--d:.05s"><span class="chip"><i></i>Psy i koty</span><span class="chip"><i></i>Szczepienia i czipowanie</span><span class="chip"><i></i>Rezerwacja online</span></div>
         <h1 class="fade" style="--d:.2s">Opieka, na którą <em>Twój pupil zasługuje</em>.</h1>
         <p class="hero-lead fade" style="--d:.4s">Profilaktyka, szczepienia, diagnostyka i zabiegi dla psów i kotów. Spokojnie, bez pośpiechu i z wyjaśnieniem każdego kroku.</p>
         <div class="cta fade" style="--d:.55s">
           <a class="btn b-acc" href="#rezerwacja">Umów wizytę <svg class="arr"><use href="#arr"/></svg></a>
           <a class="btn b-line" href="#cennik">Zobacz usługi</a>
         </div>
-        <div class="meta fade" style="--d:.7s"><span><b>Poznań</b> · ul. Krakowska</span><span>Dziś: <b id="todayH">—</b></span></div>
+        <div class="meta fade" style="border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.8)" style="--d:.7s"><span><b>Poznań</b> · ul. Krakowska</span><span>Dziś: <b id="todayH">—</b></span></div>
       </div>
-      <div class="art" aria-hidden="true">
-        <div class="arch"><img src="../assets/salon/vet-hero-pies.jpg" alt="" fetchpriority="high"></div>
-        <div class="circ"><img src="../assets/salon/vet-kot-okno.jpg" alt=""></div>
-        <div class="next"><span class="h">Najbliższy wolny termin</span><b id="nextSlot">jutro, 10:00</b><a href="#rezerwacja">Umów wizytę <svg class="arr"><use href="#arr"/></svg></a></div>
-        <div class="sticker"><span>Przyjazna wizyta bez stresu</span></div>
-      </div>
+      <div class="card-f"><span class="h">Najbliższy wolny termin</span><b id="nextSlot">jutro, 10:00</b><a href="#rezerwacja">Umów wizytę <svg class="arr"><use href="#arr"/></svg></a></div>
     </div>
   </section>
 

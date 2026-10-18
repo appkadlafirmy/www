@@ -18,9 +18,9 @@
     --ease: cubic-bezier(.2,.7,.1,1);
    }
 </style>
-<link rel="stylesheet" href="../assets/fach.css?v=ce0ce3dd">
+<link rel="stylesheet" href="../assets/fach.css?v=e03a6fae">
 </head>
-<body>
+<body class="hb hs dk">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="arr" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="chk" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -38,8 +38,7 @@
 </header>
 
 <main>
-  <section class="hero">
-    <div class="hero-bg"><img src="../assets/fach/2381463.jpg" alt="" fetchpriority="high"></div>
+  <section class="hero2">
     <div class="wrap">
       <div>
         <p class="chip fade" style="--d:.1s"><i><svg><use href="#pin"/></svg></i>Białystok i okolice</p>
@@ -51,14 +50,17 @@
         </div>
         <div class="facts fade" style="--d:.75s"><span><svg><use href="#chk"/></svg>Pomiar na miejscu</span><span><svg><use href="#chk"/></svg>Własny warsztat</span><span><svg><use href="#chk"/></svg>Malowanie proszkowe</span></div>
       </div>
-      <div class="slots fade" style="--d:.9s" aria-label="Wolne terminy">
-        <div class="h"><span>Najbliższe terminy</span><span class="live">na bieżąco</span></div>
-        <p class="t">Wybierz dzień oględzin</p>
-        <div class="days" id="days"></div>
-        <p class="f" id="slotInfo">Zielona kropka = wolny termin.</p>
+      <div class="h2art">
+        <div class="h2img"><img src="../assets/fach/2381463.jpg" alt="" fetchpriority="high"></div>
+        <span class="tagc fade" style="--d:1.1s">Ślusarstwo</span>
+        <div class="slots fade" style="--d:.9s" aria-label="Wolne terminy">
+          <div class="h"><span>Najbliższe terminy</span><span class="live">na bieżąco</span></div>
+          <p class="t">Wybierz dzień oględzin</p>
+          <div class="days" id="days"></div>
+          <p class="f" id="slotInfo">Zielona kropka = wolny termin.</p>
+        </div>
       </div>
     </div>
-    <span class="scroll" aria-hidden="true"></span>
   </section>
 
   <div class="ticker" aria-hidden="true"><div class="row"><span>Bramy i furtki</span><span>Ogrodzenia</span><span>Balustrady</span><span>Schody stalowe</span><span>Konstrukcje</span><span>Spawanie i naprawy</span><span>Bramy i furtki</span><span>Ogrodzenia</span><span>Balustrady</span><span>Schody stalowe</span><span>Konstrukcje</span><span>Spawanie i naprawy</span></div></div>
@@ -211,7 +213,7 @@
   var top = document.getElementById("top"), mbar = document.getElementById("mbar");
   function onScroll() {
     var y = window.scrollY;
-    top.classList.toggle("solid", y > window.innerHeight * .75 - 80);
+    top.classList.toggle("solid", document.body.classList.contains("hs") ? y > 30 : y > window.innerHeight * .75 - 80);
     mbar.classList.toggle("on", y > 500);
     var par = document.getElementById("par");
     if (par && !reduce) { var r = par.parentNode.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) par.style.setProperty("--py", (-(r.top / innerHeight) * 40 - 20).toFixed(1) + "px"); }
