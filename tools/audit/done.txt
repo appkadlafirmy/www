@@ -1,0 +1,7 @@
+kosmetyka|Kraków
+kosmetyka|Poznań
+kosmetyka|Wrocław
+mechanika samochodowa|Kraków
+mechanika samochodowa|Wrocław
+restauracja|Kraków
+restauracja|Wrocław
