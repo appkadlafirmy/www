@@ -435,7 +435,7 @@
         <h2 class="rv" style="--d:.08s">{{t_visith}}</h2>
         <div class="info rv" style="--d:.14s">
           <div class="ic"><small>Adres</small><span class="v">{{adres_full}}</span></div>
-          <div class="ic"><small>E-mail</small><a class="v" href="mailto:{{email}}">{{email}}</a></div>
+          {{tel_ic}}<div class="ic"><small>E-mail</small><a class="v" href="mailto:{{email}}">{{email}}</a></div>
           <div class="ic"><small>Zameldowanie i wymeldowanie</small><div class="hours"><span>Zameldowanie</span><span>od {{checkin}}</span><span>Wymeldowanie</span><span>do {{checkout}}</span></div></div>
         </div>
         <div class="faq rv" style="--d:.2s">{{faq}}</div>
@@ -453,14 +453,14 @@
   <div class="wrap">
     <div class="f-grid">
       <div><p class="f-big">{{firma}}</p><p style="margin-top:12px">{{label}} · {{miasto}}</p></div>
-      <div><h4>Kontakt</h4><p><a href="mailto:{{email}}">{{email}}</a></p><p>{{adres_full}}</p></div>
+      <div><h4>Kontakt</h4>{{tel_p}}<p><a href="mailto:{{email}}">{{email}}</a></p><p>{{adres_full}}</p></div>
       <div><h4>Na skróty</h4><p><a href="#pokoje">{{t_pl}}</a></p><p><a href="#rezerwacja">{{t_book}}</a></p><p><a href="#kontakt">Kontakt</a></p></div>
     </div>
     <div class="f-bot"><span>© <span id="yr">2026</span> {{nazwa_pelna}}</span><span>Projekt strony demonstracyjnej – appkadlafirmy</span></div>
   </div>
 </footer>
 
-<nav class="mbar" id="mbar" aria-label="Szybki kontakt"><a class="btn b-line" href="mailto:{{email}}">Napisz</a><a class="btn b-acc" href="#rezerwacja">{{t_cta}}</a></nav>
+<nav class="mbar" id="mbar" aria-label="Szybki kontakt">{{mbar_l}}<a class="btn b-acc" href="#rezerwacja">{{t_cta}}</a></nav>
 <p class="demo"><b>Demo</b> · zdjęcia i ceny przykładowe</p>
 
 <script>

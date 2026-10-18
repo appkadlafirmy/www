@@ -481,7 +481,7 @@
   <div class="wrap">
     <div class="f-grid">
       <div><p class="f-big">{{firma}}</p><p style="margin-top:14px">{{label}} · {{miasto}} i okolice</p></div>
-      <div><h4>Kontakt</h4><p><a href="mailto:{{email}}">{{email}}</a></p><p style="margin-top:6px">{{adres_full}}</p></div>
+      <div><h4>Kontakt</h4>{{tel_p}}<p><a href="mailto:{{email}}">{{email}}</a></p><p style="margin-top:6px">{{adres_full}}</p></div>
       <div><h4>Na skróty</h4><p><a href="#uslugi">Usługi</a></p><p><a href="#wycena">{{t_q}}</a></p><p><a href="#realizacje">{{t_gal}}</a></p></div>
     </div>
     <div class="f-bot"><span>© <span id="yr">2026</span> {{nazwa_pelna}}</span><span>Projekt strony demonstracyjnej – appkadlafirmy</span></div>
@@ -489,7 +489,7 @@
 </footer>
 
 <nav class="mbar" id="mbar" aria-label="Szybki kontakt">
-  <a class="btn b-line" href="mailto:{{email}}">Napisz</a>
+  {{mbar_l}}
   <a class="btn b-acc" href="#wycena">{{t_q}}</a>
 </nav>
 <p class="demo"><b>Demo</b> · zdjęcia i treści przykładowe</p>

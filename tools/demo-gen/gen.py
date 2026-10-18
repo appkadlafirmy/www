@@ -177,8 +177,20 @@ def apply_variant(out):
     out = re.sub(r"<!--/?HERO:[AB]-->\n?", "", out)
     return out
 
+CUR_LEAD = {}
+
+def phone_bits(lead):
+    """Call button and contact lines when the lead has a phone number (leads found with a website)."""
+    tel = (lead.get("tel") or "").strip(); e = E(lead["email"])
+    if not tel:
+        return {"mbar_l": '<a class="btn b-line" href="mailto:%s">Napisz</a>' % e, "tel_p": "", "tel_ic": ""}
+    num = re.sub(r"[^0-9+]", "", tel); num = num if num.startswith("+") else "+48" + num.lstrip("0")
+    return {"mbar_l": '<a class="btn b-line" href="tel:%s">Zadzwoń</a>' % num,
+            "tel_p": '<p><a href="tel:%s">%s</a></p>' % (num, E(tel)),
+            "tel_ic": '<div class="ic"><small>Telefon</small><a class="v" href="tel:%s">%s</a></div>' % (num, E(tel))}
+
 def fill(tpl, rep):
-    rep = dict(rep)
+    rep = dict(rep); rep.update(phone_bits(CUR_LEAD))
     rep["body_cls"] = " ".join(filter(None, ["hb" if VARIANT["hero"] == "B" else "ha", "hs" if (tpl == "fach") == (VARIANT["hero"] == "B") else "hf", "dk" if VARIANT["dark"] else ""]))
     out = apply_variant(TPL[tpl])
     for k, v in rep.items(): out = out.replace("{{" + k + "}}", v)
@@ -305,6 +317,7 @@ def main():
             variants[lead["email"]] = v
         if force is not None: v = force
         VARIANT["hero"] = "A" if v in (0, 3) else "B"; VARIANT["dark"] = v in (1, 3)
+        CUR_LEAD.clear(); CUR_LEAD.update(lead)
         os.makedirs(os.path.join(dst, slug), exist_ok=True)
         open(os.path.join(dst, slug, "index.html"), "w", encoding="utf-8").write(render(lead, fam, c))
         n += 1

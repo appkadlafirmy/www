@@ -353,7 +353,7 @@
         <h2 class="rv" style="--d:.08s">{{t_visith}}</h2>
         <div class="info rv" style="--d:.14s">
           <div class="ic"><small>Adres</small><span class="v">{{adres_full}}</span></div>
-          <div class="ic"><small>E-mail</small><a class="v" href="mailto:{{email}}">{{email}}</a></div>
+          {{tel_ic}}<div class="ic"><small>E-mail</small><a class="v" href="mailto:{{email}}">{{email}}</a></div>
           <div class="ic"><small>Godziny otwarcia</small><div class="hours">{{hours}}</div></div>
         </div>
         <div class="faq rv" style="--d:.2s">{{faq}}</div>
@@ -371,7 +371,7 @@
   <div class="wrap">
     <div class="f-grid">
       <div><p class="f-big">{{firma}}</p><p style="margin-top:12px">{{label}} · {{miasto}}</p></div>
-      <div><h4>Kontakt</h4><p><a href="mailto:{{email}}">{{email}}</a></p><p>{{adres_full}}</p></div>
+      <div><h4>Kontakt</h4>{{tel_p}}<p><a href="mailto:{{email}}">{{email}}</a></p><p>{{adres_full}}</p></div>
       <div><h4>Na skróty</h4><p><a href="#menu">{{t_menu}}</a></p><p><a href="#specjal">{{t_sp}}</a></p><p><a href="#kontakt">Kontakt</a></p></div>
     </div>
     <div class="f-bot"><span>© <span id="yr">2026</span> {{nazwa_pelna}}</span><span>Projekt strony demonstracyjnej – appkadlafirmy</span></div>
