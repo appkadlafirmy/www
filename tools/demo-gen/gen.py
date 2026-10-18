@@ -141,11 +141,7 @@ def render_salon(lead, fam, c, depth):
     t = dict(SALON_TXT); t.update(c.get("txt", {}))
     rep["bk_li"] = "".join('<li><svg><use href="#chk"/></svg>%s</li>' % E(x) for x in t.pop("bk_li"))
     rep.update(t)
-    out = TPL["salon"]
-    for k, v in rep.items(): out = out.replace("{{" + k + "}}", v)
-    left = re.findall(r"\{\{\w+\}\}", out)
-    if left: raise SystemExit("unfilled placeholders: %s" % sorted(set(left)))
-    return out
+    return fill("salon", rep)
 
 FOOD_TXT = {"t_cta": "Zamów online", "t_menu": "Menu", "t_menuh": "Menu", "t_sp": "Na zamówienie", "t_order": "Twoje zamówienie",
             "t_menusub": "Dodaj produkty przyciskiem +, wybierz godzinę i wyślij zamówienie – potwierdzimy je odpowiedzią.",
@@ -172,8 +168,19 @@ def base_rep(lead, fam, c):
     if "hours" in c: rep["hours"] = hours_rows(c["hours"]); rep["hours_js"] = json.dumps(c["hours"])
     return rep
 
+# page variant: hero "A" (template default) or "B" (alternative), light or dark theme
+VARIANT = {"hero": "A", "dark": False}
+
+def apply_variant(out):
+    drop = "B" if VARIANT["hero"] == "A" else "A"
+    out = re.sub(r"<!--HERO:%s-->.*?<!--/HERO:%s-->\n?" % (drop, drop), "", out, flags=re.S)
+    out = re.sub(r"<!--/?HERO:[AB]-->\n?", "", out)
+    return out
+
 def fill(tpl, rep):
-    out = TPL[tpl]
+    rep = dict(rep)
+    rep["body_cls"] = " ".join(filter(None, ["hb" if VARIANT["hero"] == "B" else "ha", "hs" if (tpl == "fach") == (VARIANT["hero"] == "B") else "hf", "dk" if VARIANT["dark"] else ""]))
+    out = apply_variant(TPL[tpl])
     for k, v in rep.items(): out = out.replace("{{" + k + "}}", v)
     left = re.findall(r"\{\{\w+\}\}", out)
     if left: raise SystemExit("unfilled placeholders: %s" % sorted(set(left)))
@@ -267,20 +274,20 @@ def render(lead, fam, c, depth="../"):
     for i, (a, b) in enumerate(t.pop("steps")): rep["s%dt" % (i + 1)] = E(a); rep["s%dd" % (i + 1)] = E(b)
     rep["t_qli"] = "".join('<li><svg><use href="#chk"/></svg>%s</li>' % E(x) for x in t.pop("qli"))
     rep.update(t)
-    out = TPL[TEMPLATE_OF[fam]]
-    for k, v in rep.items(): out = out.replace("{{" + k + "}}", v)
-    left = re.findall(r"\{\{\w+\}\}", out)
-    if left: raise SystemExit("unfilled placeholders: %s" % sorted(set(left)))
-    return out
+    return fill(TEMPLATE_OF[fam], rep)
 
 def main():
     a = sys.argv[1:]
     src, dst = a[0], a[1]
-    only = set(a[a.index("--only") + 1:]) if "--only" in a else None
+    only = set(x for x in a[a.index("--only") + 1:] if "@" in x) if "--only" in a else None
     limit = int(a[a.index("--limit") + 1]) if "--limit" in a else None
+    force = int(a[a.index("--variant") + 1]) if "--variant" in a else None  # QA: render every page as one variant
     idx_path = os.path.join(HERE, "slugs.json")  # keeps each lead on the same URL between runs
     idx = json.load(open(idx_path)) if os.path.exists(idx_path) else {}
     used = set(idx.values()); n = 0; miss = {}
+    var_path = os.path.join(HERE, "variants.json")  # email -> 0..3, kept between runs
+    variants = json.load(open(var_path)) if os.path.exists(var_path) else {}
+    cnt = {}
     for f in sorted(glob.glob(os.path.join(src, "*.json"))):
         lead = json.load(open(f, encoding="utf-8"))
         if only and lead["email"] not in only: continue
@@ -292,12 +299,19 @@ def main():
             base = slugify(lead["firma"] + "-" + lead["miasto"]); slug = base; k = 2
             while slug in used: slug = "%s-%d" % (base, k); k += 1
             used.add(slug); idx[lead["email"]] = slug
+        v = variants.get(lead["email"])
+        if v is None:  # balance the 4 combinations inside each industry
+            b = lead.get("branza", ""); v = cnt.get(b, 0) % 4; cnt[b] = cnt.get(b, 0) + 1
+            variants[lead["email"]] = v
+        if force is not None: v = force
+        VARIANT["hero"] = "A" if v in (0, 3) else "B"; VARIANT["dark"] = v in (1, 3)
         os.makedirs(os.path.join(dst, slug), exist_ok=True)
         open(os.path.join(dst, slug, "index.html"), "w", encoding="utf-8").write(render(lead, fam, c))
         n += 1
         if limit and n >= limit: break
     os.makedirs(os.path.join(dst, "assets"), exist_ok=True)
     for t, css in CSS.items(): open(os.path.join(dst, "assets", t + ".css"), "w", encoding="utf-8").write(css)
+    json.dump(variants, open(var_path, "w"), indent=0, sort_keys=True)
     json.dump(idx, open(idx_path, "w"), ensure_ascii=False, indent=0, sort_keys=True)
     print("generated", n, "| no template yet:", sum(miss.values()), miss)
 

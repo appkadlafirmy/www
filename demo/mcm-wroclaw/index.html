@@ -18,9 +18,9 @@
     --ease: cubic-bezier(.2,.7,.1,1);
    }
 </style>
-<link rel="stylesheet" href="../assets/fach.css?v=ce0ce3dd">
+<link rel="stylesheet" href="../assets/fach.css?v=e03a6fae">
 </head>
-<body>
+<body class="ha hf">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="arr" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="chk" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -211,7 +211,7 @@
   var top = document.getElementById("top"), mbar = document.getElementById("mbar");
   function onScroll() {
     var y = window.scrollY;
-    top.classList.toggle("solid", y > window.innerHeight * .75 - 80);
+    top.classList.toggle("solid", document.body.classList.contains("hs") ? y > 30 : y > window.innerHeight * .75 - 80);
     mbar.classList.toggle("on", y > 500);
     var par = document.getElementById("par");
     if (par && !reduce) { var r = par.parentNode.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) par.style.setProperty("--py", (-(r.top / innerHeight) * 40 - 20).toFixed(1) + "px"); }
