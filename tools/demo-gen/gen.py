@@ -37,7 +37,7 @@ def find(branza):
 def render(lead, fam, c, depth="../"):
     firma, city = lead["firma"].strip(), lead["miasto"].strip()
     st = street(lead.get("notes"), city)
-    img = [depth + "_a/" + fam + "/" + i + ".jpg" for i in c["img"]]
+    img = [depth + "assets/" + fam + "/" + i + ".jpg" for i in c["img"]]
     gal_src = ((c["img"][1:] + c["img"][:1]) * 4)[:5] if len(c["img"]) >= 4 else (c["img"][1:] + c["img"][:1])
     labels = [s[0] for s in c["services"]]
     rep = {
@@ -57,7 +57,7 @@ def render(lead, fam, c, depth="../"):
         "why": "".join('<div class="pt rv" style="--d:%.2fs"><i>%d</i><div><h3>%s</h3><p>%s</p></div></div>' % (i * .06, i + 1, E(t), E(d)) for i, (t, d) in enumerate(c["why"])),
         "q_services": "".join('<button type="button" class="opt" aria-pressed="false" data-v="%s"><span class="r"></span><span><b>%s</b></span></button>' % (E(t), E(t)) for t in labels),
         "q_scope": "".join('<button type="button" class="opt" aria-pressed="false" data-v="%s"><span class="r"></span><span><b>%s</b><small>%s</small></span></button>' % (E(t), E(t), E(d)) for t, d in c["scope"]),
-        "gallery": "".join('<figure class="rv" style="--d:%.2fs"><img src="%s" alt="" loading="lazy">%s</figure>' % (i % 4 * .06, depth + "_a/" + fam + "/" + g + ".jpg", '<figcaption>%s</figcaption>' % E(labels[i % len(labels)])) for i, g in enumerate(gal_src)),
+        "gallery": "".join('<figure class="rv" style="--d:%.2fs"><img src="%s" alt="" loading="lazy">%s</figure>' % (i % 4 * .06, depth + "assets/" + fam + "/" + g + ".jpg", '<figcaption>%s</figcaption>' % E(labels[i % len(labels)])) for i, g in enumerate(gal_src)),
         "gal_n": str(len(gal_src)),
         "faq": "".join('<details><summary>%s<i>+</i></summary><p>%s</p></details>' % (E(q), E(a)) for q, a in c["faq"]),
     }
