@@ -1,0 +1,840 @@
+{
+  "remonty i wykończenia": {
+    "label": "Remonty i wykończenia",
+    "acc": "#C4552D",
+    "h1": "Remont, po którym <em>chce się wrócić</em> do domu.",
+    "lead": "Kompleksowe remonty mieszkań i domów – od skucia płytek po ostatnią listwę. Jedna ekipa, jasny kosztorys i termin zapisany w umowie.",
+    "facts": [
+      "Bezpłatna wycena",
+      "Termin w umowie",
+      "Sprzątamy po sobie"
+    ],
+    "img": [
+      "5691597",
+      "29181494",
+      "5691592",
+      "5691701",
+      "6474471"
+    ],
+    "services": [
+      [
+        "Remonty mieszkań",
+        "Kompleksowo, pod klucz – planujemy kolejność prac, żeby nic się nie dublowało."
+      ],
+      [
+        "Łazienki i kuchnie",
+        "Hydraulika, płytki, zabudowy i biały montaż w jednym terminie."
+      ],
+      [
+        "Gładzie i malowanie",
+        "Równe ściany bez smug, z zabezpieczeniem podłóg i mebli."
+      ],
+      [
+        "Płytki i podłogi",
+        "Gres, panele, deska – precyzyjne docięcia i równe fugi."
+      ],
+      [
+        "Zabudowy G-K",
+        "Sufity podwieszane, ścianki działowe, wnęki i oświetlenie."
+      ],
+      [
+        "Drobne naprawy",
+        "Rzeczy, których nikt nie chce brać – u nas to też robota."
+      ]
+    ],
+    "scope": [
+      [
+        "Jedno pomieszczenie",
+        "np. łazienka lub pokój"
+      ],
+      [
+        "Całe mieszkanie",
+        "kompleksowy remont"
+      ],
+      [
+        "Dom lub lokal",
+        "większy zakres prac"
+      ]
+    ],
+    "why": [
+      [
+        "Kosztorys przed startem",
+        "Wiesz, ile zapłacisz, zanim zaczniemy. Bez dopisków w trakcie."
+      ],
+      [
+        "Jedna ekipa od A do Z",
+        "Nie musisz koordynować pięciu fachowców."
+      ],
+      [
+        "Zdjęcia z postępów",
+        "Wysyłamy zdjęcia z budowy, nawet jeśli jesteś w pracy."
+      ],
+      [
+        "Porządek każdego dnia",
+        "Folia, odkurzacz, wyniesiony gruz – na koniec dnia jest czysto."
+      ]
+    ],
+    "faq": [
+      [
+        "Ile trwa remont łazienki?",
+        "Zwykle 2–3 tygodnie, zależnie od zakresu i dostępności materiałów. Dokładny termin podajemy przy wycenie."
+      ],
+      [
+        "Czy kupujecie materiały?",
+        "Możemy kupić wszystko sami albo pracować na materiałach klienta – jak wolisz."
+      ],
+      [
+        "Czy trzeba być w domu podczas prac?",
+        "Nie. Wystarczy przekazać klucze, a postępy pokazujemy na zdjęciach."
+      ],
+      [
+        "Jak wygląda wycena?",
+        "Przyjeżdżamy, mierzymy, rozmawiamy o oczekiwaniach – wycena jest bezpłatna i niezobowiązująca."
+      ]
+    ]
+  },
+  "instalacje elektryczne": {
+    "label": "Instalacje elektryczne",
+    "acc": "#D79A12",
+    "h1": "Prąd, który <em>po prostu działa</em>. Bezpiecznie.",
+    "lead": "Instalacje elektryczne w domach, mieszkaniach i lokalach. Nowe instalacje, wymiana starych, rozdzielnice, pomiary i usuwanie awarii.",
+    "facts": [
+      "Uprawnienia SEP",
+      "Pomiary z protokołem",
+      "Szybki dojazd"
+    ],
+    "img": [
+      "27928762",
+      "17924298",
+      "17842832",
+      "17843269"
+    ],
+    "services": [
+      [
+        "Nowe instalacje",
+        "Projekt rozmieszczenia gniazd i obwodów pod Twój sposób życia."
+      ],
+      [
+        "Wymiana instalacji",
+        "Stare aluminium na miedź – bez kucia całego mieszkania na raz."
+      ],
+      [
+        "Rozdzielnice",
+        "Montaż i modernizacja, zabezpieczenia różnicowoprądowe."
+      ],
+      [
+        "Pomiary elektryczne",
+        "Pomiary z protokołem do odbioru, dla ubezpieczyciela lub zarządcy."
+      ],
+      [
+        "Oświetlenie",
+        "Taśmy LED, oświetlenie ogrodu, sterowanie światłem."
+      ],
+      [
+        "Awarie",
+        "Wybijające bezpieczniki, brak prądu w części domu – znajdziemy przyczynę."
+      ]
+    ],
+    "scope": [
+      [
+        "Naprawa / awaria",
+        "coś przestało działać"
+      ],
+      [
+        "Modernizacja",
+        "wymiana części instalacji"
+      ],
+      [
+        "Nowa instalacja",
+        "dom, mieszkanie lub lokal"
+      ]
+    ],
+    "why": [
+      [
+        "Uprawnienia i protokoły",
+        "Każdą pracę kończymy pomiarami i dokumentacją."
+      ],
+      [
+        "Czytelna wycena",
+        "Rozpisujemy materiał i robociznę osobno."
+      ],
+      [
+        "Porządek po pracy",
+        "Bruzdy zamykamy, kurz sprzątamy."
+      ],
+      [
+        "Doradzamy uczciwie",
+        "Nie wymieniamy tego, co jest sprawne."
+      ]
+    ],
+    "faq": [
+      [
+        "Czy wystawiacie protokół z pomiarów?",
+        "Tak – po każdej instalacji i na zlecenie pomiarów okresowych."
+      ],
+      [
+        "Jak szybko przyjedziecie do awarii?",
+        "Staramy się tego samego lub następnego dnia. Napisz, co się dzieje, oddzwonimy."
+      ],
+      [
+        "Czy wymiana instalacji to kucie wszystkiego?",
+        "Nie zawsze. Często da się wykorzystać istniejące trasy kabli – ocenimy to na miejscu."
+      ],
+      [
+        "Czy montujecie inteligentne sterowanie?",
+        "Tak, m.in. sterowanie oświetleniem i gniazdami z telefonu."
+      ]
+    ]
+  },
+  "hydraulika": {
+    "label": "Hydraulika",
+    "acc": "#1F6FB2",
+    "h1": "Hydraulik, który <em>przyjeżdża</em>, kiedy obiecał.",
+    "lead": "Instalacje wodne, kanalizacja, ogrzewanie i biały montaż. Usuwamy awarie, wymieniamy piony i podłączamy wszystko, co ma wodę.",
+    "facts": [
+      "Szybki dojazd",
+      "Uczciwa wycena",
+      "Gwarancja na prace"
+    ],
+    "img": [
+      "6419128",
+      "29226620",
+      "6436770",
+      "4194866",
+      "10961064"
+    ],
+    "services": [
+      [
+        "Awarie i przecieki",
+        "Cieknący kran, zalana łazienka, zapchany odpływ – działamy szybko."
+      ],
+      [
+        "Instalacje wodne",
+        "Nowe instalacje i wymiana starych rur na PEX i miedź."
+      ],
+      [
+        "Kanalizacja",
+        "Udrożnianie, wymiana pionów, podłączenia w nowych łazienkach."
+      ],
+      [
+        "Ogrzewanie",
+        "Grzejniki, ogrzewanie podłogowe, podłączenia pieców."
+      ],
+      [
+        "Biały montaż",
+        "WC, umywalki, prysznice, baterie – podłączone porządnie."
+      ],
+      [
+        "Uzdatnianie wody",
+        "Filtry, zmiękczacze i stacje uzdatniania."
+      ]
+    ],
+    "scope": [
+      [
+        "Awaria / naprawa",
+        "coś cieknie lub nie działa"
+      ],
+      [
+        "Montaż",
+        "nowe urządzenia, biały montaż"
+      ],
+      [
+        "Instalacja",
+        "nowa lub wymiana całości"
+      ]
+    ],
+    "why": [
+      [
+        "Przyjeżdżamy na czas",
+        "Podajemy godzinę i jej się trzymamy."
+      ],
+      [
+        "Cena przed pracą",
+        "Mówimy, ile to będzie kosztować, zanim zaczniemy."
+      ],
+      [
+        "Czyste buty, czysta łazienka",
+        "Ochraniacze, folie i sprzątanie po pracy."
+      ],
+      [
+        "Gwarancja",
+        "Na wykonane prace dajemy pisemną gwarancję."
+      ]
+    ],
+    "faq": [
+      [
+        "Czy przyjeżdżacie w weekendy?",
+        "Do awarii – tak, w miarę możliwości. Napisz lub zadzwoń, ustalimy termin."
+      ],
+      [
+        "Ile kosztuje dojazd?",
+        "Koszt dojazdu podajemy przy zgłoszeniu – bez niespodzianek na końcu."
+      ],
+      [
+        "Czy kupicie armaturę?",
+        "Możemy doradzić i kupić albo zamontować to, co już masz."
+      ],
+      [
+        "Czy wymieniacie piony w blokach?",
+        "Tak, współpracujemy też ze wspólnotami i zarządcami."
+      ]
+    ]
+  },
+  "dekarstwo": {
+    "label": "Dekarstwo",
+    "acc": "#A3412B",
+    "h1": "Dach, o którym <em>możesz zapomnieć</em> na lata.",
+    "lead": "Nowe pokrycia, remonty i naprawy dachów. Dachówka, blacha, papa, obróbki, rynny i okna dachowe – solidnie i z gwarancją.",
+    "facts": [
+      "Bezpłatne oględziny",
+      "Gwarancja na pokrycie",
+      "Ubezpieczona ekipa"
+    ],
+    "img": [
+      "7788264",
+      "19046324",
+      "4394224",
+      "6432077",
+      "2607332"
+    ],
+    "services": [
+      [
+        "Nowe pokrycia",
+        "Dachówka ceramiczna, betonowa, blachodachówka i blacha na rąbek."
+      ],
+      [
+        "Remonty dachów",
+        "Wymiana pokrycia, łat i membrany na starszych budynkach."
+      ],
+      [
+        "Naprawy i przecieki",
+        "Lokalizujemy przyczynę przecieku i naprawiamy ją trwale."
+      ],
+      [
+        "Obróbki blacharskie",
+        "Kominy, attyki, kosze – miejsca, gdzie dach najczęściej przecieka."
+      ],
+      [
+        "Rynny",
+        "Montaż i wymiana systemów rynnowych."
+      ],
+      [
+        "Okna dachowe",
+        "Montaż okien z kołnierzami i izolacją."
+      ]
+    ],
+    "scope": [
+      [
+        "Naprawa",
+        "przeciek, uszkodzenie"
+      ],
+      [
+        "Remont dachu",
+        "wymiana pokrycia"
+      ],
+      [
+        "Nowy dach",
+        "nowy budynek"
+      ]
+    ],
+    "why": [
+      [
+        "Oględziny bez kosztów",
+        "Wchodzimy na dach, robimy zdjęcia i pokazujemy, co jest do zrobienia."
+      ],
+      [
+        "Sprawdzone materiały",
+        "Pracujemy na materiałach znanych producentów."
+      ],
+      [
+        "Bezpieczeństwo",
+        "Rusztowania, zabezpieczenia i ubezpieczenie ekipy."
+      ],
+      [
+        "Posprzątana posesja",
+        "Stare pokrycie i odpady wywozimy sami."
+      ]
+    ],
+    "faq": [
+      [
+        "Kiedy najlepiej remontować dach?",
+        "Od wiosny do jesieni. Naprawy awaryjne robimy przez cały rok."
+      ],
+      [
+        "Ile trwa wymiana pokrycia?",
+        "Przy domu jednorodzinnym zwykle 1–3 tygodnie, zależnie od pogody i powierzchni."
+      ],
+      [
+        "Czy dajecie gwarancję?",
+        "Tak, pisemną gwarancję na wykonane prace."
+      ],
+      [
+        "Czy pomagacie dobrać materiał?",
+        "Tak – doradzimy pokrycie pod budżet i konstrukcję dachu."
+      ]
+    ]
+  },
+  "stolarstwo": {
+    "label": "Stolarstwo",
+    "acc": "#9A6332",
+    "h1": "Meble na wymiar, <em>zrobione ręcznie</em>.",
+    "lead": "Kuchnie, szafy, schody i meble z drewna robione na wymiar we własnym warsztacie. Od pomiaru i projektu po montaż u Ciebie.",
+    "facts": [
+      "Pomiar i projekt",
+      "Własny warsztat",
+      "Montaż w cenie"
+    ],
+    "img": [
+      "6790094",
+      "6790078",
+      "6790977",
+      "37162562"
+    ],
+    "services": [
+      [
+        "Kuchnie na wymiar",
+        "Wykorzystujemy każdy centymetr – również w trudnych wnękach."
+      ],
+      [
+        "Szafy i garderoby",
+        "Wnękowe, przesuwne, z oświetleniem i wygodnym wnętrzem."
+      ],
+      [
+        "Schody drewniane",
+        "Schody dywanowe i samonośne z litego drewna."
+      ],
+      [
+        "Meble z litego drewna",
+        "Stoły, łóżka, regały – solidne na pokolenia."
+      ],
+      [
+        "Renowacja",
+        "Odnawiamy stare meble i drzwi, przywracając im życie."
+      ],
+      [
+        "Drzwi i parapety",
+        "Drewniane drzwi, parapety i blaty na wymiar."
+      ]
+    ],
+    "scope": [
+      [
+        "Jeden mebel",
+        "stół, regał, szafka"
+      ],
+      [
+        "Zabudowa",
+        "kuchnia lub szafa"
+      ],
+      [
+        "Większy projekt",
+        "kilka pomieszczeń, schody"
+      ]
+    ],
+    "why": [
+      [
+        "Projekt przed produkcją",
+        "Widzisz wizualizację i akceptujesz wymiary, zanim przytniemy drewno."
+      ],
+      [
+        "Własny warsztat",
+        "Nie podzlecamy – wszystko powstaje u nas."
+      ],
+      [
+        "Dobre okucia",
+        "Ciche domyki i prowadnice, które działają latami."
+      ],
+      [
+        "Czysty montaż",
+        "Przyjeżdżamy z gotowymi elementami, montaż trwa krótko."
+      ]
+    ],
+    "faq": [
+      [
+        "Ile czeka się na meble?",
+        "Zwykle 4–8 tygodni od akceptacji projektu – zależnie od zakresu."
+      ],
+      [
+        "Czy robicie wizualizacje?",
+        "Tak, przed produkcją dostajesz projekt do akceptacji."
+      ],
+      [
+        "Z jakich materiałów pracujecie?",
+        "Lite drewno, fornir, płyta meblowa i lakierowana – dobieramy do budżetu."
+      ],
+      [
+        "Czy pomiar jest płatny?",
+        "Pomiar i wycena są bezpłatne w mieście i okolicach."
+      ]
+    ]
+  },
+  "brukarstwo": {
+    "label": "Brukarstwo",
+    "acc": "#5E6B4E",
+    "h1": "Podjazd, który <em>nie zapada się</em> po pierwszej zimie.",
+    "lead": "Układanie kostki brukowej, płyt i obrzeży. Podjazdy, chodniki, tarasy i parkingi – z porządnie zrobioną podbudową.",
+    "facts": [
+      "Bezpłatny pomiar",
+      "Własny sprzęt",
+      "Gwarancja na prace"
+    ],
+    "img": [
+      "16239805",
+      "8134848",
+      "7509167"
+    ],
+    "services": [
+      [
+        "Podjazdy",
+        "Kostka na solidnej podbudowie, która utrzyma samochód."
+      ],
+      [
+        "Chodniki i ścieżki",
+        "Wygodne dojścia z obrzeżami i spadkami."
+      ],
+      [
+        "Tarasy",
+        "Płyty tarasowe i kostka w ogrodzie."
+      ],
+      [
+        "Parkingi",
+        "Większe powierzchnie dla firm i wspólnot."
+      ],
+      [
+        "Odwodnienia",
+        "Odwodnienia liniowe, żeby woda nie stała przed garażem."
+      ],
+      [
+        "Przełożenie kostki",
+        "Naprawiamy zapadnięte i nierówne nawierzchnie."
+      ]
+    ],
+    "scope": [
+      [
+        "Do 50 m²",
+        "ścieżka, mały taras"
+      ],
+      [
+        "50–200 m²",
+        "podjazd, chodniki"
+      ],
+      [
+        "Powyżej 200 m²",
+        "parking, duża posesja"
+      ]
+    ],
+    "why": [
+      [
+        "Podbudowa to podstawa",
+        "Korytowanie, kruszywo i zagęszczanie – tu się nie oszczędza."
+      ],
+      [
+        "Własny sprzęt",
+        "Koparka, zagęszczarki i piły – nie czekamy na nikogo."
+      ],
+      [
+        "Wzór dopasowany do domu",
+        "Doradzimy kolor i układ kostki."
+      ],
+      [
+        "Gwarancja",
+        "Na ułożoną nawierzchnię dajemy pisemną gwarancję."
+      ]
+    ],
+    "faq": [
+      [
+        "Ile trwa ułożenie podjazdu?",
+        "Typowy podjazd przy domu to zwykle kilka dni roboczych."
+      ],
+      [
+        "Czy wywozicie ziemię?",
+        "Tak, wywóz urobku możemy wliczyć w wycenę."
+      ],
+      [
+        "Czy kostkę kupujecie sami?",
+        "Możemy kupić materiał z dostawą albo ułożyć Twój."
+      ],
+      [
+        "Kiedy da się układać kostkę?",
+        "Od wczesnej wiosny do późnej jesieni, gdy nie ma mrozu."
+      ]
+    ]
+  },
+  "kominiarstwo": {
+    "label": "Usługi kominiarskie",
+    "acc": "#B5532A",
+    "h1": "Czysty komin, <em>spokojna głowa</em> w sezonie grzewczym.",
+    "lead": "Czyszczenie przewodów kominowych, okresowe przeglądy z protokołem, opinie kominiarskie i inspekcje kamerą.",
+    "facts": [
+      "Protokół z przeglądu",
+      "Opinie kominiarskie",
+      "Terminy także wieczorem"
+    ],
+    "img": [
+      "4394224",
+      "7816462",
+      "6667090"
+    ],
+    "services": [
+      [
+        "Czyszczenie kominów",
+        "Przewody dymowe, spalinowe i wentylacyjne."
+      ],
+      [
+        "Przeglądy okresowe",
+        "Coroczne przeglądy z protokołem dla ubezpieczyciela i zarządcy."
+      ],
+      [
+        "Opinie kominiarskie",
+        "Do odbioru budynku, montażu pieca lub kominka."
+      ],
+      [
+        "Inspekcja kamerą",
+        "Sprawdzamy wnętrze przewodu bez kucia."
+      ],
+      [
+        "Wentylacja",
+        "Pomiary ciągu i drożności wentylacji."
+      ],
+      [
+        "Frezowanie kominów",
+        "Usuwanie twardej sadzy i przygotowanie pod wkład."
+      ]
+    ],
+    "scope": [
+      [
+        "Mieszkanie",
+        "przegląd przewodów"
+      ],
+      [
+        "Dom jednorodzinny",
+        "czyszczenie i przegląd"
+      ],
+      [
+        "Wspólnota / firma",
+        "wiele lokali"
+      ]
+    ],
+    "why": [
+      [
+        "Dokumenty od ręki",
+        "Protokół zostawiamy od razu po przeglądzie."
+      ],
+      [
+        "Punktualnie",
+        "Umawiamy konkretną godzinę, także popołudniami."
+      ],
+      [
+        "Czysto",
+        "Zabezpieczamy podłogę i okolice paleniska."
+      ],
+      [
+        "Przypomnienie co rok",
+        "Na życzenie przypomnimy o kolejnym przeglądzie."
+      ]
+    ],
+    "faq": [
+      [
+        "Jak często trzeba czyścić komin?",
+        "Przy paliwie stałym nawet 4 razy w roku, przy gazie i oleju – 2 razy. Przegląd raz w roku."
+      ],
+      [
+        "Czy protokół jest ważny dla ubezpieczyciela?",
+        "Tak, zostawiamy protokół z przeglądu okresowego."
+      ],
+      [
+        "Czy obsługujecie wspólnoty?",
+        "Tak – robimy przeglądy w budynkach wielolokalowych."
+      ],
+      [
+        "Ile trwa przegląd?",
+        "W mieszkaniu zwykle kilkanaście minut, w domu do godziny."
+      ]
+    ]
+  },
+  "ślusarstwo": {
+    "label": "Ślusarstwo",
+    "acc": "#3E5C76",
+    "h1": "Stal na wymiar – <em>bramy, balustrady</em>, konstrukcje.",
+    "lead": "Wykonujemy bramy, ogrodzenia, balustrady, schody i konstrukcje stalowe. Spawanie, naprawy i usługi ślusarskie na zamówienie.",
+    "facts": [
+      "Pomiar na miejscu",
+      "Własny warsztat",
+      "Malowanie proszkowe"
+    ],
+    "img": [
+      "2381463",
+      "2760343",
+      "9729626",
+      "5845980"
+    ],
+    "services": [
+      [
+        "Bramy i furtki",
+        "Przesuwne i dwuskrzydłowe, gotowe pod automatykę."
+      ],
+      [
+        "Ogrodzenia",
+        "Panele, przęsła i ogrodzenia nowoczesne."
+      ],
+      [
+        "Balustrady",
+        "Schodowe, balkonowe i tarasowe – stal, nierdzewka, szkło."
+      ],
+      [
+        "Schody stalowe",
+        "Wewnętrzne i zewnętrzne, także schody zewnętrzne awaryjne."
+      ],
+      [
+        "Konstrukcje",
+        "Wiaty, zadaszenia, antresole i konstrukcje pod zamówienie."
+      ],
+      [
+        "Spawanie i naprawy",
+        "Naprawy bram, elementów maszyn i drobne prace."
+      ]
+    ],
+    "scope": [
+      [
+        "Naprawa",
+        "spawanie, poprawki"
+      ],
+      [
+        "Jeden element",
+        "brama, balustrada"
+      ],
+      [
+        "Większy projekt",
+        "ogrodzenie, konstrukcja"
+      ]
+    ],
+    "why": [
+      [
+        "Na wymiar",
+        "Mierzymy u Ciebie i projektujemy pod Twój budynek."
+      ],
+      [
+        "Zabezpieczenie antykorozyjne",
+        "Cynkowanie i malowanie proszkowe."
+      ],
+      [
+        "Własny warsztat",
+        "Spawamy i składamy u siebie, montaż jest szybki."
+      ],
+      [
+        "Uczciwe terminy",
+        "Podajemy realny termin realizacji."
+      ]
+    ],
+    "faq": [
+      [
+        "Czy robicie bramy z automatyką?",
+        "Tak – bramę przygotowujemy pod napęd i możemy go zamontować."
+      ],
+      [
+        "Ile trwa wykonanie balustrady?",
+        "Zwykle 2–4 tygodnie od pomiaru, zależnie od wykończenia."
+      ],
+      [
+        "Czy malujecie proszkowo?",
+        "Tak, elementy możemy ocynkować i pomalować proszkowo."
+      ],
+      [
+        "Czy wykonujecie drobne naprawy?",
+        "Tak, spawanie i naprawy też przyjmujemy."
+      ]
+    ]
+  },
+  "tapicerstwo": {
+    "label": "Tapicerstwo",
+    "acc": "#7A4A6B",
+    "h1": "Ulubiona kanapa <em>jak nowa</em>. Bez kupowania nowej.",
+    "lead": "Renowacja i obicia mebli tapicerowanych – kanapy, fotele, krzesła, wezgłowia. Nowa pianka, nowe sprężyny i tkanina, którą sam wybierzesz.",
+    "facts": [
+      "Wzorniki tkanin",
+      "Odbiór i dowóz",
+      "Wycena ze zdjęć"
+    ],
+    "img": [
+      "279645",
+      "6312353",
+      "5499508",
+      "10919579"
+    ],
+    "services": [
+      [
+        "Kanapy i narożniki",
+        "Nowe obicie, wymiana pianek i sprężyn."
+      ],
+      [
+        "Fotele",
+        "Klasyczne i stylowe – także fotele z PRL."
+      ],
+      [
+        "Krzesła",
+        "Siedziska i oparcia, pojedynczo lub całe komplety."
+      ],
+      [
+        "Wezgłowia",
+        "Tapicerowane wezgłowia na wymiar."
+      ],
+      [
+        "Meble do lokali",
+        "Ławy i siedziska do restauracji i kawiarni."
+      ],
+      [
+        "Tapicerka samochodowa",
+        "Fotele, kanapy i boczki drzwi."
+      ]
+    ],
+    "scope": [
+      [
+        "Krzesła",
+        "pojedynczo lub komplet"
+      ],
+      [
+        "Fotel",
+        "jeden lub dwa"
+      ],
+      [
+        "Kanapa / narożnik",
+        "duży mebel"
+      ]
+    ],
+    "why": [
+      [
+        "Wycena ze zdjęć",
+        "Wyślij zdjęcie mebla – podamy orientacyjną cenę."
+      ],
+      [
+        "Wzorniki tkanin",
+        "Przywozimy próbki, wybierasz kolor i fakturę na miejscu."
+      ],
+      [
+        "Odbiór i dowóz",
+        "Zabieramy mebel i odwozimy go gotowy."
+      ],
+      [
+        "Wymiana wnętrza",
+        "Nie tylko materiał – również pianka i sprężyny."
+      ]
+    ],
+    "faq": [
+      [
+        "Czy opłaca się odnawiać starą kanapę?",
+        "Często tak – zwłaszcza dobre, solidne meble, których dziś już się nie produkuje."
+      ],
+      [
+        "Ile trwa renowacja?",
+        "Zwykle 1–3 tygodnie, zależnie od mebla i dostępności tkaniny."
+      ],
+      [
+        "Czy mogę mieć własną tkaninę?",
+        "Tak, pracujemy też na materiale klienta."
+      ],
+      [
+        "Czy odbieracie meble?",
+        "Tak, odbiór i dowóz możemy wliczyć w wycenę."
+      ]
+    ]
+  }
+}
