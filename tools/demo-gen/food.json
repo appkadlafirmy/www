@@ -1,0 +1,923 @@
+{
+ "piekarnia": {
+  "label": "Piekarnia",
+  "style": "serif",
+  "acc": "#B5651D",
+  "acc_ink": "#97521A",
+  "bg": "#F6EFE4",
+  "bg2": "#EDE2D0",
+  "ink": "#2A1E14",
+  "line": "#E4D6C0",
+  "h1": "Chleb, który pachnie <em>jak u babci</em>.",
+  "lead": "Codziennie od rana świeże pieczywo na naturalnym zakwasie, bułki, drożdżówki i ciasta. Zamów online i odbierz bez kolejki.",
+  "chips": [
+   "Pieczone codziennie",
+   "Naturalny zakwas",
+   "Odbiór bez kolejki"
+  ],
+  "badge": "Świeże od 6:00",
+  "img": [
+   "1287278",
+   "30403209",
+   "27858799",
+   "6205769"
+  ],
+  "menu": [
+   [
+    "Chleby",
+    [
+     [
+      "Chleb żytni na zakwasie",
+      "800 g, bez polepszaczy",
+      12.5
+     ],
+     [
+      "Chleb pszenno-żytni",
+      "700 g, chrupiąca skórka",
+      10
+     ],
+     [
+      "Chleb orkiszowy",
+      "500 g, z ziarnami",
+      13
+     ],
+     [
+      "Bagietka",
+      "250 g, pieczona co rano",
+      5.5
+     ]
+    ]
+   ],
+   [
+    "Bułki",
+    [
+     [
+      "Kajzerka",
+      "klasyczna, chrupiąca",
+      1.2
+     ],
+     [
+      "Grahamka",
+      "z mąki razowej",
+      1.6
+     ],
+     [
+      "Bułka z ziarnami",
+      "słonecznik, siemię, sezam",
+      2
+     ],
+     [
+      "Rogal maślany",
+      "miękki, maślany",
+      2.5
+     ]
+    ]
+   ],
+   [
+    "Słodkie",
+    [
+     [
+      "Drożdżówka z serem",
+      "z kruszonką",
+      4.5
+     ],
+     [
+      "Pączek z różą",
+      "smażony codziennie",
+      4
+     ],
+     [
+      "Croissant maślany",
+      "na maśle",
+      5
+     ],
+     [
+      "Szarlotka",
+      "porcja",
+      8
+     ]
+    ]
+   ]
+  ],
+  "sp": {
+   "t": "Pieczywo <em>na zamówienie</em>",
+   "d": "Przyjęcie, komunia, firma? Upieczemy więcej – świeże na konkretną godzinę.",
+   "li": [
+    "Duże zamówienia dla firm i sklepów",
+    "Pieczywo na przyjęcia i uroczystości",
+    "Kosze z pieczywem na prezent"
+   ],
+   "btn": "Zapytaj o zamówienie",
+   "subj": "Zamówienie specjalne"
+  },
+  "why": [
+   [
+    "Naturalny zakwas",
+    "Pieczywo bez polepszaczy i sztucznych dodatków."
+   ],
+   [
+    "Pieczemy codziennie",
+    "To, co kupujesz rano, wyszło z pieca kilka godzin wcześniej."
+   ],
+   [
+    "Zamów i odbierz",
+    "Zamówienie online – odbiór o wybranej godzinie, bez kolejki."
+   ]
+  ],
+  "faq": [
+   [
+    "Do której godziny mogę zamówić na jutro?",
+    "Zamówienia na rano najlepiej złożyć dzień wcześniej do wieczora."
+   ],
+   [
+    "Czy macie pieczywo bezglutenowe?",
+    "Zapytaj – część asortymentu przygotowujemy na zamówienie."
+   ],
+   [
+    "Czy przyjmujecie duże zamówienia?",
+    "Tak, dla firm, sklepów i na przyjęcia."
+   ],
+   [
+    "Czy można płacić kartą?",
+    "Tak, w piekarni można płacić gotówką i kartą."
+   ]
+  ],
+  "hours": [
+   [
+    6,
+    18
+   ],
+   [
+    6,
+    18
+   ],
+   [
+    6,
+    18
+   ],
+   [
+    6,
+    18
+   ],
+   [
+    6,
+    18
+   ],
+   [
+    6,
+    14
+   ],
+   null
+  ],
+  "txt": {
+   "t_cta": "Zamów na odbiór",
+   "t_menu": "Asortyment",
+   "t_menuh": "Prosto <em>z pieca</em>",
+   "t_sp": "Na zamówienie",
+   "t_galh": "Zajrzyj do <em>piekarni</em>.",
+   "t_why": "Pieczywo, po które <em>się wraca</em>.",
+   "t_fin": "Świeży chleb <em>na jutro rano</em>?",
+   "t_finp": "Zamów online dziś – odbierzesz bez kolejki."
+  }
+ },
+ "cukiernia": {
+  "label": "Cukiernia",
+  "style": "serif",
+  "acc": "#C2557A",
+  "acc_ink": "#A63F63",
+  "bg": "#FBF1F2",
+  "bg2": "#F3E1E4",
+  "ink": "#2B1A1F",
+  "line": "#EED7DB",
+  "h1": "Słodko, ręcznie <em>i z sercem</em>.",
+  "lead": "Torty na zamówienie, ciasta, monoporcje i desery. Robimy wszystko na miejscu, z dobrych składników – tak, jak lubisz.",
+  "chips": [
+   "Torty na zamówienie",
+   "Ciasta codziennie",
+   "Odbiór o wybranej godzinie"
+  ],
+  "badge": "Torty na każdą okazję",
+  "img": [
+   "31101247",
+   "30403209",
+   "5840513",
+   "27858799"
+  ],
+  "menu": [
+   [
+    "Ciasta",
+    [
+     [
+      "Sernik baskijski",
+      "porcja",
+      12
+     ],
+     [
+      "Szarlotka z kruszonką",
+      "porcja",
+      9
+     ],
+     [
+      "Brownie",
+      "porcja",
+      10
+     ],
+     [
+      "Makowiec",
+      "porcja",
+      9
+     ]
+    ]
+   ],
+   [
+    "Monoporcje",
+    [
+     [
+      "Tartaletka z owocami",
+      "sezonowe owoce",
+      14
+     ],
+     [
+      "Ptyś z kremem",
+      "krem waniliowy",
+      9
+     ],
+     [
+      "Eklerka czekoladowa",
+      "krem czekoladowy",
+      10
+     ],
+     [
+      "Mus malinowy",
+      "na kruchym spodzie",
+      15
+     ]
+    ]
+   ],
+   [
+    "Torty",
+    [
+     [
+      "Tort klasyczny 1 kg",
+      "do 8 osób",
+      120
+     ],
+     [
+      "Tort okolicznościowy 2 kg",
+      "do 16 osób",
+      230
+     ],
+     [
+      "Tort z napisem i zdjęciem",
+      "1,5 kg",
+      190
+     ],
+     [
+      "Mini tort",
+      "do 4 osób",
+      75
+     ]
+    ]
+   ]
+  ],
+  "sp": {
+   "t": "Torty <em>na zamówienie</em>",
+   "d": "Urodziny, wesele, chrzciny, rocznica. Zaprojektujemy tort pod Twój pomysł – smak, wygląd i wielkość.",
+   "li": [
+    "Projekt tortu pod Twój pomysł",
+    "Napisy, zdjęcia i dekoracje",
+    "Słodkie stoły na przyjęcia"
+   ],
+   "btn": "Zamów tort",
+   "subj": "Zamówienie tortu"
+  },
+  "why": [
+   [
+    "Robione na miejscu",
+    "Każde ciasto powstaje w naszej pracowni."
+   ],
+   [
+    "Dobre składniki",
+    "Prawdziwe masło, śmietana i owoce."
+   ],
+   [
+    "Na czas",
+    "Tort będzie gotowy na godzinę, którą wybierzesz."
+   ]
+  ],
+  "faq": [
+   [
+    "Ile wcześniej zamówić tort?",
+    "Najlepiej 3–5 dni wcześniej, przy dużych tortach – tydzień."
+   ],
+   [
+    "Czy robicie torty bez cukru lub glutenu?",
+    "Zapytaj – część deserów przygotujemy w wersji specjalnej."
+   ],
+   [
+    "Czy dowozicie torty?",
+    "Zapytaj przy zamówieniu – postaramy się pomóc."
+   ],
+   [
+    "Czy mogę przesłać zdjęcie inspiracji?",
+    "Tak, wyślij je w wiadomości razem z zamówieniem."
+   ]
+  ],
+  "hours": [
+   [
+    9,
+    18
+   ],
+   [
+    9,
+    18
+   ],
+   [
+    9,
+    18
+   ],
+   [
+    9,
+    18
+   ],
+   [
+    9,
+    18
+   ],
+   [
+    9,
+    15
+   ],
+   [
+    10,
+    14
+   ]
+  ],
+  "txt": {
+   "t_cta": "Zamów słodkości",
+   "t_menu": "Menu",
+   "t_menuh": "Coś <em>słodkiego</em>?",
+   "t_sp": "Torty",
+   "t_galh": "Zajrzyj do <em>pracowni</em>.",
+   "t_why": "Desery, które <em>się pamięta</em>.",
+   "t_fin": "Masz okazję <em>do świętowania</em>?",
+   "t_finp": "Zamów tort lub ciasta online – odbierzesz o wybranej godzinie."
+  }
+ },
+ "restauracja": {
+  "label": "Restauracja",
+  "style": "serif",
+  "acc": "#8E3B2E",
+  "acc_ink": "#7E3024",
+  "bg": "#F4EFE7",
+  "bg2": "#E9E0D2",
+  "ink": "#1F1A16",
+  "line": "#E0D5C4",
+  "h1": "Dobre jedzenie, <em>bez zadęcia</em>.",
+  "lead": "Kuchnia oparta na sezonowych produktach, lunch w tygodniu i kolacje w spokojnej atmosferze. Zamów na wynos albo zarezerwuj stolik.",
+  "chips": [
+   "Lunch w tygodniu",
+   "Na wynos",
+   "Przyjęcia okolicznościowe"
+  ],
+  "badge": "Lunch dnia w tygodniu",
+  "img": [
+   "3437689",
+   "15671409",
+   "2403392",
+   "36430080"
+  ],
+  "menu": [
+   [
+    "Przystawki",
+    [
+     [
+      "Tatar wołowy",
+      "z żółtkiem i piklami",
+      42
+     ],
+     [
+      "Burrata",
+      "z pomidorami i bazylią",
+      36
+     ],
+     [
+      "Krem z dyni",
+      "z prażonymi pestkami",
+      22
+     ],
+     [
+      "Śledź w trzech odsłonach",
+      "z pieczywem",
+      28
+     ]
+    ]
+   ],
+   [
+    "Dania główne",
+    [
+     [
+      "Polędwica wołowa",
+      "z sosem pieprzowym",
+      89
+     ],
+     [
+      "Pierś z kaczki",
+      "z buraczkami i kluskami",
+      64
+     ],
+     [
+      "Pierogi ruskie",
+      "domowe, z cebulką",
+      32
+     ],
+     [
+      "Dorsz",
+      "z puree i warzywami",
+      58
+     ]
+    ]
+   ],
+   [
+    "Desery",
+    [
+     [
+      "Sernik",
+      "z sosem malinowym",
+      22
+     ],
+     [
+      "Fondant czekoladowy",
+      "z lodami",
+      26
+     ],
+     [
+      "Szarlotka na ciepło",
+      "z lodami waniliowymi",
+      22
+     ]
+    ]
+   ]
+  ],
+  "sp": {
+   "t": "Przyjęcia <em>i rezerwacje</em>",
+   "d": "Urodziny, komunia, spotkanie firmowe. Przygotujemy menu i salę na Twoją okazję.",
+   "li": [
+    "Menu ustalane indywidualnie",
+    "Rezerwacja sali lub części restauracji",
+    "Catering na wynos"
+   ],
+   "btn": "Zapytaj o przyjęcie",
+   "subj": "Przyjęcie okolicznościowe"
+  },
+  "why": [
+   [
+    "Sezonowe produkty",
+    "Menu zmienia się razem z porami roku."
+   ],
+   [
+    "Wszystko na miejscu",
+    "Sosy, pierogi i desery robimy sami."
+   ],
+   [
+    "Na wynos",
+    "Zamów online i odbierz o wybranej godzinie."
+   ]
+  ],
+  "faq": [
+   [
+    "Czy trzeba rezerwować stolik?",
+    "W weekendy polecamy – w tygodniu zwykle znajdzie się miejsce."
+   ],
+   [
+    "Czy macie opcje wegetariańskie?",
+    "Tak, w menu są dania wegetariańskie."
+   ],
+   [
+    "Czy organizujecie przyjęcia?",
+    "Tak – napisz, jaka to okazja i dla ilu osób."
+   ],
+   [
+    "Czy można zamówić na wynos?",
+    "Tak, zamówisz przez stronę i odbierzesz o wybranej godzinie."
+   ]
+  ],
+  "hours": [
+   [
+    12,
+    22
+   ],
+   [
+    12,
+    22
+   ],
+   [
+    12,
+    22
+   ],
+   [
+    12,
+    22
+   ],
+   [
+    12,
+    23
+   ],
+   [
+    12,
+    23
+   ],
+   [
+    12,
+    21
+   ]
+  ],
+  "txt": {
+   "t_cta": "Zamów na wynos",
+   "t_menu": "Menu",
+   "t_menuh": "Co dziś <em>zjemy</em>?",
+   "t_sp": "Przyjęcia",
+   "t_galh": "Zajrzyj <em>do kuchni</em>.",
+   "t_why": "Kuchnia, do której <em>się wraca</em>.",
+   "t_fin": "Głodny? <em>Zamów na wynos</em>.",
+   "t_finp": "Wybierz dania i godzinę odbioru – resztą zajmiemy się my.",
+   "modes": [
+    "Odbiór osobisty",
+    "Rezerwacja stolika"
+   ]
+  }
+ },
+ "pizzeria": {
+  "label": "Pizzeria",
+  "style": "sans",
+  "acc": "#D2412B",
+  "acc_ink": "#B8321E",
+  "bg": "#F7F1E8",
+  "bg2": "#EEE4D4",
+  "ink": "#1E1A16",
+  "line": "#E6DAC6",
+  "h1": "Pizza prosto <em>z pieca</em>. Gorąca.",
+  "lead": "Cienkie ciasto, długo dojrzewające, dobre składniki i ogień pieca. Zamów na wynos albo z dostawą – i jedz, póki gorąca.",
+  "chips": [
+   "Ciasto dojrzewające 48 h",
+   "Na wynos i z dostawą",
+   "Zamówienia online"
+  ],
+  "badge": "Ciasto 48 h",
+  "img": [
+   "29021745",
+   "1566837",
+   "19737928",
+   "5056621"
+  ],
+  "menu": [
+   [
+    "Klasyczne",
+    [
+     [
+      "Margherita",
+      "pomidory, mozzarella, bazylia",
+      29
+     ],
+     [
+      "Capricciosa",
+      "szynka, pieczarki, karczochy",
+      36
+     ],
+     [
+      "Salami",
+      "salami, mozzarella",
+      34
+     ],
+     [
+      "Quattro formaggi",
+      "cztery sery",
+      38
+     ]
+    ]
+   ],
+   [
+    "Specjalne",
+    [
+     [
+      "Diavola",
+      "pikantne salami, chili",
+      37
+     ],
+     [
+      "Prosciutto e rucola",
+      "szynka parmeńska, rukola",
+      42
+     ],
+     [
+      "Wegetariańska",
+      "grillowane warzywa",
+      35
+     ],
+     [
+      "Tartufo",
+      "krem truflowy, pieczarki",
+      44
+     ]
+    ]
+   ],
+   [
+    "Dodatki",
+    [
+     [
+      "Sos czosnkowy",
+      "",
+      4
+     ],
+     [
+      "Sos pomidorowy",
+      "",
+      4
+     ],
+     [
+      "Lemoniada",
+      "0,5 l",
+      12
+     ],
+     [
+      "Tiramisu",
+      "porcja",
+      16
+     ]
+    ]
+   ]
+  ],
+  "sp": {
+   "t": "Pizza <em>na imprezę</em>",
+   "d": "Urodziny, mecz, spotkanie w biurze? Przygotujemy kilka pizz na konkretną godzinę.",
+   "li": [
+    "Zamówienia grupowe dla firm",
+    "Pizza na urodziny i imprezy",
+    "Rabat przy większych zamówieniach"
+   ],
+   "btn": "Zapytaj o zamówienie",
+   "subj": "Zamówienie grupowe"
+  },
+  "why": [
+   [
+    "Ciasto 48 godzin",
+    "Lekkie, chrupiące i łatwe do strawienia."
+   ],
+   [
+    "Prawdziwy piec",
+    "Pizza piecze się w wysokiej temperaturze kilka minut."
+   ],
+   [
+    "Szybko",
+    "Odbierz o wybranej godzinie – pizza będzie gorąca."
+   ]
+  ],
+  "faq": [
+   [
+    "Czy dowozicie pizzę?",
+    "Zapytaj o strefę dostawy – w zamówieniu wybierz dostawę."
+   ],
+   [
+    "Ile czeka się na pizzę?",
+    "Zwykle 15–25 minut, w weekendy trochę dłużej."
+   ],
+   [
+    "Czy macie pizzę wegańską?",
+    "Tak, możemy przygotować pizzę bez sera."
+   ],
+   [
+    "Czy mogę zmienić składniki?",
+    "Tak – dopisz to w uwagach do zamówienia."
+   ]
+  ],
+  "hours": [
+   [
+    12,
+    22
+   ],
+   [
+    12,
+    22
+   ],
+   [
+    12,
+    22
+   ],
+   [
+    12,
+    22
+   ],
+   [
+    12,
+    23
+   ],
+   [
+    12,
+    23
+   ],
+   [
+    13,
+    21
+   ]
+  ],
+  "txt": {
+   "t_cta": "Zamów pizzę",
+   "t_menu": "Menu",
+   "t_menuh": "Wybierz <em>swoją</em>",
+   "t_sp": "Na imprezę",
+   "t_galh": "Prosto <em>z pieca</em>.",
+   "t_why": "Pizza, jak <em>powinna smakować</em>.",
+   "t_fin": "Głodny? <em>Zamów pizzę</em>.",
+   "t_finp": "Wybierz pizzę i godzinę – odbierzesz gorącą.",
+   "modes": [
+    "Odbiór osobisty",
+    "Dostawa"
+   ]
+  }
+ },
+ "kwiaciarnia": {
+  "label": "Kwiaciarnia",
+  "style": "serif",
+  "acc": "#5F7F4F",
+  "acc_ink": "#4C6A3E",
+  "bg": "#F5F2EB",
+  "bg2": "#E9E5DA",
+  "ink": "#1E211B",
+  "line": "#E0DCCF",
+  "from": true,
+  "h1": "Kwiaty, które <em>mówią za Ciebie</em>.",
+  "lead": "Bukiety na każdą okazję, kompozycje, kwiaty na ślub i okolicznościowe dekoracje. Zamów online i odbierz w kwiaciarni lub z dostawą.",
+  "chips": [
+   "Bukiety na dziś",
+   "Kwiaty na ślub",
+   "Odbiór lub dostawa"
+  ],
+  "badge": "Bukiet na dziś",
+  "img": [
+   "5414331",
+   "5410124",
+   "5414056",
+   "5414319"
+  ],
+  "menu": [
+   [
+    "Bukiety",
+    [
+     [
+      "Bukiet sezonowy",
+      "kwiaty dnia, wybiera florystka",
+      89
+     ],
+     [
+      "Bukiet z róż",
+      "róże w kolorze do wyboru",
+      129
+     ],
+     [
+      "Bukiet polny",
+      "lekki, naturalny",
+      79
+     ],
+     [
+      "Bukiet premium",
+      "duży, efektowny",
+      199
+     ]
+    ]
+   ],
+   [
+    "Okazje",
+    [
+     [
+      "Kwiaty na urodziny",
+      "z bilecikiem",
+      99
+     ],
+     [
+      "Kwiaty na rocznicę",
+      "róże i dodatki",
+      149
+     ],
+     [
+      "Kwiaty z podziękowaniem",
+      "dla nauczyciela, lekarza",
+      69
+     ],
+     [
+      "Flower box",
+      "kwiaty w pudełku",
+      159
+     ]
+    ]
+   ],
+   [
+    "Rośliny",
+    [
+     [
+      "Storczyk w doniczce",
+      "",
+      79
+     ],
+     [
+      "Roślina doniczkowa",
+      "zielona, łatwa w pielęgnacji",
+      59
+     ],
+     [
+      "Kompozycja w koszu",
+      "",
+      119
+     ]
+    ]
+   ]
+  ],
+  "sp": {
+   "t": "Kwiaty <em>na ślub</em>",
+   "d": "Bukiet ślubny, butonierki, dekoracje kościoła i sali. Spotkamy się, porozmawiamy i zaprojektujemy kwiaty pod Wasz dzień.",
+   "li": [
+    "Bukiet panny młodej i butonierki",
+    "Dekoracje kościoła i sali",
+    "Kwiaty na stoły i auto"
+   ],
+   "btn": "Zapytaj o kwiaty na ślub",
+   "subj": "Kwiaty na ślub"
+  },
+  "why": [
+   [
+    "Świeże kwiaty",
+    "Kwiaty dostajemy kilka razy w tygodniu."
+   ],
+   [
+    "Bukiet pod Ciebie",
+    "Powiedz, dla kogo i na jaką okazję – resztą zajmiemy się my."
+   ],
+   [
+    "Na dziś",
+    "Bukiety zrobimy nawet na ten sam dzień."
+   ]
+  ],
+  "faq": [
+   [
+    "Czy mogę zamówić bukiet na dziś?",
+    "Tak, jeśli zamówisz kilka godzin wcześniej."
+   ],
+   [
+    "Czy dowozicie kwiaty?",
+    "Tak, zapytaj o strefę dostawy."
+   ],
+   [
+    "Czy mogę dodać bilecik?",
+    "Tak – wpisz treść w uwagach do zamówienia."
+   ],
+   [
+    "Jak dbać o bukiet?",
+    "Przytnij łodygi i zmieniaj wodę co 2 dni – kwiaty postoją dłużej."
+   ]
+  ],
+  "hours": [
+   [
+    9,
+    19
+   ],
+   [
+    9,
+    19
+   ],
+   [
+    9,
+    19
+   ],
+   [
+    9,
+    19
+   ],
+   [
+    9,
+    19
+   ],
+   [
+    9,
+    15
+   ],
+   [
+    10,
+    13
+   ]
+  ],
+  "txt": {
+   "t_cta": "Zamów bukiet",
+   "t_menu": "Bukiety",
+   "t_menuh": "Wybierz <em>bukiet</em>",
+   "t_sp": "Ślub",
+   "t_galh": "Z naszej <em>pracowni</em>.",
+   "t_why": "Kwiaty, które <em>robią wrażenie</em>.",
+   "t_fin": "Komu dziś <em>zrobisz radość</em>?",
+   "t_finp": "Wybierz bukiet i godzinę odbioru albo dostawy.",
+   "modes": [
+    "Odbiór osobisty",
+    "Dostawa"
+   ],
+   "t_menusub": "Ceny bukietów są orientacyjne – florystka dopasuje kwiaty do okazji."
+  }
+ }
+}

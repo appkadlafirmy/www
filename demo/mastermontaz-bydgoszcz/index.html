@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Mastermontaż – Hydraulika · Bydgoszcz</title>
+<meta name="description" content="Hydraulika · Bydgoszcz i okolice. Instalacje wodne, kanalizacja, ogrzewanie i biały montaż. Usuwamy awarie, wymieniamy piony i podłączamy wszystko, co ma wodę.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F4F2ED; --bg2: #EAE6DE; --card: #FFFFFF; --ink: #15161A; --ink2: #34363C; --muted: #6C6E73; --line: #DDD8CE;
+    --acc: #1F6FB2; --dark: #141518;
+    --display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+    --sans: Geist, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --ease: cubic-bezier(.2,.7,.1,1);
+   }
+</style>
+<link rel="stylesheet" href="../assets/fach.css?v=ce0ce3dd">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="arr" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="chk" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="9.5" r="2.5" fill="currentColor"/></symbol>
+</svg>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="logo" href="#"><span class="mono">M</span><span><b>Mastermontaż</b><small>Hydraulika · Bydgoszcz</small></span></a>
+    <nav class="nav" aria-label="Menu">
+      <a href="#uslugi">Usługi</a><a href="#jak">Jak pracujemy</a><a href="#realizacje">Realizacje</a><a href="#wycena">Wycena</a><a href="#kontakt">Kontakt</a>
+    </nav>
+    <a class="btn b-acc top-cta" href="#wycena">Darmowa wycena <svg class="arr"><use href="#arr"/></svg></a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-bg"><img src="../assets/fach/6419128.jpg" alt="" fetchpriority="high"></div>
+    <div class="wrap">
+      <div>
+        <p class="chip fade" style="--d:.1s"><i><svg><use href="#pin"/></svg></i>Bydgoszcz i okolice</p>
+        <h1 class="fade" style="--d:.25s">Hydraulik, który <em>przyjeżdża</em>, kiedy obiecał.</h1>
+        <p class="hero-lead fade" style="--d:.45s">Instalacje wodne, kanalizacja, ogrzewanie i biały montaż. Usuwamy awarie, wymieniamy piony i podłączamy wszystko, co ma wodę.</p>
+        <div class="cta fade" style="--d:.6s">
+          <a class="btn b-acc" href="#wycena">Wyceń zlecenie <svg class="arr"><use href="#arr"/></svg></a>
+          <a class="btn b-ghost" href="#uslugi">Zobacz usługi</a>
+        </div>
+        <div class="facts fade" style="--d:.75s"><span><svg><use href="#chk"/></svg>Szybki dojazd</span><span><svg><use href="#chk"/></svg>Uczciwa wycena</span><span><svg><use href="#chk"/></svg>Gwarancja na prace</span></div>
+      </div>
+      <div class="slots fade" style="--d:.9s" aria-label="Wolne terminy">
+        <div class="h"><span>Najbliższe terminy</span><span class="live">na bieżąco</span></div>
+        <p class="t">Wybierz dzień oględzin</p>
+        <div class="days" id="days"></div>
+        <p class="f" id="slotInfo">Zielona kropka = wolny termin.</p>
+      </div>
+    </div>
+    <span class="scroll" aria-hidden="true"></span>
+  </section>
+
+  <div class="ticker" aria-hidden="true"><div class="row"><span>Awarie i przecieki</span><span>Instalacje wodne</span><span>Kanalizacja</span><span>Ogrzewanie</span><span>Biały montaż</span><span>Uzdatnianie wody</span><span>Awarie i przecieki</span><span>Instalacje wodne</span><span>Kanalizacja</span><span>Ogrzewanie</span><span>Biały montaż</span><span>Uzdatnianie wody</span></div></div>
+
+  <section id="uslugi">
+    <div class="wrap">
+      <div class="svc-head">
+        <div>
+          <p class="eyebrow rv">Usługi</p>
+          <h2 class="rv" style="--d:.08s">Czym się <em>zajmujemy</em></h2>
+        </div>
+        <p class="sub rv" style="--d:.16s">Nie widzisz tego, czego szukasz? Napisz – jeśli to nasza działka, zrobimy to porządnie.</p>
+      </div>
+      <div class="grid"><article class="svc rv" style="--d:0.00s"><span class="n">01</span><span class="go" aria-hidden="true"><svg class="arr"><use href="#arr"/></svg></span><h3>Awarie i przecieki</h3><p>Cieknący kran, zalana łazienka, zapchany odpływ – działamy szybko.</p></article><article class="svc rv" style="--d:0.08s"><span class="n">02</span><span class="go" aria-hidden="true"><svg class="arr"><use href="#arr"/></svg></span><h3>Instalacje wodne</h3><p>Nowe instalacje i wymiana starych rur na PEX i miedź.</p></article><article class="svc rv" style="--d:0.16s"><span class="n">03</span><span class="go" aria-hidden="true"><svg class="arr"><use href="#arr"/></svg></span><h3>Kanalizacja</h3><p>Udrożnianie, wymiana pionów, podłączenia w nowych łazienkach.</p></article><article class="svc rv" style="--d:0.00s"><span class="n">04</span><span class="go" aria-hidden="true"><svg class="arr"><use href="#arr"/></svg></span><h3>Ogrzewanie</h3><p>Grzejniki, ogrzewanie podłogowe, podłączenia pieców.</p></article><article class="svc rv" style="--d:0.08s"><span class="n">05</span><span class="go" aria-hidden="true"><svg class="arr"><use href="#arr"/></svg></span><h3>Biały montaż</h3><p>WC, umywalki, prysznice, baterie – podłączone porządnie.</p></article><article class="svc rv" style="--d:0.16s"><span class="n">06</span><span class="go" aria-hidden="true"><svg class="arr"><use href="#arr"/></svg></span><h3>Uzdatnianie wody</h3><p>Filtry, zmiękczacze i stacje uzdatniania.</p></article></div>
+    </div>
+  </section>
+
+  <section class="why">
+    <div class="wrap why-grid">
+      <div class="why-img rv"><img src="../assets/fach/29226620.jpg" alt="" loading="lazy" id="par"><div class="tag"><b>Mastermontaż</b><span>Hydraulika · Bydgoszcz</span></div></div>
+      <div>
+        <p class="eyebrow rv">Dlaczego my</p>
+        <h2 class="rv" style="--d:.08s">Robota zrobiona tak, <em>jak dla siebie</em>.</h2>
+        <div class="pts"><div class="pt rv" style="--d:0.00s"><i>1</i><div><h3>Przyjeżdżamy na czas</h3><p>Podajemy godzinę i jej się trzymamy.</p></div></div><div class="pt rv" style="--d:0.06s"><i>2</i><div><h3>Cena przed pracą</h3><p>Mówimy, ile to będzie kosztować, zanim zaczniemy.</p></div></div><div class="pt rv" style="--d:0.12s"><i>3</i><div><h3>Czyste buty, czysta łazienka</h3><p>Ochraniacze, folie i sprzątanie po pracy.</p></div></div><div class="pt rv" style="--d:0.18s"><i>4</i><div><h3>Gwarancja</h3><p>Na wykonane prace dajemy pisemną gwarancję.</p></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="jak">
+    <div class="wrap">
+      <p class="eyebrow rv">Jak pracujemy</p>
+      <h2 class="rv" style="--d:.08s">Od wiadomości do <em>gotowej roboty</em>.</h2>
+      <div class="steps" id="steps">
+        <span class="line" aria-hidden="true"><i></i></span>
+        <div class="step" style="--i:0"><span class="dot">1</span><h3>Wiadomość</h3><p>Opisz krótko, co trzeba zrobić. Odpisujemy zwykle tego samego dnia.</p></div>
+        <div class="step" style="--i:1"><span class="dot">2</span><h3>Oględziny</h3><p>Przyjeżdżamy, mierzymy i doradzamy najlepsze rozwiązanie.</p></div>
+        <div class="step" style="--i:2"><span class="dot">3</span><h3>Wycena</h3><p>Dostajesz konkretną cenę i termin – bez drobnego druku.</p></div>
+        <div class="step" style="--i:3"><span class="dot">4</span><h3>Realizacja</h3><p>Robimy swoje, sprzątamy i odbieramy pracę razem z Tobą.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="quote" id="wycena">
+    <div class="wrap q-grid">
+      <div class="q-side">
+        <p class="eyebrow rv">Wycena</p>
+        <h2 class="rv" style="--d:.08s">Wycena w <em>4 krokach</em>.</h2>
+        <p class="sub rv" style="--d:.16s">Zaznacz kilka rzeczy, a my odezwiemy się z wyceną. Bez zobowiązań.</p>
+        <ul class="rv" style="--d:.24s">
+          <li><svg><use href="#chk"/></svg>Odpowiedź zwykle tego samego dnia</li><li><svg><use href="#chk"/></svg>Bezpłatne oględziny na miejscu</li><li><svg><use href="#chk"/></svg>Cena podana przed rozpoczęciem prac</li>
+        </ul>
+      </div>
+      <div class="q-card rv" style="--d:.1s">
+        <div class="q-bar" id="qBar"><i class="on"></i><i></i><i></i><i></i></div>
+        <form id="qForm" novalidate>
+          <div class="q-step on" data-s="0">
+            <h3>Czego potrzebujesz?</h3><p class="hint">Wybierz jedną usługę.</p>
+            <div class="opts two" data-k="usluga"><button type="button" class="opt" aria-pressed="false" data-v="Awarie i przecieki"><span class="r"></span><span><b>Awarie i przecieki</b></span></button><button type="button" class="opt" aria-pressed="false" data-v="Instalacje wodne"><span class="r"></span><span><b>Instalacje wodne</b></span></button><button type="button" class="opt" aria-pressed="false" data-v="Kanalizacja"><span class="r"></span><span><b>Kanalizacja</b></span></button><button type="button" class="opt" aria-pressed="false" data-v="Ogrzewanie"><span class="r"></span><span><b>Ogrzewanie</b></span></button><button type="button" class="opt" aria-pressed="false" data-v="Biały montaż"><span class="r"></span><span><b>Biały montaż</b></span></button><button type="button" class="opt" aria-pressed="false" data-v="Uzdatnianie wody"><span class="r"></span><span><b>Uzdatnianie wody</b></span></button></div>
+          </div>
+          <div class="q-step" data-s="1">
+            <h3>Jaki to zakres?</h3><p class="hint">Wystarczy orientacyjnie.</p>
+            <div class="opts" data-k="zakres"><button type="button" class="opt" aria-pressed="false" data-v="Awaria / naprawa"><span class="r"></span><span><b>Awaria / naprawa</b><small>coś cieknie lub nie działa</small></span></button><button type="button" class="opt" aria-pressed="false" data-v="Montaż"><span class="r"></span><span><b>Montaż</b><small>nowe urządzenia, biały montaż</small></span></button><button type="button" class="opt" aria-pressed="false" data-v="Instalacja"><span class="r"></span><span><b>Instalacja</b><small>nowa lub wymiana całości</small></span></button></div>
+          </div>
+          <div class="q-step" data-s="2">
+            <h3>Kiedy chcesz zacząć?</h3><p class="hint">Postaramy się dopasować.</p>
+            <div class="opts" data-k="termin">
+              <button type="button" class="opt" aria-pressed="false" data-v="Jak najszybciej"><span class="r"></span><span><b>Jak najszybciej</b><small>pilna sprawa</small></span></button>
+              <button type="button" class="opt" aria-pressed="false" data-v="W ciągu miesiąca"><span class="r"></span><span><b>W ciągu miesiąca</b><small>planuję z wyprzedzeniem</small></span></button>
+              <button type="button" class="opt" aria-pressed="false" data-v="Termin elastyczny"><span class="r"></span><span><b>Termin elastyczny</b><small>dopasuję się</small></span></button>
+            </div>
+          </div>
+          <div class="q-step" data-s="3">
+            <h3>Gdzie mamy się odezwać?</h3><p class="hint">Twoje dane widzimy tylko my.</p>
+            <div class="fld"><label for="qName">Imię</label><input id="qName" autocomplete="name" required></div>
+            <div class="fld"><label for="qTel">Telefon</label><input id="qTel" type="tel" inputmode="tel" autocomplete="tel" required></div>
+            <div class="fld"><label for="qMsg">Kilka słów o zleceniu (opcjonalnie)</label><textarea id="qMsg"></textarea></div>
+            <div class="sum" id="qSum"></div>
+          </div>
+          <div class="q-step" data-s="4">
+            <div class="done"><span class="ok"><svg width="34" height="34" style="color:#fff"><use href="#chk"/></svg></span><h3>Dziękujemy!</h3><p>Otworzyliśmy wiadomość z Twoim zapytaniem – wystarczy ją wysłać.</p></div>
+          </div>
+          <div class="q-nav" id="qNav">
+            <button type="button" class="back" id="qBack" hidden>← Wstecz</button>
+            <button type="button" class="btn b-acc" id="qNext">Dalej <svg class="arr"><use href="#arr"/></svg></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="realizacje">
+    <div class="wrap">
+      <p class="eyebrow rv">Realizacje</p>
+      <h2 class="rv" style="--d:.08s">Zobacz, jak <em>pracujemy</em>.</h2>
+      <div class="gal n5"><figure class="rv" style="--d:0.00s"><img src="../assets/fach/29226620.jpg" alt="" loading="lazy"><figcaption>Awarie i przecieki</figcaption></figure><figure class="rv" style="--d:0.06s"><img src="../assets/fach/6436770.jpg" alt="" loading="lazy"><figcaption>Instalacje wodne</figcaption></figure><figure class="rv" style="--d:0.12s"><img src="../assets/fach/4194866.jpg" alt="" loading="lazy"><figcaption>Kanalizacja</figcaption></figure><figure class="rv" style="--d:0.18s"><img src="../assets/fach/10961064.jpg" alt="" loading="lazy"><figcaption>Ogrzewanie</figcaption></figure><figure class="rv" style="--d:0.00s"><img src="../assets/fach/6419128.jpg" alt="" loading="lazy"><figcaption>Biały montaż</figcaption></figure></div>
+      <p class="note rv">W wersji demo są zdjęcia przykładowe – tu pojawią się Wasze prawdziwe realizacje.</p>
+    </div>
+  </section>
+
+  <section id="kontakt" style="padding-top:0">
+    <div class="wrap area">
+      <div>
+        <p class="eyebrow rv">Gdzie działamy</p>
+        <h2 class="rv" style="--d:.08s">Bydgoszcz <em>i okolice</em>.</h2>
+        <p class="sub rv" style="--d:.16s">Bazujemy przy ul. Leszczyńskiego. Dojeżdżamy do klientów w mieście i w okolicznych miejscowościach.</p>
+        <div class="faq rv" style="--d:.2s"><details><summary>Czy przyjeżdżacie w weekendy?<i>+</i></summary><p>Do awarii – tak, w miarę możliwości. Napisz lub zadzwoń, ustalimy termin.</p></details><details><summary>Ile kosztuje dojazd?<i>+</i></summary><p>Koszt dojazdu podajemy przy zgłoszeniu – bez niespodzianek na końcu.</p></details><details><summary>Czy kupicie armaturę?<i>+</i></summary><p>Możemy doradzić i kupić albo zamontować to, co już masz.</p></details><details><summary>Czy wymieniacie piony w blokach?<i>+</i></summary><p>Tak, współpracujemy też ze wspólnotami i zarządcami.</p></details></div>
+      </div>
+      <div class="map rv" style="--d:.1s"><iframe title="Mapa – Bydgoszcz" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=Leszczy%C5%84skiego%2C%20Bydgoszcz&z=13&output=embed"></iframe></div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="wrap">
+      <div class="final-box rv">
+        <div>
+          <h2>Masz zlecenie? <br>Napisz – <em style="color:#fff;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px">odpiszemy dziś</em>.</h2>
+          <p>Opisz krótko, czego potrzebujesz, a wrócimy z terminem i wyceną.</p>
+        </div>
+        <a class="btn b-white" href="#wycena">Darmowa wycena <svg class="arr"><use href="#arr"/></svg></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div><p class="f-big">Mastermontaż</p><p style="margin-top:14px">Hydraulika · Bydgoszcz i okolice</p></div>
+      <div><h4>Kontakt</h4><p><a href="mailto:rafalnowak0@onet.eu">rafalnowak0@onet.eu</a></p><p style="margin-top:6px">Leszczyńskiego, Bydgoszcz</p></div>
+      <div><h4>Na skróty</h4><p><a href="#uslugi">Usługi</a></p><p><a href="#wycena">Wycena</a></p><p><a href="#realizacje">Realizacje</a></p></div>
+    </div>
+    <div class="f-bot"><span>© <span id="yr">2026</span> Mastermontaż Rafał Nowak</span><span>Projekt strony demonstracyjnej – appkadlafirmy</span></div>
+  </div>
+</footer>
+
+<nav class="mbar" id="mbar" aria-label="Szybki kontakt">
+  <a class="btn b-line" href="mailto:rafalnowak0@onet.eu">Napisz</a>
+  <a class="btn b-acc" href="#wycena">Wycena</a>
+</nav>
+<p class="demo"><b>Demo</b> · zdjęcia i treści przykładowe</p>
+
+<script>
+(function () {
+  var EMAIL = "rafalnowak0@onet.eu";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  requestAnimationFrame(function () { document.body.classList.add("loaded"); });
+  document.getElementById("yr").textContent = new Date().getFullYear();
+
+  // header + mobile bar
+  var top = document.getElementById("top"), mbar = document.getElementById("mbar");
+  function onScroll() {
+    var y = window.scrollY;
+    top.classList.toggle("solid", y > window.innerHeight * .75 - 80);
+    mbar.classList.toggle("on", y > 500);
+    var par = document.getElementById("par");
+    if (par && !reduce) { var r = par.parentNode.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) par.style.setProperty("--py", (-(r.top / innerHeight) * 40 - 20).toFixed(1) + "px"); }
+  }
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+  // reveal
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }); }, { threshold: .15, rootMargin: "0px 0px -40px 0px" });
+  document.querySelectorAll(".rv, #steps").forEach(function (el) { io.observe(el); });
+
+  // availability calendar (demo)
+  var days = document.getElementById("days"), info = document.getElementById("slotInfo");
+  var names = ["Pn", "Wt", "Śr", "Cz", "Pt", "So", "Nd"], months = ["stycznia","lutego","marca","kwietnia","maja","czerwca","lipca","sierpnia","września","października","listopada","grudnia"];
+  var d0 = new Date(); d0.setHours(0,0,0,0);
+  var t1 = new Date(d0); t1.setDate(d0.getDate() + 1);
+  var start = new Date(t1); start.setDate(t1.getDate() - ((t1.getDay() + 6) % 7));
+  var html = names.map(function (n) { return "<div>" + n + "</div>"; }).join("");
+  for (var i = 0; i < 14; i++) {
+    var d = new Date(start); d.setDate(start.getDate() + i);
+    var past = d <= d0, wk = d.getDay() === 0, seed = (d.getDate() * 7 + d.getMonth() * 3) % 5;
+    var cls = past || wk ? "busy" : (seed === 1 || seed === 3 ? "busy" : "free");
+    html += '<button type="button" class="' + cls + '" data-t="' + d.getDate() + " " + months[d.getMonth()] + '"' + (cls === "busy" ? " disabled" : "") + ">" + d.getDate() + "</button>";
+  }
+  days.innerHTML = html;
+  days.addEventListener("click", function (e) {
+    var b = e.target.closest("button.free"); if (!b) return;
+    days.querySelectorAll(".on").forEach(function (x) { x.classList.remove("on"); });
+    b.classList.add("on");
+    info.innerHTML = "Wybrano <b>" + b.dataset.t + "</b> · <a href=\"#wycena\" style=\"text-decoration:underline\">umów oględziny →</a>";
+    window.__day = b.dataset.t;
+  });
+
+  // quote wizard
+  var form = document.getElementById("qForm"), steps = form.querySelectorAll(".q-step"), bars = document.querySelectorAll("#qBar i");
+  var next = document.getElementById("qNext"), back = document.getElementById("qBack"), nav = document.getElementById("qNav");
+  var cur = 0, data = {};
+  form.addEventListener("click", function (e) {
+    var o = e.target.closest(".opt"); if (!o) return;
+    var g = o.parentNode; g.querySelectorAll(".opt").forEach(function (x) { x.setAttribute("aria-pressed", "false"); });
+    o.setAttribute("aria-pressed", "true"); data[g.dataset.k] = o.dataset.v;
+    if (cur < 3) setTimeout(function () { go(cur + 1); }, 280);
+  });
+  function go(n) {
+    steps[cur].classList.remove("on"); cur = n; steps[cur].classList.add("on");
+    bars.forEach(function (b, i) { b.classList.toggle("on", i <= Math.min(cur, 3)); });
+    back.hidden = cur === 0 || cur === 4;
+    next.innerHTML = cur === 3 ? 'Wyślij zapytanie <svg class="arr"><use href="#arr"/></svg>' : 'Dalej <svg class="arr"><use href="#arr"/></svg>';
+    nav.style.display = cur === 4 ? "none" : "";
+    if (cur === 3) document.getElementById("qSum").innerHTML = "<b>" + (data.usluga || "–") + "</b> · " + (data.zakres || "–") + " · " + (data.termin || "–") + (window.__day ? " · dzień: " + window.__day : "");
+  }
+  next.addEventListener("click", function () {
+    var keys = ["usluga", "zakres", "termin"];
+    if (cur < 3) { if (!data[keys[cur]]) { steps[cur].querySelector(".opts").animate([{ transform: "translateX(0)" }, { transform: "translateX(-6px)" }, { transform: "translateX(6px)" }, { transform: "translateX(0)" }], { duration: 300 }); return; } go(cur + 1); return; }
+    var n = document.getElementById("qName"), t = document.getElementById("qTel");
+    if (!n.value.trim()) { n.focus(); return; } if (!t.value.trim()) { t.focus(); return; }
+    var body = "Usługa: " + data.usluga + "\nZakres: " + data.zakres + "\nTermin: " + data.termin + (window.__day ? "\nPreferowany dzień: " + window.__day : "") + "\n\nImię: " + n.value + "\nTelefon: " + t.value + "\n\n" + document.getElementById("qMsg").value;
+    location.href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent("Zapytanie o wycenę – " + data.usluga) + "&body=" + encodeURIComponent(body);
+    go(4);
+  });
+  back.addEventListener("click", function () { if (cur > 0) go(cur - 1); });
+})();
+</script>
+</body>
+</html>

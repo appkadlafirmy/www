@@ -1,0 +1,260 @@
+{
+  "_txt": {},
+  "sprzątanie": {
+    "label": "Sprzątanie",
+    "acc": "#1C8C7A",
+    "h1": "Wracasz do domu, a tam <em>po prostu czysto</em>.",
+    "lead": "Sprzątanie mieszkań, domów i biur – jednorazowo albo regularnie. Własne środki i sprzęt, sprawdzone osoby i stały termin.",
+    "facts": [
+      "Własne środki i sprzęt",
+      "Stały termin",
+      "Wycena od ręki"
+    ],
+    "img": [
+      "6197108",
+      "6195198",
+      "6197106"
+    ],
+    "services": [
+      [
+        "Sprzątanie mieszkań",
+        "Kuchnia, łazienka, podłogi, kurze – dokładnie i bez pośpiechu."
+      ],
+      [
+        "Sprzątanie biur",
+        "Po godzinach pracy, żeby nikt nie musiał przerywać."
+      ],
+      [
+        "Po remoncie",
+        "Pył, farba, resztki fugi – doprowadzamy wnętrze do stanu użytkowania."
+      ],
+      [
+        "Mycie okien",
+        "Okna, ramy i parapety bez smug, także na wysokości."
+      ],
+      [
+        "Pranie tapicerki",
+        "Kanapy, fotele, dywany i materace."
+      ],
+      [
+        "Sprzątanie regularne",
+        "Co tydzień lub co dwa tygodnie – ta sama osoba, ten sam dzień."
+      ]
+    ],
+    "scope": [
+      [
+        "Kawalerka / małe mieszkanie",
+        "do ok. 45 m²"
+      ],
+      [
+        "Mieszkanie lub dom",
+        "ok. 45–100 m²"
+      ],
+      [
+        "Duży dom lub biuro",
+        "powyżej 100 m²"
+      ]
+    ],
+    "why": [
+      [
+        "Te same osoby",
+        "Przy sprzątaniu regularnym przychodzi do Ciebie ta sama osoba."
+      ],
+      [
+        "Własne środki",
+        "Przywozimy wszystko – Ty niczego nie musisz kupować."
+      ],
+      [
+        "Lista kontrolna",
+        "Pracujemy według listy, żeby nic nie zostało pominięte."
+      ],
+      [
+        "Elastyczne terminy",
+        "Także popołudnia i soboty."
+      ]
+    ],
+    "faq": [
+      [
+        "Czy muszę być w domu?",
+        "Nie – wiele osób zostawia klucze. Ustalamy to przy pierwszym kontakcie."
+      ],
+      [
+        "Czy przywozicie środki czystości?",
+        "Tak, mamy własne środki i sprzęt. Jeśli wolisz swoje – też możemy."
+      ],
+      [
+        "Ile trwa sprzątanie mieszkania?",
+        "Zwykle 2–4 godziny, zależnie od metrażu i zakresu."
+      ],
+      [
+        "Czy sprzątacie po remoncie?",
+        "Tak, to jedna z naszych specjalności."
+      ]
+    ],
+    "txt": {
+      "t_cta": "Wyceń sprzątanie",
+      "t_cta2": "Wyceń sprzątanie",
+      "t_slot": "Wybierz dzień sprzątania",
+      "t_slot_go": "zarezerwuj",
+      "t_why": "Sprzątamy tak, <em>jak u siebie</em>.",
+      "t_steps": "Od wiadomości do <em>czystego domu</em>.",
+      "steps": [
+        [
+          "Wiadomość",
+          "Napisz, co i gdzie trzeba posprzątać."
+        ],
+        [
+          "Wycena",
+          "Podajemy cenę od ręki – czasem prosimy o kilka zdjęć."
+        ],
+        [
+          "Termin",
+          "Ustalamy dzień i godzinę, która Ci pasuje."
+        ],
+        [
+          "Sprzątanie",
+          "Przyjeżdżamy z własnym sprzętem i robimy swoje."
+        ]
+      ],
+      "qli": [
+        "Odpowiedź zwykle tego samego dnia",
+        "Wycena od ręki, bez oględzin",
+        "Własne środki i sprzęt"
+      ],
+      "t_scope": "Jaki metraż?",
+      "t_gal": "Efekty",
+      "t_galh": "Tak u nas <em>wygląda czysto</em>.",
+      "t_galnote": "tu pojawią się zdjęcia Waszych realizacji.",
+      "t_fin": "Potrzebujesz sprzątania?",
+      "t_subj": "Zapytanie o sprzątanie"
+    }
+  },
+  "przeprowadzki": {
+    "label": "Przeprowadzki",
+    "acc": "#D2691E",
+    "h1": "Przeprowadzka <em>bez stresu</em> i bez dźwigania.",
+    "lead": "Przeprowadzki mieszkań, domów i biur. Pakujemy, zabezpieczamy, wynosimy i przewozimy – Ty tylko mówisz, gdzie co postawić.",
+    "facts": [
+      "Pakowanie i kartony",
+      "Zabezpieczenie mebli",
+      "Stała cena"
+    ],
+    "img": [
+      "7464703",
+      "3434533",
+      "4246091",
+      "7218504"
+    ],
+    "services": [
+      [
+        "Przeprowadzki mieszkań",
+        "Od kawalerki po duże mieszkanie – w jeden dzień."
+      ],
+      [
+        "Przeprowadzki biur",
+        "Sprzęt, dokumenty i meble – szybko i po godzinach."
+      ],
+      [
+        "Pakowanie",
+        "Kartony, folia, taśmy – pakujemy wszystko za Ciebie."
+      ],
+      [
+        "Demontaż i montaż mebli",
+        "Rozkręcamy szafy i łóżka, a na miejscu skręcamy je z powrotem."
+      ],
+      [
+        "Transport rzeczy",
+        "Pojedyncze meble, AGD i większe przedmioty."
+      ],
+      [
+        "Wywóz rzeczy",
+        "Zabierzemy to, czego nie chcesz zabierać do nowego miejsca."
+      ]
+    ],
+    "scope": [
+      [
+        "Kawalerka / kilka mebli",
+        "mały transport"
+      ],
+      [
+        "Mieszkanie 2–3 pokoje",
+        "standardowa przeprowadzka"
+      ],
+      [
+        "Dom lub biuro",
+        "duży zakres"
+      ]
+    ],
+    "why": [
+      [
+        "Cena ustalona z góry",
+        "Bez dopłat za piętro czy godzinę dłużej."
+      ],
+      [
+        "Zabezpieczamy wszystko",
+        "Folia, koce i kartony na meble i delikatne rzeczy."
+      ],
+      [
+        "Doświadczona ekipa",
+        "Wiemy, jak znieść szafę z czwartego piętra bez windy."
+      ],
+      [
+        "Punktualnie",
+        "Przyjeżdżamy o umówionej godzinie."
+      ]
+    ],
+    "faq": [
+      [
+        "Czy pakujecie rzeczy?",
+        "Tak, możemy spakować całe mieszkanie i przywieźć kartony."
+      ],
+      [
+        "Czy rozkręcacie meble?",
+        "Tak, demontaż i montaż mebli to standard."
+      ],
+      [
+        "Jak ustalacie cenę?",
+        "Na podstawie zakresu i odległości – czasem prosimy o kilka zdjęć."
+      ],
+      [
+        "Czy jeździcie poza miasto?",
+        "Tak, wykonujemy też przeprowadzki międzymiastowe."
+      ]
+    ],
+    "txt": {
+      "t_cta": "Wyceń przeprowadzkę",
+      "t_cta2": "Wyceń przeprowadzkę",
+      "t_slot": "Wybierz dzień przeprowadzki",
+      "t_slot_go": "zarezerwuj termin",
+      "t_why": "Przenosimy Twoje rzeczy <em>jak swoje</em>.",
+      "t_steps": "Od wiadomości do <em>nowego adresu</em>.",
+      "steps": [
+        [
+          "Wiadomość",
+          "Napisz skąd, dokąd i co przewozimy."
+        ],
+        [
+          "Wycena",
+          "Podajemy stałą cenę – bez dopłat w dniu przeprowadzki."
+        ],
+        [
+          "Pakowanie",
+          "Przywozimy kartony albo pakujemy za Ciebie."
+        ],
+        [
+          "Przeprowadzka",
+          "Wynosimy, przewozimy i ustawiamy na miejscu."
+        ]
+      ],
+      "qli": [
+        "Odpowiedź zwykle tego samego dnia",
+        "Stała cena ustalona z góry",
+        "Zabezpieczenie mebli w cenie"
+      ],
+      "t_scope": "Co przewozimy?",
+      "t_gal": "Realizacje",
+      "t_fin": "Planujesz przeprowadzkę?",
+      "t_subj": "Zapytanie o przeprowadzkę"
+    }
+  }
+}

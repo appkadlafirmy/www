@@ -269,9 +269,9 @@
   <div class="wrap">
     <a class="logo" href="#"><span class="mono">{{ini}}</span><span><b>{{firma}}</b><small>{{label}} · {{miasto}}</small></span></a>
     <nav class="nav" aria-label="Menu">
-      <a href="#uslugi">Usługi</a><a href="#jak">Jak pracujemy</a><a href="#realizacje">Realizacje</a><a href="#wycena">Wycena</a><a href="#kontakt">Kontakt</a>
+      <a href="#uslugi">Usługi</a><a href="#jak">Jak pracujemy</a><a href="#realizacje">{{t_gal}}</a><a href="#wycena">{{t_q}}</a><a href="#kontakt">Kontakt</a>
     </nav>
-    <a class="btn b-acc top-cta" href="#wycena">Darmowa wycena <svg class="arr"><use href="#arr"/></svg></a>
+    <a class="btn b-acc top-cta" href="#wycena">{{t_cta}} <svg class="arr"><use href="#arr"/></svg></a>
   </div>
 </header>
 
@@ -284,14 +284,14 @@
         <h1 class="fade" style="--d:.25s">{{h1}}</h1>
         <p class="hero-lead fade" style="--d:.45s">{{lead}}</p>
         <div class="cta fade" style="--d:.6s">
-          <a class="btn b-acc" href="#wycena">Wyceń zlecenie <svg class="arr"><use href="#arr"/></svg></a>
+          <a class="btn b-acc" href="#wycena">{{t_cta2}} <svg class="arr"><use href="#arr"/></svg></a>
           <a class="btn b-ghost" href="#uslugi">Zobacz usługi</a>
         </div>
         <div class="facts fade" style="--d:.75s">{{facts}}</div>
       </div>
       <div class="slots fade" style="--d:.9s" aria-label="Wolne terminy">
         <div class="h"><span>Najbliższe terminy</span><span class="live">na bieżąco</span></div>
-        <p class="t">Wybierz dzień oględzin</p>
+        <p class="t">{{t_slot}}</p>
         <div class="days" id="days"></div>
         <p class="f" id="slotInfo">Zielona kropka = wolny termin.</p>
       </div>
@@ -319,7 +319,7 @@
       <div class="why-img rv"><img src="{{img1}}" alt="" loading="lazy" id="par"><div class="tag"><b>{{firma}}</b><span>{{label}} · {{miasto}}</span></div></div>
       <div>
         <p class="eyebrow rv">Dlaczego my</p>
-        <h2 class="rv" style="--d:.08s">Robota zrobiona tak, <em>jak dla siebie</em>.</h2>
+        <h2 class="rv" style="--d:.08s">{{t_why}}</h2>
         <div class="pts">{{why}}</div>
       </div>
     </div>
@@ -328,13 +328,13 @@
   <section id="jak">
     <div class="wrap">
       <p class="eyebrow rv">Jak pracujemy</p>
-      <h2 class="rv" style="--d:.08s">Od wiadomości do <em>gotowej roboty</em>.</h2>
+      <h2 class="rv" style="--d:.08s">{{t_steps}}</h2>
       <div class="steps" id="steps">
         <span class="line" aria-hidden="true"><i></i></span>
-        <div class="step" style="--i:0"><span class="dot">1</span><h3>Wiadomość</h3><p>Opisz krótko, co trzeba zrobić. Odpisujemy zwykle tego samego dnia.</p></div>
-        <div class="step" style="--i:1"><span class="dot">2</span><h3>Oględziny</h3><p>Przyjeżdżamy, mierzymy i doradzamy najlepsze rozwiązanie.</p></div>
-        <div class="step" style="--i:2"><span class="dot">3</span><h3>Wycena</h3><p>Dostajesz konkretną cenę i termin – bez drobnego druku.</p></div>
-        <div class="step" style="--i:3"><span class="dot">4</span><h3>Realizacja</h3><p>Robimy swoje, sprzątamy i odbieramy pracę razem z Tobą.</p></div>
+        <div class="step" style="--i:0"><span class="dot">1</span><h3>{{s1t}}</h3><p>{{s1d}}</p></div>
+        <div class="step" style="--i:1"><span class="dot">2</span><h3>{{s2t}}</h3><p>{{s2d}}</p></div>
+        <div class="step" style="--i:2"><span class="dot">3</span><h3>{{s3t}}</h3><p>{{s3d}}</p></div>
+        <div class="step" style="--i:3"><span class="dot">4</span><h3>{{s4t}}</h3><p>{{s4d}}</p></div>
       </div>
     </div>
   </section>
@@ -342,13 +342,11 @@
   <section class="quote" id="wycena">
     <div class="wrap q-grid">
       <div class="q-side">
-        <p class="eyebrow rv">Wycena</p>
-        <h2 class="rv" style="--d:.08s">Wycena w <em>4 krokach</em>.</h2>
-        <p class="sub rv" style="--d:.16s">Zaznacz kilka rzeczy, a my odezwiemy się z wyceną. Bez zobowiązań.</p>
+        <p class="eyebrow rv">{{t_q}}</p>
+        <h2 class="rv" style="--d:.08s">{{t_qh}}</h2>
+        <p class="sub rv" style="--d:.16s">{{t_qsub}}</p>
         <ul class="rv" style="--d:.24s">
-          <li><svg><use href="#chk"/></svg>Odpowiedź zwykle tego samego dnia</li>
-          <li><svg><use href="#chk"/></svg>Bezpłatne oględziny na miejscu</li>
-          <li><svg><use href="#chk"/></svg>Cena podana przed rozpoczęciem prac</li>
+          {{t_qli}}
         </ul>
       </div>
       <div class="q-card rv" style="--d:.1s">
@@ -359,7 +357,7 @@
             <div class="opts two" data-k="usluga">{{q_services}}</div>
           </div>
           <div class="q-step" data-s="1">
-            <h3>Jaki to zakres?</h3><p class="hint">Wystarczy orientacyjnie.</p>
+            <h3>{{t_scope}}</h3><p class="hint">Wystarczy orientacyjnie.</p>
             <div class="opts" data-k="zakres">{{q_scope}}</div>
           </div>
           <div class="q-step" data-s="2">
@@ -391,10 +389,10 @@
 
   <section id="realizacje">
     <div class="wrap">
-      <p class="eyebrow rv">Realizacje</p>
-      <h2 class="rv" style="--d:.08s">Zobacz, jak <em>pracujemy</em>.</h2>
+      <p class="eyebrow rv">{{t_gal}}</p>
+      <h2 class="rv" style="--d:.08s">{{t_galh}}</h2>
       <div class="gal n{{gal_n}}">{{gallery}}</div>
-      <p class="note rv">W wersji demo są zdjęcia przykładowe – tu pojawią się Wasze prawdziwe realizacje.</p>
+      <p class="note rv">W wersji demo są zdjęcia przykładowe – {{t_galnote}}</p>
     </div>
   </section>
 
@@ -414,10 +412,10 @@
     <div class="wrap">
       <div class="final-box rv">
         <div>
-          <h2>Masz zlecenie? <br>Napisz – <em style="color:#fff;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px">odpiszemy dziś</em>.</h2>
-          <p>Opisz krótko, czego potrzebujesz, a wrócimy z terminem oględzin i wyceną.</p>
+          <h2>{{t_fin}} <br>Napisz – <em style="color:#fff;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px">odpiszemy dziś</em>.</h2>
+          <p>{{t_finp}}</p>
         </div>
-        <a class="btn b-white" href="#wycena">Darmowa wycena <svg class="arr"><use href="#arr"/></svg></a>
+        <a class="btn b-white" href="#wycena">{{t_cta}} <svg class="arr"><use href="#arr"/></svg></a>
       </div>
     </div>
   </section>
@@ -428,7 +426,7 @@
     <div class="f-grid">
       <div><p class="f-big">{{firma}}</p><p style="margin-top:14px">{{label}} · {{miasto}} i okolice</p></div>
       <div><h4>Kontakt</h4><p><a href="mailto:{{email}}">{{email}}</a></p><p style="margin-top:6px">{{adres_full}}</p></div>
-      <div><h4>Na skróty</h4><p><a href="#uslugi">Usługi</a></p><p><a href="#wycena">Wycena</a></p><p><a href="#realizacje">Realizacje</a></p></div>
+      <div><h4>Na skróty</h4><p><a href="#uslugi">Usługi</a></p><p><a href="#wycena">{{t_q}}</a></p><p><a href="#realizacje">{{t_gal}}</a></p></div>
     </div>
     <div class="f-bot"><span>© <span id="yr">2026</span> {{nazwa_pelna}}</span><span>Projekt strony demonstracyjnej – appkadlafirmy</span></div>
   </div>
@@ -436,7 +434,7 @@
 
 <nav class="mbar" id="mbar" aria-label="Szybki kontakt">
   <a class="btn b-line" href="mailto:{{email}}">Napisz</a>
-  <a class="btn b-acc" href="#wycena">Wycena</a>
+  <a class="btn b-acc" href="#wycena">{{t_q}}</a>
 </nav>
 <p class="demo"><b>Demo</b> · zdjęcia i treści przykładowe</p>
 
@@ -480,7 +478,7 @@
     var b = e.target.closest("button.free"); if (!b) return;
     days.querySelectorAll(".on").forEach(function (x) { x.classList.remove("on"); });
     b.classList.add("on");
-    info.innerHTML = "Wybrano <b>" + b.dataset.t + "</b> · <a href=\"#wycena\" style=\"text-decoration:underline\">umów oględziny →</a>";
+    info.innerHTML = "Wybrano <b>" + b.dataset.t + "</b> · <a href=\"#wycena\" style=\"text-decoration:underline\">{{t_slot_go}} →</a>";
     window.__day = b.dataset.t;
   });
 
@@ -500,15 +498,15 @@
     back.hidden = cur === 0 || cur === 4;
     next.innerHTML = cur === 3 ? 'Wyślij zapytanie <svg class="arr"><use href="#arr"/></svg>' : 'Dalej <svg class="arr"><use href="#arr"/></svg>';
     nav.style.display = cur === 4 ? "none" : "";
-    if (cur === 3) document.getElementById("qSum").innerHTML = "<b>" + (data.usluga || "–") + "</b> · " + (data.zakres || "–") + " · " + (data.termin || "–") + (window.__day ? " · oględziny: " + window.__day : "");
+    if (cur === 3) document.getElementById("qSum").innerHTML = "<b>" + (data.usluga || "–") + "</b> · " + (data.zakres || "–") + " · " + (data.termin || "–") + (window.__day ? " · dzień: " + window.__day : "");
   }
   next.addEventListener("click", function () {
     var keys = ["usluga", "zakres", "termin"];
     if (cur < 3) { if (!data[keys[cur]]) { steps[cur].querySelector(".opts").animate([{ transform: "translateX(0)" }, { transform: "translateX(-6px)" }, { transform: "translateX(6px)" }, { transform: "translateX(0)" }], { duration: 300 }); return; } go(cur + 1); return; }
     var n = document.getElementById("qName"), t = document.getElementById("qTel");
     if (!n.value.trim()) { n.focus(); return; } if (!t.value.trim()) { t.focus(); return; }
-    var body = "Usługa: " + data.usluga + "\nZakres: " + data.zakres + "\nTermin: " + data.termin + (window.__day ? "\nPreferowany dzień oględzin: " + window.__day : "") + "\n\nImię: " + n.value + "\nTelefon: " + t.value + "\n\n" + document.getElementById("qMsg").value;
-    location.href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent("Zapytanie o wycenę – " + data.usluga) + "&body=" + encodeURIComponent(body);
+    var body = "Usługa: " + data.usluga + "\nZakres: " + data.zakres + "\nTermin: " + data.termin + (window.__day ? "\nPreferowany dzień: " + window.__day : "") + "\n\nImię: " + n.value + "\nTelefon: " + t.value + "\n\n" + document.getElementById("qMsg").value;
+    location.href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent("{{t_subj}} – " + data.usluga) + "&body=" + encodeURIComponent(body);
     go(4);
   });
   back.addEventListener("click", function () { if (cur > 0) go(cur - 1); });

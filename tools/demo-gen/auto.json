@@ -1,0 +1,256 @@
+{
+  "_txt": {
+    "t_cta": "Umów wizytę",
+    "t_cta2": "Umów wizytę",
+    "t_q": "Wizyta",
+    "t_slot": "Wybierz dzień wizyty",
+    "t_slot_go": "umów wizytę",
+    "t_qh": "Umów wizytę w <em>4 krokach</em>.",
+    "t_qsub": "Zaznacz, co się dzieje z autem, a oddzwonimy z terminem i orientacyjną ceną.",
+    "qli": [
+      "Odpowiedź zwykle tego samego dnia",
+      "Wycena przed naprawą",
+      "Stare części do wglądu"
+    ],
+    "t_scope": "Jakie to auto?",
+    "t_gal": "Warsztat",
+    "t_galh": "Zajrzyj do <em>warsztatu</em>.",
+    "t_galnote": "tu pojawią się zdjęcia Waszego warsztatu.",
+    "t_fin": "Coś stuka, piszczy, świeci?",
+    "t_finp": "Opisz objawy, a umówimy termin i powiemy, ile to może kosztować.",
+    "t_subj": "Zapytanie o wizytę",
+    "steps": [
+      [
+        "Zgłoszenie",
+        "Napisz, co dzieje się z autem."
+      ],
+      [
+        "Diagnoza",
+        "Sprawdzamy auto i szukamy przyczyny."
+      ],
+      [
+        "Wycena",
+        "Mówimy, co trzeba zrobić i ile to kosztuje – przed naprawą."
+      ],
+      [
+        "Naprawa",
+        "Naprawiamy, pokazujemy stare części i oddajemy auto."
+      ]
+    ],
+    "t_why": "Warsztat, któremu <em>oddasz kluczyki</em>.",
+    "t_steps": "Od zgłoszenia do <em>sprawnego auta</em>."
+  },
+  "mechanika samochodowa": {
+    "label": "Mechanika samochodowa",
+    "acc": "#D23B2E",
+    "h1": "Mechanik, który <em>mówi wprost</em>.",
+    "lead": "Naprawy mechaniczne, diagnostyka komputerowa, serwis olejowy i przeglądy. Uczciwa wycena przed naprawą i stare części do wglądu.",
+    "facts": [
+      "Diagnostyka komputerowa",
+      "Wycena przed naprawą",
+      "Części do wglądu"
+    ],
+    "img": [
+      "8986119",
+      "4116225",
+      "8985860",
+      "8986047",
+      "37163499",
+      "8985514"
+    ],
+    "services": [
+      [
+        "Diagnostyka komputerowa",
+        "Odczyt błędów i sprawdzenie, skąd się biorą."
+      ],
+      [
+        "Serwis olejowy",
+        "Olej, filtry i przegląd płynów."
+      ],
+      [
+        "Hamulce",
+        "Klocki, tarcze, płyn i przewody hamulcowe."
+      ],
+      [
+        "Zawieszenie",
+        "Amortyzatory, wahacze, łączniki i tuleje."
+      ],
+      [
+        "Rozrząd i silnik",
+        "Wymiana rozrządu i naprawy silnika."
+      ],
+      [
+        "Klimatyzacja",
+        "Serwis, nabijanie i odgrzybianie klimatyzacji."
+      ]
+    ],
+    "scope": [
+      [
+        "Auto osobowe",
+        "benzyna / diesel"
+      ],
+      [
+        "Auto z LPG lub hybryda",
+        "dodatkowe układy"
+      ],
+      [
+        "Bus / dostawczak",
+        "do 3,5 t"
+      ]
+    ],
+    "why": [
+      [
+        "Wycena przed naprawą",
+        "Nie robimy nic, czego nie zaakceptujesz."
+      ],
+      [
+        "Stare części do wglądu",
+        "Pokazujemy, co wymieniliśmy i dlaczego."
+      ],
+      [
+        "Terminowo",
+        "Mówimy, kiedy auto będzie gotowe – i dotrzymujemy słowa."
+      ],
+      [
+        "Części do wyboru",
+        "Oryginały albo dobre zamienniki – decydujesz Ty."
+      ]
+    ],
+    "faq": [
+      [
+        "Czy mogę przywieźć własne części?",
+        "Tak, montujemy też części klienta."
+      ],
+      [
+        "Ile trwa diagnostyka?",
+        "Zwykle do godziny. Wynik omawiamy od razu."
+      ],
+      [
+        "Czy robicie przeglądy przed zakupem auta?",
+        "Tak, sprawdzimy auto, zanim je kupisz."
+      ],
+      [
+        "Czy dacie auto zastępcze?",
+        "Zapytaj przy rezerwacji – postaramy się pomóc."
+      ]
+    ]
+  },
+  "wulkanizacja": {
+    "label": "Wulkanizacja",
+    "acc": "#E0A100",
+    "h1": "Opony zmienione, <em>zanim wypijesz kawę</em>.",
+    "lead": "Wymiana i wyważanie opon, naprawy przebić, przechowalnia opon i sprzedaż nowych kompletów. Szybko, na umówioną godzinę.",
+    "facts": [
+      "Bez kolejek – na godzinę",
+      "Przechowalnia opon",
+      "Naprawa przebić"
+    ],
+    "img": [
+      "6720515",
+      "8985603",
+      "8815801",
+      "16451819"
+    ],
+    "services": [
+      [
+        "Wymiana opon",
+        "Zmiana kół i opon sezonowych z wyważeniem."
+      ],
+      [
+        "Wyważanie kół",
+        "Koniec z drganiami kierownicy."
+      ],
+      [
+        "Naprawa przebić",
+        "Łatki i grzybki – szybko i trwale."
+      ],
+      [
+        "Przechowalnia opon",
+        "Przechowamy Twoje opony do następnego sezonu."
+      ],
+      [
+        "Sprzedaż opon",
+        "Pomożemy dobrać opony do auta i budżetu."
+      ],
+      [
+        "Czujniki ciśnienia",
+        "Obsługa i programowanie czujników TPMS."
+      ]
+    ],
+    "scope": [
+      [
+        "Auto osobowe",
+        "felgi do 17\""
+      ],
+      [
+        "SUV / felgi 18\"+",
+        "większe koła"
+      ],
+      [
+        "Bus / dostawczak",
+        "do 3,5 t"
+      ]
+    ],
+    "why": [
+      [
+        "Na godzinę",
+        "Rezerwujesz termin i nie stoisz w kolejce."
+      ],
+      [
+        "Sprzęt do niskiego profilu",
+        "Bez rys na felgach."
+      ],
+      [
+        "Przechowalnia",
+        "Opony myjemy i przechowujemy do kolejnego sezonu."
+      ],
+      [
+        "Szybko",
+        "Wymiana kompletu zwykle w 30–40 minut."
+      ]
+    ],
+    "faq": [
+      [
+        "Ile trwa wymiana opon?",
+        "Zwykle 30–40 minut za komplet z wyważeniem."
+      ],
+      [
+        "Czy przechowujecie opony?",
+        "Tak, mamy przechowalnię opon i kół."
+      ],
+      [
+        "Czy naprawicie przebitą oponę?",
+        "Tak, jeśli uszkodzenie jest na bieżniku – zwykle od ręki."
+      ],
+      [
+        "Czy muszę się umawiać?",
+        "Polecamy – w sezonie unikniesz kolejki."
+      ]
+    ],
+    "txt": {
+      "t_slot": "Wybierz dzień wymiany",
+      "t_slot_go": "zarezerwuj",
+      "steps": [
+        [
+          "Rezerwacja",
+          "Wybierz dzień i godzinę."
+        ],
+        [
+          "Przyjazd",
+          "Podjeżdżasz o umówionej porze – bez kolejki."
+        ],
+        [
+          "Wymiana",
+          "Zmieniamy i wyważamy koła."
+        ],
+        [
+          "Gotowe",
+          "Sprawdzamy ciśnienie i dokręcamy koła."
+        ]
+      ],
+      "t_steps": "Od rezerwacji do <em>wymienionych opon</em>.",
+      "t_qh": "Zarezerwuj w <em>4 krokach</em>.",
+      "t_scope": "Jakie to auto?"
+    }
+  }
+}

@@ -1,0 +1,852 @@
+{
+ "kosmetyka": {
+  "label": "Gabinet kosmetyczny",
+  "style": "serif",
+  "acc": "#B76E79",
+  "acc_ink": "#9A4F5B",
+  "bg": "#F7F1EE",
+  "bg2": "#EEE3DE",
+  "line": "#E6D8D2",
+  "h1": "Piękna skóra to <em>nie przypadek</em>.",
+  "lead": "Zabiegi na twarz, manicure, pedicure, stylizacja brwi i rzęs. Spokojna atmosfera, sprawdzone kosmetyki i rezerwacja online w kilka sekund.",
+  "chips": [
+   "Rezerwacja online",
+   "Sprawdzone kosmetyki",
+   "Konsultacja gratis"
+  ],
+  "sticker": "Pierwsza wizyta? Konsultacja gratis",
+  "img": [
+   "5069612",
+   "29877720",
+   "7582563",
+   "34930138",
+   "16363470",
+   "12115041"
+  ],
+  "cats": [
+   [
+    "Twarz",
+    "7582563",
+    [
+     [
+      "Oczyszczanie wodorowe",
+      "60 min",
+      180
+     ],
+     [
+      "Peeling kawitacyjny",
+      "45 min",
+      120
+     ],
+     [
+      "Mezoterapia mikroigłowa",
+      "60 min",
+      350
+     ],
+     [
+      "Zabieg nawilżający",
+      "60 min",
+      200
+     ]
+    ]
+   ],
+   [
+    "Dłonie i stopy",
+    "29877720",
+    [
+     [
+      "Manicure hybrydowy",
+      "60 min",
+      110
+     ],
+     [
+      "Manicure klasyczny",
+      "45 min",
+      70
+     ],
+     [
+      "Pedicure hybrydowy",
+      "75 min",
+      150
+     ],
+     [
+      "Przedłużanie paznokci żelem",
+      "120 min",
+      190
+     ]
+    ]
+   ],
+   [
+    "Brwi i rzęsy",
+    "34930138",
+    [
+     [
+      "Laminacja brwi z regulacją",
+      "45 min",
+      130
+     ],
+     [
+      "Lifting i laminacja rzęs",
+      "60 min",
+      160
+     ],
+     [
+      "Henna brwi i rzęs",
+      "30 min",
+      60
+     ],
+     [
+      "Regulacja brwi",
+      "15 min",
+      30
+     ]
+    ]
+   ]
+  ],
+  "about": "Kameralny gabinet, w którym każdy zabieg zaczyna się od krótkiej rozmowy o Twojej skórze. Dobieramy pielęgnację do Ciebie – nie odwrotnie.",
+  "why": [
+   [
+    "Konsultacja przed zabiegiem",
+    "Najpierw sprawdzamy skórę i dopiero wtedy proponujemy zabieg."
+   ],
+   [
+    "Sterylne narzędzia",
+    "Narzędzia sterylizujemy w autoklawie po każdej klientce."
+   ],
+   [
+    "Plan pielęgnacji",
+    "Dostajesz wskazówki, jak dbać o efekt w domu."
+   ]
+  ],
+  "faq": [
+   [
+    "Jak przygotować się do zabiegu?",
+    "Przed zabiegami na twarz najlepiej przyjść bez makijażu. Szczegóły podamy przy rezerwacji."
+   ],
+   [
+    "Czy mogę odwołać wizytę?",
+    "Tak – prosimy o informację najpóźniej 24 godziny wcześniej."
+   ],
+   [
+    "Ile utrzymuje się hybryda?",
+    "Zwykle 2–3 tygodnie, zależnie od paznokci i trybu życia."
+   ],
+   [
+    "Czy są vouchery?",
+    "Tak, przygotujemy voucher na dowolny zabieg lub kwotę."
+   ]
+  ],
+  "hours": [
+   [
+    9,
+    19
+   ],
+   [
+    9,
+    19
+   ],
+   [
+    9,
+    19
+   ],
+   [
+    9,
+    19
+   ],
+   [
+    9,
+    19
+   ],
+   [
+    9,
+    15
+   ],
+   null
+  ],
+  "slot": 60,
+  "txt": {}
+ },
+ "fryzjerstwo": {
+  "label": "Salon fryzjerski",
+  "style": "sans",
+  "acc": "#B0743B",
+  "acc_ink": "#94602C",
+  "bg": "#F4F1EC",
+  "bg2": "#E9E3DA",
+  "line": "#E0D9CF",
+  "h1": "Fryzura, w której <em>czujesz się sobą</em>.",
+  "lead": "Strzyżenie damskie i męskie, koloryzacja, pielęgnacja i upięcia. Doradzimy, dobierzemy i zrobimy tak, żeby łatwo było ją ułożyć w domu.",
+  "chips": [
+   "Damskie i męskie",
+   "Koloryzacja",
+   "Rezerwacja online"
+  ],
+  "sticker": "Konsultacja koloru gratis",
+  "img": [
+   "6599031",
+   "3993453",
+   "6503329",
+   "7755222",
+   "4351726",
+   "12706272"
+  ],
+  "cats": [
+   [
+    "Damskie",
+    "3993453",
+    [
+     [
+      "Strzyżenie damskie + modelowanie",
+      "60 min",
+      120
+     ],
+     [
+      "Modelowanie",
+      "30 min",
+      70
+     ],
+     [
+      "Upięcie okolicznościowe",
+      "60 min",
+      160
+     ],
+     [
+      "Regeneracja włosów",
+      "45 min",
+      120
+     ]
+    ]
+   ],
+   [
+    "Koloryzacja",
+    "6503329",
+    [
+     [
+      "Koloryzacja jednolita",
+      "120 min",
+      230
+     ],
+     [
+      "Refleksy / baleyage",
+      "180 min",
+      380
+     ],
+     [
+      "Tonowanie",
+      "45 min",
+      120
+     ],
+     [
+      "Odrost",
+      "90 min",
+      180
+     ]
+    ]
+   ],
+   [
+    "Męskie",
+    "4351726",
+    [
+     [
+      "Strzyżenie męskie",
+      "30 min",
+      60
+     ],
+     [
+      "Strzyżenie + broda",
+      "45 min",
+      90
+     ],
+     [
+      "Strzyżenie maszynką",
+      "20 min",
+      45
+     ],
+     [
+      "Strzyżenie dziecięce",
+      "30 min",
+      45
+     ]
+    ]
+   ]
+  ],
+  "about": "Salon, w którym słuchamy, zanim chwycimy za nożyczki. Doradzimy fryzurę pod Twoje włosy, twarz i ilość czasu, jaką masz rano.",
+  "why": [
+   [
+    "Najpierw rozmowa",
+    "Ustalamy, czego chcesz – i czego na pewno nie."
+   ],
+   [
+    "Dobre kosmetyki",
+    "Pracujemy na profesjonalnych produktach do włosów."
+   ],
+   [
+    "Łatwo w domu",
+    "Pokażemy, jak ułożyć fryzurę samemu."
+   ]
+  ],
+  "faq": [
+   [
+    "Ile trwa koloryzacja?",
+    "Zwykle 2–3 godziny, zależnie od długości włosów i techniki."
+   ],
+   [
+    "Czy strzyżecie dzieci?",
+    "Tak, strzyżemy też dzieci."
+   ],
+   [
+    "Czy mogę przyjść bez rezerwacji?",
+    "Jeśli jest wolne miejsce – tak, ale rezerwacja daje pewność."
+   ],
+   [
+    "Jak odwołać wizytę?",
+    "Wystarczy wiadomość najpóźniej dzień wcześniej."
+   ]
+  ],
+  "hours": [
+   [
+    9,
+    19
+   ],
+   [
+    9,
+    19
+   ],
+   [
+    9,
+    19
+   ],
+   [
+    9,
+    19
+   ],
+   [
+    9,
+    19
+   ],
+   [
+    8,
+    14
+   ],
+   null
+  ],
+  "slot": 30,
+  "txt": {}
+ },
+ "masaż": {
+  "label": "Gabinet masażu",
+  "style": "serif",
+  "acc": "#8A6A4F",
+  "acc_ink": "#7A5A3F",
+  "bg": "#F5F0E9",
+  "bg2": "#EAE1D5",
+  "line": "#E2D7C8",
+  "h1": "Godzina tylko <em>dla Ciebie</em>.",
+  "lead": "Masaż relaksacyjny, leczniczy, gorącymi kamieniami i aromaterapia. Ciepłe wnętrze, spokojna muzyka i czas, którego nikt Ci nie zabierze.",
+  "chips": [
+   "Masaże relaksacyjne",
+   "Masaż leczniczy",
+   "Vouchery"
+  ],
+  "sticker": "Voucher na prezent",
+  "img": [
+   "mas-hero",
+   "mas-olejki",
+   "mas-plecy",
+   "mas-kamienie",
+   "mas-aromaterapia",
+   "mas-stopy"
+  ],
+  "cats": [
+   [
+    "Relaksacyjne",
+    "mas-plecy",
+    [
+     [
+      "Masaż relaksacyjny",
+      "60 min",
+      180
+     ],
+     [
+      "Masaż aromaterapeutyczny",
+      "60 min",
+      200
+     ],
+     [
+      "Masaż gorącymi kamieniami",
+      "75 min",
+      230
+     ],
+     [
+      "Masaż twarzy i głowy",
+      "30 min",
+      110
+     ]
+    ]
+   ],
+   [
+    "Lecznicze",
+    "mas-kamienie",
+    [
+     [
+      "Masaż leczniczy pleców",
+      "45 min",
+      150
+     ],
+     [
+      "Masaż sportowy",
+      "60 min",
+      190
+     ],
+     [
+      "Masaż tkanek głębokich",
+      "60 min",
+      200
+     ],
+     [
+      "Refleksologia stóp",
+      "45 min",
+      140
+     ]
+    ]
+   ],
+   [
+    "Dla dwojga",
+    "mas-aromaterapia",
+    [
+     [
+      "Masaż dla dwojga",
+      "60 min",
+      360
+     ],
+     [
+      "Rytuał relaksacyjny dla dwojga",
+      "90 min",
+      480
+     ]
+    ]
+   ]
+  ],
+  "about": "Gabinet, w którym zwalnia się tempo. Każdy masaż zaczynamy od krótkiej rozmowy – o napięciach, o tym, czego potrzebujesz, i o sile ucisku.",
+  "why": [
+   [
+    "Dopasowany masaż",
+    "Siłę i technikę dobieramy do Ciebie."
+   ],
+   [
+    "Naturalne olejki",
+    "Pracujemy na olejkach dobrej jakości."
+   ],
+   [
+    "Bez pośpiechu",
+    "Między wizytami jest przerwa – nikt Cię nie popędza."
+   ]
+  ],
+  "faq": [
+   [
+    "Co zabrać na masaż?",
+    "Nic – ręczniki i wszystko, czego potrzeba, czeka w gabinecie."
+   ],
+   [
+    "Czy masaż leczniczy boli?",
+    "Bywa intensywny, ale siłę zawsze dopasowujemy do Ciebie."
+   ],
+   [
+    "Czy są vouchery?",
+    "Tak, voucher na dowolny masaż to świetny prezent."
+   ],
+   [
+    "Ile wcześniej przyjść?",
+    "Wystarczy 5–10 minut przed wizytą."
+   ]
+  ],
+  "hours": [
+   [
+    10,
+    20
+   ],
+   [
+    10,
+    20
+   ],
+   [
+    10,
+    20
+   ],
+   [
+    10,
+    20
+   ],
+   [
+    10,
+    20
+   ],
+   [
+    10,
+    16
+   ],
+   null
+  ],
+  "slot": 60,
+  "txt": {}
+ },
+ "weterynaria": {
+  "label": "Gabinet weterynaryjny",
+  "style": "sans",
+  "acc": "#2E7D6B",
+  "acc_ink": "#22685A",
+  "bg": "#F2F5F1",
+  "bg2": "#E3EAE3",
+  "line": "#D9E2DA",
+  "h1": "Opieka, na którą <em>Twój pupil zasługuje</em>.",
+  "lead": "Profilaktyka, szczepienia, diagnostyka i zabiegi dla psów i kotów. Spokojnie, bez pośpiechu i z wyjaśnieniem każdego kroku.",
+  "chips": [
+   "Psy i koty",
+   "Szczepienia i czipowanie",
+   "Rezerwacja online"
+  ],
+  "sticker": "Przyjazna wizyta bez stresu",
+  "img": [
+   "vet-hero-pies",
+   "vet-kot-okno",
+   "vet-usl-diagnostyka",
+   "vet-pies-usmiech",
+   "vet-kot-syjam",
+   "vet-usl-szczepienia"
+  ],
+  "cats": [
+   [
+    "Profilaktyka",
+    "vet-usl-szczepienia",
+    [
+     [
+      "Konsultacja lekarska",
+      "20 min",
+      90
+     ],
+     [
+      "Szczepienie (z badaniem)",
+      "20 min",
+      100
+     ],
+     [
+      "Czipowanie + paszport",
+      "20 min",
+      120
+     ],
+     [
+      "Odrobaczanie",
+      "15 min",
+      40
+     ]
+    ]
+   ],
+   [
+    "Diagnostyka",
+    "vet-usl-diagnostyka",
+    [
+     [
+      "Badanie krwi",
+      "20 min",
+      120
+     ],
+     [
+      "USG jamy brzusznej",
+      "30 min",
+      180
+     ],
+     [
+      "Badanie kału / moczu",
+      "15 min",
+      60
+     ],
+     [
+      "Konsultacja seniora",
+      "30 min",
+      120
+     ]
+    ]
+   ],
+   [
+    "Zabiegi",
+    "vet-pies-usmiech",
+    [
+     [
+      "Kastracja kota",
+      "60 min",
+      250
+     ],
+     [
+      "Sterylizacja kotki",
+      "90 min",
+      350
+     ],
+     [
+      "Usuwanie kamienia",
+      "60 min",
+      300
+     ],
+     [
+      "Obcinanie pazurów",
+      "10 min",
+      30
+     ]
+    ]
+   ]
+  ],
+  "about": "Gabinet, w którym zwierzak jest pacjentem, a opiekun partnerem. Tłumaczymy, co robimy i dlaczego – bez pośpiechu i bez straszenia.",
+  "why": [
+   [
+    "Bez stresu",
+    "Dajemy zwierzakowi czas, żeby oswoił się z gabinetem."
+   ],
+   [
+    "Jasne wyjaśnienia",
+    "Wiesz, co dolega pupilowi i jakie są możliwości."
+   ],
+   [
+    "Przypomnienia",
+    "Przypomnimy o kolejnym szczepieniu."
+   ]
+  ],
+  "faq": [
+   [
+    "Czy trzeba się umawiać?",
+    "Polecamy rezerwację – skracamy w ten sposób czas oczekiwania."
+   ],
+   [
+    "Co zabrać na pierwszą wizytę?",
+    "Książeczkę zdrowia, jeśli jest, i informację o lekach."
+   ],
+   [
+    "Czy kot musi być w transporterze?",
+    "Tak, dla bezpieczeństwa – i dla spokoju kota."
+   ],
+   [
+    "Co w nagłym przypadku?",
+    "Zadzwoń lub napisz – powiemy, co robić i kiedy przyjechać."
+   ]
+  ],
+  "hours": [
+   [
+    9,
+    19
+   ],
+   [
+    9,
+    19
+   ],
+   [
+    9,
+    19
+   ],
+   [
+    9,
+    19
+   ],
+   [
+    9,
+    19
+   ],
+   [
+    9,
+    13
+   ],
+   null
+  ],
+  "slot": 20,
+  "txt": {
+   "t_pl": "Usługi",
+   "t_plh": "Usługi i <em>ceny</em>",
+   "t_pl_btn": "Zobacz usługi",
+   "t_cta": "Umów wizytę",
+   "t_book": "Wizyta",
+   "t_bookh": "Umów wizytę <em>online</em>",
+   "t_what": "Rodzaj wizyty",
+   "t_about": "O gabinecie",
+   "t_abouth": "Spokojnie, <em>krok po kroku</em>.",
+   "t_galh": "Nasi <em>pacjenci</em>.",
+   "t_subj": "Wizyta",
+   "t_fin": "Zadbaj o <em>zdrowie pupila</em>.",
+   "t_finp": "Umów wizytę w dogodnym terminie – resztę wyjaśnimy na miejscu."
+  }
+ },
+ "fitness": {
+  "label": "Klub fitness",
+  "style": "sans",
+  "acc": "#E4572E",
+  "acc_ink": "#C9431D",
+  "bg": "#F3F2EF",
+  "bg2": "#E6E4DF",
+  "line": "#DDDAD3",
+  "h1": "Zacznij trenować <em>na serio</em>. Od dziś.",
+  "lead": "Siłownia, zajęcia grupowe i treningi personalne. Przyjazna atmosfera, trenerzy, którzy pomogą Ci zacząć, i karnety bez ukrytych opłat.",
+  "chips": [
+   "Trening próbny",
+   "Zajęcia grupowe",
+   "Treningi personalne"
+  ],
+  "sticker": "Pierwszy trening gratis",
+  "img": [
+   "39214349",
+   "3757943",
+   "fit-pilates",
+   "fit-pilates",
+   "3757943",
+   "39214349"
+  ],
+  "cats": [
+   [
+    "Karnety",
+    "39214349",
+    [
+     [
+      "Karnet open – 1 miesiąc",
+      "bez limitu",
+      149
+     ],
+     [
+      "Karnet poranny",
+      "do 15:00",
+      109
+     ],
+     [
+      "Karnet student",
+      "bez limitu",
+      119
+     ],
+     [
+      "Wejście jednorazowe",
+      "1 wejście",
+      30
+     ]
+    ]
+   ],
+   [
+    "Zajęcia grupowe",
+    "fit-pilates",
+    [
+     [
+      "Pilates",
+      "55 min",
+      35
+     ],
+     [
+      "Zdrowy kręgosłup",
+      "55 min",
+      35
+     ],
+     [
+      "Trening obwodowy",
+      "45 min",
+      35
+     ],
+     [
+      "Stretching",
+      "45 min",
+      30
+     ]
+    ]
+   ],
+   [
+    "Trening personalny",
+    "39214349",
+    [
+     [
+      "Trening personalny",
+      "60 min",
+      140
+     ],
+     [
+      "Pakiet 5 treningów",
+      "5 × 60 min",
+      600
+     ],
+     [
+      "Konsultacja i plan treningowy",
+      "45 min",
+      120
+     ]
+    ]
+   ]
+  ],
+  "about": "Klub dla ludzi, którzy chcą trenować bez presji. Pomagamy zacząć, pokazujemy technikę i układamy plan pod Twój cel.",
+  "why": [
+   [
+    "Start z trenerem",
+    "Pierwszy trening pokażemy krok po kroku."
+   ],
+   [
+    "Bez ukrytych opłat",
+    "Płacisz za karnet i tyle."
+   ],
+   [
+    "Zajęcia dla każdego",
+    "Od początkujących po zaawansowanych."
+   ]
+  ],
+  "faq": [
+   [
+    "Czy pierwszy trening jest darmowy?",
+    "Tak – umów się na trening próbny i sprawdź, czy Ci pasuje."
+   ],
+   [
+    "Czy trzeba podpisywać umowę?",
+    "Nie, karnety są miesięczne, bez długich zobowiązań."
+   ],
+   [
+    "Co zabrać na trening?",
+    "Strój sportowy, zmienne buty, ręcznik i wodę."
+   ],
+   [
+    "Czy są zajęcia dla początkujących?",
+    "Tak, większość zajęć jest dla osób na każdym poziomie."
+   ]
+  ],
+  "hours": [
+   [
+    6,
+    22
+   ],
+   [
+    6,
+    22
+   ],
+   [
+    6,
+    22
+   ],
+   [
+    6,
+    22
+   ],
+   [
+    6,
+    22
+   ],
+   [
+    8,
+    20
+   ],
+   [
+    9,
+    18
+   ]
+  ],
+  "slot": 60,
+  "txt": {
+   "t_pl": "Cennik",
+   "t_plh": "Karnety i <em>zajęcia</em>",
+   "t_cta": "Umów trening próbny",
+   "t_book": "Trening próbny",
+   "t_bookh": "Pierwszy trening <em>gratis</em>",
+   "t_what": "Co Cię interesuje",
+   "t_about": "O klubie",
+   "t_abouth": "Trenuj w swoim <em>tempie</em>.",
+   "t_galh": "Zajrzyj do <em>klubu</em>.",
+   "t_subj": "Trening próbny",
+   "t_fin": "Zacznij <em>jeszcze w tym tygodniu</em>.",
+   "t_finp": "Umów pierwszy trening – pokażemy klub i pomożemy zacząć."
+  }
+ }
+}

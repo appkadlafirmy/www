@@ -1,0 +1,385 @@
+{
+ "noclegi / kwatery": {
+  "label": "Noclegi",
+  "style": "serif",
+  "acc": "#6B8F71",
+  "acc_ink": "#557A5C",
+  "bg": "#F4F2EC",
+  "bg2": "#E8E5DB",
+  "line": "#DFDACE",
+  "h1": "Wygodny nocleg, <em>jak u siebie</em>.",
+  "lead": "Przytulne pokoje i apartamenty z łazienką, kuchnią i parkingiem. Cicha okolica, czysto, wygodnie – sprawdź wolne terminy i zapytaj o pobyt.",
+  "chips": [
+   "Pokoje z łazienką",
+   "Bezpłatny parking",
+   "Wi-Fi"
+  ],
+  "sticker": "Rezerwacja bez pośredników",
+  "img": [
+   "30708776",
+   "14465274",
+   "6510425",
+   "6119959",
+   "19950216"
+  ],
+  "rooms": [
+   [
+    "Pokój dwuosobowy",
+    "14465274",
+    2,
+    160,
+    [
+     "Łazienka",
+     "TV",
+     "Wi-Fi"
+    ]
+   ],
+   [
+    "Pokój rodzinny",
+    "30708776",
+    4,
+    240,
+    [
+     "Łazienka",
+     "Aneks kuchenny",
+     "Wi-Fi"
+    ]
+   ],
+   [
+    "Apartament",
+    "6510425",
+    4,
+    290,
+    [
+     "Kuchnia",
+     "Salon",
+     "Balkon"
+    ]
+   ]
+  ],
+  "about": "Kameralny obiekt, w którym odpoczniesz po dniu w podróży, w pracy czy na zwiedzaniu. Dbamy o czystość, ciszę i wygodne łóżka.",
+  "why": [
+   [
+    "Bez pośredników",
+    "Rezerwujesz bezpośrednio – bez prowizji serwisów."
+   ],
+   [
+    "Czysto i cicho",
+    "Każdy pokój sprzątamy dokładnie przed przyjazdem."
+   ],
+   [
+    "Elastycznie",
+    "Zameldowanie dopasujemy do godziny przyjazdu."
+   ]
+  ],
+  "faq": [
+   [
+    "O której jest zameldowanie?",
+    "Zameldowanie od 15:00, wymeldowanie do 11:00. Jeśli potrzebujesz innych godzin – napisz, postaramy się dopasować."
+   ],
+   [
+    "Czy można przyjechać ze zwierzakiem?",
+    "Zapytaj przy rezerwacji – w wybranych pokojach tak."
+   ],
+   [
+    "Czy jest parking?",
+    "Tak, przy obiekcie jest bezpłatny parking dla gości."
+   ],
+   [
+    "Jak potwierdzić rezerwację?",
+    "Po zapytaniu odpiszemy z potwierdzeniem i informacją o zadatku."
+   ]
+  ],
+  "txt": {},
+  "checkin": "15:00",
+  "checkout": "11:00"
+ },
+ "agroturystyka": {
+  "label": "Agroturystyka",
+  "style": "serif",
+  "acc": "#7A8B3A",
+  "acc_ink": "#64732D",
+  "bg": "#F5F3EA",
+  "bg2": "#E9E6D6",
+  "line": "#E0DCC9",
+  "h1": "Cisza, zieleń i <em>śniadanie z ogródka</em>.",
+  "lead": "Gospodarstwo agroturystyczne z dala od zgiełku. Pokoje w drewnianym domu, domowe jedzenie, zwierzęta i mnóstwo miejsca dla dzieci.",
+  "chips": [
+   "Domowe jedzenie",
+   "Zwierzęta w gospodarstwie",
+   "Miejsce dla dzieci"
+  ],
+  "sticker": "Domowe śniadania",
+  "img": [
+   "14704400",
+   "11437788",
+   "14025907",
+   "5419377",
+   "5210126"
+  ],
+  "rooms": [
+   [
+    "Pokój dwuosobowy",
+    "14025907",
+    2,
+    150,
+    [
+     "Łazienka",
+     "Widok na łąkę"
+    ]
+   ],
+   [
+    "Pokój rodzinny",
+    "14465274",
+    4,
+    230,
+    [
+     "Łazienka",
+     "Dostawka"
+    ]
+   ],
+   [
+    "Domek letniskowy",
+    "11437788",
+    5,
+    350,
+    [
+     "Kuchnia",
+     "Taras",
+     "Grill"
+    ]
+   ]
+  ],
+  "about": "Gospodarstwo, w którym czas płynie wolniej. Rano świeże jajka i mleko, w dzień spacery, rowery i zwierzęta, a wieczorem ognisko.",
+  "why": [
+   [
+    "Domowa kuchnia",
+    "Śniadania i obiadokolacje z lokalnych produktów."
+   ],
+   [
+    "Dla rodzin",
+    "Plac zabaw, zwierzęta i dużo przestrzeni."
+   ],
+   [
+    "Natura dookoła",
+    "Las, łąki i szlaki zaraz za płotem."
+   ]
+  ],
+  "faq": [
+   [
+    "O której jest zameldowanie?",
+    "Zameldowanie od 15:00, wymeldowanie do 11:00. Jeśli potrzebujesz innych godzin – napisz, postaramy się dopasować."
+   ],
+   [
+    "Czy można przyjechać ze zwierzakiem?",
+    "Zapytaj przy rezerwacji – w wybranych pokojach tak."
+   ],
+   [
+    "Czy są posiłki?",
+    "Tak, śniadania i obiadokolacje – zapytaj przy rezerwacji."
+   ],
+   [
+    "Czy dzieci mogą pomagać przy zwierzętach?",
+    "Tak, pod opieką dorosłych – to ulubiona atrakcja najmłodszych."
+   ]
+  ],
+  "txt": {
+   "t_abouth": "Wieś, jaką <em>pamiętasz</em>.",
+   "t_galh": "Życie <em>w gospodarstwie</em>."
+  },
+  "checkin": "15:00",
+  "checkout": "11:00"
+ },
+ "pensjonat": {
+  "label": "Pensjonat",
+  "style": "serif",
+  "acc": "#8C6A4A",
+  "acc_ink": "#76573A",
+  "bg": "#F5F1EA",
+  "bg2": "#EAE3D7",
+  "line": "#E1D8CA",
+  "h1": "Pensjonat, do którego <em>chce się wracać</em>.",
+  "lead": "Komfortowe pokoje, śniadania w cenie i rodzinna atmosfera. Idealne miejsce na weekend, urlop albo dłuższy wypoczynek.",
+  "chips": [
+   "Śniadania w cenie",
+   "Pokoje z łazienką",
+   "Parking"
+  ],
+  "sticker": "Śniadanie w cenie",
+  "img": [
+   "5210126",
+   "6119959",
+   "30708776",
+   "19950216",
+   "14465274"
+  ],
+  "rooms": [
+   [
+    "Pokój dwuosobowy",
+    "14465274",
+    2,
+    190,
+    [
+     "Śniadanie",
+     "Łazienka",
+     "TV"
+    ]
+   ],
+   [
+    "Pokój trzyosobowy",
+    "30708776",
+    3,
+    250,
+    [
+     "Śniadanie",
+     "Łazienka"
+    ]
+   ],
+   [
+    "Apartament rodzinny",
+    "6510425",
+    4,
+    340,
+    [
+     "Śniadanie",
+     "Dwa pokoje",
+     "Balkon"
+    ]
+   ]
+  ],
+  "about": "Rodzinny pensjonat, w którym gości witamy jak znajomych. Śniadania przygotowujemy na miejscu, a w okolicy podpowiemy najlepsze trasy i miejsca.",
+  "why": [
+   [
+    "Śniadania w cenie",
+    "Domowe, obfite – na dobry początek dnia."
+   ],
+   [
+    "Rodzinna atmosfera",
+    "Chętnie doradzimy, co warto zobaczyć."
+   ],
+   [
+    "Rezerwacja bezpośrednio",
+    "Bez prowizji i pośredników."
+   ]
+  ],
+  "faq": [
+   [
+    "O której jest zameldowanie?",
+    "Zameldowanie od 15:00, wymeldowanie do 11:00. Jeśli potrzebujesz innych godzin – napisz, postaramy się dopasować."
+   ],
+   [
+    "Czy można przyjechać ze zwierzakiem?",
+    "Zapytaj przy rezerwacji – w wybranych pokojach tak."
+   ],
+   [
+    "Czy jest parking?",
+    "Tak, przy obiekcie jest bezpłatny parking dla gości."
+   ],
+   [
+    "Jak potwierdzić rezerwację?",
+    "Po zapytaniu odpiszemy z potwierdzeniem i informacją o zadatku."
+   ]
+  ],
+  "txt": {},
+  "checkin": "15:00",
+  "checkout": "11:00"
+ },
+ "hotel": {
+  "label": "Hotel",
+  "style": "serif",
+  "acc": "#2F4A5A",
+  "acc_ink": "#2F4A5A",
+  "bg": "#F3F2EF",
+  "bg2": "#E6E4DE",
+  "line": "#DCD9D1",
+  "h1": "Komfort, który <em>czujesz od progu</em>.",
+  "lead": "Eleganckie pokoje, śniadanie, restauracja i obsługa, która dba o szczegóły. Na podróż służbową, weekend we dwoje i rodzinny wypoczynek.",
+  "chips": [
+   "Śniadanie w cenie",
+   "Recepcja 24h",
+   "Parking"
+  ],
+  "sticker": "Najlepsza cena bezpośrednio",
+  "img": [
+   "34672504",
+   "28347476",
+   "27901676",
+   "6466281",
+   "4916557"
+  ],
+  "rooms": [
+   [
+    "Pokój Standard",
+    "28347476",
+    2,
+    290,
+    [
+     "Śniadanie",
+     "Klimatyzacja",
+     "Wi-Fi"
+    ]
+   ],
+   [
+    "Pokój Superior",
+    "34672504",
+    2,
+    390,
+    [
+     "Śniadanie",
+     "Większy pokój",
+     "Minibar"
+    ]
+   ],
+   [
+    "Apartament",
+    "27901676",
+    4,
+    560,
+    [
+     "Śniadanie",
+     "Salon",
+     "Widok"
+    ]
+   ]
+  ],
+  "about": "Hotel, w którym liczy się wygoda i spokój. Śniadanie, wygodne łóżka, cicha klimatyzacja i obsługa gotowa pomóc o każdej porze.",
+  "why": [
+   [
+    "Najlepsza cena bezpośrednio",
+    "Rezerwując u nas, nie płacisz prowizji serwisów."
+   ],
+   [
+    "Recepcja 24h",
+    "Przyjazd o każdej porze bez stresu."
+   ],
+   [
+    "Śniadanie",
+    "Bogaty bufet w cenie pobytu."
+   ]
+  ],
+  "faq": [
+   [
+    "O której jest zameldowanie?",
+    "Zameldowanie od 15:00, wymeldowanie do 11:00. Jeśli potrzebujesz innych godzin – napisz, postaramy się dopasować."
+   ],
+   [
+    "Czy hotel ma restaurację?",
+    "Tak – zapytaj o godziny otwarcia przy rezerwacji."
+   ],
+   [
+    "Czy wystawiacie faktury?",
+    "Tak, wystawimy fakturę na firmę."
+   ],
+   [
+    "Czy jest parking?",
+    "Tak, przy obiekcie jest bezpłatny parking dla gości."
+   ]
+  ],
+  "txt": {
+   "t_book": "Rezerwacja",
+   "t_abouth": "Spokój, wygoda <em>i dobra obsługa</em>."
+  },
+  "checkin": "15:00",
+  "checkout": "11:00"
+ }
+}

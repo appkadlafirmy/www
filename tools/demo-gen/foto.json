@@ -1,0 +1,137 @@
+{
+  "fotografia": {
+    "label": "Fotografia",
+    "acc": "#B4532A",
+    "h1": "Zdjęcia, do których <em>będziesz wracać</em>.",
+    "lead": "Fotografia ślubna, rodzinna, portretowa i biznesowa. Naturalne kadry, spokojna atmosfera na sesji i zdjęcia gotowe w ustalonym terminie.",
+    "facts": [
+      "Galeria online",
+      "Zdjęcia w terminie",
+      "Plener lub studio"
+    ],
+    "img": [
+      "17057198",
+      "14355764",
+      "16597255",
+      "13470038",
+      "14408918"
+    ],
+    "services": [
+      [
+        "Reportaż ślubny",
+        "Cały dzień – od przygotowań po pierwszy taniec."
+      ],
+      [
+        "Sesje narzeczeńskie",
+        "Na luzie, przed ślubem – idealne na zaproszenia."
+      ],
+      [
+        "Sesje rodzinne",
+        "W plenerze albo w domu, z dziećmi i zwierzakami."
+      ],
+      [
+        "Portrety",
+        "Portrety do CV, LinkedIn i na stronę firmy."
+      ],
+      [
+        "Fotografia biznesowa",
+        "Zdjęcia zespołu, wnętrz i produktów."
+      ],
+      [
+        "Wydarzenia",
+        "Chrzciny, komunie, urodziny i eventy firmowe."
+      ]
+    ],
+    "scope": [
+      [
+        "Krótka sesja",
+        "do 1 godziny"
+      ],
+      [
+        "Sesja / wydarzenie",
+        "2–4 godziny"
+      ],
+      [
+        "Ślub / cały dzień",
+        "reportaż"
+      ]
+    ],
+    "why": [
+      [
+        "Naturalnie",
+        "Pomagamy pozować tak, żeby nikt nie wyglądał sztucznie."
+      ],
+      [
+        "Galeria online",
+        "Zdjęcia odbierasz w wygodnej galerii do pobrania."
+      ],
+      [
+        "Terminowo",
+        "Wiesz, kiedy dostaniesz zdjęcia."
+      ],
+      [
+        "Spokojna atmosfera",
+        "Na sesji jest luźno – i to widać na zdjęciach."
+      ]
+    ],
+    "faq": [
+      [
+        "Kiedy dostanę zdjęcia?",
+        "Termin podajemy przy rezerwacji – sesje zwykle w 1–2 tygodnie, śluby dłużej."
+      ],
+      [
+        "Ile zdjęć dostanę?",
+        "Zależy od pakietu. Dokładną liczbę podajemy w ofercie."
+      ],
+      [
+        "Czy dojeżdżacie?",
+        "Tak, w mieście i okolicach. Dalsze wyjazdy – do ustalenia."
+      ],
+      [
+        "Czy trzeba wpłacić zaliczkę?",
+        "Przy ślubach zwykle tak, żeby zarezerwować termin."
+      ]
+    ],
+    "txt": {
+      "t_cta": "Zarezerwuj sesję",
+      "t_cta2": "Sprawdź termin",
+      "t_q": "Rezerwacja",
+      "t_slot": "Wybierz termin sesji",
+      "t_slot_go": "zarezerwuj",
+      "t_why": "Fotografujemy ludzi, <em>nie pozy</em>.",
+      "t_steps": "Od pierwszej wiadomości do <em>gotowej galerii</em>.",
+      "steps": [
+        [
+          "Wiadomość",
+          "Napisz, jaka sesja Cię interesuje i kiedy."
+        ],
+        [
+          "Plan sesji",
+          "Ustalamy miejsce, porę dnia i styl zdjęć."
+        ],
+        [
+          "Sesja",
+          "Spokojnie, bez pośpiechu i sztywnego pozowania."
+        ],
+        [
+          "Galeria",
+          "Odbierasz gotowe zdjęcia w galerii online."
+        ]
+      ],
+      "t_qh": "Rezerwacja w <em>4 krokach</em>.",
+      "t_qsub": "Zaznacz rodzaj sesji, a odezwiemy się z dostępnymi terminami i ofertą.",
+      "qli": [
+        "Odpowiedź zwykle tego samego dnia",
+        "Oferta z cennikiem",
+        "Termin oddania zdjęć w umowie"
+      ],
+      "t_scope": "Jak długo?",
+      "t_gal": "Portfolio",
+      "t_galh": "Kilka kadrów <em>z portfolio</em>.",
+      "t_galnote": "tu pojawi się Wasze prawdziwe portfolio.",
+      "t_fin": "Szukasz fotografa?",
+      "t_finp": "Napisz, jaka sesja Cię interesuje – podeślemy wolne terminy i ofertę.",
+      "t_subj": "Zapytanie o sesję"
+    }
+  }
+}
