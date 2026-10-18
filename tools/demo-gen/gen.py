@@ -313,6 +313,9 @@ def main():
     for t, css in CSS.items(): open(os.path.join(dst, "assets", t + ".css"), "w", encoding="utf-8").write(css)
     json.dump(variants, open(var_path, "w"), indent=0, sort_keys=True)
     json.dump(idx, open(idx_path, "w"), ensure_ascii=False, indent=0, sort_keys=True)
+    # public email -> folder map, read by the follow-up automation for {{demo}}
+    live = {e: s for e, s in idx.items() if os.path.isdir(os.path.join(dst, s))}
+    json.dump(live, open(os.path.join(dst, "slugs.json"), "w"), ensure_ascii=False, separators=(",", ":"), sort_keys=True)
     print("generated", n, "| no template yet:", sum(miss.values()), miss)
 
 if __name__ == "__main__":
