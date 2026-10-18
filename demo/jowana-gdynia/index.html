@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Jowana – Krawiectwo · Gdynia</title>
+<meta name="description" content="Krawiectwo · Gdynia i okolice. Szycie na miarę, przeróbki i poprawki krawieckie. Skracanie, zwężanie, wymiana zamków – szybko, starannie i z przymiarką.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F4F2ED; --bg2: #EAE6DE; --card: #FFFFFF; --ink: #15161A; --ink2: #34363C; --muted: #6C6E73; --line: #DDD8CE;
+    --acc: #8C3B4A; --dark: #141518;
+    --display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+    --sans: Geist, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --ease: cubic-bezier(.2,.7,.1,1);
+   }
+</style>
+<link rel="stylesheet" href="../assets/fach.css?v=ce0ce3dd">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="arr" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="chk" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="9.5" r="2.5" fill="currentColor"/></symbol>
+</svg>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="logo" href="#"><span class="mono">J</span><span><b>Jowana</b><small>Krawiectwo · Gdynia</small></span></a>
+    <nav class="nav" aria-label="Menu">
+      <a href="#uslugi">Usługi</a><a href="#jak">Jak pracujemy</a><a href="#realizacje">Pracownia</a><a href="#wycena">Zlecenie</a><a href="#kontakt">Kontakt</a>
+    </nav>
+    <a class="btn b-acc top-cta" href="#wycena">Umów przymiarkę <svg class="arr"><use href="#arr"/></svg></a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-bg"><img src="../assets/krawiec/6765658.jpg" alt="" fetchpriority="high"></div>
+    <div class="wrap">
+      <div>
+        <p class="chip fade" style="--d:.1s"><i><svg><use href="#pin"/></svg></i>Gdynia i okolice</p>
+        <h1 class="fade" style="--d:.25s">Ubrania, które <em>leżą idealnie</em>.</h1>
+        <p class="hero-lead fade" style="--d:.45s">Szycie na miarę, przeróbki i poprawki krawieckie. Skracanie, zwężanie, wymiana zamków – szybko, starannie i z przymiarką.</p>
+        <div class="cta fade" style="--d:.6s">
+          <a class="btn b-acc" href="#wycena">Umów przymiarkę <svg class="arr"><use href="#arr"/></svg></a>
+          <a class="btn b-ghost" href="#uslugi">Zobacz usługi</a>
+        </div>
+        <div class="facts fade" style="--d:.75s"><span><svg><use href="#chk"/></svg>Przymiarka w cenie</span><span><svg><use href="#chk"/></svg>Przeróbki od ręki</span><span><svg><use href="#chk"/></svg>Szycie na miarę</span></div>
+      </div>
+      <div class="slots fade" style="--d:.9s" aria-label="Wolne terminy">
+        <div class="h"><span>Najbliższe terminy</span><span class="live">na bieżąco</span></div>
+        <p class="t">Wybierz dzień przymiarki</p>
+        <div class="days" id="days"></div>
+        <p class="f" id="slotInfo">Zielona kropka = wolny termin.</p>
+      </div>
+    </div>
+    <span class="scroll" aria-hidden="true"></span>
+  </section>
+
+  <div class="ticker" aria-hidden="true"><div class="row"><span>Przeróbki i poprawki</span><span>Wymiana zamków</span><span>Szycie na miarę</span><span>Suknie ślubne</span><span>Firany i zasłony</span><span>Naprawy</span><span>Przeróbki i poprawki</span><span>Wymiana zamków</span><span>Szycie na miarę</span><span>Suknie ślubne</span><span>Firany i zasłony</span><span>Naprawy</span></div></div>
+
+  <section id="uslugi">
+    <div class="wrap">
+      <div class="svc-head">
+        <div>
+          <p class="eyebrow rv">Usługi</p>
+          <h2 class="rv" style="--d:.08s">Czym się <em>zajmujemy</em></h2>
+        </div>
+        <p class="sub rv" style="--d:.16s">Nie widzisz tego, czego szukasz? Napisz – jeśli to nasza działka, zrobimy to porządnie.</p>
+      </div>
+      <div class="grid"><article class="svc rv" style="--d:0.00s"><span class="n">01</span><span class="go" aria-hidden="true"><svg class="arr"><use href="#arr"/></svg></span><h3>Przeróbki i poprawki</h3><p>Skracanie, zwężanie, poszerzanie – z przymiarką.</p></article><article class="svc rv" style="--d:0.08s"><span class="n">02</span><span class="go" aria-hidden="true"><svg class="arr"><use href="#arr"/></svg></span><h3>Wymiana zamków</h3><p>Kurtki, spodnie, sukienki i torby.</p></article><article class="svc rv" style="--d:0.16s"><span class="n">03</span><span class="go" aria-hidden="true"><svg class="arr"><use href="#arr"/></svg></span><h3>Szycie na miarę</h3><p>Garnitury, sukienki i spódnice szyte pod Ciebie.</p></article><article class="svc rv" style="--d:0.00s"><span class="n">04</span><span class="go" aria-hidden="true"><svg class="arr"><use href="#arr"/></svg></span><h3>Suknie ślubne</h3><p>Dopasowanie i poprawki sukni ślubnych i wieczorowych.</p></article><article class="svc rv" style="--d:0.08s"><span class="n">05</span><span class="go" aria-hidden="true"><svg class="arr"><use href="#arr"/></svg></span><h3>Firany i zasłony</h3><p>Szycie i skracanie firan, zasłon i poduszek.</p></article><article class="svc rv" style="--d:0.16s"><span class="n">06</span><span class="go" aria-hidden="true"><svg class="arr"><use href="#arr"/></svg></span><h3>Naprawy</h3><p>Rozprucia, dziury, łaty – ratujemy ulubione rzeczy.</p></article></div>
+    </div>
+  </section>
+
+  <section class="why">
+    <div class="wrap why-grid">
+      <div class="why-img rv"><img src="../assets/krawiec/5830695.jpg" alt="" loading="lazy" id="par"><div class="tag"><b>Jowana</b><span>Krawiectwo · Gdynia</span></div></div>
+      <div>
+        <p class="eyebrow rv">Dlaczego my</p>
+        <h2 class="rv" style="--d:.08s">Szyjemy starannie, <em>ścieg po ściegu</em>.</h2>
+        <div class="pts"><div class="pt rv" style="--d:0.00s"><i>1</i><div><h3>Przymiarka</h3><p>Przy przeróbkach zawsze robimy przymiarkę.</p></div></div><div class="pt rv" style="--d:0.06s"><i>2</i><div><h3>Terminy na czas</h3><p>Mówimy, kiedy odbierzesz – i rzecz jest gotowa.</p></div></div><div class="pt rv" style="--d:0.12s"><i>3</i><div><h3>Doświadczenie</h3><p>Wiemy, jak pracować z delikatnymi tkaninami.</p></div></div><div class="pt rv" style="--d:0.18s"><i>4</i><div><h3>Uczciwe ceny</h3><p>Cenę podajemy przed rozpoczęciem pracy.</p></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="jak">
+    <div class="wrap">
+      <p class="eyebrow rv">Jak pracujemy</p>
+      <h2 class="rv" style="--d:.08s">Od przymiarki do <em>gotowej rzeczy</em>.</h2>
+      <div class="steps" id="steps">
+        <span class="line" aria-hidden="true"><i></i></span>
+        <div class="step" style="--i:0"><span class="dot">1</span><h3>Wiadomość</h3><p>Napisz, co trzeba zrobić – możesz dodać zdjęcie.</p></div>
+        <div class="step" style="--i:1"><span class="dot">2</span><h3>Przymiarka</h3><p>Mierzymy i ustalamy szczegóły.</p></div>
+        <div class="step" style="--i:2"><span class="dot">3</span><h3>Szycie</h3><p>Pracujemy nad Twoją rzeczą w pracowni.</p></div>
+        <div class="step" style="--i:3"><span class="dot">4</span><h3>Odbiór</h3><p>Odbierasz gotową rzecz – z ostatnią przymiarką.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="quote" id="wycena">
+    <div class="wrap q-grid">
+      <div class="q-side">
+        <p class="eyebrow rv">Zlecenie</p>
+        <h2 class="rv" style="--d:.08s">Zlecenie w <em>4 krokach</em>.</h2>
+        <p class="sub rv" style="--d:.16s">Zaznacz, czego potrzebujesz, a odezwiemy się z ceną i terminem.</p>
+        <ul class="rv" style="--d:.24s">
+          <li><svg><use href="#chk"/></svg>Odpowiedź zwykle tego samego dnia</li><li><svg><use href="#chk"/></svg>Cena podana przed pracą</li><li><svg><use href="#chk"/></svg>Przymiarka w cenie</li>
+        </ul>
+      </div>
+      <div class="q-card rv" style="--d:.1s">
+        <div class="q-bar" id="qBar"><i class="on"></i><i></i><i></i><i></i></div>
+        <form id="qForm" novalidate>
+          <div class="q-step on" data-s="0">
+            <h3>Czego potrzebujesz?</h3><p class="hint">Wybierz jedną usługę.</p>
+            <div class="opts two" data-k="usluga"><button type="button" class="opt" aria-pressed="false" data-v="Przeróbki i poprawki"><span class="r"></span><span><b>Przeróbki i poprawki</b></span></button><button type="button" class="opt" aria-pressed="false" data-v="Wymiana zamków"><span class="r"></span><span><b>Wymiana zamków</b></span></button><button type="button" class="opt" aria-pressed="false" data-v="Szycie na miarę"><span class="r"></span><span><b>Szycie na miarę</b></span></button><button type="button" class="opt" aria-pressed="false" data-v="Suknie ślubne"><span class="r"></span><span><b>Suknie ślubne</b></span></button><button type="button" class="opt" aria-pressed="false" data-v="Firany i zasłony"><span class="r"></span><span><b>Firany i zasłony</b></span></button><button type="button" class="opt" aria-pressed="false" data-v="Naprawy"><span class="r"></span><span><b>Naprawy</b></span></button></div>
+          </div>
+          <div class="q-step" data-s="1">
+            <h3>Jaki to zakres?</h3><p class="hint">Wystarczy orientacyjnie.</p>
+            <div class="opts" data-k="zakres"><button type="button" class="opt" aria-pressed="false" data-v="Drobna poprawka"><span class="r"></span><span><b>Drobna poprawka</b><small>skrócenie, zamek</small></span></button><button type="button" class="opt" aria-pressed="false" data-v="Przeróbka"><span class="r"></span><span><b>Przeróbka</b><small>zwężenie, dopasowanie</small></span></button><button type="button" class="opt" aria-pressed="false" data-v="Szycie na miarę"><span class="r"></span><span><b>Szycie na miarę</b><small>nowa rzecz od zera</small></span></button></div>
+          </div>
+          <div class="q-step" data-s="2">
+            <h3>Kiedy chcesz zacząć?</h3><p class="hint">Postaramy się dopasować.</p>
+            <div class="opts" data-k="termin">
+              <button type="button" class="opt" aria-pressed="false" data-v="Jak najszybciej"><span class="r"></span><span><b>Jak najszybciej</b><small>pilna sprawa</small></span></button>
+              <button type="button" class="opt" aria-pressed="false" data-v="W ciągu miesiąca"><span class="r"></span><span><b>W ciągu miesiąca</b><small>planuję z wyprzedzeniem</small></span></button>
+              <button type="button" class="opt" aria-pressed="false" data-v="Termin elastyczny"><span class="r"></span><span><b>Termin elastyczny</b><small>dopasuję się</small></span></button>
+            </div>
+          </div>
+          <div class="q-step" data-s="3">
+            <h3>Gdzie mamy się odezwać?</h3><p class="hint">Twoje dane widzimy tylko my.</p>
+            <div class="fld"><label for="qName">Imię</label><input id="qName" autocomplete="name" required></div>
+            <div class="fld"><label for="qTel">Telefon</label><input id="qTel" type="tel" inputmode="tel" autocomplete="tel" required></div>
+            <div class="fld"><label for="qMsg">Kilka słów o zleceniu (opcjonalnie)</label><textarea id="qMsg"></textarea></div>
+            <div class="sum" id="qSum"></div>
+          </div>
+          <div class="q-step" data-s="4">
+            <div class="done"><span class="ok"><svg width="34" height="34" style="color:#fff"><use href="#chk"/></svg></span><h3>Dziękujemy!</h3><p>Otworzyliśmy wiadomość z Twoim zapytaniem – wystarczy ją wysłać.</p></div>
+          </div>
+          <div class="q-nav" id="qNav">
+            <button type="button" class="back" id="qBack" hidden>← Wstecz</button>
+            <button type="button" class="btn b-acc" id="qNext">Dalej <svg class="arr"><use href="#arr"/></svg></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="realizacje">
+    <div class="wrap">
+      <p class="eyebrow rv">Pracownia</p>
+      <h2 class="rv" style="--d:.08s">Zajrzyj do <em>pracowni</em>.</h2>
+      <div class="gal n5"><figure class="rv" style="--d:0.00s"><img src="../assets/krawiec/5830695.jpg" alt="" loading="lazy"><figcaption>Przeróbki i poprawki</figcaption></figure><figure class="rv" style="--d:0.06s"><img src="../assets/krawiec/6766353.jpg" alt="" loading="lazy"><figcaption>Wymiana zamków</figcaption></figure><figure class="rv" style="--d:0.12s"><img src="../assets/krawiec/7147613.jpg" alt="" loading="lazy"><figcaption>Szycie na miarę</figcaption></figure><figure class="rv" style="--d:0.18s"><img src="../assets/krawiec/33042340.jpg" alt="" loading="lazy"><figcaption>Suknie ślubne</figcaption></figure><figure class="rv" style="--d:0.00s"><img src="../assets/krawiec/6765658.jpg" alt="" loading="lazy"><figcaption>Firany i zasłony</figcaption></figure></div>
+      <p class="note rv">W wersji demo są zdjęcia przykładowe – tu pojawią się zdjęcia Waszej pracowni i realizacji.</p>
+    </div>
+  </section>
+
+  <section id="kontakt" style="padding-top:0">
+    <div class="wrap area">
+      <div>
+        <p class="eyebrow rv">Gdzie działamy</p>
+        <h2 class="rv" style="--d:.08s">Gdynia <em>i okolice</em>.</h2>
+        <p class="sub rv" style="--d:.16s">Bazujemy przy ul. Bytomska. Dojeżdżamy do klientów w mieście i w okolicznych miejscowościach.</p>
+        <div class="faq rv" style="--d:.2s"><details><summary>Ile trwa skrócenie spodni?<i>+</i></summary><p>Zwykle 1–3 dni, a przy pilnych sprawach czasem od ręki.</p></details><details><summary>Czy szyjecie z materiału klienta?<i>+</i></summary><p>Tak, możemy szyć z Twojego materiału.</p></details><details><summary>Czy poprawiacie suknie ślubne?<i>+</i></summary><p>Tak, z kilkoma przymiarkami przed ślubem.</p></details><details><summary>Czy trzeba się umawiać?<i>+</i></summary><p>Na przymiarki i szycie na miarę – tak. Drobne poprawki możesz po prostu przynieść.</p></details></div>
+      </div>
+      <div class="map rv" style="--d:.1s"><iframe title="Mapa – Gdynia" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=Bytomska%2C%20Gdynia&z=13&output=embed"></iframe></div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="wrap">
+      <div class="final-box rv">
+        <div>
+          <h2>Masz coś do poprawki? <br>Napisz – <em style="color:#fff;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px">odpiszemy dziś</em>.</h2>
+          <p>Napisz, co trzeba zrobić – odpiszemy z ceną i terminem.</p>
+        </div>
+        <a class="btn b-white" href="#wycena">Umów przymiarkę <svg class="arr"><use href="#arr"/></svg></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div><p class="f-big">Jowana</p><p style="margin-top:14px">Krawiectwo · Gdynia i okolice</p></div>
+      <div><h4>Kontakt</h4><p><a href="mailto:jowana18@wp.pl">jowana18@wp.pl</a></p><p style="margin-top:6px">Bytomska, Gdynia</p></div>
+      <div><h4>Na skróty</h4><p><a href="#uslugi">Usługi</a></p><p><a href="#wycena">Zlecenie</a></p><p><a href="#realizacje">Pracownia</a></p></div>
+    </div>
+    <div class="f-bot"><span>© <span id="yr">2026</span> Jowana. Firma krawiecka. Markowska-Wołoszyk J.</span><span>Projekt strony demonstracyjnej – appkadlafirmy</span></div>
+  </div>
+</footer>
+
+<nav class="mbar" id="mbar" aria-label="Szybki kontakt">
+  <a class="btn b-line" href="mailto:jowana18@wp.pl">Napisz</a>
+  <a class="btn b-acc" href="#wycena">Zlecenie</a>
+</nav>
+<p class="demo"><b>Demo</b> · zdjęcia i treści przykładowe</p>
+
+<script>
+(function () {
+  var EMAIL = "jowana18@wp.pl";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  requestAnimationFrame(function () { document.body.classList.add("loaded"); });
+  document.getElementById("yr").textContent = new Date().getFullYear();
+
+  // header + mobile bar
+  var top = document.getElementById("top"), mbar = document.getElementById("mbar");
+  function onScroll() {
+    var y = window.scrollY;
+    top.classList.toggle("solid", y > window.innerHeight * .75 - 80);
+    mbar.classList.toggle("on", y > 500);
+    var par = document.getElementById("par");
+    if (par && !reduce) { var r = par.parentNode.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) par.style.setProperty("--py", (-(r.top / innerHeight) * 40 - 20).toFixed(1) + "px"); }
+  }
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+  // reveal
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }); }, { threshold: .15, rootMargin: "0px 0px -40px 0px" });
+  document.querySelectorAll(".rv, #steps").forEach(function (el) { io.observe(el); });
+
+  // availability calendar (demo)
+  var days = document.getElementById("days"), info = document.getElementById("slotInfo");
+  var names = ["Pn", "Wt", "Śr", "Cz", "Pt", "So", "Nd"], months = ["stycznia","lutego","marca","kwietnia","maja","czerwca","lipca","sierpnia","września","października","listopada","grudnia"];
+  var d0 = new Date(); d0.setHours(0,0,0,0);
+  var t1 = new Date(d0); t1.setDate(d0.getDate() + 1);
+  var start = new Date(t1); start.setDate(t1.getDate() - ((t1.getDay() + 6) % 7));
+  var html = names.map(function (n) { return "<div>" + n + "</div>"; }).join("");
+  for (var i = 0; i < 14; i++) {
+    var d = new Date(start); d.setDate(start.getDate() + i);
+    var past = d <= d0, wk = d.getDay() === 0, seed = (d.getDate() * 7 + d.getMonth() * 3) % 5;
+    var cls = past || wk ? "busy" : (seed === 1 || seed === 3 ? "busy" : "free");
+    html += '<button type="button" class="' + cls + '" data-t="' + d.getDate() + " " + months[d.getMonth()] + '"' + (cls === "busy" ? " disabled" : "") + ">" + d.getDate() + "</button>";
+  }
+  days.innerHTML = html;
+  days.addEventListener("click", function (e) {
+    var b = e.target.closest("button.free"); if (!b) return;
+    days.querySelectorAll(".on").forEach(function (x) { x.classList.remove("on"); });
+    b.classList.add("on");
+    info.innerHTML = "Wybrano <b>" + b.dataset.t + "</b> · <a href=\"#wycena\" style=\"text-decoration:underline\">umów przymiarkę →</a>";
+    window.__day = b.dataset.t;
+  });
+
+  // quote wizard
+  var form = document.getElementById("qForm"), steps = form.querySelectorAll(".q-step"), bars = document.querySelectorAll("#qBar i");
+  var next = document.getElementById("qNext"), back = document.getElementById("qBack"), nav = document.getElementById("qNav");
+  var cur = 0, data = {};
+  form.addEventListener("click", function (e) {
+    var o = e.target.closest(".opt"); if (!o) return;
+    var g = o.parentNode; g.querySelectorAll(".opt").forEach(function (x) { x.setAttribute("aria-pressed", "false"); });
+    o.setAttribute("aria-pressed", "true"); data[g.dataset.k] = o.dataset.v;
+    if (cur < 3) setTimeout(function () { go(cur + 1); }, 280);
+  });
+  function go(n) {
+    steps[cur].classList.remove("on"); cur = n; steps[cur].classList.add("on");
+    bars.forEach(function (b, i) { b.classList.toggle("on", i <= Math.min(cur, 3)); });
+    back.hidden = cur === 0 || cur === 4;
+    next.innerHTML = cur === 3 ? 'Wyślij zapytanie <svg class="arr"><use href="#arr"/></svg>' : 'Dalej <svg class="arr"><use href="#arr"/></svg>';
+    nav.style.display = cur === 4 ? "none" : "";
+    if (cur === 3) document.getElementById("qSum").innerHTML = "<b>" + (data.usluga || "–") + "</b> · " + (data.zakres || "–") + " · " + (data.termin || "–") + (window.__day ? " · dzień: " + window.__day : "");
+  }
+  next.addEventListener("click", function () {
+    var keys = ["usluga", "zakres", "termin"];
+    if (cur < 3) { if (!data[keys[cur]]) { steps[cur].querySelector(".opts").animate([{ transform: "translateX(0)" }, { transform: "translateX(-6px)" }, { transform: "translateX(6px)" }, { transform: "translateX(0)" }], { duration: 300 }); return; } go(cur + 1); return; }
+    var n = document.getElementById("qName"), t = document.getElementById("qTel");
+    if (!n.value.trim()) { n.focus(); return; } if (!t.value.trim()) { t.focus(); return; }
+    var body = "Usługa: " + data.usluga + "\nZakres: " + data.zakres + "\nTermin: " + data.termin + (window.__day ? "\nPreferowany dzień: " + window.__day : "") + "\n\nImię: " + n.value + "\nTelefon: " + t.value + "\n\n" + document.getElementById("qMsg").value;
+    location.href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent("Zapytanie – krawiectwo – " + data.usluga) + "&body=" + encodeURIComponent(body);
+    go(4);
+  });
+  back.addEventListener("click", function () { if (cur > 0) go(cur - 1); });
+})();
+</script>
+</body>
+</html>
