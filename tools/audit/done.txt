@@ -5,3 +5,9 @@ mechanika samochodowa|Kraków
 mechanika samochodowa|Wrocław
 restauracja|Kraków
 restauracja|Wrocław
+kosmetyka|Warszawa
+kosmetyka|Gdańsk
+mechanika samochodowa|Warszawa
+mechanika samochodowa|Gdańsk
+restauracja|Warszawa
+restauracja|Gdańsk
