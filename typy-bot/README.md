@@ -42,8 +42,15 @@ gol w obu połowach · wygra obie / którąkolwiek połowę · strzeli w obu po�
 **Statystyki** (22 ligi europejskie, też puchary): kartki (łącznie, drużyny, kto więcej, handicap) · czerwona kartka ·
 rzuty rożne (łącznie, drużyny, kto więcej, handicap) · strzały celne · strzały · faule
 
-**Nie ma:** rynków na zawodników (strzelcy, asysty, strzały zawodnika) — darmowe dane nie mają statystyk graczy —
-ani rynków, których nie da się rozliczyć z danych (kto pierwszy strzeli, rzut karny, kartka w 1. połowie).
+**Zawodnicy** (ligi i puchary obecne w ESPN): strzeli gola · strzały 1+/2+/3+/4+ · strzały celne 1+/2+/3+ ·
+faule 1+/2+ · kartka · asysta. Bot zbiera statystyki każdego gracza z ostatnich 8 meczów drużyny (liga + puchary):
+czy gra od początku, ile minut, ile strzałów/goli na 90 minut, i dopasowuje to do meczu (słabszy rywal = więcej
+strzałów). Gdy ESPN poda składy (ok. godzinę przed meczem), liczy dla prawdziwej jedenastki. Test na Premier League
+i LaLiga (styczeń–maj 2026, ok. 100 tys. przewidywań): typy na zawodników 62–85% — model 70%, naprawdę 72%;
+strzelec gola przy szansie ≥ 38% — model 38%, naprawdę 35%. Szanse są „jeśli zagra” (gdy zawodnik nie zagra,
+bukmacher zwraca stawkę). Test: `python -m typy test-zawodnicy eng.1 esp.1`.
+
+**Nie ma:** rynków, których nie da się rozliczyć z danych (kto pierwszy strzeli, rzut karny, kartka w 1. połowie).
 
 Pełną wycenę wszystkich rynków widać w bocie pod przyciskiem **📋 Wszystkie rynki**.
 

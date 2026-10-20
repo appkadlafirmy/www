@@ -7,6 +7,7 @@ from datetime import date, datetime, timedelta
 from . import config
 from .data import Match
 from .markets import settle
+from .players import match_from_event, settle_player
 from .picks import Pick
 
 SCHEMA = """
@@ -50,6 +51,10 @@ class Store:
         self.db = sqlite3.connect(path, check_same_thread=False)
         self.db.row_factory = sqlite3.Row
         self.db.executescript(SCHEMA)
+        cols = {r[1] for r in self.db.execute("PRAGMA table_info(picks)")}
+        if "event_id" not in cols:  # starsze bazy: dopisujemy numer meczu w ESPN (rozliczanie zawodników)
+            self.db.execute("ALTER TABLE picks ADD COLUMN event_id TEXT")
+            self.db.commit()
 
     # ------------------------------------------------------------ użytkownicy
 
@@ -111,9 +116,9 @@ class Store:
             fx = p.pred.fixture
             self.db.execute(
                 "INSERT OR IGNORE INTO picks (created_at, div, match_date, kickoff, home, away, market, "
-                "label, kind, prob, min_odds) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                "label, kind, prob, min_odds, event_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (now, fx.div, fx.date.isoformat(), fx.kickoff.isoformat(), fx.home, fx.away,
-                 p.ev.market.key, p.ev.label, p.kind, p.ev.prob, p.min_odds))
+                 p.ev.market.key, p.ev.label, p.kind, p.ev.prob, p.min_odds, fx.espn_id))
         self.db.commit()
 
     def settle_open(self, results: dict[str, list[Match]]) -> int:
@@ -121,7 +126,20 @@ class Store:
         index = {m.key: m for ms in results.values() for m in ms}
         done = 0
         for row in self.db.execute("SELECT * FROM picks WHERE result IS NULL").fetchall():
+            if row["market"].startswith("P:"):  # typ na zawodnika — rozliczamy ze statystyk ESPN
+                if not row["event_id"]:
+                    continue
+                res = settle_player(row["market"], row["event_id"])
+                if res is None:
+                    continue
+                w, l = res
+                result = "push" if w == l else "won" if w > l else "lost"
+                self.db.execute("UPDATE picks SET result = ? WHERE id = ?", (result, row["id"]))
+                done += 1
+                continue
             m = index.get((row["div"], date.fromisoformat(row["match_date"]), row["home"], row["away"]))
+            if not m and row["event_id"]:  # puchary i ligi spoza football-data: wynik z ESPN
+                m = match_from_event(row["event_id"], row["div"], row["home"], row["away"])
             if not m:
                 continue
             res = settle(row["market"], m)

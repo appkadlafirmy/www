@@ -4,6 +4,7 @@
     python -m typy typy             pokaż typy dnia w terminalu
     python -m typy mecz Arsenal     analiza meczu drużyny
     python -m typy test 2025 E0     test na historii (sezon 2025/26, Premier League)
+    python -m typy test-zawodnicy   test typów na zawodników (Premier League + LaLiga)
 """
 import re
 import sys
@@ -38,6 +39,9 @@ def main() -> None:
             print("-" * 60)
     elif cmd == "test":
         backtest.main(args[1:])
+    elif cmd == "test-zawodnicy":
+        from . import player_backtest
+        player_backtest.main(args[1:])
     else:
         print(__doc__)
 

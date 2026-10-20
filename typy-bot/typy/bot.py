@@ -84,7 +84,8 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "⚽ gole, wynik, BTTS, handicapy, połowy, do przerwy/koniec, dokładny wynik, kombinacje\n"
         "🟨 kartki (żółte + czerwone, każda za 1 — sprawdź zasady swojego bukmachera) · 🟥 czerwona kartka\n"
         "🚩 rzuty rożne · 🎯 strzały celne · 👟 strzały · 🦵 faule\n"
-        "Rynków na zawodników (strzelcy, asysty) nie ma — darmowe dane nie mają statystyk graczy.\n\n"
+        "👤 zawodnicy: strzeli gola, strzały, strzały celne, faule, kartka — z formy każdego gracza "
+        "z ostatnich 8 meczów; gdy znane są składy, liczymy dla prawdziwej jedenastki\n\n"
         "<b>Czego bot nie wie:</b> kontuzji, składów i zawieszeń z ostatniej chwili — "
         "sprawdź je przed meczem.\n\n" + report.DISCLAIMER
     )
@@ -249,11 +250,15 @@ async def live_analysis(update: Update, fx: data.Fixture, premium: bool, sid: st
     await show(report.live_strength_line(pred))
     await show(report.live_table_line(pred))
     await show(report.live_counts_line(pred))
+    player_markets, known = await _run(engine.player_markets, fx, pred)
+    n_players = len({pm.player.id for pm in player_markets})
+    await show(f"👤 Zawodnicy: {n_players} przeanalizowanych, składy {'znane ✅' if known else 'jeszcze nieznane'}"
+               if n_players else "👤 Zawodnicy: brak statystyk dla tego meczu")
     evals = await _run(evaluate, pred)
-    await show(f"🧮 Przeliczono {len(evals)} rynków")
-    picks = select_picks(pred, evals)
+    await show(f"🧮 Przeliczono {len(evals) + len(player_markets)} rynków")
+    picks = select_picks(pred, evals, player_markets)
     await show(f"✅ Typy wybrane: {len(picks)}" if picks else "⏸ Żaden rynek nie odstaje na tyle, żeby grać")
-    a = Analysis(pred, evals, picks)
+    a = Analysis(pred, evals, picks, player_markets, known)
     engine.remember(fx, a)
     if premium:
         store.save_picks(picks)
@@ -341,8 +346,8 @@ async def settle_job(context: ContextTypes.DEFAULT_TYPE) -> None:
     divs = sorted({r["div"] for r in store.db.execute("SELECT div FROM picks WHERE result IS NULL")})
     if not divs:
         return
-    results = await _run(lambda: data.load_matches(seasons=1, divs=divs))
-    n = store.settle_open(results)
+    results = await _run(lambda: data.load_matches(seasons=1, divs=[d for d in divs if d not in config.CUPS]))
+    n = await _run(store.settle_open, results)
     if n:
         log.info("Rozliczono %d typów", n)
 

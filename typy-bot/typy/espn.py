@@ -218,7 +218,8 @@ def _fixture(ev: dict, div: str, cup: bool, matcher: TeamMatcher, now: datetime)
         aliases += [shown, t.get("shortDisplayName") or "", t.get("abbreviation") or ""]
     return Fixture(div=div, kickoff=kickoff, home=names[0], away=names[1], referee=None,
                    odds=_odds(comp), aliases=tuple(a for a in aliases if a),
-                   home_div=divs[0], away_div=divs[1])
+                   home_div=divs[0], away_div=divs[1], espn_id=str(ev.get("id") or "") or None,
+                   espn_home_id=teams["home"].get("id"), espn_away_id=teams["away"].get("id"))
 
 
 _cache: tuple[float, list[Fixture]] | None = None

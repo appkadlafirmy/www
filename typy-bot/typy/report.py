@@ -10,7 +10,7 @@ from .markets import COUNT_KINDS
 from .picks import Pick
 
 DAYS = ["pon", "wt", "śr", "czw", "pt", "sob", "nd"]
-KIND_ICON = {"value": "💰", "model": "⚽", **{name: icon for name, icon, _ in COUNT_KINDS.values()}}
+KIND_ICON = {"value": "💰", "model": "⚽", "zawodnik": "👤", **{name: icon for name, icon, _ in COUNT_KINDS.values()}}
 
 DISCLAIMER = ("ℹ️ Typy to prawdopodobieństwa, nie pewniaki. Graj tylko u legalnych "
               "bukmacherów, tylko 18+ i tylko za kwoty, które możesz stracić.")
@@ -135,6 +135,9 @@ def analysis_text(a: Analysis, show_picks: bool = True) -> str:
     if mot:
         out.append("🎯 <b>Tabela i motywacja</b>\n" + "\n".join(mot))
 
+    if a.players:
+        out.append(players_section(a))
+
     if show_picks:
         if a.picks:
             out.append("\n✅ <b>TYPY</b>")
@@ -149,8 +152,44 @@ def analysis_text(a: Analysis, show_picks: bool = True) -> str:
     if fx.div in config.CUPS:
         out.append("\n🏆 Mecz pucharowy: siła drużyn z kursów bukmacherów, kartki i rożne ze statystyk "
                    "z ich lig (sędziowie UEFA bywają inni) — traktuj te typy ostrożniej.")
-    out.append("\n⚠️ Darmowe dane nie zawierają kontuzji ani składów — sprawdź je przed meczem "
-               "(np. na stronie klubu), bo brak kluczowego gracza zmienia wszystko.")
+    if a.lineups_known:
+        out.append("\n✅ Składy są już znane — szanse zawodników liczone dla prawdziwej jedenastki.")
+    else:
+        out.append("\n⚠️ Składów jeszcze nie ma (ESPN podaje je ok. godzinę przed meczem), a kontuzji bot nie widzi — "
+                   "sprawdź skład przed grą, bo brak kluczowego gracza zmienia wszystko.")
+    return "\n".join(out)
+
+
+def _player_rows(a: Analysis) -> dict:
+    """Zawodnik -> jego rynki (do krótkiego podsumowania)."""
+    rows: dict = {}
+    for pm in a.players:
+        rows.setdefault(pm.player.id, {"p": pm.player})[f"{pm.stat}:{pm.key.rsplit(':', 1)[1]}"] = pm
+    return rows
+
+
+def players_section(a: Analysis, top: int = 6) -> str:
+    fx = a.pred.fixture
+    rows = _player_rows(a)
+    ranked = sorted(rows.values(), key=lambda r: -(r["goals:0.5"].prob if "goals:0.5" in r else 0))[:top]
+    head = "👤 <b>Zawodnicy</b> " + ("(składy już znane)" if a.lineups_known else "(przewidywane składy)")
+    out = [head]
+    for r in ranked:
+        p = r["p"]
+        team = fx.home if p.team_id == fx.espn_home_id else fx.away
+        parts = []
+        if "goals:0.5" in r:
+            g = r["goals:0.5"]
+            parts.append(f"gol {g.prob:.0%} (≥{config.SAFETY_MARGIN / g.prob:.2f})")
+        if "shots:1.5" in r:
+            parts.append(f"2+ strzały {r['shots:1.5'].prob:.0%}")
+        if "sot:0.5" in r:
+            parts.append(f"celny {r['sot:0.5'].prob:.0%}")
+        status = " ✅" if p.lineup == "start" else " 🪑" if p.lineup == "ławka" else ""
+        form = " ".join(p.last5) if p.last5 else "–"
+        out.append(f"• <b>{escape(p.name)}</b> ({escape(team)}){status}: " + " · ".join(parts)
+                   + f"\n   forma: {escape(form)}")
+    out.append("<i>Szanse „jeśli zagra” — gdy zawodnik nie wyjdzie na boisko, bukmacher zwraca stawkę.</i>")
     return "\n".join(out)
 
 
@@ -160,6 +199,7 @@ LIVE_STEPS = [
     "Liczę siłę ataku i obrony…",
     "Sprawdzam tabelę i motywację…",
     "Analizuję kartki, sędziego, rożne, strzały i faule…",
+    "Sprawdzam formę każdego zawodnika…",
     "Przeliczam wszystkie rynki…",
     "Wybieram typy, w które model wierzy…",
 ]
@@ -231,6 +271,11 @@ def all_markets_text(a: Analysis) -> str:
         if e.prob < 0.05 or e.prob > 0.97:
             continue
         out.append(f"{escape(e.label)}: {e.prob:.0%} · {config.SAFETY_MARGIN * e.fair_odds:.2f}")
+    if a.players:
+        out.append("\n<b>Zawodnicy</b> <i>(jeśli zagra)</i>")
+        for pm in sorted(a.players, key=lambda pm: (pm.player.name, pm.stat, pm.key)):
+            if 0.05 <= pm.prob <= 0.97:
+                out.append(f"{escape(pm.label)}: {pm.prob:.0%} · {config.SAFETY_MARGIN / pm.prob:.2f}")
     return "\n".join(out)
 
 

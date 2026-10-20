@@ -4,7 +4,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from . import config
-from .markets import COUNT_KINDS, MarketEval
+from .markets import COUNT_KINDS, MarketDef, MarketEval
 from .model import Prediction
 
 
@@ -29,6 +29,8 @@ class Pick:
             return 3 if edge >= 0.10 else 2 if edge >= 0.06 else 1
         if self.kind == "model":
             return 3 if self.score >= 0.10 else 2 if self.score >= 0.07 else 1
+        if self.kind == "zawodnik":
+            return 3 if self.score >= 0.12 else 2 if self.score >= 0.06 else 1
         return 3 if self.score >= 0.30 else 2 if self.score >= 0.20 else 1
 
 
@@ -109,11 +111,40 @@ def _count_candidates(pred: Prediction, evals: list[MarketEval], kind: str) -> l
     return out
 
 
-def select_picks(pred: Prediction, evals: list[MarketEval]) -> list[Pick]:
+def _player_candidates(pred: Prediction, markets: list) -> list[Pick]:
+    """Typy na zawodników: tylko pewniacy do składu i tylko rynki sprawdzone na historii
+    (strzały, strzały celne, faule; strzelec gola od 38%)."""
+    out = []
+    for pm in markets:
+        p = pm.player
+        if p.p_play < 0.8 and p.lineup != "start":
+            continue
+        if pm.stat == "goals":
+            if pm.prob < config.PLAYER_GOAL_MIN_PROB:
+                continue
+            score = pm.prob - config.PLAYER_GOAL_MIN_PROB
+        elif pm.stat in ("shots", "sot", "fouls"):
+            if not (config.PLAYER_MIN_PROB <= pm.prob <= config.PLAYER_MAX_PROB):
+                continue
+            score = pm.prob - config.PLAYER_MIN_PROB
+        else:
+            continue
+        team = pred.fixture.home if p.team_id == pred.fixture.espn_home_id else pred.fixture.away
+        market = MarketDef(pm.key, pm.label, "Zawodnicy", "player", settle=lambda *a: (0.0, 0.0))
+        ev = MarketEval(market, f"{pm.label} ({team})", win=pm.prob, lose=1 - pm.prob)
+        form = " ".join(p.last5) if p.last5 else "brak"
+        lineup = "w składzie" if p.lineup == "start" else "regularnie gra"
+        reason = f"ostatnie mecze: {form} · {lineup} · oczekiwane: {pm.expected:.2f}"
+        out.append(Pick(pred, ev, "zawodnik", score, reason))
+    return out
+
+
+def select_picks(pred: Prediction, evals: list[MarketEval], player_markets: list | None = None) -> list[Pick]:
     if not pred.enough_data:
         return []
     chosen: list[Pick] = []
     for cands in (
+        _player_candidates(pred, player_markets or []),
         _value_candidates(pred, evals) if config.VALUE_PICKS_ENABLED else [],
         *(_count_candidates(pred, evals, kind) for kind in COUNT_KINDS),
         _model_candidates(pred, evals),

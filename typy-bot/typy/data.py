@@ -75,6 +75,9 @@ class Fixture:
     aliases: tuple[str, ...] = ()   # inne nazwy do wyszukiwania (np. „PSG”)
     home_div: str | None = None     # w pucharach: liga, w której gra gospodarz
     away_div: str | None = None
+    espn_id: str | None = None      # numer meczu i drużyn w ESPN (do statystyk zawodników)
+    espn_home_id: str | None = None
+    espn_away_id: str | None = None
 
     @property
     def date(self) -> date:

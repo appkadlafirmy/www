@@ -140,6 +140,10 @@ COUNT_MIN_PROB = 0.62          # kartki / rożne
 COUNT_MAX_PROB = 0.85
 COUNT_MIN_SIGNAL = 0.15        # mecz musi odbiegać od średniej ligi o min. 15%
 SAFETY_MARGIN = 1.05           # minimalny kurs = 1.05 / prawdopodobieństwo
+# Typy na zawodników (test: Premier League + LaLiga, styczeń–maj 2026 — model 70%, naprawdę 72%)
+PLAYER_MIN_PROB = 0.62
+PLAYER_MAX_PROB = 0.85
+PLAYER_GOAL_MIN_PROB = 0.38      # strzelec gola: model 38%, naprawdę 35% — dlatego margines w min. kursie
 MAX_PICKS_PER_MATCH = 3
 DAILY_MAX_PICKS = 10           # ile typów dnia wysyłamy (najmocniejsze)
 FREE_DAILY_PICKS = 1           # ile z nich widzi użytkownik bez premium

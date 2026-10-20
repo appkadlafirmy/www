@@ -4,13 +4,18 @@ from __future__ import annotations
 import hashlib
 import threading
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta
 
-from . import config, data, espn
+import logging
+
+from . import config, data, espn, players
 from .markets import MarketEval, evaluate
 from .model import LeagueModel, Prediction, fit_league, predict, predict_cup
 from .picks import Pick, select_picks
+
+
+log = logging.getLogger("typy")
 
 
 @dataclass
@@ -18,6 +23,8 @@ class Analysis:
     pred: Prediction
     evals: list[MarketEval]
     picks: list[Pick]
+    players: list[players.PlayerMarket] = field(default_factory=list)
+    lineups_known: bool = False
 
 
 class Engine:
@@ -90,16 +97,38 @@ class Engine:
             self._analyses[fx.id] = analysis
 
     def analyse(self, fx: data.Fixture) -> Analysis | None:
-        with self._lock:
-            if fx.id in self._analyses:
-                return self._analyses[fx.id]
-            result = None
-            pred = self.predict(fx)
-            if pred:
-                evals = evaluate(pred)
-                result = Analysis(pred, evals, select_picks(pred, evals))
-            self._analyses[fx.id] = result
-            return result
+        # bez blokady na czas liczenia: statystyki zawodników idą z sieci i mogą chwilę potrwać
+        if fx.id in self._analyses:
+            return self._analyses[fx.id]
+        result = None
+        pred = self.predict(fx)
+        if pred:
+            evals = evaluate(pred)
+            player_markets, known = self.player_markets(fx, pred)
+            result = Analysis(pred, evals, select_picks(pred, evals, player_markets), player_markets, known)
+        self._analyses[fx.id] = result
+        return result
+
+    def player_markets(self, fx: data.Fixture, pred: Prediction) -> tuple[list[players.PlayerMarket], bool]:
+        """Rynki na zawodników obu drużyn (pusto, gdy ESPN nie ma tego meczu)."""
+        if not (fx.espn_id and fx.espn_home_id and fx.espn_away_id):
+            return [], False
+        try:
+            squads = players.lineups(fx.espn_id)
+            out = []
+            for i, team_id in enumerate((fx.espn_home_id, fx.espn_away_id)):
+                tf = players.team_form(team_id, fx.kickoff, squads.get(team_id))
+                if not tf:
+                    continue
+                shots, fouls, cards = (pred.counts.get(k) for k in ("shots", "fouls", "cards"))
+                out += players.player_markets(
+                    tf, team_goals=pred.lam[i], team_shots=shots.lam[i] if shots else None,
+                    team_fouls=fouls.lam[i] if fouls else None,
+                    referee_factor=cards.referee_factor if cards else None)
+            return out, bool(squads)
+        except Exception:  # brak statystyk zawodników nie może zepsuć analizy meczu
+            log.exception("Statystyki zawodników: %s", fx.id)
+            return [], False
 
     def best_picks(self, hours: float = 36, limit: int = config.DAILY_MAX_PICKS) -> list[Pick]:
         """Najmocniejsze typy na najbliższe godziny — maks. 1 typ z meczu, różne mecze."""
@@ -138,6 +167,7 @@ def _merge(main: list[data.Fixture], extra: list[data.Fixture]) -> list[data.Fix
             None)
         if same:
             same.aliases = same.aliases + f.aliases
+            same.espn_id, same.espn_home_id, same.espn_away_id = f.espn_id, f.espn_home_id, f.espn_away_id
             for k, v in f.odds.items():
                 same.odds.setdefault(k, v)
         else:
