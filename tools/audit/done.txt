@@ -11,3 +11,10 @@ mechanika samochodowa|Warszawa
 mechanika samochodowa|Gdańsk
 restauracja|Warszawa
 restauracja|Gdańsk
+kosmetyka|Łódź
+kosmetyka|Katowice
+mechanika samochodowa|Łódź
+mechanika samochodowa|Katowice
+restauracja|Łódź
+restauracja|Katowice
+fryzjerstwo|Katowice
