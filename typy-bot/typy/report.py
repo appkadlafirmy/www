@@ -95,6 +95,33 @@ def picks_text(picks: list[Pick], title: str, locked: int = 0) -> str:
     return "\n\n".join(parts)
 
 
+def multi_picks_text(analyses: list[Analysis], show_picks: bool = True) -> str:
+    """Typy na kilka zaznaczonych meczów w jednej wiadomości + kupon z najmocniejszych typów."""
+    parts = [f"📨 <b>Typy na wybrane mecze ({len(analyses)})</b>"]
+    best = []
+    for i, a in enumerate(analyses, 1):
+        fx = a.pred.fixture
+        head = f"{i}. {match_title(fx)}\n{escape(config.league_name(fx.div))} · {when(fx)}"
+        if not show_picks:
+            parts.append(f"{head}\n🔒 typy: {len(a.picks)} — premium → /premium")
+        elif a.picks:
+            picks = sorted(a.picks, key=lambda p: (-p.stars, -p.score))
+            best.append(picks[0])
+            parts.append(head + "\n" + "\n".join(pick_body(p) for p in picks))
+        else:
+            parts.append(f"{head}\n⏸ bez typu — nic nie odstaje na tyle, żeby grać")
+    if show_picks and len(best) >= 2:
+        prob = 1.0
+        for p in best:
+            prob *= p.ev.prob
+        parts.append(f"🧾 <b>Kupon z najmocniejszych typów ({len(best)})</b>\n"
+                     f"szansa, że wejdą wszystkie: <b>{prob:.0%}</b> · kurs łączny od <b>"
+                     f"{config.SAFETY_MARGIN / prob:.2f}</b>\n"
+                     "<i>Im więcej meczów na kuponie, tym mniejsza szansa — jeden błąd przegrywa całość.</i>")
+    parts.append(f"{ODDS_HINT}\n{DISCLAIMER}")
+    return "\n\n".join(parts)
+
+
 def _counts_line(pred) -> str | None:
     parts = []
     for kind, name in (("cards", "kartki"), ("corners", "rożne"), ("sot", "celne"), ("fouls", "faule")):

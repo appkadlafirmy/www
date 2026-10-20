@@ -112,7 +112,13 @@ async def cmd_matches(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         counts[f.div] = counts.get(f.div, 0) + 1
     rows = [[InlineKeyboardButton(f"{config.league_name(div)} ({n})", callback_data=f"L|{div}")]
             for div, n in sorted(counts.items(), key=lambda kv: (config.league_rank(kv[0]), -kv[1]))]
-    await _send(update, "📅 <b>Wybierz ligę</b> (najbliższe 3 dni)", InlineKeyboardMarkup(rows))
+    selected = [sid for sid in _selected(context) if engine.by_short_id(sid)]
+    context.user_data["selected"] = selected
+    if selected:
+        rows.insert(0, [InlineKeyboardButton(f"📨 Typy na zaznaczone mecze ({len(selected)})", callback_data="G|")])
+    await _send(update, "📅 <b>Wybierz ligę</b> (najbliższe 3 dni)\n"
+                        "<i>Chcesz typy na kilka meczów naraz? W lidze kliknij ☑️ Zaznacz kilka meczów.</i>",
+                InlineKeyboardMarkup(rows))
 
 
 async def cmd_find(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -129,12 +135,51 @@ async def cmd_find(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await _send(update, "Wybierz mecz:", _match_buttons(found[:15]))
 
 
-def _match_buttons(fixtures: list[data.Fixture]) -> InlineKeyboardMarkup:
-    return InlineKeyboardMarkup([
-        [InlineKeyboardButton(f"{report.when(f)} {f.home} – {f.away}",
-                              callback_data=f"M|{engine.short_id(f)}")]
-        for f in fixtures
-    ])
+def _match_buttons(fixtures: list[data.Fixture], div: str | None = None) -> InlineKeyboardMarkup:
+    """Zwykła lista: kliknięcie meczu = analiza na żywo. Na dole: tryb zaznaczania kilku meczów."""
+    rows = [[InlineKeyboardButton(f"{report.when(f)} {f.home} – {f.away}",
+                                  callback_data=f"M|{engine.short_id(f)}")] for f in fixtures]
+    if div:
+        rows.append([InlineKeyboardButton("☑️ Zaznacz kilka meczów", callback_data=f"SM|{div}")])
+    return InlineKeyboardMarkup(rows)
+
+
+def _selected(context: ContextTypes.DEFAULT_TYPE) -> list[str]:
+    """Zaznaczone mecze użytkownika (krótkie numery), w kolejności zaznaczania."""
+    return context.user_data.setdefault("selected", [])
+
+
+def _select_buttons(fixtures: list[data.Fixture], div: str, selected: list[str]) -> InlineKeyboardMarkup:
+    """Tryb zaznaczania: kliknięcie meczu = zaznacz/odznacz. Zaznaczać można w kilku ligach."""
+    rows = []
+    for f in fixtures:
+        sid = engine.short_id(f)
+        mark = "✅" if sid in selected else "⬜"
+        rows.append([InlineKeyboardButton(f"{mark} {report.when(f)} {f.home} – {f.away}",
+                                          callback_data=f"S|{sid}|{div}")])
+    rows.append([InlineKeyboardButton(f"📨 Wyślij typy ({len(selected)})", callback_data="G|"),
+                 InlineKeyboardButton("🧹 Wyczyść", callback_data=f"C|{div}")])
+    rows.append([InlineKeyboardButton("↩️ Zwykła lista", callback_data=f"N|{div}")])
+    return InlineKeyboardMarkup(rows)
+
+
+async def _league_fixtures(div: str) -> list[data.Fixture]:
+    return [f for f in await _run(engine.upcoming, 72) if f.div == div][:40]
+
+
+async def send_selected(update: Update, context: ContextTypes.DEFAULT_TYPE, premium: bool) -> None:
+    """Jedna wiadomość z typami na wszystkie zaznaczone mecze."""
+    selected = _selected(context)
+    fixtures = [f for f in (engine.by_short_id(sid) for sid in selected) if f]
+    if not fixtures:
+        await _send(update, "Nie zaznaczono żadnego meczu (albo już się zaczęły). "
+                            "Wejdź w 📅 Mecze → liga → ☑️ Zaznacz kilka meczów.")
+        return
+    await update.effective_chat.send_action("typing")
+    analyses = [a for a in [await _run(engine.analyse, f) for f in fixtures] if a]
+    if premium:
+        store.save_picks([p for a in analyses for p in a.picks])
+    await _send(update, report.multi_picks_text(analyses, show_picks=premium))
 
 
 async def cmd_stats(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -196,8 +241,23 @@ async def on_button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await q.answer()
     kind, _, arg = q.data.partition("|")
     if kind == "L":
-        fixtures = [f for f in await _run(engine.upcoming, 72) if f.div == arg]
-        await _send(update, f"<b>{escape(config.league_name(arg))}</b>", _match_buttons(fixtures[:40]))
+        fixtures = await _league_fixtures(arg)
+        await _send(update, f"<b>{escape(config.league_name(arg))}</b>", _match_buttons(fixtures, arg))
+    elif kind in ("SM", "S", "C", "N"):
+        sid, _, div = arg.partition("|") if kind == "S" else ("", "", arg)
+        selected = _selected(context)
+        if kind == "S":
+            selected.remove(sid) if sid in selected else selected.append(sid)
+        elif kind == "C":
+            selected.clear()
+        fixtures = await _league_fixtures(div)
+        markup = _match_buttons(fixtures, div) if kind == "N" else _select_buttons(fixtures, div, selected)
+        try:
+            await q.edit_message_reply_markup(reply_markup=markup)
+        except TelegramError:  # np. „nic się nie zmieniło” — pomijamy
+            pass
+    elif kind == "G":
+        await send_selected(update, context, store.is_premium(uid))
     elif kind in ("M", "A", "Z"):
         fx = engine.by_short_id(arg)
         if not fx:
