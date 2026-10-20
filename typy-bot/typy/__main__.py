@@ -39,6 +39,9 @@ def main() -> None:
             print("-" * 60)
     elif cmd == "test":
         backtest.main(args[1:])
+    elif cmd == "test-lm":
+        from . import cl_backtest
+        cl_backtest.main(args[1:])
     elif cmd == "test-zawodnicy":
         from . import player_backtest
         player_backtest.main(args[1:])

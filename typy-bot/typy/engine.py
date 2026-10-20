@@ -109,12 +109,13 @@ class Engine:
         self._analyses[fx.id] = result
         return result
 
-    def player_markets(self, fx: data.Fixture, pred: Prediction) -> tuple[list[players.PlayerMarket], bool]:
+    def player_markets(self, fx: data.Fixture, pred: Prediction,
+                       use_lineups: bool = True) -> tuple[list[players.PlayerMarket], bool]:
         """Rynki na zawodników obu drużyn (pusto, gdy ESPN nie ma tego meczu)."""
         if not (fx.espn_id and fx.espn_home_id and fx.espn_away_id):
             return [], False
         try:
-            squads = players.lineups(fx.espn_id)
+            squads = players.lineups(fx.espn_id) if use_lineups else {}
             out = []
             for i, team_id in enumerate((fx.espn_home_id, fx.espn_away_id)):
                 tf = players.team_form(team_id, fx.kickoff, squads.get(team_id))
