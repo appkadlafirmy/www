@@ -189,7 +189,8 @@ def players_section(a: Analysis, top: int = 6) -> str:
         form = " ".join(p.last5) if p.last5 else "–"
         out.append(f"• <b>{escape(p.name)}</b> ({escape(team)}){status}: " + " · ".join(parts)
                    + f"\n   forma: {escape(form)}")
-    out.append("<i>Szanse „jeśli zagra” — gdy zawodnik nie wyjdzie na boisko, bukmacher zwraca stawkę.</i>")
+    out.append("<i>Forma: ⚽ = gol, 3s = 3 strzały, – = nie grał (najnowszy mecz z prawej). Szanse „jeśli zagra” — "
+               "gdy zawodnik nie wyjdzie na boisko, bukmacher zwraca stawkę.</i>")
     return "\n".join(out)
 
 

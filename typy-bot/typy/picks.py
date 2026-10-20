@@ -134,7 +134,7 @@ def _player_candidates(pred: Prediction, markets: list) -> list[Pick]:
         ev = MarketEval(market, f"{pm.label} ({team})", win=pm.prob, lose=1 - pm.prob)
         form = " ".join(p.last5) if p.last5 else "brak"
         lineup = "w składzie" if p.lineup == "start" else "regularnie gra"
-        reason = f"ostatnie mecze: {form} · {lineup} · oczekiwane: {pm.expected:.2f}"
+        reason = f"forma (⚽ gol, 3s = 3 strzały): {form} · {lineup} · oczekiwane: {pm.expected:.2f}"
         out.append(Pick(pred, ev, "zawodnik", score, reason))
     return out
 
