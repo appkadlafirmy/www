@@ -1,19 +1,22 @@
-"""Teksty wiadomości po polsku (format HTML Telegrama)."""
+"""Teksty wiadomości po polsku (format HTML Telegrama). Zasada: krótko, najważniejsze na górze,
+szczegóły pod przyciskami („👤 Zawodnicy”, „📋 Wszystkie rynki”)."""
 from __future__ import annotations
 
+from datetime import datetime, timedelta
 from html import escape
 
 from . import config
-from .data import Fixture
+from .data import PL, Fixture
 from .engine import Analysis
 from .markets import COUNT_KINDS
 from .picks import Pick
 
 DAYS = ["pon", "wt", "śr", "czw", "pt", "sob", "nd"]
 KIND_ICON = {"value": "💰", "model": "⚽", "zawodnik": "👤", **{name: icon for name, icon, _ in COUNT_KINDS.values()}}
+FORM_ICON = {"Z": "🟢", "R": "🟡", "P": "🔴"}
 
-DISCLAIMER = ("ℹ️ Typy to prawdopodobieństwa, nie pewniaki. Graj tylko u legalnych "
-              "bukmacherów, tylko 18+ i tylko za kwoty, które możesz stracić.")
+DISCLAIMER = "<i>18+ · graj odpowiedzialnie, tylko u legalnych bukmacherów.</i>"
+ODDS_HINT = "<i>„kurs od” = najniższy kurs, przy którym warto grać. Niższy u bukmachera? Odpuść.</i>"
 
 
 def split_message(text: str, limit: int = 4000) -> list[str]:
@@ -39,55 +42,89 @@ def split_message(text: str, limit: int = 4000) -> list[str]:
 
 
 def when(fx: Fixture) -> str:
+    """„dziś 21:00”, „jutro 18:30” albo „sob 24.10 15:00”."""
     k = fx.kickoff
-    return f"{DAYS[k.weekday()]} {k:%d.%m %H:%M}"
+    today = datetime.now(PL).date()
+    if k.date() == today:
+        day = "dziś"
+    elif k.date() == today + timedelta(days=1):
+        day = "jutro"
+    else:
+        day = f"{DAYS[k.weekday()]} {k:%d.%m}"
+    return f"{day} {k:%H:%M}"
+
+
+def plural(n: int, one: str, few: str, many: str) -> str:
+    """Polska odmiana: 1 rynek, 3 rynki, 5 rynków."""
+    if n == 1:
+        return f"{n} {one}"
+    if n % 10 in (2, 3, 4) and n % 100 not in (12, 13, 14):
+        return f"{n} {few}"
+    return f"{n} {many}"
 
 
 def stars(n: int) -> str:
     return "★" * n + "☆" * (3 - n)
 
 
-def pick_line(p: Pick, with_match: bool = True) -> str:
-    fx = p.pred.fixture
-    head = ""
-    if with_match:
-        head = (f"<b>{escape(fx.home)} – {escape(fx.away)}</b>\n"
-                f"<i>{escape(config.league_name(fx.div))} · {when(fx)}</i>\n")
-    line = f"{KIND_ICON.get(p.kind, '•')} <b>{escape(p.ev.label)}</b>\n"
-    line += f"   szansa {p.ev.prob:.0%} · graj przy kursie ≥ <b>{p.min_odds:.2f}</b> · {stars(p.stars)}\n"
-    line += f"   <i>{escape(p.reason)}</i>"
-    return head + line
+def form_icons(results: str) -> str:
+    return "".join(FORM_ICON.get(r, "⚪") for r in results)
+
+
+def match_title(fx: Fixture) -> str:
+    return f"<b>{escape(fx.home)} – {escape(fx.away)}</b>"
+
+
+def pick_body(p: Pick) -> str:
+    """Dwie linijki: co grać, i ile to warte."""
+    return (f"{KIND_ICON.get(p.kind, '•')} {escape(p.ev.label)}\n"
+            f"<b>{p.ev.prob:.0%}</b> · kurs od <b>{p.min_odds:.2f}</b> · {stars(p.stars)}")
 
 
 def picks_text(picks: list[Pick], title: str, locked: int = 0) -> str:
     if not picks:
-        return (f"<b>{title}</b>\n\nNa najbliższe dni model nie znalazł typów, w które wierzy. "
+        return (f"<b>{title}</b>\n\nNa razie brak typów, w które model wierzy. "
                 "Lepiej nie grać niż grać na siłę.")
     parts = [f"<b>{title}</b>"]
     for i, p in enumerate(picks, 1):
-        parts.append(f"{i}. " + pick_line(p))
+        fx = p.pred.fixture
+        parts.append(f"{i}. {match_title(fx)}\n{escape(config.league_name(fx.div))} · {when(fx)}\n{pick_body(p)}")
     if locked:
-        parts.append(f"🔒 Jeszcze {locked} typów dostępnych w wersji premium — /premium")
-    parts.append("<i>„Graj przy kursie ≥” to najniższy kurs, przy którym typ się opłaca. "
-                 "Jeśli Twój bukmacher daje mniej — odpuść.</i>")
-    parts.append(DISCLAIMER)
+        parts.append(f"🔒 +{locked} typów w premium → /premium")
+    parts.append(f"{ODDS_HINT}\n{DISCLAIMER}")
     return "\n\n".join(parts)
 
 
-def _form_line(name: str, f) -> str:
-    if not f:
-        return f"{escape(name)}: brak danych"
-    s = f"{escape(name)}: {' '.join(f.results)} · gole {f.scored}:{f.conceded}"
-    if f.xg_for is not None:
-        s += f" · xG {f.xg_for:.1f}:{f.xg_against:.1f}"
-    extra = []
-    if f.cards_avg is not None:
-        extra.append(f"kartki {f.cards_avg:.1f}/mecz")
-    if f.corners_avg is not None:
-        extra.append(f"rożne {f.corners_avg:.1f}/mecz")
-    if extra:
-        s += "\n   " + " · ".join(extra)
-    return s
+def _counts_line(pred) -> str | None:
+    parts = []
+    for kind, name in (("cards", "kartki"), ("corners", "rożne"), ("sot", "celne"), ("fouls", "faule")):
+        c = pred.counts.get(kind)
+        if c:
+            parts.append(f"{COUNT_KINDS[kind][1]} {name} ~{sum(c.lam):.1f}")
+    if not parts:
+        return None
+    line = " · ".join(parts)
+    cards = pred.counts.get("cards")
+    if cards and cards.referee_factor:
+        if cards.referee_factor >= 1.1:
+            line += "\n👨‍⚖️ sędzia surowy (więcej kartek niż zwykle)"
+        elif cards.referee_factor <= 0.9:
+            line += "\n👨‍⚖️ sędzia łagodny (mniej kartek niż zwykle)"
+    return line
+
+
+def _top_scorers(a: Analysis, n: int = 3) -> str | None:
+    goals = sorted((pm for pm in a.players if pm.stat == "goals" and pm.player.p_play >= 0.5),
+                   key=lambda pm: -pm.prob)[:n]
+    if not goals:
+        return None
+    return "⚽ Strzelcy: " + " · ".join(f"{escape(_short(pm.player.name))} {pm.prob:.0%}" for pm in goals)
+
+
+def _short(name: str) -> str:
+    """„Harry Kane” → „Kane” (pełne nazwiska są w sekcji Zawodnicy)."""
+    parts = name.split()
+    return parts[-1] if len(parts) > 1 else name
 
 
 def analysis_text(a: Analysis, show_picks: bool = True) -> str:
@@ -95,114 +132,94 @@ def analysis_text(a: Analysis, show_picks: bool = True) -> str:
     fx = pred.fixture
     ev = {e.market.key: e for e in a.evals}
     lh, la = pred.lam
-    out = [f"⚽ <b>{escape(fx.home)} – {escape(fx.away)}</b>",
-           f"🏆 {escape(config.league_name(fx.div))} · {when(fx)}"]
-    if fx.referee:
-        ref = f"👨‍⚖️ Sędzia: {escape(fx.referee)}"
-        cards = pred.counts.get("cards")
-        if cards and cards.referee_factor:
-            ref += f" (kartki ×{cards.referee_factor:.2f} vs przeciętny)"
-        out.append(ref)
-
-    p = ["\n📊 <b>Prawdopodobieństwa</b>",
-         f"1: {ev['1'].prob:.0%} · X: {ev['X'].prob:.0%} · 2: {ev['2'].prob:.0%}",
-         f"Powyżej 2.5 gola: {ev['O2.5'].prob:.0%} · Obie strzelą: {ev['BTTS_Y'].prob:.0%}",
-         f"Oczekiwane gole: {lh:.2f} – {la:.2f}"]
     m = pred.matrix
-    top = sorted(((m[i, j], i, j) for i in range(5) for j in range(5)), reverse=True)[:3]
-    p.append("Najczęstsze wyniki: " + ", ".join(f"{i}:{j} ({v:.0%})" for v, i, j in top))
-    for kind, c in pred.counts.items():
-        name, icon, _ = COUNT_KINDS[kind]
-        if kind == "reds":
-            p.append(f"{icon} Czerwona kartka: średnio {sum(c.lam):.2f} na mecz (liga {c.league_avg:.2f})")
-            continue
-        p.append(f"{icon} {name.capitalize()}: {sum(c.lam):.1f} ({c.lam[0]:.1f} – {c.lam[1]:.1f}), "
-                 f"liga {c.league_avg:.1f}")
-    if fx.odds.get("1"):
-        p.append(f"Kursy (średnia rynku): {fx.odds['1']:.2f} / {fx.odds['X']:.2f} / {fx.odds['2']:.2f}")
-    out += p
+    _, i, j = max((m[i, j], i, j) for i in range(6) for j in range(6))
 
-    out.append("\n📈 <b>Forma (ostatnie 5, najnowszy z prawej)</b>")
-    out.append(_form_line(fx.home, pred.form_home))
-    out.append(_form_line(fx.away, pred.form_away))
-    if pred.h2h:
-        out.append("🔁 Bezpośrednie: " + ", ".join(
-            f"{escape(h.home)} {h.hg}:{h.ag} {escape(h.away)}" for h in reversed(pred.h2h[-3:])))
-    mot = []
-    for name, mo in ((fx.home, pred.mot_home), (fx.away, pred.mot_away)):
-        if mo:
-            mot.append(f"{escape(name)} {mo.position}. miejsce ({mo.points} pkt) – {mo.label}")
-    if mot:
-        out.append("🎯 <b>Tabela i motywacja</b>\n" + "\n".join(mot))
+    out = [f"⚽ {match_title(fx)}", f"{escape(config.league_name(fx.div))} · {when(fx)}"]
 
-    if a.players:
-        out.append(players_section(a))
+    out.append(f"\n📊 <b>{escape(fx.home)}</b> {ev['1'].prob:.0%} · remis {ev['X'].prob:.0%} · "
+               f"<b>{escape(fx.away)}</b> {ev['2'].prob:.0%}\n"
+               f"Gole ~{lh + la:.1f} · ponad 2.5: {ev['O2.5'].prob:.0%} · obie strzelą: {ev['BTTS_Y'].prob:.0%}\n"
+               f"Najbardziej prawdopodobny wynik: {i}:{j}")
+    counts = _counts_line(pred)
+    if counts:
+        out.append(counts)
+
+    form = []
+    for name, f, mo in ((fx.home, pred.form_home, pred.mot_home), (fx.away, pred.form_away, pred.mot_away)):
+        if f:
+            line = f"{form_icons(f.results)} {escape(name)} ({f.scored}:{f.conceded})"
+            if mo and mo.label not in ("początek sezonu", "środek tabeli"):
+                line += f" · {mo.position}. miejsce, {mo.label}"
+            form.append(line)
+    if form:
+        out.append("\n📈 <b>Forma</b> (ostatnie 5)\n" + "\n".join(form))
+
+    scorers = _top_scorers(a)
+    if scorers:
+        out.append(scorers)
 
     if show_picks:
         if a.picks:
-            out.append("\n✅ <b>TYPY</b>")
-            out += [pick_line(pk, with_match=False) for pk in a.picks]
+            out.append("\n✅ <b>Typy</b>\n" + "\n\n".join(pick_body(pk) for pk in a.picks))
         elif not pred.enough_data:
-            out.append("\n⏸ Za mało danych o jednej z drużyn — bez typów.")
+            out.append("\n⏸ Za mało danych — bez typów.")
         else:
-            out.append("\n⏸ Brak typu — nic tu nie odstaje na tyle, żeby grać.")
+            out.append("\n⏸ Bez typu — nic nie odstaje na tyle, żeby grać.")
     else:
-        out.append(f"\n🔒 Typy do tego meczu: {len(a.picks)} — dostępne w premium (/premium)")
+        out.append(f"\n🔒 Typy do tego meczu ({len(a.picks)}) w premium → /premium")
 
+    notes = []
+    if not a.lineups_known:
+        notes.append("Składy jeszcze nieznane — sprawdź przed grą.")
     if fx.div in config.CUPS:
-        out.append("\n🏆 Mecz pucharowy: siła drużyn z kursów bukmacherów, kartki i rożne ze statystyk "
-                   "z ich lig (sędziowie UEFA bywają inni) — traktuj te typy ostrożniej.")
-    if a.lineups_known:
-        out.append("\n✅ Składy są już znane — szanse zawodników liczone dla prawdziwej jedenastki.")
-    else:
-        out.append("\n⚠️ Składów jeszcze nie ma (ESPN podaje je ok. godzinę przed meczem), a kontuzji bot nie widzi — "
-                   "sprawdź skład przed grą, bo brak kluczowego gracza zmienia wszystko.")
+        notes.append("Puchar — typy mniej pewne niż w lidze.")
+    if notes:
+        out.append("\n<i>" + " ".join(notes) + "</i>")
     return "\n".join(out)
 
 
-def _player_rows(a: Analysis) -> dict:
-    """Zawodnik -> jego rynki (do krótkiego podsumowania)."""
+def players_text(a: Analysis, per_team: int = 5) -> str:
+    """Szczegóły zawodników (przycisk „👤 Zawodnicy”)."""
+    fx = a.pred.fixture
     rows: dict = {}
     for pm in a.players:
         rows.setdefault(pm.player.id, {"p": pm.player})[f"{pm.stat}:{pm.key.rsplit(':', 1)[1]}"] = pm
-    return rows
-
-
-def players_section(a: Analysis, top: int = 6) -> str:
-    fx = a.pred.fixture
-    rows = _player_rows(a)
-    ranked = sorted(rows.values(), key=lambda r: -(r["goals:0.5"].prob if "goals:0.5" in r else 0))[:top]
-    head = "👤 <b>Zawodnicy</b> " + ("(składy już znane)" if a.lineups_known else "(przewidywane składy)")
-    out = [head]
-    for r in ranked:
-        p = r["p"]
-        team = fx.home if p.team_id == fx.espn_home_id else fx.away
-        parts = []
-        if "goals:0.5" in r:
-            g = r["goals:0.5"]
-            parts.append(f"gol {g.prob:.0%} (≥{config.SAFETY_MARGIN / g.prob:.2f})")
-        if "shots:1.5" in r:
-            parts.append(f"2+ strzały {r['shots:1.5'].prob:.0%}")
-        if "sot:0.5" in r:
-            parts.append(f"celny {r['sot:0.5'].prob:.0%}")
-        status = " ✅" if p.lineup == "start" else " 🪑" if p.lineup == "ławka" else ""
-        form = " ".join(p.last5) if p.last5 else "–"
-        out.append(f"• <b>{escape(p.name)}</b> ({escape(team)}){status}: " + " · ".join(parts)
-                   + f"\n   forma: {escape(form)}")
-    out.append("<i>Forma: ⚽ = gol, 3s = 3 strzały, – = nie grał (najnowszy mecz z prawej). Szanse „jeśli zagra” — "
-               "gdy zawodnik nie wyjdzie na boisko, bukmacher zwraca stawkę.</i>")
+    out = [f"👤 <b>Zawodnicy: {escape(fx.home)} – {escape(fx.away)}</b>",
+           "<i>szanse, jeśli zagra · ✅ w składzie</i>" if a.lineups_known else "<i>szanse, jeśli zagra</i>"]
+    for team_id, team in ((fx.espn_home_id, fx.home), (fx.espn_away_id, fx.away)):
+        team_rows = [r for r in rows.values() if r["p"].team_id == team_id]
+        team_rows.sort(key=lambda r: -(r["goals:0.5"].prob if "goals:0.5" in r else 0))
+        if not team_rows:
+            continue
+        lines = [f"\n<b>{escape(team)}</b>"]
+        for r in team_rows[:per_team]:
+            p = r["p"]
+            stats = []
+            if "goals:0.5" in r:
+                stats.append(f"gol {r['goals:0.5'].prob:.0%}")
+            if "shots:1.5" in r:
+                stats.append(f"2+ strzały {r['shots:1.5'].prob:.0%}")
+            if "sot:0.5" in r:
+                stats.append(f"celny {r['sot:0.5'].prob:.0%}")
+            mark = " ✅" if p.lineup == "start" else " 🪑" if p.lineup == "ławka" else ""
+            lines.append(f"{escape(p.name)}{mark}: " + " · ".join(stats)
+                         + (f"\n   forma: {escape(' '.join(p.last5))}" if p.last5 else ""))
+        out.append("\n".join(lines))
+    out.append("\n<i>forma: ⚽ gol · 3s = 3 strzały · – nie grał (najnowszy z prawej).\n"
+               "Gdy zawodnik nie zagra, bukmacher zwraca stawkę.</i>")
     return "\n".join(out)
 
 
 LIVE_STEPS = [
-    "Pobieram wyniki z 3 sezonów…",
-    "Sprawdzam formę z ostatnich meczów…",
-    "Liczę siłę ataku i obrony…",
-    "Sprawdzam tabelę i motywację…",
-    "Analizuję kartki, sędziego, rożne, strzały i faule…",
-    "Sprawdzam formę każdego zawodnika…",
-    "Przeliczam wszystkie rynki…",
-    "Wybieram typy, w które model wierzy…",
+    "Pobieram dane…",
+    "Sprawdzam formę…",
+    "Liczę siłę drużyn…",
+    "Sprawdzam tabelę…",
+    "Kartki, rożne, strzały…",
+    "Analizuję zawodników…",
+    "Liczę wszystkie rynki…",
+    "Wybieram typy…",
 ]
 
 
@@ -210,67 +227,50 @@ def live_text(fx: Fixture, done: list[str]) -> str:
     """Wiadomość „analiza na żywo”: pasek postępu, gotowe kroki i to, co liczy się teraz."""
     n, total = len(done), len(LIVE_STEPS)
     bar = "▰" * n + "▱" * (total - n)
-    out = [f"🔍 <b>Analizuję na żywo: {escape(fx.home)} – {escape(fx.away)}</b>",
-           f"<i>{escape(config.league_name(fx.div))} · {when(fx)}</i>",
-           f"\n{bar} {round(100 * n / total)}%\n"]
-    out += done
+    out = [f"🔍 {match_title(fx)}", f"{bar} {round(100 * n / total)}%\n", *done]
     if n < total:
         out.append(f"⏳ <i>{LIVE_STEPS[n]}</i>")
     return "\n".join(out)
 
 
 def live_form_line(pred) -> str:
-    def res(f):
-        return " ".join(f.results) if f else "brak danych"
     fx = pred.fixture
-    return (f"📈 Forma: {escape(fx.home)} <b>{res(pred.form_home)}</b> · "
-            f"{escape(fx.away)} <b>{res(pred.form_away)}</b>")
+
+    def res(f):
+        return form_icons(f.results) if f else "brak danych"
+    return f"📈 {escape(fx.home)} {res(pred.form_home)}\n📈 {escape(fx.away)} {res(pred.form_away)}"
 
 
 def live_strength_line(pred) -> str:
     lh, la = pred.lam
-    line = f"⚔️ Oczekiwane gole: <b>{lh:.2f} – {la:.2f}</b>"
-    if pred.lam_model and pred.lam_market:
-        line += (f" (model {pred.lam_model[0]:.2f}–{pred.lam_model[1]:.2f}, "
-                 f"kursy {pred.lam_market[0]:.2f}–{pred.lam_market[1]:.2f})")
-    return line
+    return f"⚔️ Oczekiwane gole: <b>{lh:.1f} – {la:.1f}</b>"
 
 
 def live_table_line(pred) -> str:
     fx = pred.fixture
     if fx.div in config.CUPS:
-        return "🏆 Puchar: siła drużyn z kursów bukmacherów (drużyny z różnych lig)"
-    parts = [f"{escape(name)} {mo.position}. ({mo.label})"
-             for name, mo in ((fx.home, pred.mot_home), (fx.away, pred.mot_away)) if mo]
-    return "🎯 Tabela: " + (" · ".join(parts) if parts else "brak tabeli dla tej ligi")
+        return "🏆 Mecz pucharowy"
+    parts = [f"{escape(name)} {mo.position}." for name, mo in ((fx.home, pred.mot_home), (fx.away, pred.mot_away))
+             if mo]
+    return "🎯 Tabela: " + (" · ".join(parts) if parts else "brak")
 
 
 def live_counts_line(pred) -> str:
-    parts = []
-    for kind in ("cards", "corners", "sot", "fouls"):
-        c = pred.counts.get(kind)
-        if not c:
-            continue
-        name, icon, _ = COUNT_KINDS[kind]
-        s = f"{icon} {name} {sum(c.lam):.1f} (liga {c.league_avg:.1f})"
-        if kind == "cards" and c.referee_factor:
-            s += f", sędzia ×{c.referee_factor:.2f}"
-        parts.append(s)
-    return "\n".join(parts) if parts else "🟨 Kartki, rożne, strzały: brak danych dla tej ligi"
+    return _counts_line(pred) or "🟨 Brak statystyk dla tej ligi"
 
 
 def all_markets_text(a: Analysis) -> str:
     """Pełna lista rynków z naszą wyceną — dla dociekliwych."""
     fx = a.pred.fixture
     out = [f"📋 <b>Wszystkie rynki: {escape(fx.home)} – {escape(fx.away)}</b>",
-           "<i>szansa · minimalny opłacalny kurs</i>"]
+           "<i>szansa · kurs od</i>"]
     group = None
     for e in a.evals:
+        if e.prob < 0.05 or e.prob > 0.97:
+            continue
         if e.market.group != group:
             group = e.market.group
             out.append(f"\n<b>{escape(group)}</b>")
-        if e.prob < 0.05 or e.prob > 0.97:
-            continue
         out.append(f"{escape(e.label)}: {e.prob:.0%} · {config.SAFETY_MARGIN * e.fair_odds:.2f}")
     if a.players:
         out.append("\n<b>Zawodnicy</b> <i>(jeśli zagra)</i>")
@@ -282,21 +282,16 @@ def all_markets_text(a: Analysis) -> str:
 
 def stats_text(stats: dict) -> str:
     if not stats["settled"]:
-        return ("📈 <b>Skuteczność</b>\n\nJeszcze żaden typ nie został rozliczony. "
-                "Wyniki pojawią się po pierwszych meczach.")
-    out = ["📈 <b>Skuteczność typów</b>",
-           f"Rozliczone: {stats['settled']} · trafione: {stats['won']} · "
-           f"przegrane: {stats['lost']} · zwroty: {stats['push']}",
-           f"Trafność: {stats['hit_rate']:.1%} (model zakładał średnio {stats['avg_prob']:.1%})",
-           f"Wynik przy grze po minimalnym kursie: {stats['roi']:+.1%} na typ"]
+        return "📈 <b>Skuteczność</b>\n\nJeszcze nic nie rozliczone — wyniki po pierwszych meczach."
+    out = ["📈 <b>Skuteczność</b>",
+           f"✅ {stats['won']} · ❌ {stats['lost']} · ↩️ {stats['push']}  →  <b>{stats['hit_rate']:.0%}</b> trafień",
+           f"<i>model zakładał {stats['avg_prob']:.0%} · wynik przy kursie minimalnym: {stats['roi']:+.1%}</i>"]
     if stats.get("by_kind"):
-        out.append("")
-        for kind, s in stats["by_kind"].items():
-            out.append(f"{KIND_ICON.get(kind, '•')} {kind}: {s['won']}/{s['n']} ({s['won'] / s['n']:.0%})")
+        out.append("\n" + "\n".join(f"{KIND_ICON.get(k, '•')} {k}: {s['won']}/{s['n']}"
+                                    for k, s in stats["by_kind"].items()))
     if stats.get("recent"):
-        out.append("\n<b>Ostatnie:</b>")
+        out.append("\n<b>Ostatnie</b>")
         for r in stats["recent"]:
             icon = {"won": "✅", "lost": "❌", "push": "↩️"}.get(r["result"], "⏳")
-            out.append(f"{icon} {escape(r['home'])} – {escape(r['away'])}: {escape(r['label'])}")
+            out.append(f"{icon} {escape(r['label'])}")
     return "\n".join(out)
-

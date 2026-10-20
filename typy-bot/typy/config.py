@@ -93,7 +93,19 @@ LEAGUE_ORDER = ["UCL", "UEL", "UECL", "E0", "SP1", "D1", "I1", "F1", "POL", "N1"
                 "T1", "B1", "SC0", "G1", "D2", "I2", "SP2", "F2"]
 
 
+FLAGS = {
+    "Europa": "🇪🇺", "Anglia": "🏴\U000e0067\U000e0062\U000e0065\U000e006e\U000e0067\U000e007f",
+    "Szkocja": "🏴\U000e0067\U000e0062\U000e0073\U000e0063\U000e0074\U000e007f",
+    "Niemcy": "🇩🇪", "Włochy": "🇮🇹", "Hiszpania": "🇪🇸", "Francja": "🇫🇷", "Holandia": "🇳🇱", "Belgia": "🇧🇪",
+    "Portugalia": "🇵🇹", "Turcja": "🇹🇷", "Grecja": "🇬🇷", "Polska": "🇵🇱", "Argentyna": "🇦🇷", "Austria": "🇦🇹",
+    "Brazylia": "🇧🇷", "Chiny": "🇨🇳", "Dania": "🇩🇰", "Finlandia": "🇫🇮", "Irlandia": "🇮🇪", "Japonia": "🇯🇵",
+    "Meksyk": "🇲🇽", "Norwegia": "🇳🇴", "Rumunia": "🇷🇴", "Rosja": "🇷🇺", "Szwecja": "🇸🇪", "Szwajcaria": "🇨🇭",
+    "USA": "🇺🇸",
+}
+
+
 def league_name(div: str) -> str:
+    """Krótka nazwa ligi z flagą, np. „🇪🇸 LaLiga”."""
     if div in CUPS:
         country, name = CUPS[div]
     elif div in MAIN_LEAGUES:
@@ -102,7 +114,7 @@ def league_name(div: str) -> str:
         country, name, _ = EXTRA_LEAGUES[div]
     else:
         return div
-    return f"{country} · {name}"
+    return f"{FLAGS.get(country, '')} {name}".strip()
 
 
 def league_rank(div: str) -> int:

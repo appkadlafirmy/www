@@ -32,6 +32,10 @@ Settle = Callable[..., tuple[float, float]]
 HALF_TIME_SHARE = 0.45  # ok. 45% goli pada przed przerwą
 HALVES_MAX = 6
 
+# Dopełniacz do etykiet („więcej rożnych”)
+GENITIVE = {"cards": "kartek", "reds": "czerwonych kartek", "corners": "rożnych", "sot": "strzałów celnych",
+            "shots": "strzałów", "fouls": "fauli"}
+
 # Statystyki: nazwa w tekstach, ikona, maks. liczba na drużynę w rozkładzie
 COUNT_KINDS = {
     "cards": ("kartki", "🟨", 12),
@@ -120,8 +124,10 @@ def _goal_markets() -> list[MarketDef]:
     for line in (0.5, 1.5, 2.5, 3.5, 4.5, 5.5):
         ok = "O2.5" if line == 2.5 else None
         uk = "U2.5" if line == 2.5 else None
-        add(MarketDef(f"O{line}", f"Gole: powyżej {line}", "Liczba goli", "ft", _over(line), ok, direction="over"))
-        add(MarketDef(f"U{line}", f"Gole: poniżej {line}", "Liczba goli", "ft", _under(line), uk, direction="under"))
+        add(MarketDef(f"O{line}", f"Powyżej {line} gola w meczu", "Liczba goli", "ft", _over(line), ok,
+                      direction="over"))
+        add(MarketDef(f"U{line}", f"Poniżej {line} gola w meczu", "Liczba goli", "ft", _under(line), uk,
+                      direction="under"))
     for n in range(6):
         lab = "5+" if n == 5 else str(n)
         add(MarketDef(f"G={lab}", f"Dokładna liczba goli: {lab}", "Dokładna liczba goli", "ft",
@@ -263,30 +269,31 @@ def _goal_markets() -> list[MarketDef]:
 
 def _count_markets(kind: str, P: str, totals, team_lines, handicaps=(), result=True) -> list[MarketDef]:
     name = COUNT_KINDS[kind][0]
+    gen = GENITIVE[kind]
     title = name.capitalize()
     m: list[MarketDef] = []
     for line in totals:
-        m.append(MarketDef(f"{P}_O{_num(line)}", f"{title}: powyżej {_num(line)}", title, kind,
+        m.append(MarketDef(f"{P}_O{_num(line)}", f"{title} w meczu: powyżej {_num(line)}", title, kind,
                            _over(line), direction="over"))
-        m.append(MarketDef(f"{P}_U{_num(line)}", f"{title}: poniżej {_num(line)}", title, kind,
+        m.append(MarketDef(f"{P}_U{_num(line)}", f"{title} w meczu: poniżej {_num(line)}", title, kind,
                            _under(line), direction="under"))
     for side, nm in (("h", "{h}"), ("a", "{a}")):
         for line in team_lines:
-            m.append(MarketDef(f"{P}{side.upper()}_O{_num(line)}", f"{title} {nm}: powyżej {_num(line)}",
+            m.append(MarketDef(f"{P}{side.upper()}_O{_num(line)}", f"{nm}: {name} powyżej {_num(line)}",
                                f"{title} drużyny", kind, _over(line, side), side=side, direction="over"))
-            m.append(MarketDef(f"{P}{side.upper()}_U{_num(line)}", f"{title} {nm}: poniżej {_num(line)}",
+            m.append(MarketDef(f"{P}{side.upper()}_U{_num(line)}", f"{nm}: {name} poniżej {_num(line)}",
                                f"{title} drużyny", kind, _under(line, side), side=side, direction="under"))
     if result:
-        m.append(MarketDef(f"{P}_1", f"Więcej ({name}): {{h}}", f"{title}: kto więcej", kind,
+        m.append(MarketDef(f"{P}_1", f"{{h}}: więcej {gen}", f"{title}: kto więcej", kind,
                            lambda a, b: _win(a > b), side="cmp", favours="h"))
-        m.append(MarketDef(f"{P}_X", f"Tyle samo ({name})", f"{title}: kto więcej", kind,
+        m.append(MarketDef(f"{P}_X", f"Tyle samo {gen}", f"{title}: kto więcej", kind,
                            lambda a, b: _win(a == b), side="cmp", favours="x"))
-        m.append(MarketDef(f"{P}_2", f"Więcej ({name}): {{a}}", f"{title}: kto więcej", kind,
+        m.append(MarketDef(f"{P}_2", f"{{a}}: więcej {gen}", f"{title}: kto więcej", kind,
                            lambda a, b: _win(a < b), side="cmp", favours="a"))
     for line in handicaps:
-        m.append(MarketDef(f"{P}_AH1{_fmt(line)}", f"Handicap ({name}) {{h}} ({_fmt(line)})", f"{title}: handicap",
+        m.append(MarketDef(f"{P}_AH1{_fmt(line)}", f"{{h}}: {name} handicap {_fmt(line)}", f"{title}: handicap",
                            kind, _asian(line, True), side="cmp", favours="h"))
-        m.append(MarketDef(f"{P}_AH2{_fmt(-line)}", f"Handicap ({name}) {{a}} ({_fmt(-line)})", f"{title}: handicap",
+        m.append(MarketDef(f"{P}_AH2{_fmt(-line)}", f"{{a}}: {name} handicap {_fmt(-line)}", f"{title}: handicap",
                            kind, _asian(-line, False), side="cmp", favours="a"))
     return m
 

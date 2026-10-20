@@ -59,15 +59,13 @@ async def _send(update: Update, text: str, markup=None) -> None:
 async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     _user(update)
     text = (
-        "👋 <b>Cześć! Jestem botem do typowania meczów piłkarskich.</b>\n\n"
-        "Codziennie analizuję mecze z ok. 40 lig i europejskich pucharów: formę drużyn, siłę ataku i obrony, "
-        "kartki, rzuty rożne, strzały, faule, sędziów, tabelę i motywację oraz kursy bukmacherów. "
-        "Wysyłam tylko typy, w które model naprawdę wierzy.\n\n"
-        f"{BTN_PICKS} — najmocniejsze typy na najbliższe godziny\n"
-        f"{BTN_MATCHES} — analiza dowolnego meczu\n"
-        f"{BTN_STATS} — uczciwa historia trafień\n"
-        "/mecz Legia — szukaj meczu po nazwie drużyny\n"
-        "/powiadomienia — włącz/wyłącz codzienne typy\n\n"
+        "👋 <b>Cześć! Typuję mecze na podstawie statystyk.</b>\n\n"
+        "Analizuję ok. 40 lig i puchary: formę drużyn i zawodników, kartki, rożne, strzały, sędziów i kursy. "
+        "Wysyłam tylko typy, w które model wierzy.\n\n"
+        f"{BTN_PICKS} — najlepsze typy\n"
+        f"{BTN_MATCHES} — analiza meczu\n"
+        f"{BTN_STATS} — historia trafień\n"
+        "Albo po prostu napisz drużynę, np. <code>Legia</code>\n\n"
         f"{report.DISCLAIMER}"
     )
     await _send(update, text, MENU)
@@ -75,19 +73,16 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     text = (
-        "<b>Jak czytać typy?</b>\n\n"
-        "• <b>szansa</b> — jak często taki typ powinien wchodzić. Sprawdziliśmy to na ok. 11 300 meczach "
-        "z dwóch sezonów: gdy model mówił ~72%, typ wchodził w ~72% przypadków.\n"
-        "• <b>graj przy kursie ≥</b> — najniższy kurs, przy którym zakład się opłaca. "
-        "Jeśli Twój bukmacher daje mniej, odpuść ten typ.\n"
-        "• <b>★☆☆ – ★★★</b> — jak mocno mecz odstaje od przeciętnej (siła sygnału).\n\n"
-        "⚽ gole, wynik, BTTS, handicapy, połowy, do przerwy/koniec, dokładny wynik, kombinacje\n"
-        "🟨 kartki (żółte + czerwone, każda za 1 — sprawdź zasady swojego bukmachera) · 🟥 czerwona kartka\n"
-        "🚩 rzuty rożne · 🎯 strzały celne · 👟 strzały · 🦵 faule\n"
-        "👤 zawodnicy: strzeli gola, strzały, strzały celne, faule, kartka — z formy każdego gracza "
-        "z ostatnich 8 meczów; gdy znane są składy, liczymy dla prawdziwej jedenastki\n\n"
-        "<b>Czego bot nie wie:</b> kontuzji, składów i zawieszeń z ostatniej chwili — "
-        "sprawdź je przed meczem.\n\n" + report.DISCLAIMER
+        "<b>Jak czytać typ?</b>\n\n"
+        "🎯 Bayern: więcej strzałów celnych\n"
+        "<b>76%</b> · kurs od <b>1.38</b> · ★★★\n\n"
+        "• <b>76%</b> — tak często taki typ powinien wchodzić (sprawdzone na ok. 11 tys. meczów)\n"
+        "• <b>kurs od 1.38</b> — grasz tylko, jeśli bukmacher daje tyle lub więcej\n"
+        "• <b>★★★</b> — jak mocno mecz odstaje od normy\n\n"
+        "⚽ gole i wynik · 🟨 kartki · 🟥 czerwona · 🚩 rożne · 🎯 strzały celne · 👟 strzały · 🦵 faule · "
+        "👤 zawodnicy\n\n"
+        "<i>Kartki liczymy po 1 (żółta i czerwona) — sprawdź zasady bukmachera. Bot nie widzi kontuzji, "
+        "dopóki nie ma składów.</i>\n\n" + report.DISCLAIMER
     )
     await _send(update, text)
 
@@ -117,7 +112,7 @@ async def cmd_matches(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         counts[f.div] = counts.get(f.div, 0) + 1
     rows = [[InlineKeyboardButton(f"{config.league_name(div)} ({n})", callback_data=f"L|{div}")]
             for div, n in sorted(counts.items(), key=lambda kv: (config.league_rank(kv[0]), -kv[1]))]
-    await _send(update, "📅 <b>Wybierz ligę</b> (mecze w ciągu 3 dni):", InlineKeyboardMarkup(rows))
+    await _send(update, "📅 <b>Wybierz ligę</b> (najbliższe 3 dni)", InlineKeyboardMarkup(rows))
 
 
 async def cmd_find(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -131,7 +126,7 @@ async def cmd_find(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         await _send(update, f"Nie znalazłem nadchodzącego meczu dla „{escape(query)}”. "
                             "Spróbuj inaczej, np. <code>Legia</code>, <code>Bayern</code>, <code>PSG</code>.")
         return
-    await _send(update, "Znalezione mecze:", _match_buttons(found[:15]))
+    await _send(update, "Wybierz mecz:", _match_buttons(found[:15]))
 
 
 def _match_buttons(fixtures: list[data.Fixture]) -> InlineKeyboardMarkup:
@@ -203,7 +198,7 @@ async def on_button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if kind == "L":
         fixtures = [f for f in await _run(engine.upcoming, 72) if f.div == arg]
         await _send(update, f"<b>{escape(config.league_name(arg))}</b>", _match_buttons(fixtures[:40]))
-    elif kind in ("M", "A"):
+    elif kind in ("M", "A", "Z"):
         fx = engine.by_short_id(arg)
         if not fx:
             await _send(update, "Ten mecz już się zaczął albo zniknął z terminarza.")
@@ -213,7 +208,7 @@ async def on_button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             return
         a = await _run(engine.analyse, fx)
         if a:
-            await _send(update, report.all_markets_text(a))
+            await _send(update, report.all_markets_text(a) if kind == "A" else report.players_text(a))
 
 
 LIVE_STEP_DELAY = 0.8  # sekundy między krokami — żeby dało się przeczytać, co bot liczy
@@ -241,7 +236,7 @@ async def live_analysis(update: Update, fx: data.Fixture, premium: bool, sid: st
     if not (n_home or n_away or fx.odds):
         await fail("Brak danych o tych drużynach.")
         return
-    await show(f"📥 Dane: {n_home} meczów {escape(fx.home)}, {n_away} meczów {escape(fx.away)}")
+    await show(f"📥 {report.plural(n_home + n_away, 'mecz', 'mecze', 'meczów')} w bazie")
     pred = await _run(engine.predict, fx)
     if not pred:
         await fail("Za mało danych o tych drużynach, żeby coś sensownego policzyć.")
@@ -252,20 +247,23 @@ async def live_analysis(update: Update, fx: data.Fixture, premium: bool, sid: st
     await show(report.live_counts_line(pred))
     player_markets, known = await _run(engine.player_markets, fx, pred)
     n_players = len({pm.player.id for pm in player_markets})
-    await show(f"👤 Zawodnicy: {n_players} przeanalizowanych, składy {'znane ✅' if known else 'jeszcze nieznane'}"
-               if n_players else "👤 Zawodnicy: brak statystyk dla tego meczu")
+    await show(f"👤 {report.plural(n_players, 'zawodnik', 'zawodników', 'zawodników')} · "
+               f"składy {'znane ✅' if known else 'nieznane'}"
+               if n_players else "👤 Brak statystyk zawodników")
     evals = await _run(evaluate, pred)
-    await show(f"🧮 Przeliczono {len(evals) + len(player_markets)} rynków")
+    await show(f"🧮 {report.plural(len(evals) + len(player_markets), 'rynek', 'rynki', 'rynków')}")
     picks = select_picks(pred, evals, player_markets)
-    await show(f"✅ Typy wybrane: {len(picks)}" if picks else "⏸ Żaden rynek nie odstaje na tyle, żeby grać")
+    await show(f"✅ {report.plural(len(picks), 'typ', 'typy', 'typów')}" if picks else "⏸ Bez typu")
     a = Analysis(pred, evals, picks, player_markets, known)
     engine.remember(fx, a)
     if premium:
         store.save_picks(picks)
     await asyncio.sleep(LIVE_STEP_DELAY)
 
-    markup = InlineKeyboardMarkup([[InlineKeyboardButton(
-        "📋 Wszystkie rynki", callback_data=f"A|{sid}")]]) if premium else None
+    buttons = [InlineKeyboardButton("📋 Wszystkie rynki", callback_data=f"A|{sid}")]
+    if player_markets:
+        buttons.insert(0, InlineKeyboardButton("👤 Zawodnicy", callback_data=f"Z|{sid}"))
+    markup = InlineKeyboardMarkup([buttons]) if premium else None
     parts = report.split_message(report.analysis_text(a, show_picks=premium))
     await msg.edit_text(parts[0], parse_mode=ParseMode.HTML,
                         reply_markup=markup if len(parts) == 1 else None)
