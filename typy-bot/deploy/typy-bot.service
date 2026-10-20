@@ -1,0 +1,16 @@
+# Usługa systemd: bot startuje sam po restarcie serwera i wstaje po awarii.
+# Instalacja: zobacz deploy/install.sh
+[Unit]
+Description=TopBetPL - bot z typami pilkarskimi
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=typybot
+WorkingDirectory=/opt/typy-bot
+ExecStart=/opt/typy-bot/venv/bin/python -m typy bot
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

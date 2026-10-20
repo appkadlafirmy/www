@@ -95,7 +95,14 @@ python -m unittest              # testy
 - Codziennie o `DAILY_HOUR` (domyślnie 10:00) bot sam wysyła typy wszystkim, którzy mają włączone `/powiadomienia`.
 
 **Bot musi działać 24/7**, więc zamiast własnego komputera użyj serwera: darmowy Oracle Cloud Free Tier
-albo tani VPS (ok. 15–20 zł/mies.).
+albo tani VPS (ok. 15–20 zł/mies.). Na serwerze z Ubuntu wystarczy skopiować folder `typy-bot`
+(razem z plikiem `.env`) i uruchomić:
+```
+sudo bash deploy/install.sh
+```
+Bot będzie startował sam po restarcie serwera. Logi: `journalctl -u typy-bot -f`.
+
+Zdjęcie profilowe bota: `assets/avatar.png` (ustawiasz w @BotFather → `/setuserpic`).
 
 **Prawo:** w Polsce reklama zakładów jest mocno ograniczona (ustawa o grach hazardowych), nie wolno
 promować nielegalnych bukmacherów ani obiecywać pewnych wygranych. Przed sprzedażą skonsultuj
