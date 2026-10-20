@@ -4,7 +4,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from . import config
-from .markets import MarketEval
+from .markets import COUNT_KINDS, MarketEval
 from .model import Prediction
 
 
@@ -57,9 +57,7 @@ def _model_candidates(pred: Prediction, evals: list[MarketEval]) -> list[Pick]:
     """
     out = []
     for e in evals:
-        if e.market.kind not in ("ft", "ht") or e.odds or e.prob_model is None:
-            continue
-        if e.market.group == "1X2":
+        if e.market.group not in config.MODEL_PICK_GROUPS or e.odds or e.prob_model is None:
             continue
         p = e.prob
         if not (config.MODEL_MIN_PROB <= p <= config.MODEL_MAX_PROB):
@@ -80,42 +78,34 @@ def _model_candidates(pred: Prediction, evals: list[MarketEval]) -> list[Pick]:
 
 
 def _count_candidates(pred: Prediction, evals: list[MarketEval], kind: str) -> list[Pick]:
-    lam = pred.cards if kind == "cards" else pred.corners
-    avg = pred.cards_league_avg if kind == "cards" else pred.corners_league_avg
-    if not lam or not avg:
+    """Kartki, rożne, strzały, faule: typujemy, gdy mecz wyraźnie odstaje od średniej ligi
+    w kierunku zgodnym z typem (np. „powyżej” tylko przy wyraźnie wyższej oczekiwanej liczbie)."""
+    c = pred.counts.get(kind)
+    if not c:
         return []
-    total = sum(lam)
-    signal = total / avg - 1
+    h, a = c.lam
+    name = COUNT_KINDS[kind][0]
     out = []
     for e in evals:
-        if e.market.kind != kind:
+        m = e.market
+        if m.kind != kind or not (config.COUNT_MIN_PROB <= e.prob <= config.COUNT_MAX_PROB):
             continue
-        p = e.prob
-        if not (config.COUNT_MIN_PROB <= p <= config.COUNT_MAX_PROB):
-            continue
-        key = e.market.key
-        if key in ("C_1", "C_2", "K_1", "K_2"):
-            h, a = lam
-            side_gap = (h - a) / ((h + a) / 2)
-            if abs(side_gap) < 0.25 or (key.endswith("1") != (side_gap > 0)):
+        if m.side == "cmp":
+            gap = (h - a) / ((h + a) / 2) if h + a else 0.0
+            if m.favours not in ("h", "a") or abs(gap) < 0.25 or (m.favours == "h") != (gap > 0):
                 continue
-            strength = abs(side_gap) / 2
+            strength = abs(gap) / 2
         else:
-            team_market = key[1] in "HA"
-            if team_market:
-                side_lam = lam[0] if key[1] == "H" else lam[1]
-                side_sig = side_lam / (avg / 2) - 1
-            else:
-                side_sig = signal
-            over = "_O" in key
-            if abs(side_sig) < config.COUNT_MIN_SIGNAL or (over != (side_sig > 0)):
+            exp = h + a if m.side == "t" else h if m.side == "h" else a
+            avg = c.league_avg if m.side == "t" else c.league_home if m.side == "h" else c.league_away
+            signal = exp / avg - 1 if avg else 0.0
+            if abs(signal) < config.COUNT_MIN_SIGNAL or (m.direction == "over") != (signal > 0):
                 continue
-            strength = abs(side_sig)
-        name = "kartek" if kind == "cards" else "rożnych"
-        reason = f"oczekiwane {total:.1f} {name} vs średnia ligi {avg:.1f}"
-        if kind == "cards" and pred.referee_factor:
-            reason += f", sędzia ×{pred.referee_factor:.2f}"
-        out.append(Pick(pred, e, "kartki" if kind == "cards" else "rożne", strength, reason))
+            strength = abs(signal)
+        reason = f"oczekiwane {name}: {h + a:.1f} ({h:.1f} – {a:.1f}) vs średnia ligi {c.league_avg:.1f}"
+        if c.referee_factor:
+            reason += f", sędzia ×{c.referee_factor:.2f}"
+        out.append(Pick(pred, e, name, strength, reason))
     return out
 
 
@@ -125,8 +115,7 @@ def select_picks(pred: Prediction, evals: list[MarketEval]) -> list[Pick]:
     chosen: list[Pick] = []
     for cands in (
         _value_candidates(pred, evals) if config.VALUE_PICKS_ENABLED else [],
-        _count_candidates(pred, evals, "cards"),
-        _count_candidates(pred, evals, "corners"),
+        *(_count_candidates(pred, evals, kind) for kind in COUNT_KINDS),
         _model_candidates(pred, evals),
     ):
         if cands:

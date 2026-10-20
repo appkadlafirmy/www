@@ -124,7 +124,7 @@ class Store:
             m = index.get((row["div"], date.fromisoformat(row["match_date"]), row["home"], row["away"]))
             if not m:
                 continue
-            res = settle(row["market"], m.hg, m.ag, m.hthg, m.htag, m.hcards, m.acards, m.hc, m.ac)
+            res = settle(row["market"], m)
             if res is None:
                 result = "void"
             else:

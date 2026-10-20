@@ -26,11 +26,24 @@ własny model statystyczny (bez płatnego AI).
 **Czego nie ma w darmowych danych:** kontuzji, składów, zawieszeń z ostatniej chwili.
 Bot o tym przypomina przy każdej analizie.
 
-## Rynki
+## Rynki (480 na mecz — jak u polskich bukmacherów, np. Betclic)
 
-1X2 · podwójna szansa · zakład bez remisu · BTTS · gole 0.5–4.5 · gole drużyny · handicap azjatycki
-(-2.5 do +2.5, także ćwiartki) · handicap europejski · 1. połowa · kombinacje (np. 1 + over 1.5) ·
-kartki łącznie i drużyny · więcej kartek · rożne łącznie i drużyny · więcej rożnych.
+**Wynik:** 1X2 · podwójna szansa · zakład bez remisu · różnica zwycięstwa · dokładny wynik ·
+do przerwy / koniec meczu · handicap europejski (±1, ±2, ±3) · handicap azjatycki (-2.5 do +2.5, także ćwiartki)
+
+**Gole:** powyżej/poniżej 0.5–5.5 · dokładna liczba goli i przedziały (0-1, 2-3, 4-6, 7+) · parzyste/nieparzyste ·
+obie strzelą · gole drużyny 0.5–3.5 · czyste konto · wygra do zera
+
+**Połowy:** 1. i 2. połowa: wynik, podwójna szansa, gole, obie strzelą, gol drużyny · połowa z większą liczbą goli ·
+gol w obu połowach · wygra obie / którąkolwiek połowę · strzeli w obu połowach
+
+**Kombinacje:** wynik + obie strzelą · wynik + liczba goli · podwójna szansa + liczba goli · obie strzelą + liczba goli
+
+**Statystyki** (22 ligi europejskie, też puchary): kartki (łącznie, drużyny, kto więcej, handicap) · czerwona kartka ·
+rzuty rożne (łącznie, drużyny, kto więcej, handicap) · strzały celne · strzały · faule
+
+**Nie ma:** rynków na zawodników (strzelcy, asysty, strzały zawodnika) — darmowe dane nie mają statystyk graczy —
+ani rynków, których nie da się rozliczyć z danych (kto pierwszy strzeli, rzut karny, kartka w 1. połowie).
 
 Pełną wycenę wszystkich rynków widać w bocie pod przyciskiem **📋 Wszystkie rynki**.
 

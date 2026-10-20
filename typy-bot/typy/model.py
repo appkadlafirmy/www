@@ -125,9 +125,22 @@ def _weight(d: date, ref: date, half_life: float) -> float:
     return 0.5 ** (max(0, (ref - d).days) / half_life)
 
 
+# Jak mocno ściągamy oceny drużyn do średniej (w „meczach przeciętnej drużyny”) i czy liczy się sędzia.
+COUNT_SETTINGS = {
+    "cards": {"prior": 6.0, "referee": True},
+    "reds": {"prior": 40.0, "referee": True},   # czerwone są rzadkie — mocno uśredniamy
+    "corners": {"prior": 6.0, "referee": False},
+    "sot": {"prior": 6.0, "referee": False},
+    "shots": {"prior": 6.0, "referee": False},
+    "fouls": {"prior": 6.0, "referee": True},
+}
+
+
 def fit_league(matches: list[Match], ref: date) -> "LeagueModel":
     past = [m for m in matches if m.date < ref]
-    goals_obs, cards_obs, corner_obs, ref_rows = [], [], [], []
+    goals_obs = []
+    count_obs: dict[str, list] = {k: [] for k in COUNT_SETTINGS}
+    ref_rows: dict[str, list] = {k: [] for k in COUNT_SETTINGS}
     xw = config.XG_WEIGHT
     for m in past:
         w = _weight(m.date, ref, config.GOALS_HALF_LIFE_DAYS)
@@ -139,21 +152,21 @@ def fit_league(matches: list[Match], ref: date) -> "LeagueModel":
             vh, va = m.hg, m.ag
         goals_obs.append((m.home, m.away, vh, va, w))
         wc = _weight(m.date, ref, config.COUNTS_HALF_LIFE_DAYS)
-        if m.hcards is not None and m.acards is not None:
-            cards_obs.append((m.home, m.away, m.hcards, m.acards, wc))
+        for kind in COUNT_SETTINGS:
+            st = m.stat(kind)
+            if st is None:
+                continue
+            count_obs[kind].append((m.home, m.away, st[0], st[1], wc))
             if m.referee:
-                ref_rows.append((m.referee, m.home, m.away, m.hcards + m.acards, wc))
-        if m.hc is not None and m.ac is not None:
-            corner_obs.append((m.home, m.away, m.hc, m.ac, wc))
-    model = LeagueModel(
-        goals=fit_ratings(goals_obs),
-        cards=fit_ratings(cards_obs, prior_games=6.0),
-        corners=fit_ratings(corner_obs, prior_games=6.0),
-        matches=past,
-    )
-    if model.cards and ref_rows:
-        model.cards.referee = _referee_factors(model.cards, ref_rows)
-    return model
+                ref_rows[kind].append((m.referee, m.home, m.away, st[0] + st[1], wc))
+    counts = {}
+    for kind, cfg in COUNT_SETTINGS.items():
+        r = fit_ratings(count_obs[kind], prior_games=cfg["prior"])
+        if r and cfg["referee"] and ref_rows[kind]:
+            r.referee = _referee_factors(r, ref_rows[kind])
+        if r:
+            counts[kind] = r
+    return LeagueModel(goals=fit_ratings(goals_obs), counts=counts, matches=past)
 
 
 def _referee_factors(r: Ratings, rows, prior_games: float = 8.0) -> dict[str, float]:
@@ -364,9 +377,21 @@ def market_lambdas(odds: dict[str, float], model_total: float | None = None,
 @dataclass
 class LeagueModel:
     goals: Ratings | None
-    cards: Ratings | None
-    corners: Ratings | None
+    counts: dict[str, Ratings]   # kartki, rożne, strzały... (klucze jak w COUNT_SETTINGS)
     matches: list[Match]
+
+
+@dataclass
+class CountPred:
+    lam: tuple[float, float]       # oczekiwana liczba: gospodarze, goście
+    dispersion: float
+    league_home: float             # średnio gospodarze w tej lidze
+    league_away: float             # średnio goście
+    referee_factor: float | None = None
+
+    @property
+    def league_avg(self) -> float:
+        return self.league_home + self.league_away
 
 
 @dataclass
@@ -375,13 +400,7 @@ class Prediction:
     lam_model: tuple[float, float] | None
     lam_market: tuple[float, float] | None
     lam: tuple[float, float]
-    cards: tuple[float, float] | None = None
-    cards_dispersion: float = 1.0
-    cards_league_avg: float | None = None
-    referee_factor: float | None = None
-    corners: tuple[float, float] | None = None
-    corners_dispersion: float = 1.0
-    corners_league_avg: float | None = None
+    counts: dict[str, CountPred] = field(default_factory=dict)
     form_home: Form | None = None
     form_away: Form | None = None
     h2h: list[Match] = field(default_factory=list)
@@ -438,20 +457,14 @@ def predict(model: LeagueModel, fx: Fixture) -> Prediction | None:
                       h2h=head_to_head(matches, fx.home, fx.away, ref),
                       mot_home=mh, mot_away=ma, enough_data=enough)
 
-    c = model.cards
-    if c and fx.home in c.attack and fx.away in c.attack:
-        ch, ca = c.expected(fx.home, fx.away)
-        if fx.referee and fx.referee in c.referee:
-            pred.referee_factor = c.referee[fx.referee]
-            ch, ca = ch * pred.referee_factor, ca * pred.referee_factor
-        pred.cards = (ch, ca)
-        pred.cards_dispersion = c.dispersion
-        pred.cards_league_avg = c.base_home + c.base_away
-    k = model.corners
-    if k and fx.home in k.attack and fx.away in k.attack:
-        pred.corners = k.expected(fx.home, fx.away)
-        pred.corners_dispersion = k.dispersion
-        pred.corners_league_avg = k.base_home + k.base_away
+    for kind, r in model.counts.items():
+        if fx.home not in r.attack or fx.away not in r.attack:
+            continue
+        h, a = r.expected(fx.home, fx.away)
+        factor = r.referee.get(fx.referee) if fx.referee else None
+        if factor:
+            h, a = h * factor, a * factor
+        pred.counts[kind] = CountPred((h, a), r.dispersion, r.base_home, r.base_away, factor)
     return pred
 
 
@@ -469,19 +482,15 @@ def predict_cup(home_model: LeagueModel | None, away_model: LeagueModel | None,
                       enough_data=bool(home_model and away_model))
     if not (home_model and away_model):
         return pred
-    for kind in ("cards", "corners"):
-        rh, ra = getattr(home_model, kind), getattr(away_model, kind)
+    for kind in COUNT_SETTINGS:
+        rh, ra = home_model.counts.get(kind), away_model.counts.get(kind)
         if not (rh and ra and fx.home in rh.attack and fx.away in ra.attack):
             continue
         # skłonność drużyny × to, ile rywal „pozwala” — każda oceniona względem swojej ligi
         lam = (rh.base_home * rh.attack[fx.home] * ra.defence[fx.away],
                ra.base_away * ra.attack[fx.away] * rh.defence[fx.home])
-        disp = max(rh.dispersion, ra.dispersion)
-        avg = (rh.base_home + rh.base_away + ra.base_home + ra.base_away) / 2
-        if kind == "cards":
-            pred.cards, pred.cards_dispersion, pred.cards_league_avg = lam, disp, avg
-        else:
-            pred.corners, pred.corners_dispersion, pred.corners_league_avg = lam, disp, avg
+        pred.counts[kind] = CountPred(lam, max(rh.dispersion, ra.dispersion),
+                                      (rh.base_home + ra.base_home) / 2, (rh.base_away + ra.base_away) / 2)
     return pred
 
 

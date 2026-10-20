@@ -34,12 +34,34 @@ class Match:
     acards: int | None = None
     hc: int | None = None
     ac: int | None = None
+    hst: int | None = None
+    ast: int | None = None
+    hf: int | None = None
+    af: int | None = None
+    hr: int | None = None
+    ar: int | None = None
     referee: str | None = None
     odds: dict[str, float] = field(default_factory=dict)
 
     @property
     def key(self) -> tuple[str, date, str, str]:
         return (self.div, self.date, self.home, self.away)
+
+    def stat(self, kind: str) -> tuple[int, int] | None:
+        """Statystyka meczu (gospodarze, goście), np. stat("corners"); None, gdy brak danych."""
+        h, a = (getattr(self, f) for f in COUNT_FIELDS[kind])
+        return None if h is None or a is None else (h, a)
+
+
+# Statystyki liczone tak samo jak kartki: (pole gospodarzy, pole gości)
+COUNT_FIELDS = {
+    "cards": ("hcards", "acards"),
+    "reds": ("hr", "ar"),
+    "corners": ("hc", "ac"),
+    "sot": ("hst", "ast"),
+    "shots": ("hs", "as_"),
+    "fouls": ("hf", "af"),
+}
 
 
 @dataclass
@@ -181,6 +203,8 @@ def _main_matches(div: str, path: Path) -> list[Match]:
             hcards=None if hy is None else hy + (hr or 0),
             acards=None if ay is None else ay + (ar or 0),
             hc=_int(row.get("HC")), ac=_int(row.get("AC")),
+            hst=_int(row.get("HST")), ast=_int(row.get("AST")),
+            hf=_int(row.get("HF")), af=_int(row.get("AF")), hr=hr, ar=ar,
             referee=(row.get("Referee") or "").strip() or None,
             odds=_odds_from_row(row) or _odds_from_row(row, closing=True),
         ))

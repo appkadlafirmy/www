@@ -6,10 +6,11 @@ from html import escape
 from . import config
 from .data import Fixture
 from .engine import Analysis
+from .markets import COUNT_KINDS
 from .picks import Pick
 
 DAYS = ["pon", "wt", "śr", "czw", "pt", "sob", "nd"]
-KIND_ICON = {"value": "💰", "model": "⚽", "kartki": "🟨", "rożne": "🚩"}
+KIND_ICON = {"value": "💰", "model": "⚽", **{name: icon for name, icon, _ in COUNT_KINDS.values()}}
 
 DISCLAIMER = ("ℹ️ Typy to prawdopodobieństwa, nie pewniaki. Graj tylko u legalnych "
               "bukmacherów, tylko 18+ i tylko za kwoty, które możesz stracić.")
@@ -98,8 +99,9 @@ def analysis_text(a: Analysis, show_picks: bool = True) -> str:
            f"🏆 {escape(config.league_name(fx.div))} · {when(fx)}"]
     if fx.referee:
         ref = f"👨‍⚖️ Sędzia: {escape(fx.referee)}"
-        if pred.referee_factor:
-            ref += f" (kartki ×{pred.referee_factor:.2f} vs przeciętny)"
+        cards = pred.counts.get("cards")
+        if cards and cards.referee_factor:
+            ref += f" (kartki ×{cards.referee_factor:.2f} vs przeciętny)"
         out.append(ref)
 
     p = ["\n📊 <b>Prawdopodobieństwa</b>",
@@ -109,12 +111,13 @@ def analysis_text(a: Analysis, show_picks: bool = True) -> str:
     m = pred.matrix
     top = sorted(((m[i, j], i, j) for i in range(5) for j in range(5)), reverse=True)[:3]
     p.append("Najczęstsze wyniki: " + ", ".join(f"{i}:{j} ({v:.0%})" for v, i, j in top))
-    if pred.cards:
-        p.append(f"Kartki: średnio {sum(pred.cards):.1f} ({pred.cards[0]:.1f} – {pred.cards[1]:.1f}), "
-                 f"liga {pred.cards_league_avg:.1f}")
-    if pred.corners:
-        p.append(f"Rożne: średnio {sum(pred.corners):.1f} ({pred.corners[0]:.1f} – {pred.corners[1]:.1f}), "
-                 f"liga {pred.corners_league_avg:.1f}")
+    for kind, c in pred.counts.items():
+        name, icon, _ = COUNT_KINDS[kind]
+        if kind == "reds":
+            p.append(f"{icon} Czerwona kartka: średnio {sum(c.lam):.2f} na mecz (liga {c.league_avg:.2f})")
+            continue
+        p.append(f"{icon} {name.capitalize()}: {sum(c.lam):.1f} ({c.lam[0]:.1f} – {c.lam[1]:.1f}), "
+                 f"liga {c.league_avg:.1f}")
     if fx.odds.get("1"):
         p.append(f"Kursy (średnia rynku): {fx.odds['1']:.2f} / {fx.odds['X']:.2f} / {fx.odds['2']:.2f}")
     out += p
@@ -156,7 +159,7 @@ LIVE_STEPS = [
     "Sprawdzam formę z ostatnich meczów…",
     "Liczę siłę ataku i obrony…",
     "Sprawdzam tabelę i motywację…",
-    "Analizuję kartki, sędziego i rzuty rożne…",
+    "Analizuję kartki, sędziego, rożne, strzały i faule…",
     "Przeliczam wszystkie rynki…",
     "Wybieram typy, w które model wierzy…",
 ]
@@ -203,14 +206,16 @@ def live_table_line(pred) -> str:
 
 def live_counts_line(pred) -> str:
     parts = []
-    if pred.cards:
-        s = f"🟨 kartki {sum(pred.cards):.1f} (liga {pred.cards_league_avg:.1f})"
-        if pred.referee_factor:
-            s += f", sędzia ×{pred.referee_factor:.2f}"
+    for kind in ("cards", "corners", "sot", "fouls"):
+        c = pred.counts.get(kind)
+        if not c:
+            continue
+        name, icon, _ = COUNT_KINDS[kind]
+        s = f"{icon} {name} {sum(c.lam):.1f} (liga {c.league_avg:.1f})"
+        if kind == "cards" and c.referee_factor:
+            s += f", sędzia ×{c.referee_factor:.2f}"
         parts.append(s)
-    if pred.corners:
-        parts.append(f"🚩 rożne {sum(pred.corners):.1f} (liga {pred.corners_league_avg:.1f})")
-    return " · ".join(parts) if parts else "🟨 Kartki i rożne: brak danych dla tej ligi"
+    return "\n".join(parts) if parts else "🟨 Kartki, rożne, strzały: brak danych dla tej ligi"
 
 
 def all_markets_text(a: Analysis) -> str:

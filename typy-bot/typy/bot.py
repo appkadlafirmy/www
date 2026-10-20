@@ -61,7 +61,7 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     text = (
         "👋 <b>Cześć! Jestem botem do typowania meczów piłkarskich.</b>\n\n"
         "Codziennie analizuję mecze z ok. 40 lig i europejskich pucharów: formę drużyn, siłę ataku i obrony, "
-        "kartki, rzuty rożne, sędziów, tabelę i motywację oraz kursy bukmacherów. "
+        "kartki, rzuty rożne, strzały, faule, sędziów, tabelę i motywację oraz kursy bukmacherów. "
         "Wysyłam tylko typy, w które model naprawdę wierzy.\n\n"
         f"{BTN_PICKS} — najmocniejsze typy na najbliższe godziny\n"
         f"{BTN_MATCHES} — analiza dowolnego meczu\n"
@@ -81,8 +81,10 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "• <b>graj przy kursie ≥</b> — najniższy kurs, przy którym zakład się opłaca. "
         "Jeśli Twój bukmacher daje mniej, odpuść ten typ.\n"
         "• <b>★☆☆ – ★★★</b> — jak mocno mecz odstaje od przeciętnej (siła sygnału).\n\n"
-        "🟨 kartki (liczymy żółte + czerwone, każda za 1 — sprawdź zasady swojego bukmachera)\n"
-        "🚩 rzuty rożne · ⚽ gole, BTTS, handicapy\n\n"
+        "⚽ gole, wynik, BTTS, handicapy, połowy, do przerwy/koniec, dokładny wynik, kombinacje\n"
+        "🟨 kartki (żółte + czerwone, każda za 1 — sprawdź zasady swojego bukmachera) · 🟥 czerwona kartka\n"
+        "🚩 rzuty rożne · 🎯 strzały celne · 👟 strzały · 🦵 faule\n"
+        "Rynków na zawodników (strzelcy, asysty) nie ma — darmowe dane nie mają statystyk graczy.\n\n"
         "<b>Czego bot nie wie:</b> kontuzji, składów i zawieszeń z ostatniej chwili — "
         "sprawdź je przed meczem.\n\n" + report.DISCLAIMER
     )
@@ -354,6 +356,7 @@ async def on_error(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def warmup_job(context: ContextTypes.DEFAULT_TYPE) -> None:
     await _run(engine.refresh, True)
+    await _run(engine.best_picks, 96)  # od razu liczymy analizy wszystkich meczów
     log.info("Dane gotowe: %d meczów w terminarzu", len(engine.fixtures))
 
 

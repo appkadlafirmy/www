@@ -88,7 +88,7 @@ def _score(rep: Report, pred, m: data.Match) -> None:
 
     evals = evaluate(pred)
     for p in select_picks(pred, evals):
-        res = settle(p.ev.market.key, m.hg, m.ag, m.hthg, m.htag, m.hcards, m.acards, m.hc, m.ac)
+        res = settle(p.ev.market.key, m)
         if res is None:
             continue
         w, l = res

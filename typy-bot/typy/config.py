@@ -123,7 +123,8 @@ MIN_TEAM_MATCHES = 5           # minimum meczów drużyny w danych, by dawać ty
 VALUE_PICKS_ENABLED = False
 # Kartki i rożne: dodatkowa niepewność. Bez niej model był o 1–4 pkt. proc. zbyt pewny siebie;
 # z 1.25 przewidywania zgadzają się z rzeczywistością (np. 76% vs 77% trafień).
-COUNT_DISPERSION_BOOST = 1.25
+COUNT_DISPERSION_BOOST = {"cards": 1.25, "reds": 1.0, "corners": 1.4, "sot": 1.25, "shots": 1.25,
+                          "fouls": 1.25}
 VALUE_MIN_EDGE = 0.04          # min. przewaga nad kursem bukmachera (4%)
 VALUE_MIN_PROB = 0.30
 VALUE_ODDS_RANGE = (1.30, 4.50)
@@ -131,6 +132,10 @@ MODEL_MIN_PROB = 0.62          # typy bez kursu w danych: min. prawdopodobieńst
 MODEL_MAX_PROB = 0.85
 MODEL_MIN_DISAGREEMENT = 0.04  # o ile nasz model musi „wierzyć bardziej” niż rynek
 MODEL_MAX_DISAGREEMENT = 0.12  # większa różnica = podejrzane dane, pomijamy
+# Rynki golowe, które model może typować sam. Test 2024–26: liczba goli, gole drużyn i BTTS trafiały
+# tak, jak przewidywał model; połowy, podwójna szansa, bez remisu i handicapy — gorzej, więc są tylko
+# w pełnej wycenie („Wszystkie rynki”), a nie w typach.
+MODEL_PICK_GROUPS = {"Liczba goli", "Gole drużyny", "Obie drużyny strzelą", "Obie strzelą + liczba goli"}
 COUNT_MIN_PROB = 0.62          # kartki / rożne
 COUNT_MAX_PROB = 0.85
 COUNT_MIN_SIGNAL = 0.15        # mecz musi odbiegać od średniej ligi o min. 15%
