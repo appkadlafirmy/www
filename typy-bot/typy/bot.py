@@ -14,7 +14,10 @@ from telegram.ext import (Application, CallbackQueryHandler, CommandHandler, Con
                           MessageHandler, PreCheckoutQueryHandler, filters)
 
 from . import config, data, report
-from .engine import Engine
+from .engine import Analysis, Engine
+from .markets import evaluate
+from .model import predict
+from .picks import select_picks
 from .store import Store
 
 log = logging.getLogger("typy")
@@ -203,20 +206,66 @@ async def on_button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         if not fx:
             await _send(update, "Ten mecz już się zaczął albo zniknął z terminarza.")
             return
-        await update.effective_chat.send_action("typing")
-        a = await _run(engine.analyse, fx)
-        if not a:
-            await _send(update, "Za mało danych o tych drużynach, żeby coś sensownego policzyć.")
-            return
-        premium = store.is_premium(uid)
         if kind == "M":
-            if premium:
-                store.save_picks(a.picks)
-            markup = InlineKeyboardMarkup([[InlineKeyboardButton(
-                "📋 Wszystkie rynki", callback_data=f"A|{arg}")]]) if premium else None
-            await _send(update, report.analysis_text(a, show_picks=premium), markup)
-        else:
+            await live_analysis(update, fx, store.is_premium(uid), arg)
+            return
+        a = await _run(engine.analyse, fx)
+        if a:
             await _send(update, report.all_markets_text(a))
+
+
+LIVE_STEP_DELAY = 0.8  # sekundy między krokami — żeby dało się przeczytać, co bot liczy
+
+
+async def live_analysis(update: Update, fx: data.Fixture, premium: bool, sid: str) -> None:
+    """Analiza „na żywo”: jedna wiadomość, aktualizowana po każdym prawdziwym kroku obliczeń."""
+    done: list[str] = []
+    msg = await update.effective_message.reply_text(report.live_text(fx, done), parse_mode=ParseMode.HTML)
+
+    async def show(line: str) -> None:
+        done.append(line)
+        await asyncio.sleep(LIVE_STEP_DELAY)
+        try:
+            await msg.edit_text(report.live_text(fx, done), parse_mode=ParseMode.HTML)
+        except TelegramError as e:  # np. limit edycji — pomijamy klatkę, liczenie trwa dalej
+            log.debug("Nie odświeżono analizy: %s", e)
+
+    async def fail(text: str) -> None:
+        await msg.edit_text(f"{report.live_text(fx, done)}\n\n❌ {text}", parse_mode=ParseMode.HTML)
+
+    model = await _run(engine.model_for, fx.div, fx.date)
+    if not model:
+        await fail("Brak danych dla tej ligi.")
+        return
+    n_home = sum(fx.home in (m.home, m.away) for m in model.matches)
+    n_away = sum(fx.away in (m.home, m.away) for m in model.matches)
+    await show(f"📥 Dane: {n_home} meczów {escape(fx.home)}, {n_away} meczów {escape(fx.away)}")
+    pred = await _run(predict, model, fx)
+    if not pred:
+        await fail("Za mało danych o tych drużynach, żeby coś sensownego policzyć.")
+        return
+    await show(report.live_form_line(pred))
+    await show(report.live_strength_line(pred))
+    await show(report.live_table_line(pred))
+    await show(report.live_counts_line(pred))
+    evals = await _run(evaluate, pred)
+    await show(f"🧮 Przeliczono {len(evals)} rynków")
+    picks = select_picks(pred, evals)
+    await show(f"✅ Typy wybrane: {len(picks)}" if picks else "⏸ Żaden rynek nie odstaje na tyle, żeby grać")
+    a = Analysis(pred, evals, picks)
+    engine.remember(fx, a)
+    if premium:
+        store.save_picks(picks)
+    await asyncio.sleep(LIVE_STEP_DELAY)
+
+    markup = InlineKeyboardMarkup([[InlineKeyboardButton(
+        "📋 Wszystkie rynki", callback_data=f"A|{sid}")]]) if premium else None
+    parts = report.split_message(report.analysis_text(a, show_picks=premium))
+    await msg.edit_text(parts[0], parse_mode=ParseMode.HTML,
+                        reply_markup=markup if len(parts) == 1 else None)
+    for i, part in enumerate(parts[1:], 2):
+        await update.effective_message.reply_text(part, parse_mode=ParseMode.HTML,
+                                                  reply_markup=markup if i == len(parts) else None)
 
 
 async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:

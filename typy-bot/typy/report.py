@@ -148,6 +148,66 @@ def analysis_text(a: Analysis, show_picks: bool = True) -> str:
     return "\n".join(out)
 
 
+LIVE_STEPS = [
+    "Pobieram wyniki z 3 sezonów…",
+    "Sprawdzam formę z ostatnich meczów…",
+    "Liczę siłę ataku i obrony…",
+    "Sprawdzam tabelę i motywację…",
+    "Analizuję kartki, sędziego i rzuty rożne…",
+    "Przeliczam wszystkie rynki…",
+    "Wybieram typy, w które model wierzy…",
+]
+
+
+def live_text(fx: Fixture, done: list[str]) -> str:
+    """Wiadomość „analiza na żywo”: pasek postępu, gotowe kroki i to, co liczy się teraz."""
+    n, total = len(done), len(LIVE_STEPS)
+    bar = "▰" * n + "▱" * (total - n)
+    out = [f"🔍 <b>Analizuję na żywo: {escape(fx.home)} – {escape(fx.away)}</b>",
+           f"<i>{escape(config.league_name(fx.div))} · {when(fx)}</i>",
+           f"\n{bar} {round(100 * n / total)}%\n"]
+    out += done
+    if n < total:
+        out.append(f"⏳ <i>{LIVE_STEPS[n]}</i>")
+    return "\n".join(out)
+
+
+def live_form_line(pred) -> str:
+    def res(f):
+        return " ".join(f.results) if f else "brak danych"
+    fx = pred.fixture
+    return (f"📈 Forma: {escape(fx.home)} <b>{res(pred.form_home)}</b> · "
+            f"{escape(fx.away)} <b>{res(pred.form_away)}</b>")
+
+
+def live_strength_line(pred) -> str:
+    lh, la = pred.lam
+    line = f"⚔️ Oczekiwane gole: <b>{lh:.2f} – {la:.2f}</b>"
+    if pred.lam_model and pred.lam_market:
+        line += (f" (model {pred.lam_model[0]:.2f}–{pred.lam_model[1]:.2f}, "
+                 f"kursy {pred.lam_market[0]:.2f}–{pred.lam_market[1]:.2f})")
+    return line
+
+
+def live_table_line(pred) -> str:
+    fx = pred.fixture
+    parts = [f"{escape(name)} {mo.position}. ({mo.label})"
+             for name, mo in ((fx.home, pred.mot_home), (fx.away, pred.mot_away)) if mo]
+    return "🎯 Tabela: " + (" · ".join(parts) if parts else "brak tabeli dla tej ligi")
+
+
+def live_counts_line(pred) -> str:
+    parts = []
+    if pred.cards:
+        s = f"🟨 kartki {sum(pred.cards):.1f} (liga {pred.cards_league_avg:.1f})"
+        if pred.referee_factor:
+            s += f", sędzia ×{pred.referee_factor:.2f}"
+        parts.append(s)
+    if pred.corners:
+        parts.append(f"🚩 rożne {sum(pred.corners):.1f} (liga {pred.corners_league_avg:.1f})")
+    return " · ".join(parts) if parts else "🟨 Kartki i rożne: brak danych dla tej ligi"
+
+
 def all_markets_text(a: Analysis) -> str:
     """Pełna lista rynków z naszą wyceną — dla dociekliwych."""
     fx = a.pred.fixture

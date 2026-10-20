@@ -28,6 +28,13 @@ kartki łącznie i drużyny · więcej kartek · rożne łącznie i drużyny · 
 
 Pełną wycenę wszystkich rynków widać w bocie pod przyciskiem **📋 Wszystkie rynki**.
 
+## Analiza na żywo
+
+Po wybraniu meczu bot pokazuje jedną wiadomość, która aktualizuje się krok po kroku (ok. 7 s):
+pasek postępu ▰▰▰▱▱▱▱, a pod nim prawdziwe wyniki każdego etapu — liczba meczów w danych, forma,
+oczekiwane gole (model vs kursy), tabela, kartki/sędzia/rożne, liczba przeliczonych rynków i wybrane typy.
+Na końcu ta sama wiadomość zamienia się w pełną analizę. Tempo zmienisz w `LIVE_STEP_DELAY` (`typy/bot.py`).
+
 ## Jak bot wybiera typy (i dlaczego tak)
 
 Model sprawdziliśmy na historii: typował mecze sezonów 2024/25 i 2025/26, znając tylko wcześniejsze wyniki

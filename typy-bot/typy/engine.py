@@ -56,13 +56,18 @@ class Engine:
         return [f for f in self.fixtures if f.kickoff <= limit]
 
     def model_for(self, div: str, ref: date) -> LeagueModel | None:
-        key = (div, ref)
-        if key not in self._models:
-            matches = self.matches.get(div)
-            if not matches:
-                return None
-            self._models[key] = fit_league(matches, ref)
-        return self._models[key]
+        with self._lock:
+            key = (div, ref)
+            if key not in self._models:
+                matches = self.matches.get(div)
+                if not matches:
+                    return None
+                self._models[key] = fit_league(matches, ref)
+            return self._models[key]
+
+    def remember(self, fx: data.Fixture, analysis: Analysis) -> None:
+        with self._lock:
+            self._analyses[fx.id] = analysis
 
     def analyse(self, fx: data.Fixture) -> Analysis | None:
         with self._lock:
