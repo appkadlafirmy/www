@@ -78,15 +78,35 @@ EXTRA_LEAGUES = {
 
 COUNTRY_TO_EXTRA = {v[2]: k for k, v in EXTRA_LEAGUES.items()}
 
+# Puchary europejskie (terminarz i kursy z ESPN; drużyny oceniane na podstawie ich lig).
+CUPS = {
+    "UCL": ("Europa", "Liga Mistrzów"),
+    "UEL": ("Europa", "Liga Europy"),
+    "UECL": ("Europa", "Liga Konferencji"),
+}
+
+# Pełny terminarz z ESPN (wszystkie dni tygodnia, puchary). False = tylko football-data.
+ESPN_FIXTURES = True
+
+# Kolejność lig w menu: najpierw najważniejsze.
+LEAGUE_ORDER = ["UCL", "UEL", "UECL", "E0", "SP1", "D1", "I1", "F1", "POL", "N1", "P1", "E1",
+                "T1", "B1", "SC0", "G1", "D2", "I2", "SP2", "F2"]
+
 
 def league_name(div: str) -> str:
-    if div in MAIN_LEAGUES:
+    if div in CUPS:
+        country, name = CUPS[div]
+    elif div in MAIN_LEAGUES:
         country, name = MAIN_LEAGUES[div]
     elif div in EXTRA_LEAGUES:
         country, name, _ = EXTRA_LEAGUES[div]
     else:
         return div
     return f"{country} · {name}"
+
+
+def league_rank(div: str) -> int:
+    return LEAGUE_ORDER.index(div) if div in LEAGUE_ORDER else len(LEAGUE_ORDER)
 
 
 # --- Model ---

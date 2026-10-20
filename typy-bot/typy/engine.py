@@ -7,9 +7,9 @@ import time
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 
-from . import config, data
+from . import config, data, espn
 from .markets import MarketEval, evaluate
-from .model import LeagueModel, Prediction, fit_league, predict
+from .model import LeagueModel, Prediction, fit_league, predict, predict_cup
 from .picks import Pick, select_picks
 
 
@@ -34,11 +34,17 @@ class Engine:
         with self._lock:
             if not force and time.time() - self._loaded_at < self.refresh_s:
                 return
-            fixtures = data.load_fixtures(max_age_s=0 if force else 2 * 3600)
-            unique = {f.id: f for f in fixtures}
-            self.fixtures = sorted(unique.values(), key=lambda f: f.kickoff)
-            divs = sorted({f.div for f in self.fixtures})
-            self.matches = data.load_matches(divs=divs)
+            # dane wszystkich lig: potrzebne też do meczów pucharowych
+            self.matches = data.load_matches()
+            try:
+                fixtures = data.load_fixtures(max_age_s=0 if force else 2 * 3600)
+            except Exception:
+                fixtures = []
+            if config.ESPN_FIXTURES:
+                teams = {div: {t for m in ms for t in (m.home, m.away)} for div, ms in self.matches.items()}
+                fixtures = _merge(fixtures, espn.cached_fixtures(espn.TeamMatcher(teams),
+                                                                 max_age_s=0 if force else 2 * 3600))
+            self.fixtures = sorted(fixtures, key=lambda f: f.kickoff)
             self._models.clear()
             self._analyses.clear()
             self._loaded_at = time.time()
@@ -65,6 +71,20 @@ class Engine:
                 self._models[key] = fit_league(matches, ref)
             return self._models[key]
 
+    def team_models(self, fx: data.Fixture) -> tuple[LeagueModel | None, LeagueModel | None]:
+        """Modele lig obu drużyn (w lidze to ten sam model, w pucharze zwykle dwa różne)."""
+        if fx.div in config.CUPS:
+            return (self.model_for(fx.home_div, fx.date) if fx.home_div else None,
+                    self.model_for(fx.away_div, fx.date) if fx.away_div else None)
+        model = self.model_for(fx.div, fx.date)
+        return model, model
+
+    def predict(self, fx: data.Fixture) -> Prediction | None:
+        home_model, away_model = self.team_models(fx)
+        if fx.div in config.CUPS:
+            return predict_cup(home_model, away_model, fx)
+        return predict(home_model, fx) if home_model else None
+
     def remember(self, fx: data.Fixture, analysis: Analysis) -> None:
         with self._lock:
             self._analyses[fx.id] = analysis
@@ -74,12 +94,10 @@ class Engine:
             if fx.id in self._analyses:
                 return self._analyses[fx.id]
             result = None
-            model = self.model_for(fx.div, fx.date)
-            if model:
-                pred = predict(model, fx)
-                if pred:
-                    evals = evaluate(pred)
-                    result = Analysis(pred, evals, select_picks(pred, evals))
+            pred = self.predict(fx)
+            if pred:
+                evals = evaluate(pred)
+                result = Analysis(pred, evals, select_picks(pred, evals))
             self._analyses[fx.id] = result
             return result
 
@@ -98,5 +116,30 @@ class Engine:
 
     def find(self, text: str) -> list[data.Fixture]:
         self.refresh()
-        t = text.lower().strip()
-        return [f for f in self.fixtures if t in f.home.lower() or t in f.away.lower()]
+        t = espn.normalize(text)
+        if not t:
+            return []
+
+        def names(f: data.Fixture) -> list[str]:
+            return [f.home, f.away, *f.aliases]
+
+        exact = [f for f in self.fixtures if any(espn.normalize(n) == t for n in names(f))]
+        if exact:
+            return exact
+        return [f for f in self.fixtures if any(t in espn.normalize(n) for n in names(f))]
+
+
+def _merge(main: list[data.Fixture], extra: list[data.Fixture]) -> list[data.Fixture]:
+    """Łączy terminarz football-data (dokładniejsze średnie kursy, sędziowie) z ESPN (pełny)."""
+    by_key = {f.id: f for f in main}
+    for f in extra:
+        same = by_key.get(f.id) or next(
+            (g for g in main if g.div == f.div and g.date == f.date and (g.home == f.home or g.away == f.away)),
+            None)
+        if same:
+            same.aliases = same.aliases + f.aliases
+            for k, v in f.odds.items():
+                same.odds.setdefault(k, v)
+        else:
+            by_key[f.id] = f
+    return list(by_key.values())

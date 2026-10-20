@@ -9,14 +9,13 @@ from html import escape
 from telegram import (BotCommand, InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton,
                       LabeledPrice, ReplyKeyboardMarkup, Update)
 from telegram.constants import ParseMode
-from telegram.error import Forbidden, TelegramError
+from telegram.error import Forbidden, NetworkError, TelegramError
 from telegram.ext import (Application, CallbackQueryHandler, CommandHandler, ContextTypes,
                           MessageHandler, PreCheckoutQueryHandler, filters)
 
 from . import config, data, report
 from .engine import Analysis, Engine
 from .markets import evaluate
-from .model import predict
 from .picks import select_picks
 from .store import Store
 
@@ -61,7 +60,7 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     _user(update)
     text = (
         "👋 <b>Cześć! Jestem botem do typowania meczów piłkarskich.</b>\n\n"
-        "Codziennie analizuję mecze z ok. 38 lig: formę drużyn, siłę ataku i obrony, "
+        "Codziennie analizuję mecze z ok. 40 lig i europejskich pucharów: formę drużyn, siłę ataku i obrony, "
         "kartki, rzuty rożne, sędziów, tabelę i motywację oraz kursy bukmacherów. "
         "Wysyłam tylko typy, w które model naprawdę wierzy.\n\n"
         f"{BTN_PICKS} — najmocniejsze typy na najbliższe godziny\n"
@@ -114,7 +113,7 @@ async def cmd_matches(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     for f in fixtures:
         counts[f.div] = counts.get(f.div, 0) + 1
     rows = [[InlineKeyboardButton(f"{config.league_name(div)} ({n})", callback_data=f"L|{div}")]
-            for div, n in counts.items()]
+            for div, n in sorted(counts.items(), key=lambda kv: (config.league_rank(kv[0]), -kv[1]))]
     await _send(update, "📅 <b>Wybierz ligę</b> (mecze w ciągu 3 dni):", InlineKeyboardMarkup(rows))
 
 
@@ -127,7 +126,7 @@ async def cmd_find(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     found = await _run(engine.find, query)
     if not found:
         await _send(update, f"Nie znalazłem nadchodzącego meczu dla „{escape(query)}”. "
-                            "Nazwy są po angielsku, np. <code>Legia</code>, <code>Bayern Munich</code>.")
+                            "Spróbuj inaczej, np. <code>Legia</code>, <code>Bayern</code>, <code>PSG</code>.")
         return
     await _send(update, "Znalezione mecze:", _match_buttons(found[:15]))
 
@@ -233,14 +232,14 @@ async def live_analysis(update: Update, fx: data.Fixture, premium: bool, sid: st
     async def fail(text: str) -> None:
         await msg.edit_text(f"{report.live_text(fx, done)}\n\n❌ {text}", parse_mode=ParseMode.HTML)
 
-    model = await _run(engine.model_for, fx.div, fx.date)
-    if not model:
-        await fail("Brak danych dla tej ligi.")
+    home_model, away_model = await _run(engine.team_models, fx)
+    n_home = sum(fx.home in (m.home, m.away) for m in home_model.matches) if home_model else 0
+    n_away = sum(fx.away in (m.home, m.away) for m in away_model.matches) if away_model else 0
+    if not (n_home or n_away or fx.odds):
+        await fail("Brak danych o tych drużynach.")
         return
-    n_home = sum(fx.home in (m.home, m.away) for m in model.matches)
-    n_away = sum(fx.away in (m.home, m.away) for m in model.matches)
     await show(f"📥 Dane: {n_home} meczów {escape(fx.home)}, {n_away} meczów {escape(fx.away)}")
-    pred = await _run(predict, model, fx)
+    pred = await _run(engine.predict, fx)
     if not pred:
         await fail("Za mało danych o tych drużynach, żeby coś sensownego policzyć.")
         return
@@ -346,6 +345,18 @@ async def settle_job(context: ContextTypes.DEFAULT_TYPE) -> None:
         log.info("Rozliczono %d typów", n)
 
 
+async def on_error(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if isinstance(context.error, NetworkError):  # chwilowe zerwanie połączenia — biblioteka ponawia sama
+        log.warning("Problem z siecią: %s", context.error)
+        return
+    log.error("Błąd przy obsłudze wiadomości", exc_info=context.error)
+
+
+async def warmup_job(context: ContextTypes.DEFAULT_TYPE) -> None:
+    await _run(engine.refresh, True)
+    log.info("Dane gotowe: %d meczów w terminarzu", len(engine.fixtures))
+
+
 async def post_init(app: Application) -> None:
     await app.bot.set_my_commands([
         BotCommand("typy", "Typy dnia"),
@@ -379,7 +390,10 @@ def main() -> None:
     app.add_handler(PreCheckoutQueryHandler(on_precheckout))
     app.add_handler(MessageHandler(filters.SUCCESSFUL_PAYMENT, on_paid))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, on_text))
+    app.add_error_handler(on_error)
     app.job_queue.run_daily(daily_broadcast, dtime(hour=config.DAILY_HOUR, tzinfo=data.PL))
     app.job_queue.run_repeating(settle_job, interval=3 * 3600, first=60)
+    # dane ładujemy od razu i odświeżamy co 2 h, żeby użytkownik nie czekał
+    app.job_queue.run_repeating(warmup_job, interval=2 * 3600, first=10)
     log.info("Bot startuje…")
     app.run_polling(allowed_updates=Update.ALL_TYPES)

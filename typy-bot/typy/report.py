@@ -143,6 +143,9 @@ def analysis_text(a: Analysis, show_picks: bool = True) -> str:
     else:
         out.append(f"\n🔒 Typy do tego meczu: {len(a.picks)} — dostępne w premium (/premium)")
 
+    if fx.div in config.CUPS:
+        out.append("\n🏆 Mecz pucharowy: siła drużyn z kursów bukmacherów, kartki i rożne ze statystyk "
+                   "z ich lig (sędziowie UEFA bywają inni) — traktuj te typy ostrożniej.")
     out.append("\n⚠️ Darmowe dane nie zawierają kontuzji ani składów — sprawdź je przed meczem "
                "(np. na stronie klubu), bo brak kluczowego gracza zmienia wszystko.")
     return "\n".join(out)
@@ -191,6 +194,8 @@ def live_strength_line(pred) -> str:
 
 def live_table_line(pred) -> str:
     fx = pred.fixture
+    if fx.div in config.CUPS:
+        return "🏆 Puchar: siła drużyn z kursów bukmacherów (drużyny z różnych lig)"
     parts = [f"{escape(name)} {mo.position}. ({mo.label})"
              for name, mo in ((fx.home, pred.mot_home), (fx.away, pred.mot_away)) if mo]
     return "🎯 Tabela: " + (" · ".join(parts) if parts else "brak tabeli dla tej ligi")

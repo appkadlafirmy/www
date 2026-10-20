@@ -1,8 +1,14 @@
 # Typy Bot — bot z typami piłkarskimi na Telegramie
 
-Bot co dzień analizuje mecze z ok. 38 lig i wysyła tylko te typy, w które model naprawdę wierzy.
-Działa za 0 zł: dane są z darmowego serwisu [football-data.co.uk](https://www.football-data.co.uk),
-a obliczenia robi własny model statystyczny (bez płatnego AI).
+Bot co dzień analizuje mecze z ok. 40 lig i europejskich pucharów (Liga Mistrzów, Liga Europy,
+Liga Konferencji) i wysyła tylko te typy, w które model naprawdę wierzy.
+Działa za 0 zł: wyniki i statystyki są z darmowego serwisu [football-data.co.uk](https://www.football-data.co.uk),
+pełny terminarz (wszystkie dni tygodnia + puchary) i kursy z publicznego API ESPN, a obliczenia robi
+własny model statystyczny (bez płatnego AI).
+
+> ESPN nie dokumentuje oficjalnie tego API — bot bierze z niego tylko terminarz i kursy.
+> Można je wyłączyć (`ESPN_FIXTURES = False` w `typy/config.py`); wtedy terminarz jest tylko z football-data
+> (aktualizowany we wtorki i piątki, bez pucharów).
 
 ## Co bierze pod uwagę
 
@@ -116,7 +122,9 @@ Hiszpania 1–2, Francja 1–2, Holandia, Belgia, Portugalia, Turcja, Grecja.
 Gole + kursy 1X2: **Polska (Ekstraklasa)**, Argentyna, Austria, Brazylia, Chiny, Dania, Finlandia,
 Irlandia, Japonia, Meksyk, Norwegia, Rumunia, Rosja, Szwecja, Szwajcaria, USA.
 
-Brak: Ligi Mistrzów i innych pucharów (nie ma ich w darmowych danych). Gdy bot zacznie zarabiać,
+Puchary (Liga Mistrzów, Liga Europy, Liga Konferencji): siła drużyn z kursów bukmacherów, kartki i rożne
+ze statystyk każdej drużyny w jej lidze. Kluby spoza obsługiwanych lig (np. Slavia, Crvena Zvezda)
+mają tylko prawdopodobieństwa z kursów, bez typów. Gdy bot zacznie zarabiać,
 można podpiąć płatne API (np. API-Football) z kontuzjami, składami i pucharami — źródło danych
 jest w jednym pliku `typy/data.py`.
 

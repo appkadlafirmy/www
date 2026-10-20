@@ -245,6 +245,8 @@ def evaluate(pred: Prediction) -> list[MarketEval]:
 def _odds_for(m: MarketDef, odds: dict[str, float]) -> float | None:
     if m.odds_key:
         return odds.get(m.odds_key)
+    if m.kind == "ft" and m.key in odds:  # np. over/under 3.5 z ESPN
+        return odds[m.key]
     line = odds.get("AH_LINE")
     if line is None:
         return None

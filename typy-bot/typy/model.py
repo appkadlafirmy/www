@@ -310,13 +310,13 @@ def devig(odds: list[float]) -> list[float]:
 _GRID = np.arange(0.15, 4.01, 0.05)
 
 
-def _grid_probs(grid_h: np.ndarray, grid_a: np.ndarray, rho: float):
+def _grid_probs(grid_h: np.ndarray, grid_a: np.ndarray, rho: float, line: float = 2.5):
     ph = np.array([poisson_pmf(l, MAX_GOALS) for l in grid_h])
     pa = np.array([poisson_pmf(l, MAX_GOALS) for l in grid_a])
     i, j = np.meshgrid(np.arange(MAX_GOALS + 1), np.arange(MAX_GOALS + 1), indexing="ij")
     hw = ph @ (i > j).astype(float) @ pa.T
     dr = ph @ (i == j).astype(float) @ pa.T
-    ov = ph @ (i + j >= 3).astype(float) @ pa.T
+    ov = ph @ (i + j > line).astype(float) @ pa.T
     lh, la = np.meshgrid(grid_h, grid_a, indexing="ij")
     p00 = np.outer(ph[:, 0], pa[:, 0])
     p10 = np.outer(ph[:, 1], pa[:, 0])
@@ -329,15 +329,24 @@ def _grid_probs(grid_h: np.ndarray, grid_a: np.ndarray, rho: float):
 
 def market_lambdas(odds: dict[str, float], model_total: float | None = None,
                    rho: float = config.DIXON_COLES_RHO) -> tuple[float, float] | None:
-    """Oczekiwane gole, które „widzi” rynek — dopasowane do kursów 1X2 i over/under 2.5."""
+    """Oczekiwane gole, które „widzi” rynek — dopasowane do kursów 1X2 i over/under."""
     if not all(k in odds for k in ("1", "X", "2")):
         return None
     p1, px, p2 = devig([odds["1"], odds["X"], odds["2"]])
-    po = devig([odds["O2.5"], odds["U2.5"]])[0] if "O2.5" in odds and "U2.5" in odds else None
+    line, po = 2.5, None
+    for k in odds:
+        if k.startswith("O") and f"U{k[1:]}" in odds:
+            try:
+                line = float(k[1:])
+            except ValueError:
+                continue
+            po = devig([odds[k], odds[f"U{k[1:]}"]])[0]
+            if line == 2.5:
+                break
     grid_h, grid_a = _GRID, _GRID
     best = None
     for _ in range(2):
-        lh, la, hw, dr, aw, ov = _grid_probs(grid_h, grid_a, rho)
+        lh, la, hw, dr, aw, ov = _grid_probs(grid_h, grid_a, rho, line)
         err = (hw - p1) ** 2 + (dr - px) ** 2 + (aw - p2) ** 2
         if po is not None:
             err = err + (ov - po) ** 2
@@ -443,6 +452,36 @@ def predict(model: LeagueModel, fx: Fixture) -> Prediction | None:
         pred.corners = k.expected(fx.home, fx.away)
         pred.corners_dispersion = k.dispersion
         pred.corners_league_avg = k.base_home + k.base_away
+    return pred
+
+
+def predict_cup(home_model: LeagueModel | None, away_model: LeagueModel | None,
+                fx: Fixture) -> Prediction | None:
+    """Mecz pucharowy: drużyny z różnych lig, więc siłę bierzemy z kursów rynku,
+    a kartki/rożne i formę z meczów każdej drużyny w jej lidze."""
+    ref = fx.date
+    lam_market = market_lambdas(fx.odds)
+    if not lam_market:
+        return None
+    pred = Prediction(fixture=fx, lam_model=None, lam_market=lam_market, lam=lam_market,
+                      form_home=team_form(home_model.matches, fx.home, ref) if home_model else None,
+                      form_away=team_form(away_model.matches, fx.away, ref) if away_model else None,
+                      enough_data=bool(home_model and away_model))
+    if not (home_model and away_model):
+        return pred
+    for kind in ("cards", "corners"):
+        rh, ra = getattr(home_model, kind), getattr(away_model, kind)
+        if not (rh and ra and fx.home in rh.attack and fx.away in ra.attack):
+            continue
+        # skłonność drużyny × to, ile rywal „pozwala” — każda oceniona względem swojej ligi
+        lam = (rh.base_home * rh.attack[fx.home] * ra.defence[fx.away],
+               ra.base_away * ra.attack[fx.away] * rh.defence[fx.home])
+        disp = max(rh.dispersion, ra.dispersion)
+        avg = (rh.base_home + rh.base_away + ra.base_home + ra.base_away) / 2
+        if kind == "cards":
+            pred.cards, pred.cards_dispersion, pred.cards_league_avg = lam, disp, avg
+        else:
+            pred.corners, pred.corners_dispersion, pred.corners_league_avg = lam, disp, avg
     return pred
 
 

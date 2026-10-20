@@ -50,6 +50,9 @@ class Fixture:
     away: str
     referee: str | None
     odds: dict[str, float]
+    aliases: tuple[str, ...] = ()   # inne nazwy do wyszukiwania (np. „PSG”)
+    home_div: str | None = None     # w pucharach: liga, w której gra gospodarz
+    away_div: str | None = None
 
     @property
     def date(self) -> date:
