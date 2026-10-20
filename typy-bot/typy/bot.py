@@ -561,7 +561,7 @@ def main() -> None:
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, on_text))
     app.add_error_handler(on_error)
     app.job_queue.run_daily(daily_broadcast, dtime(hour=config.DAILY_HOUR, tzinfo=data.PL))
-    app.job_queue.run_repeating(settle_job, interval=3 * 3600, first=60)
+    app.job_queue.run_repeating(settle_job, interval=30 * 60, first=60)
     app.job_queue.run_repeating(lineups_job, interval=10 * 60, first=120)
     app.job_queue.run_once(calibration_job, when=5)
     # dane ładujemy od razu i odświeżamy co 2 h, żeby użytkownik nie czekał

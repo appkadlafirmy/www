@@ -13,7 +13,7 @@ import time
 import unicodedata
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from difflib import SequenceMatcher
 
 from . import config
@@ -220,6 +220,23 @@ def _fixture(ev: dict, div: str, cup: bool, matcher: TeamMatcher, now: datetime)
                    odds=_odds(comp), aliases=tuple(a for a in aliases if a),
                    home_div=divs[0], away_div=divs[1], espn_id=str(ev.get("id") or "") or None,
                    espn_home_id=teams["home"].get("id"), espn_away_id=teams["away"].get("id"))
+
+
+def find_event(div: str, kickoff_iso: str, home: str, away: str) -> str | None:
+    """Numer meczu w ESPN dla typu zapisanego bez niego (szukamy po dniu i nazwach drużyn)."""
+    slug = next((k for k, v in LEAGUES.items() if v == div), None)
+    if not slug:
+        return None
+    kickoff = datetime.fromisoformat(kickoff_iso)
+    matcher = TeamMatcher({div: {home, away}})
+    for day in {(kickoff + timedelta(hours=h)).astimezone(timezone.utc).date() for h in (-6, 0, 6)}:
+        for ev in _get(slug, day).get("events", []):
+            comp = (ev.get("competitions") or [{}])[0]
+            teams = {c.get("homeAway"): (c.get("team") or {}).get("displayName", "") for c in comp.get("competitors", [])}
+            h, a = matcher.match(teams.get("home", ""), div), matcher.match(teams.get("away", ""), div)
+            if h and a and h[0] == home and a[0] == away:
+                return str(ev.get("id"))
+    return None
 
 
 _cache: tuple[float, list[Fixture]] | None = None
