@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+from datetime import datetime
 from datetime import time as dtime
 from html import escape
 
@@ -13,7 +14,8 @@ from telegram.error import Forbidden, NetworkError, TelegramError
 from telegram.ext import (Application, CallbackQueryHandler, CommandHandler, ContextTypes,
                           MessageHandler, PreCheckoutQueryHandler, filters)
 
-from . import config, data, report
+from . import config, data, players, report
+from . import picks as picks_mod
 from .engine import Analysis, Engine
 from .markets import evaluate
 from .picks import select_picks
@@ -78,7 +80,9 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "<b>76%</b> · kurs od <b>1.38</b> · ★★★\n\n"
         "• <b>76%</b> — tak często taki typ powinien wchodzić (sprawdzone na ok. 11 tys. meczów)\n"
         "• <b>kurs od 1.38</b> — grasz tylko, jeśli bukmacher daje tyle lub więcej\n"
-        "• <b>★★★</b> — jak mocno mecz odstaje od normy\n\n"
+        "• <b>★★★</b> — jak mocno mecz odstaje od normy\n"
+        "• <b>💰 #1</b> — kliknij i wpisz kurs z Betclica: bot powie, czy grać i za ile\n\n"
+        "📋 Ok. godzinę przed meczem, gdy znane są składy, bot sam wysyła typy na zawodników.\n\n"
         "⚽ gole i wynik · 🟨 kartki · 🟥 czerwona · 🚩 rożne · 🎯 strzały celne · 👟 strzały · 🦵 faule · "
         "👤 zawodnicy\n\n"
         "<i>Kartki liczymy po 1 (żółta i czerwona) — sprawdź zasady bukmachera. Bot nie widzi kontuzji, "
@@ -93,11 +97,11 @@ async def cmd_picks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     picks = await _run(engine.best_picks)
     store.save_picks(picks)
     if store.is_premium(uid):
-        text = report.picks_text(picks, "🔥 Typy dnia")
+        await _send(update, report.picks_text(picks, "🔥 Typy dnia") + (ODDS_PROMPT if picks else ""),
+                    _odds_markup(picks))
     else:
         free = picks[: config.FREE_DAILY_PICKS]
-        text = report.picks_text(free, "🔥 Typ dnia (darmowy)", locked=len(picks) - len(free))
-    await _send(update, text)
+        await _send(update, report.picks_text(free, "🔥 Typ dnia (darmowy)", locked=len(picks) - len(free)))
 
 
 async def cmd_matches(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -144,6 +148,21 @@ def _match_buttons(fixtures: list[data.Fixture], div: str | None = None) -> Inli
     return InlineKeyboardMarkup(rows)
 
 
+def _odds_rows(picks: list) -> list[list[InlineKeyboardButton]]:
+    """Przyciski „💰 #1, #2…” — po kliknięciu wpisujesz kurs z Betclica, a bot mówi, czy grać."""
+    buttons = [InlineKeyboardButton(f"💰 #{n}", callback_data=f"K|{engine.short_id(p.pred.fixture)}|{p.ev.market.key}")
+               for n, p in enumerate(picks[:15], 1)]
+    return [buttons[i:i + 5] for i in range(0, len(buttons), 5)]
+
+
+def _odds_markup(picks: list, extra: list | None = None) -> InlineKeyboardMarkup | None:
+    rows = ([extra] if extra else []) + _odds_rows(picks)
+    return InlineKeyboardMarkup(rows) if rows else None
+
+
+ODDS_PROMPT = "\n\n<i>💰 Kliknij numer typu i wpisz kurs z Betclica — powiem, czy grać i za ile.</i>"
+
+
 def _selected(context: ContextTypes.DEFAULT_TYPE) -> list[str]:
     """Zaznaczone mecze użytkownika (krótkie numery), w kolejności zaznaczania."""
     return context.user_data.setdefault("selected", [])
@@ -177,9 +196,13 @@ async def send_selected(update: Update, context: ContextTypes.DEFAULT_TYPE, prem
         return
     await update.effective_chat.send_action("typing")
     analyses = [a for a in [await _run(engine.analyse, f) for f in fixtures] if a]
+    numbered = [p for a in analyses for p in report.ordered_picks(a)]
     if premium:
-        store.save_picks([p for a in analyses for p in a.picks])
-    await _send(update, report.multi_picks_text(analyses, show_picks=premium))
+        store.save_picks(numbered)
+        await _send(update, report.multi_picks_text(analyses) + (ODDS_PROMPT if numbered else ""),
+                    _odds_markup(numbered))
+    else:
+        await _send(update, report.multi_picks_text(analyses, show_picks=False))
 
 
 async def cmd_stats(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -258,6 +281,14 @@ async def on_button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             pass
     elif kind == "G":
         await send_selected(update, context, store.is_premium(uid))
+    elif kind == "K":
+        sid, _, key = arg.partition("|")
+        pick = await _find_pick(sid, key)
+        if not pick:
+            await _send(update, "Ten typ jest już nieaktualny (mecz się zaczął albo dane się zmieniły).")
+            return
+        context.user_data["odds_for"] = (sid, key)
+        await _send(update, f"💰 {escape(pick.ev.label)}\n\nWpisz kurs z Betclica, np. <code>1.65</code>")
     elif kind in ("M", "A", "Z"):
         fx = engine.by_short_id(arg)
         if not fx:
@@ -323,7 +354,7 @@ async def live_analysis(update: Update, fx: data.Fixture, premium: bool, sid: st
     buttons = [InlineKeyboardButton("📋 Wszystkie rynki", callback_data=f"A|{sid}")]
     if player_markets:
         buttons.insert(0, InlineKeyboardButton("👤 Zawodnicy", callback_data=f"Z|{sid}"))
-    markup = InlineKeyboardMarkup([buttons]) if premium else None
+    markup = _odds_markup(picks, buttons) if premium else None
     parts = report.split_message(report.analysis_text(a, show_picks=premium))
     await msg.edit_text(parts[0], parse_mode=ParseMode.HTML,
                         reply_markup=markup if len(parts) == 1 else None)
@@ -332,8 +363,29 @@ async def live_analysis(update: Update, fx: data.Fixture, premium: bool, sid: st
                                                   reply_markup=markup if i == len(parts) else None)
 
 
+async def _find_pick(sid: str, key: str):
+    fx = engine.by_short_id(sid)
+    a = await _run(engine.analyse, fx) if fx else None
+    return next((p for p in a.picks if p.ev.market.key == key), None) if a else None
+
+
+def _parse_odds(text: str) -> float | None:
+    try:
+        odds = float(text.replace(",", ".").strip())
+    except ValueError:
+        return None
+    return odds if 1.01 <= odds <= 100 else None
+
+
 async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     text = (update.message.text or "").strip()
+    pending = context.user_data.pop("odds_for", None)
+    odds = _parse_odds(text) if pending else None
+    if odds:
+        pick = await _find_pick(*pending)
+        if pick:
+            await _send(update, report.odds_check_text(pick, odds))
+            return
     handlers = {BTN_PICKS: cmd_picks, BTN_MATCHES: cmd_matches, BTN_STATS: cmd_stats,
                 BTN_PREMIUM: cmd_premium}
     if text in handlers:
@@ -365,7 +417,12 @@ async def cmd_admin_stats(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     if not _admin(update):
         return
     total, prem = store.user_count()
-    await _send(update, f"Użytkownicy: {total}, premium: {prem}\nMeczów w terminarzu: {len(engine.fixtures)}")
+    lines = [f"Użytkownicy: {total}, premium: {prem}", f"Meczów w terminarzu: {len(engine.fixtures)}",
+             "\n<b>Samouczenie</b> (obiecane → weszło, korekta):"]
+    for key, c in sorted(store.calibration().items()):
+        lines.append(f"{escape(key)}: {c['promised']:.0%} → {c['hit']:.0%} (n={c['n']})"
+                     + (f", korekta −{c['gap']:.0%}" if c["gap"] else ""))
+    await _send(update, "\n".join(lines))
 
 
 async def cmd_admin_send(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -381,16 +438,52 @@ async def daily_broadcast(context: ContextTypes.DEFAULT_TYPE) -> int:
     await _run(engine.refresh, True)
     picks = await _run(engine.best_picks)
     store.save_picks(picks)
-    full = report.picks_text(picks, "🔥 Typy dnia")
+    full = report.picks_text(picks, "🔥 Typy dnia") + (ODDS_PROMPT if picks else "")
+    markup = _odds_markup(picks)
     free_picks = picks[: config.FREE_DAILY_PICKS]
     free = report.picks_text(free_picks, "🔥 Typ dnia (darmowy)", locked=len(picks) - len(free_picks))
+    return await _broadcast(context, lambda uid: (full, markup) if store.is_premium(uid) else (free, None))
+
+
+async def lineups_job(context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Co 10 min: mecze za 20–75 min, dla których ESPN podał już składy → typy na zawodników."""
+    now = datetime.now(data.PL)
+    items = []
+    for fx in list(engine.fixtures):
+        to_kickoff = (fx.kickoff - now).total_seconds() / 60
+        key = f"lineups:{fx.id}"
+        if not fx.espn_id or not 20 <= to_kickoff <= 75 or store.was_sent(key):
+            continue
+        squads = await _run(players.lineups, fx.espn_id)
+        if len(squads) < 2:
+            continue
+        store.mark_sent(key)
+        engine.forget(fx)
+        a = await _run(engine.analyse, fx)
+        picks = [p for p in (a.picks if a else []) if p.kind == "zawodnik"]
+        if picks:
+            items.append((fx, picks))
+    if not items:
+        return
+    all_picks = [p for _, ps in items for p in ps]
+    store.save_picks(all_picks)
+    full = report.lineup_picks_text(items) + ODDS_PROMPT
+    locked = report.lineup_picks_text(items, show_picks=False)
+    markup = _odds_markup(all_picks)
+    await _broadcast(context, lambda uid: (full, markup) if store.is_premium(uid) else (locked, None))
+
+
+async def _broadcast(context: ContextTypes.DEFAULT_TYPE, message_for) -> int:
+    """Wysyła do wszystkich z włączonymi powiadomieniami; message_for(user_id) -> (tekst, przyciski)."""
     sent = 0
     for user in store.subscribers():
-        text = full if store.is_premium(user["user_id"]) else free
+        text, markup = message_for(user["user_id"])
+        parts = report.split_message(text)
         try:
-            for part in report.split_message(text):
+            for i, part in enumerate(parts):
                 await context.bot.send_message(user["chat_id"], part, parse_mode=ParseMode.HTML,
-                                               disable_web_page_preview=True)
+                                               disable_web_page_preview=True,
+                                               reply_markup=markup if i == len(parts) - 1 else None)
             sent += 1
         except Forbidden:
             store.set_notify(user["user_id"], False)  # użytkownik zablokował bota
@@ -398,6 +491,15 @@ async def daily_broadcast(context: ContextTypes.DEFAULT_TYPE) -> int:
             log.warning("Nie wysłano do %s: %s", user["user_id"], e)
         await asyncio.sleep(0.05)  # limit Telegrama: ~30 wiadomości/s
     return sent
+
+
+async def calibration_job(context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Samouczenie: korekty z historii rozliczonych typów."""
+    stats = await _run(store.calibration)
+    picks_mod.CALIBRATION.clear()
+    picks_mod.CALIBRATION.update({k: v["gap"] for k, v in stats.items() if v["gap"] > 0})
+    if picks_mod.CALIBRATION:
+        log.info("Korekty z historii: %s", picks_mod.CALIBRATION)
 
 
 async def settle_job(context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -408,6 +510,7 @@ async def settle_job(context: ContextTypes.DEFAULT_TYPE) -> None:
     n = await _run(store.settle_open, results)
     if n:
         log.info("Rozliczono %d typów", n)
+        await calibration_job(context)
 
 
 async def on_error(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -459,6 +562,8 @@ def main() -> None:
     app.add_error_handler(on_error)
     app.job_queue.run_daily(daily_broadcast, dtime(hour=config.DAILY_HOUR, tzinfo=data.PL))
     app.job_queue.run_repeating(settle_job, interval=3 * 3600, first=60)
+    app.job_queue.run_repeating(lineups_job, interval=10 * 60, first=120)
+    app.job_queue.run_once(calibration_job, when=5)
     # dane ładujemy od razu i odświeżamy co 2 h, żeby użytkownik nie czekał
     app.job_queue.run_repeating(warmup_job, interval=2 * 3600, first=10)
     log.info("Bot startuje…")

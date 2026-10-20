@@ -7,19 +7,40 @@ from . import config
 from .markets import COUNT_KINDS, MarketDef, MarketEval
 from .model import Prediction
 
+# Korekty z historii trafień bota: o ile punktów procentowych model przecenia dany rodzaj typów.
+# Klucz: "rodzaj|liga" albo "rodzaj|puchar". Uzupełnia je bot z bazy rozliczonych typów (store.calibration).
+CALIBRATION: dict[str, float] = {}
+
+
+def calibration_key(kind: str, div: str) -> str:
+    return f"{kind}|{'puchar' if div in config.CUPS else 'liga'}"
+
 
 @dataclass
 class Pick:
     pred: Prediction
     ev: MarketEval
-    kind: str      # "value" (lepszy kurs niż rynek), "model", "kartki", "rożne"
+    kind: str      # "value" (lepszy kurs niż rynek), "model", "zawodnik", "kartki", "rożne"...
     score: float   # do sortowania: im wyżej, tym mocniejszy typ
     reason: str
 
     @property
+    def gap(self) -> float:
+        return CALIBRATION.get(calibration_key(self.kind, self.pred.fixture.div), 0.0)
+
+    @property
+    def prob(self) -> float:
+        """Szansa po korekcie z historii trafień (to pokazujemy użytkownikowi)."""
+        return max(0.01, self.ev.prob - self.gap)
+
+    @property
     def min_odds(self) -> float:
         """Poniżej tego kursu nie warto grać."""
-        return round(max(1.01, config.SAFETY_MARGIN * self.ev.fair_odds), 2)
+        return round(max(1.01, config.SAFETY_MARGIN * self.ev.fair_odds * self.ev.prob / self.prob), 2)
+
+    def value_at(self, odds: float) -> float:
+        """Oczekiwany zysk na 1 zł stawki przy danym kursie (zwroty stawki pominięte)."""
+        return self.prob * (odds - 1) - (1 - self.prob)
 
     @property
     def stars(self) -> int:
@@ -117,7 +138,8 @@ def _player_candidates(pred: Prediction, markets: list) -> list[Pick]:
     out = []
     for pm in markets:
         p = pm.player
-        if p.p_play < 0.8 and p.lineup != "start":
+        # Test LM: model przeceniał, czy zawodnik zagra (91% vs 82%) — typujemy dopiero po składach.
+        if p.lineup != "start" and (config.PLAYER_PICKS_NEED_LINEUP or p.p_play < 0.8):
             continue
         if pm.stat == "goals":
             if pm.prob < config.PLAYER_GOAL_MIN_PROB:
@@ -139,16 +161,26 @@ def _player_candidates(pred: Prediction, markets: list) -> list[Pick]:
     return out
 
 
+def _min_prob(p: Pick) -> float:
+    """Próg po korekcie z historii — gdy rodzaj typów trafia gorzej, niż obiecywał, odpada więcej typów."""
+    if p.ev.market.key.endswith(":goals:0.5"):
+        return config.PLAYER_GOAL_MIN_PROB
+    return min(config.MODEL_MIN_PROB, config.COUNT_MIN_PROB, config.PLAYER_MIN_PROB)
+
+
 def select_picks(pred: Prediction, evals: list[MarketEval], player_markets: list | None = None) -> list[Pick]:
     if not pred.enough_data:
         return []
     chosen: list[Pick] = []
+    cup = pred.fixture.div in config.CUPS
     for cands in (
         _player_candidates(pred, player_markets or []),
         _value_candidates(pred, evals) if config.VALUE_PICKS_ENABLED else [],
         *(_count_candidates(pred, evals, kind) for kind in COUNT_KINDS),
         _model_candidates(pred, evals),
     ):
+        cands = [c for c in cands
+                 if not (cup and c.kind in config.CUP_DISABLED_KINDS) and c.prob >= _min_prob(c)]
         if cands:
             # z każdej grupy tylko najlepszy typ, żeby nie dublować tej samej myśli
             chosen.append(max(cands, key=lambda c: (c.score, -abs(c.ev.prob - 0.7))))

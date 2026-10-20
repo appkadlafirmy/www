@@ -1,6 +1,7 @@
 """Baza SQLite: użytkownicy (premium, powiadomienia) i historia wysłanych typów."""
 from __future__ import annotations
 
+import math
 import sqlite3
 from datetime import date, datetime, timedelta
 
@@ -8,7 +9,7 @@ from . import config
 from .data import Match
 from .markets import settle
 from .players import match_from_event, settle_player
-from .picks import Pick
+from .picks import Pick, calibration_key
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS users (
@@ -35,6 +36,10 @@ CREATE TABLE IF NOT EXISTS picks (
     result TEXT,
     UNIQUE (div, match_date, home, away, market)
 );
+CREATE TABLE IF NOT EXISTS sent (
+    key TEXT PRIMARY KEY,
+    created_at TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS payments (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
@@ -52,9 +57,11 @@ class Store:
         self.db.row_factory = sqlite3.Row
         self.db.executescript(SCHEMA)
         cols = {r[1] for r in self.db.execute("PRAGMA table_info(picks)")}
-        if "event_id" not in cols:  # starsze bazy: dopisujemy numer meczu w ESPN (rozliczanie zawodników)
-            self.db.execute("ALTER TABLE picks ADD COLUMN event_id TEXT")
-            self.db.commit()
+        # starsze bazy: numer meczu w ESPN (rozliczanie zawodników) i szansa po korekcie z historii
+        for col, typ in (("event_id", "TEXT"), ("prob_shown", "REAL")):
+            if col not in cols:
+                self.db.execute(f"ALTER TABLE picks ADD COLUMN {col} {typ}")
+        self.db.commit()
 
     # ------------------------------------------------------------ użytkownicy
 
@@ -116,9 +123,9 @@ class Store:
             fx = p.pred.fixture
             self.db.execute(
                 "INSERT OR IGNORE INTO picks (created_at, div, match_date, kickoff, home, away, market, "
-                "label, kind, prob, min_odds, event_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                "label, kind, prob, min_odds, event_id, prob_shown) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (now, fx.div, fx.date.isoformat(), fx.kickoff.isoformat(), fx.home, fx.away,
-                 p.ev.market.key, p.ev.label, p.kind, p.ev.prob, p.min_odds, fx.espn_id))
+                 p.ev.market.key, p.ev.label, p.kind, p.ev.prob, p.min_odds, fx.espn_id, p.prob))
         self.db.commit()
 
     def settle_open(self, results: dict[str, list[Match]]) -> int:
@@ -153,6 +160,33 @@ class Store:
         self.db.commit()
         return done
 
+    def calibration(self) -> dict[str, dict]:
+        """Samouczenie: dla każdego rodzaju typów (osobno ligi i puchary) porównuje, co obiecywał
+        model, z tym, co weszło. Gdy po min. CALIBRATION_MIN_PICKS typach trafia wyraźnie gorzej
+        (różnica większa niż 1,5 błędu losowego), zwraca tę różnicę jako korektę."""
+        rows = self.db.execute("SELECT kind, div, prob, result FROM picks WHERE result IN ('won', 'lost')").fetchall()
+        groups: dict[str, list] = {}
+        for r in rows:
+            groups.setdefault(calibration_key(r["kind"], r["div"]), []).append(r)
+        out = {}
+        for key, rs in groups.items():
+            n = len(rs)
+            promised = sum(r["prob"] for r in rs) / n
+            hit = sum(r["result"] == "won" for r in rs) / n
+            se = math.sqrt(max(promised * (1 - promised), 0.01) / n)
+            gap = promised - hit
+            out[key] = {"n": n, "promised": promised, "hit": hit,
+                        "gap": round(gap, 3) if n >= config.CALIBRATION_MIN_PICKS and gap > 1.5 * se else 0.0}
+        return out
+
+    def was_sent(self, key: str) -> bool:
+        return self.db.execute("SELECT 1 FROM sent WHERE key = ?", (key,)).fetchone() is not None
+
+    def mark_sent(self, key: str) -> None:
+        self.db.execute("INSERT OR IGNORE INTO sent (key, created_at) VALUES (?, ?)",
+                        (key, datetime.now().isoformat(timespec="seconds")))
+        self.db.commit()
+
     def stats(self) -> dict:
         rows = self.db.execute(
             "SELECT * FROM picks WHERE result IN ('won', 'lost', 'push') ORDER BY kickoff").fetchall()
@@ -169,7 +203,7 @@ class Store:
         return {
             "settled": len(rows), "won": won, "lost": lost, "push": push,
             "hit_rate": won / len(decided) if decided else 0.0,
-            "avg_prob": sum(r["prob"] for r in decided) / len(decided) if decided else 0.0,
+            "avg_prob": sum(r["prob_shown"] or r["prob"] for r in decided) / len(decided) if decided else 0.0,
             "roi": profit / len(decided) if decided else 0.0,
             "by_kind": by_kind,
             "recent": [dict(r) for r in rows[-10:]],

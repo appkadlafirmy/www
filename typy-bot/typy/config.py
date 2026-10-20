@@ -156,6 +156,14 @@ SAFETY_MARGIN = 1.05           # minimalny kurs = 1.05 / prawdopodobieństwo
 PLAYER_MIN_PROB = 0.62
 PLAYER_MAX_PROB = 0.85
 PLAYER_GOAL_MIN_PROB = 0.38      # strzelec gola: model 38%, naprawdę 35% — dlatego margines w min. kursie
+# Typy na zawodników dopiero po ogłoszeniu składów (test LM: bez składów model przeceniał, kto zagra).
+PLAYER_PICKS_NEED_LINEUP = True
+# W pucharach nie typujemy fauli (test LM 2026/27: trafione 3 z 11).
+CUP_DISABLED_KINDS = {"faule"}
+# Do „Typów dnia” tylko typy ★★ i ★★★ (w teście LM typ dnia trafiał 82%, wszystkie typy 66%).
+DAILY_MIN_STARS = 2
+# Samouczenie: korekta rodzaju typów, gdy po co najmniej tylu rozliczonych typach trafia wyraźnie gorzej.
+CALIBRATION_MIN_PICKS = 40
 MAX_PICKS_PER_MATCH = 3
 DAILY_MAX_PICKS = 10           # ile typów dnia wysyłamy (najmocniejsze)
 FREE_DAILY_PICKS = 1           # ile z nich widzi użytkownik bez premium

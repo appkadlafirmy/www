@@ -35,6 +35,7 @@ class Engine:
         self.fixtures: list[data.Fixture] = []
         self._models: dict[tuple[str, date], LeagueModel] = {}
         self._analyses: dict[str, Analysis | None] = {}
+        self._analysed_at: dict[str, float] = {}
         self._lock = threading.RLock()
 
     def refresh(self, force: bool = False) -> None:
@@ -95,10 +96,11 @@ class Engine:
     def remember(self, fx: data.Fixture, analysis: Analysis) -> None:
         with self._lock:
             self._analyses[fx.id] = analysis
+            self._analysed_at[fx.id] = time.time()
 
     def analyse(self, fx: data.Fixture) -> Analysis | None:
         # bez blokady na czas liczenia: statystyki zawodników idą z sieci i mogą chwilę potrwać
-        if fx.id in self._analyses:
+        if fx.id in self._analyses and not self._needs_lineup_refresh(fx):
             return self._analyses[fx.id]
         result = None
         pred = self.predict(fx)
@@ -107,7 +109,19 @@ class Engine:
             player_markets, known = self.player_markets(fx, pred)
             result = Analysis(pred, evals, select_picks(pred, evals, player_markets), player_markets, known)
         self._analyses[fx.id] = result
+        self._analysed_at[fx.id] = time.time()
         return result
+
+    def _needs_lineup_refresh(self, fx: data.Fixture) -> bool:
+        """Na ok. 1,5 h przed meczem liczymy na nowo co 10 min, aż ESPN poda składy."""
+        a = self._analyses.get(fx.id)
+        if not a or a.lineups_known or not fx.espn_id:
+            return False
+        to_kickoff = (fx.kickoff - datetime.now(data.PL)).total_seconds()
+        return 0 < to_kickoff < 90 * 60 and time.time() - self._analysed_at.get(fx.id, 0) > 600
+
+    def forget(self, fx: data.Fixture) -> None:
+        self._analyses.pop(fx.id, None)
 
     def player_markets(self, fx: data.Fixture, pred: Prediction,
                        use_lineups: bool = True) -> tuple[list[players.PlayerMarket], bool]:
@@ -139,8 +153,9 @@ class Engine:
             if fx.kickoff < now:
                 continue
             a = self.analyse(fx)
-            if a and a.picks:
-                best.append(max(a.picks, key=lambda p: (p.stars, p.score)))
+            strong = [p for p in a.picks if p.stars >= config.DAILY_MIN_STARS] if a else []
+            if strong:
+                best.append(max(strong, key=lambda p: (p.stars, p.score)))
         best.sort(key=lambda p: (-p.stars, -p.score))
         return best[:limit]
 

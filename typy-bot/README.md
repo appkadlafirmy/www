@@ -85,6 +85,18 @@ Wszystkie progi są w `typy/config.py`.
 Każdy pokazany typ zapisuje się w bazie i rozlicza automatycznie po meczu — komenda **📈 Skuteczność**
 pokazuje uczciwą historię. To najlepszy argument sprzedażowy.
 
+## Poprawki jakości typów
+
+- **Typy na zawodników dopiero po składach** — co 10 min bot sprawdza mecze za 20–75 min; gdy ESPN poda
+  składy, wysyła subskrybentom „📋 Składy znane — typy na zawodników” (test LM: bez składów model zakładał,
+  że zawodnik zagra w 91%, a grał w 82%).
+- **Bez fauli w pucharach** (test LM 2026/27: 3 z 11) i **tylko ★★/★★★ w Typach dnia** (typ dnia trafiał 82%).
+- **💰 Sprawdź kurs** — przy każdym typie numer #1, #2…; po kliknięciu wpisujesz kurs z Betclica, a bot
+  odpowiada „graj / nie graj”, ile średnio zarabiasz i jaką stawkę postawić (¼ Kelly'ego, maks. 3% budżetu).
+- **Samouczenie** — po każdym rozliczeniu bot porównuje, co obiecywał każdy rodzaj typów (osobno ligi
+  i puchary), z tym, co weszło. Gdy po min. 40 typach trafia wyraźnie gorzej, obniża ich szansę o tę różnicę
+  (wyższy „kurs od”, część typów odpada). Podgląd: `/admin_staty`.
+
 ## Uruchomienie (Windows / Mac / Linux)
 
 1. Zainstaluj [Pythona 3.11+](https://www.python.org/downloads/) (na Windows zaznacz „Add Python to PATH”).

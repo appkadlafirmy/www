@@ -75,10 +75,11 @@ def match_title(fx: Fixture) -> str:
     return f"<b>{escape(fx.home)} – {escape(fx.away)}</b>"
 
 
-def pick_body(p: Pick) -> str:
-    """Dwie linijki: co grać, i ile to warte."""
-    return (f"{KIND_ICON.get(p.kind, '•')} {escape(p.ev.label)}\n"
-            f"<b>{p.ev.prob:.0%}</b> · kurs od <b>{p.min_odds:.2f}</b> · {stars(p.stars)}")
+def pick_body(p: Pick, num: int | None = None) -> str:
+    """Dwie linijki: co grać, i ile to warte. Numer = do przycisku „💰 Sprawdź kurs”."""
+    prefix = f"<b>#{num}</b> " if num else ""
+    return (f"{prefix}{KIND_ICON.get(p.kind, '•')} {escape(p.ev.label)}\n"
+            f"<b>{p.prob:.0%}</b> · kurs od <b>{p.min_odds:.2f}</b> · {stars(p.stars)}")
 
 
 def picks_text(picks: list[Pick], title: str, locked: int = 0) -> str:
@@ -88,7 +89,7 @@ def picks_text(picks: list[Pick], title: str, locked: int = 0) -> str:
     parts = [f"<b>{title}</b>"]
     for i, p in enumerate(picks, 1):
         fx = p.pred.fixture
-        parts.append(f"{i}. {match_title(fx)}\n{escape(config.league_name(fx.div))} · {when(fx)}\n{pick_body(p)}")
+        parts.append(f"{match_title(fx)}\n{escape(config.league_name(fx.div))} · {when(fx)}\n{pick_body(p, i)}")
     if locked:
         parts.append(f"🔒 +{locked} typów w premium → /premium")
     parts.append(f"{ODDS_HINT}\n{DISCLAIMER}")
@@ -99,27 +100,70 @@ def multi_picks_text(analyses: list[Analysis], show_picks: bool = True) -> str:
     """Typy na kilka zaznaczonych meczów w jednej wiadomości + kupon z najmocniejszych typów."""
     parts = [f"📨 <b>Typy na wybrane mecze ({len(analyses)})</b>"]
     best = []
-    for i, a in enumerate(analyses, 1):
+    num = 0
+    for a in analyses:
         fx = a.pred.fixture
-        head = f"{i}. {match_title(fx)}\n{escape(config.league_name(fx.div))} · {when(fx)}"
+        head = f"{match_title(fx)}\n{escape(config.league_name(fx.div))} · {when(fx)}"
         if not show_picks:
             parts.append(f"{head}\n🔒 typy: {len(a.picks)} — premium → /premium")
         elif a.picks:
-            picks = sorted(a.picks, key=lambda p: (-p.stars, -p.score))
+            picks = ordered_picks(a)
             best.append(picks[0])
-            parts.append(head + "\n" + "\n".join(pick_body(p) for p in picks))
+            lines = []
+            for p in picks:
+                num += 1
+                lines.append(pick_body(p, num))
+            parts.append(head + "\n" + "\n".join(lines))
         else:
             parts.append(f"{head}\n⏸ bez typu — nic nie odstaje na tyle, żeby grać")
     if show_picks and len(best) >= 2:
         prob = 1.0
         for p in best:
-            prob *= p.ev.prob
+            prob *= p.prob
         parts.append(f"🧾 <b>Kupon z najmocniejszych typów ({len(best)})</b>\n"
                      f"szansa, że wejdą wszystkie: <b>{prob:.0%}</b> · kurs łączny od <b>"
                      f"{config.SAFETY_MARGIN / prob:.2f}</b>\n"
                      "<i>Im więcej meczów na kuponie, tym mniejsza szansa — jeden błąd przegrywa całość.</i>")
     parts.append(f"{ODDS_HINT}\n{DISCLAIMER}")
     return "\n\n".join(parts)
+
+
+def ordered_picks(a: Analysis) -> list[Pick]:
+    return sorted(a.picks, key=lambda p: (-p.stars, -p.score))
+
+
+def lineup_picks_text(items: list[tuple[Fixture, list[Pick]]], show_picks: bool = True) -> str:
+    """Wiadomość ok. godzinę przed meczem: składy znane → typy na zawodników z prawdziwej jedenastki."""
+    parts = ["📋 <b>Składy znane — typy na zawodników</b>"]
+    num = 0
+    for fx, picks in items:
+        head = f"{match_title(fx)} · {when(fx)}"
+        if not show_picks:
+            parts.append(f"{head}\n🔒 typy: {len(picks)} — premium → /premium")
+            continue
+        lines = []
+        for p in picks:
+            num += 1
+            lines.append(pick_body(p, num))
+        parts.append(head + "\n" + "\n".join(lines))
+    parts.append(f"{ODDS_HINT}\n{DISCLAIMER}")
+    return "\n\n".join(parts)
+
+
+def odds_check_text(p: Pick, odds: float) -> str:
+    """Odpowiedź na wpisany kurs: grać czy nie, i jaka stawka."""
+    value = p.value_at(odds)
+    label = f"{KIND_ICON.get(p.kind, '•')} {escape(p.ev.label)}"
+    if odds < p.min_odds:
+        return (f"{label}\n\n❌ <b>Nie graj.</b> Kurs {odds:.2f} jest za niski — opłaca się od <b>{p.min_odds:.2f}</b>.\n"
+                f"<i>Przy szansie {p.prob:.0%} średnio {'tracisz' if value < 0 else 'zarabiasz tylko'} "
+                f"{abs(value):.0%} na zakład.</i>")
+    kelly = value / (odds - 1)
+    stake = min(3.0, max(0.5, kelly / 4 * 100))  # ćwierć Kelly'ego, maks. 3% budżetu
+    return (f"{label}\n\n✅ <b>Graj.</b> Przy kursie {odds:.2f} i szansie {p.prob:.0%} średnio zarabiasz "
+            f"<b>{value:+.0%}</b> na zakład.\n"
+            f"Stawka: ok. <b>{stake:.1f}%</b> budżetu na zakłady.\n"
+            "<i>To średnia z wielu zakładów — pojedynczy typ i tak może nie wejść.</i>")
 
 
 def _counts_line(pred) -> str | None:
@@ -188,7 +232,7 @@ def analysis_text(a: Analysis, show_picks: bool = True) -> str:
 
     if show_picks:
         if a.picks:
-            out.append("\n✅ <b>Typy</b>\n" + "\n\n".join(pick_body(pk) for pk in a.picks))
+            out.append("\n✅ <b>Typy</b>\n" + "\n\n".join(pick_body(pk, n) for n, pk in enumerate(a.picks, 1)))
         elif not pred.enough_data:
             out.append("\n⏸ Za mało danych — bez typów.")
         else:
