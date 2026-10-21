@@ -18,3 +18,10 @@ mechanika samochodowa|Katowice
 restauracja|Łódź
 restauracja|Katowice
 fryzjerstwo|Katowice
+kosmetyka|Szczecin
+kosmetyka|Lublin
+mechanika samochodowa|Szczecin
+mechanika samochodowa|Lublin
+restauracja|Szczecin
+restauracja|Lublin
+fryzjerstwo|Lublin
