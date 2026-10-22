@@ -25,3 +25,11 @@ mechanika samochodowa|Lublin
 restauracja|Szczecin
 restauracja|Lublin
 fryzjerstwo|Lublin
+kosmetyka|Bydgoszcz
+kosmetyka|Białystok
+mechanika samochodowa|Bydgoszcz
+mechanika samochodowa|Białystok
+restauracja|Bydgoszcz
+restauracja|Białystok
+fryzjerstwo|Bydgoszcz
+fryzjerstwo|Białystok
