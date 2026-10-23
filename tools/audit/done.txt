@@ -33,3 +33,15 @@ restauracja|Bydgoszcz
 restauracja|Białystok
 fryzjerstwo|Bydgoszcz
 fryzjerstwo|Białystok
+kosmetyka|Toruń
+mechanika samochodowa|Toruń
+restauracja|Toruń
+kosmetyka|Rzeszów
+mechanika samochodowa|Rzeszów
+restauracja|Rzeszów
+kosmetyka|Kielce
+mechanika samochodowa|Kielce
+restauracja|Kielce
+kosmetyka|Olsztyn
+mechanika samochodowa|Olsztyn
+restauracja|Olsztyn
