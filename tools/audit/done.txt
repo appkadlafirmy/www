@@ -45,3 +45,14 @@ restauracja|Kielce
 kosmetyka|Olsztyn
 mechanika samochodowa|Olsztyn
 restauracja|Olsztyn
+kosmetyka|Opole
+mechanika samochodowa|Opole
+restauracja|Opole
+fryzjerstwo|Opole
+kosmetyka|Gliwice
+mechanika samochodowa|Gliwice
+restauracja|Gliwice
+fryzjerstwo|Gliwice
+kosmetyka|Częstochowa
+mechanika samochodowa|Częstochowa
+restauracja|Częstochowa
