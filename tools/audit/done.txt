@@ -56,3 +56,9 @@ fryzjerstwo|Gliwice
 kosmetyka|Częstochowa
 mechanika samochodowa|Częstochowa
 restauracja|Częstochowa
+kosmetyka|Radom
+mechanika samochodowa|Radom
+restauracja|Radom
+kosmetyka|Bielsko-Biała
+mechanika samochodowa|Bielsko-Biała
+restauracja|Bielsko-Biała
