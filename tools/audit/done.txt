@@ -62,3 +62,13 @@ restauracja|Radom
 kosmetyka|Bielsko-Biała
 mechanika samochodowa|Bielsko-Biała
 restauracja|Bielsko-Biała
+mechanika samochodowa|Płock
+restauracja|Płock
+weterynaria|Płock
+kosmetyka|Elbląg
+mechanika samochodowa|Elbląg
+restauracja|Elbląg
+weterynaria|Elbląg
+weterynaria|Opole
+weterynaria|Gliwice
+weterynaria|Częstochowa
